@@ -1,9 +1,7 @@
 # BBEB WebSIte :yellow_heart:
 
 <div align="center">
-
  <h3 align="center">BBEB WebSIte</h3>
-
  <p align="center">
   작아지고 싶었을 뿐인데! 웹툰 펜사이트 제작 서버 프로젝트입니다.<br>
   <a href="https://comic.naver.com/challenge/list?titleId=806769">작아지고 싶었을 뿐인데!</a><br>
@@ -13,7 +11,6 @@
 
 
 
-<!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -36,15 +33,12 @@
 
 
 
-<!-- ABOUT THE PROJECT -->
 ## About The Project
 엉덩이가 작아지고 싶은 이봉이의 스토리를 담은 웹툰인 작아지고 싶었을 뿐인데!의 펜사이트 제작 프로젝트입니다.
-<p align="right">(<a href="#readme-top">back to top</a>)<   /p>
 
 
 
 ### Languages, libraries and tools used
-
 * JAVA
 * SPRING BOOT FRAMEWORK
 * MySQL
@@ -56,11 +50,8 @@
 * swagger
 * aws
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- GETTING STARTED -->
 ## Getting Started
 1.  Clone the repo
    ```sh
@@ -69,13 +60,6 @@
 
 
 
-<!-- USAGE EXAMPLES -->
-<!--Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources. -->
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- FEATURE EXAMPLES -->
 ## Feature
 ### 1. Make ERD
 ### 2. Spring-SECURITY: Sign Up/Sign in, log-out
@@ -85,11 +69,8 @@
 ### 6. comment
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- ROADMAP -->
 ## Roadmap
-
 - [ ] Make ER Diagram
 - [ ] Sign Up/Sign in, log-out API
 - [ ] Post Lookup API
@@ -99,13 +80,9 @@
 
 See the [project issues](https://github.com/BongBong-E-Bong/BBEB/issues) for a full list of proposed features(and known issues).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- CONTRIBUTING -->
 ## Contributing
-
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
@@ -117,11 +94,8 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- CONTACT -->
 ## Contact
 hg_yellow -
 - instagram: [hg_yellow](https://instagram.com/hg_yellow)
@@ -130,4 +104,3 @@ hg_yellow -
 Project Frontend Link: [BBEB-Frontend](https://github.com/BongBong-E-Bong/BBEB/tree/main/client) <br>
 Project Backend Link: [BBEB-Backend](https://github.com/BongBong-E-Bong/BBEB/tree/main/website) <br>
 Project Team Link: [BBEB](https://github.com/BongBong-E-Bong)
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
