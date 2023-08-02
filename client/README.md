@@ -1,4 +1,5 @@
 # frontend
+
 # BBEB WebSIte :yellow_heart:
 
 <div align="center">
@@ -9,8 +10,6 @@
   <a href="https://github.com/BongBong-E-Bong/BBEB">github</a><br>
  </p>
 </div>
-
-
 
 <details>
   <summary>Table of Contents</summary>
@@ -32,30 +31,29 @@
   </ol>
 </details>
 
-
-
 ## About The Project
+
 엉덩이가 작아지고 싶은 이봉이의 스토리를 담은 웹툰인 작아지고 싶었을 뿐인데!의 펜사이트 제작 프로젝트입니다.
 
-
-
 ### Languages, libraries and tools used
-* HTML5
-* CSS3
-* Javascript
-* React
-* MUI
-* aws
 
-
+- HTML5
+- CSS3
+- Javascript
+- React
+- MUI
+- aws
 
 ## Getting Started
+
 1.  Clone the repo
-   ```sh
-   git clone https://github.com/BongBong-E-Bong/BBEB.git
-   ```
+
+```sh
+git clone https://github.com/BongBong-E-Bong/BBEB.git
+```
 
 ## Contact
+
 Project Frontend Link: [BBEB-Frontend](https://github.com/BongBong-E-Bong/BBEB/tree/main/client) <br>
 Project Backend Link: [BBEB-Backend](https://github.com/BongBong-E-Bong/BBEB/tree/main/website) <br>
 Project Team Link: [BBEB](https://github.com/BongBong-E-Bong)
