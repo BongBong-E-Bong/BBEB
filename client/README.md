@@ -39,15 +39,11 @@
 
 
 ### Languages, libraries and tools used
-* JAVA
-* SPRING BOOT FRAMEWORK
-* MySQL
-* JPA
-* LOMBOK
-* Spring-SECURITY
-* querydsl
-* dataJpa
-* swagger
+* HTML5
+* CSS3
+* Javascript
+* React
+* MUI
 * aws
 
 
@@ -58,49 +54,7 @@
    git clone https://github.com/BongBong-E-Bong/BBEB.git
    ```
 
-
-
-## Feature
-### 1. Make ERD
-### 2. Spring-SECURITY: Sign Up/Sign in, log-out
-### 3. Post
-### 4. MiniGame
-### 5. Vote
-### 6. comment
-
-
-
-## Roadmap
-- [ ] Make ER Diagram
-- [ ] Sign Up/Sign in, log-out API
-- [ ] Post Lookup API
-- [ ] MiniGame Score API
-- [ ] Vote Process API
-- [ ] Comment API
-
-See the [project issues](https://github.com/BongBong-E-Bong/BBEB/issues) for a full list of proposed features(and known issues).
-
-
-
-## Contributing
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-
 ## Contact
-hg_yellow -
-- instagram: [hg_yellow](https://instagram.com/hg_yellow)
-- mail: hgyellow0505@gmail.com
-
 Project Frontend Link: [BBEB-Frontend](https://github.com/BongBong-E-Bong/BBEB/tree/main/client) <br>
 Project Backend Link: [BBEB-Backend](https://github.com/BongBong-E-Bong/BBEB/tree/main/website) <br>
 Project Team Link: [BBEB](https://github.com/BongBong-E-Bong)
