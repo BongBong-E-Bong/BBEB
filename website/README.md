@@ -1,4 +1,4 @@
-# frontend# BBEB WebSIte :yellow_heart:
+# BBEB Backend :yellow_heart:
 
 <div align="center">
  <h3 align="center">BBEB WebSIte</h3>
