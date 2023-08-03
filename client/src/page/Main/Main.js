@@ -4,7 +4,7 @@ import { Stack } from "@mui/material";
 
 function Main() {
   return (
-    <Stack>
+    <Stack minHeight="100vh" height="100vh" weight="100%">
       <Header />
     </Stack>
   );
