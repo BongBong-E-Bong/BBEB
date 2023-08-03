@@ -43,4 +43,4 @@ out/
 bbeb.mwb
 bbeb.mwb.bak
 
-*.yml
+application.yml
