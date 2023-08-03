@@ -1,4 +1,4 @@
-mmmname: Backend CICD
+name: Backend CICD
 run-name: Running
 on:
   push:
