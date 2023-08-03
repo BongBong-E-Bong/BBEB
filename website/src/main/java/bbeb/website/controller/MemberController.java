@@ -15,7 +15,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-
     @GetMapping("/api/members")
     public List<Member> findAll(){
         return memberService.findAll();
