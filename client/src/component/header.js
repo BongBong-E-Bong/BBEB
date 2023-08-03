@@ -6,6 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = React.useState(false);
+  const menuOpen = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
@@ -46,37 +50,42 @@ function Header() {
               width="60px"
               height="60px"
               style={{ cursor: "pointer" }}
+              onClick={menuOpen}
             />
           </Stack>
         </Stack>
       </Stack>
-      <Stack padding="80px 0px 0px 1635px" position="fixed">
-        <Stack
-          bgcolor="white"
-          width="220px"
-          height="270px"
-          direction="column"
-          justifyContent="space-between"
-          alignItems="center"
-          padding="20px 0px 20px 0px"
-        >
-          <img
-            src={profilephoto}
-            alt="profilephoto"
-            width="150px"
-            height="150px"
-          />
-          <Stack direction="row">
-            <Stack style={{ fontWeight: "bold", fontSize: "20px" }}>
-              일봉이
+      {isOpen && (
+        <Stack padding="80px 0px 0px 1635px">
+          {/* 이슈: absolute로 할 경우 스크롤시 같이 내려가버림 */}
+          <Stack
+            bgcolor="white"
+            width="220px"
+            height="270px"
+            direction="column"
+            justifyContent="space-between"
+            alignItems="center"
+            padding="20px 0px 20px 0px"
+            position="fixed"
+          >
+            <img
+              src={profilephoto}
+              alt="profilephoto"
+              width="150px"
+              height="150px"
+            />
+            <Stack direction="row">
+              <Stack style={{ fontWeight: "bold", fontSize: "20px" }}>
+                일봉이
+              </Stack>
+              <Stack style={{ fontSize: "20px" }}>님</Stack>
             </Stack>
-            <Stack style={{ fontSize: "20px" }}>님</Stack>
+            <Stack style={{ cursor: "pointer" }}>프로필 사진 바꾸기</Stack>
+            <Stack style={{ cursor: "pointer" }}>내가 작성한 글</Stack>
+            <Stack style={{ cursor: "pointer" }}>로그 아웃</Stack>
           </Stack>
-          <Stack style={{ cursor: "pointer" }}>프로필 사진 바꾸기</Stack>
-          <Stack style={{ cursor: "pointer" }}>내가 작성한 글</Stack>
-          <Stack style={{ cursor: "pointer" }}>로그 아웃</Stack>
         </Stack>
-      </Stack>
+      )}
     </>
   );
 }
