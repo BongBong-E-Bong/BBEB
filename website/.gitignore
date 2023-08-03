@@ -38,3 +38,9 @@ out/
 
 ### aws ###
 .perm
+
+### database ###
+bbeb.mwb
+bbeb.mwb.bak
+
+.yml
