@@ -26,8 +26,6 @@ jobs:
         distribution: 'corretto'
     - name: gradlew에 실행 권한 부여
       run: chmod +x ./website/gradlew
-    - name: 프로젝트 초기화
-      run: ./backend/gradlew init
     - name: 프로젝트 빌드
       run: ./website/gradlew build
     - name: AWS credential 설정
