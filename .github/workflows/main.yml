@@ -26,6 +26,8 @@ jobs:
         distribution: 'corretto'
     - name: gradlew에 실행 권한 부여
       run: chmod +x ./gradlew
+    - name: 디렉토리 표시
+      run: ls
     - name: 프로젝트 빌드
       run: ./gradlew clean build -x test
     - name: AWS credential 설정
