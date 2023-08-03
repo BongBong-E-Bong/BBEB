@@ -24,8 +24,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'corretto'
-    - name: 디렉토리 표시
-      run: ls
+    - name: 디렉토리 이동
+      run: cd ./website
     - name: gradlew에 실행 권한 부여
       run: chmod +x ./gradlew
     - name: 프로젝트 빌드
