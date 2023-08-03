@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack } from "@mui/material";
 import bbeblogo from "../image/bbeblogo.png";
-import profilephoto from "../image/profilephoto.png";
+import basicProfile from "../image/profilephoto.png";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
@@ -9,6 +9,19 @@ function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
   const menuOpen = () => {
     setIsOpen(!isOpen);
+  };
+  const [profileImage, setprofileImage] = React.useState(basicProfile);
+
+  const fileInput = React.useRef(null);
+
+  const onChange = (e) => {
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setprofileImage(reader.result);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
   return (
@@ -33,7 +46,7 @@ function Header() {
           }}
         />
         <Stack style={{ marginRight: "60px" }}>
-          {/* <Stack //로그인X
+          {/* <Stack //로그인X일 때
             width="150px"
             height="30px"
             direction="row"
@@ -45,11 +58,11 @@ function Header() {
             </Stack> */}
           <Stack>
             <img
-              src={profilephoto}
-              alt="profilephoto"
+              alt="profileImage"
+              src={profileImage}
               width="60px"
               height="60px"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", borderRadius: "50%" }}
               onClick={menuOpen}
             />
           </Stack>
@@ -57,7 +70,6 @@ function Header() {
       </Stack>
       {isOpen && (
         <Stack padding="80px 0px 0px 1635px">
-          {/* 이슈: absolute로 할 경우 스크롤시 같이 내려가버림 */}
           <Stack
             bgcolor="white"
             width="220px"
@@ -69,8 +81,8 @@ function Header() {
             position="fixed"
           >
             <img
-              src={profilephoto}
-              alt="profilephoto"
+              src={profileImage}
+              alt="profileImage"
               width="150px"
               height="150px"
             />
@@ -80,7 +92,22 @@ function Header() {
               </Stack>
               <Stack style={{ fontSize: "20px" }}>님</Stack>
             </Stack>
-            <Stack style={{ cursor: "pointer" }}>프로필 사진 바꾸기</Stack>
+            <Stack
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                fileInput.current.click();
+              }}
+            >
+              프로필 사진 바꾸기
+            </Stack>
+            <input
+              type="file"
+              style={{ display: "none" }}
+              accept="image/*,.jpg,.png,.jpeg"
+              name="profile_img"
+              onChange={onChange}
+              ref={fileInput}
+            />
             <Stack style={{ cursor: "pointer" }}>내가 작성한 글</Stack>
             <Stack style={{ cursor: "pointer" }}>로그 아웃</Stack>
           </Stack>
