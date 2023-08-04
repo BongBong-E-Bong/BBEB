@@ -97,9 +97,9 @@ function Profile() {
             onMouseOut={(e) => {
               e.currentTarget.style.backgroundColor = "#98C6BD";
             }}
-            // onClick={() => {
-            //   navigate("/Vote");
-            // }}
+            onClick={() => {
+              navigate("/Vote");
+            }}
             style={goVoteStyles}
           >
             투표하러GO
