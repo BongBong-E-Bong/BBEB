@@ -28,7 +28,7 @@ jobs:
       
     - name: 프로젝트 빌드
       working-directory: website
-      run: ./website/gradlew build
+      run: ./gradlew build
     - name: AWS credential 설정
       uses: aws-actions/configure-aws-credentials@v1
       with:
