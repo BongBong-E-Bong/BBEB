@@ -51,11 +51,11 @@ function Header() {
             height="30px"
             direction="row"
             justifyContent="space-between"
-            >
+          >
             <Stack style={{ cursor: "pointer" }}>로그인</Stack>
             <Stack>|</Stack>
             <Stack style={{ cursor: "pointer" }}>회원 가입</Stack>
-            </Stack> */}
+          </Stack> */}
           <Stack>
             <img
               alt="profileImage"
