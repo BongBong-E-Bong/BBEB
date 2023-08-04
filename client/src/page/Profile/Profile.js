@@ -14,7 +14,7 @@ function Profile() {
           width="1300px"
           height="25px"
           justifyContent="center"
-          style={{ fontWeight: "500", fontSize: "50px" }}
+          style={{ fontWeight: "500", fontSize: "70px" }}
           paddingLeft="80px"
         >
           이봉이 형제 프로필
@@ -34,8 +34,7 @@ function Profile() {
             style={{
               borderRadius: "10px",
               cursor: "pointer",
-              fontSize: "30px",
-              fontWeight: "900",
+              fontSize: "40px",
               color: "white",
               WebkitTextStroke: "1px black",
               boxShadow: "0px 10px 20px -10px gray",
@@ -52,8 +51,7 @@ function Profile() {
             style={{
               borderRadius: "10px",
               cursor: "pointer",
-              fontSize: "30px",
-              fontWeight: "900",
+              fontSize: "40px",
               color: "white",
               WebkitTextStroke: "1px black",
               boxShadow: "0px 10px 20px -10px gray",
