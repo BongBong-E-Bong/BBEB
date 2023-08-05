@@ -25,7 +25,10 @@ jobs:
         distribution: 'corretto'
     - name: application.yml 생성
       run: |
-        cd website
+        cd website/src/main
+        mkdir resources
+        cd ../
+        cd ../
         ls
         echo $APPLCATION_YML | base64 --decode >> website/src/main/resources/application.yml
     - name: gradlew에 실행 권한 부여
