@@ -27,6 +27,11 @@ jobs:
       run: |
         cd website/src/main
         mkdir resources
+        cd resources
+        touch application.yml
+        ls
+        cd ../
+        cd ../
         cd ../
         cd ../
         ls
