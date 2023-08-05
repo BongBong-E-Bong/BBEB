@@ -9,8 +9,7 @@ env:
   AWS_S3_BUCKET: bbeb
   AWS_CODE_DEPLOY_APPLICATION: cicd-BBEB
   AWS_CODE_DEPLOY_GROUP: cicd-BBEB-group
-  APPLCATION_YML: ${{ secrets.APPLICATION_YML }}
-
+  APPLICATION_YML: ${{ secrets.APPLICATION_YML }}
 
 jobs:
   build-with-gradle:
