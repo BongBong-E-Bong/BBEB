@@ -9,6 +9,7 @@ env:
   AWS_S3_BUCKET: bbeb
   AWS_CODE_DEPLOY_APPLICATION: cicd-BBEB
   AWS_CODE_DEPLOY_GROUP: cicd-BBEB-group
+  APPLCATION_YML: ${{ secrets.APPLCATION_YML }}
 
 jobs:
   build-with-gradle:
@@ -27,7 +28,7 @@ jobs:
       run: |
         mkdir website/src/main/resources
         touch website/src/main/resources/application.yml
-        echo ${{ secrets.APPLCATION_YML }} | base64 --decode >> website/src/main/resources/application.yml
+        echo $APPLCATION_YML | base64 --decode >> website/src/main/resources/application.yml
         cat website/src/main/resources/application.yml
     - name: gradlew에 실행 권한 부여
       run: chmod +x ./website/gradlew
