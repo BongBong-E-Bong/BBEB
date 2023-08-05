@@ -25,6 +25,7 @@ jobs:
         distribution: 'corretto'
     - name: application.yml 생성
       run: |
+        mkdir website/src/main/resources
         touch website/src/main/resources/application.yml
         echo $APPLCATION_YML | base64 --decode >> website/src/main/resources/application.yml
         cat website/src/main/resources/application.yml
