@@ -1,6 +1,6 @@
 package bbeb.website.service;
 
-import bbeb.website.entity.Member;
+import bbeb.website.domain.Member;
 import bbeb.website.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
