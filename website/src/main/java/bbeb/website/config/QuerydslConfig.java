@@ -1,4 +1,4 @@
-package bbeb.website.config.security;
+package bbeb.website.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
