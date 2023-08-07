@@ -34,7 +34,7 @@ public class WebSecurityConfig {
 
         http
                 .authorizeRequests()
-                .antMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/api/auth/**").permitAll()
+                .antMatchers("/", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/api/auth/**").permitAll()
                 .anyRequest().authenticated();
         http
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
