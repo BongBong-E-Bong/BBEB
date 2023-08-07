@@ -1,7 +1,7 @@
 package bbeb.website.controller;
 
 
-import bbeb.website.entity.Member;
+import bbeb.website.domain.Member;
 import bbeb.website.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

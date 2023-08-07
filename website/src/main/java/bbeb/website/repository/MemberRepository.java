@@ -1,8 +1,10 @@
 package bbeb.website.repository;
 
-import bbeb.website.entity.Member;
+import bbeb.website.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+import java.util.Optional;
 
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
+    Optional<Member> findByLoginId(String loginId);
 }
