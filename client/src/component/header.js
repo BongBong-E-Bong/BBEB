@@ -203,117 +203,129 @@ function Header() {
           </Stack>
         )}
       </React.Fragment >
-      {/* <Stack position="fixed" width="926px" height="573px"
-        display="flex" alignItems="center"
-        justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
-        <Stack width="906px" height="553px" bgcolor="white" justifyContent="center" alignItems="center"  gap="20px">
-          <Stack fontSize="55px">회원 가입 성공~!</Stack>
-          <img
-            src={register} alt="register icon"
-            width="266px" height="232px"
-          />
-          <Stack fontSize="32px">환영해용!!</Stack>     
-          <Stack
-            bgcolor="#FF8181"
-            style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize:"32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)"}}
-            onClick={() => {
-              // 클릭 이벤트 처리 코드를 여기에 추가
-            }}
-          >확 인</Stack>
+      {/* <Stack height="100%" alignItems="center" justifyContent="center">
+        <Stack position="fixed" width="926px" height="573px"
+          display="flex" alignItems="center"
+          justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
+          <Stack width="906px" height="553px" bgcolor="white" justifyContent="center" alignItems="center" gap="20px">
+            <Stack fontSize="55px">회원 가입 성공~!</Stack>
+            <img
+              src={register} alt="register icon"
+              width="266px" height="232px"
+            />
+            <Stack fontSize="32px">환영해용!!</Stack>
+            <Stack
+              bgcolor="#FF8181"
+              style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
+              onClick={() => {
+                // 클릭 이벤트 처리 코드를 여기에 추가
+              }}
+            >확 인</Stack>
+          </Stack>
         </Stack>
       </Stack> */}
-      {/* <Stack position="fixed" width="926px" height="573px"
-        display="flex" alignItems="center"
-        justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
-        <Stack width="906px" height="553px" bgcolor="white" justifyContent="center" alignItems="center" gap="20px" >
-          <Stack fontSize="55px">로그인 성공~!</Stack>
-          <img
-            src={register} alt="register icon"
-            width="266px" height="232px"
-          />
-          <Stack fontSize="32px">어서오세용!!</Stack>
-          <Stack
-            bgcolor="#FF8181"
-            style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px" , boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)"}}
-            onClick={() => {
-              // 클릭 이벤트 처리 코드를 여기에 추가
-            }}
-          >확 인</Stack>
+      {/* <Stack height="100%" alignItems="center" justifyContent="center">
+        <Stack position="fixed" width="926px" height="573px"
+          display="flex" alignItems="center"
+          justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
+          <Stack width="906px" height="553px" bgcolor="white" justifyContent="center" alignItems="center" gap="20px" >
+            <Stack fontSize="55px">로그인 성공~!</Stack>
+            <img
+              src={register} alt="register icon"
+              width="266px" height="232px"
+            />
+            <Stack fontSize="32px">어서오세용!!</Stack>
+            <Stack
+              bgcolor="#FF8181"
+              style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
+              onClick={() => {
+                // 클릭 이벤트 처리 코드를 여기에 추가
+              }}
+            >확 인</Stack>
+          </Stack>
         </Stack>
       </Stack> */}
-      {/* <Stack position="fixed" width="926px" height="573px"
-        display="flex" alignItems="center"
-        justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)" >
-        <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
-          <Stack fontSize="55px">로그인 실패ㅠㅠㅋ</Stack>
-          <img
-            src={register} alt="register icon"
-            width="266px" height="232px"
-          />
-          <Stack fontSize="32px">아이디/비밀번호가 틀렸어요!!</Stack>
-          <Stack
-            bgcolor="#FF8181"
-            style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
-            onClick={() => {
-              // 클릭 이벤트 처리 코드를 여기에 추가
-            }}
-          >확 인</Stack>
+      {/* <Stack height="100%" alignItems="center" justifyContent="center">
+        <Stack position="fixed" width="926px" height="573px"
+          display="flex" alignItems="center"
+          justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)" >
+          <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
+            <Stack fontSize="55px">로그인 실패ㅠㅠㅋ</Stack>
+            <img
+              src={register} alt="register icon"
+              width="266px" height="232px"
+            />
+            <Stack fontSize="32px">아이디/비밀번호가 틀렸어요!!</Stack>
+            <Stack
+              bgcolor="#FF8181"
+              style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
+              onClick={() => {
+                // 클릭 이벤트 처리 코드를 여기에 추가
+              }}
+            >확 인</Stack>
+          </Stack>
         </Stack>
       </Stack> */}
-      {/* <Stack position="fixed" width="926px" height="573px"
-        display="flex" alignItems="center"
-        justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
-        <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
-          <Stack fontSize="55px">회원가입 실패</Stack>
-          <img
-            src={register} alt="register icon"
-            width="266px" height="232px"
-          />
-          <Stack fontSize="32px">비밀번호가 일치하지 않아요!</Stack>
-          <Stack
-            bgcolor="#FF8181"
-            style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
-            onClick={() => {
-              // 클릭 이벤트 처리 코드를 여기에 추가
-            }}
-          >확 인</Stack>
+      {/* <Stack height="100%" alignItems="center" justifyContent="center">
+        <Stack position="fixed" width="926px" height="573px"
+          display="flex" alignItems="center"
+          justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
+          <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
+            <Stack fontSize="55px">회원가입 실패</Stack>
+            <img
+              src={register} alt="register icon"
+              width="266px" height="232px"
+            />
+            <Stack fontSize="32px">비밀번호가 일치하지 않아요!</Stack>
+            <Stack
+              bgcolor="#FF8181"
+              style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
+              onClick={() => {
+                // 클릭 이벤트 처리 코드를 여기에 추가
+              }}
+            >확 인</Stack>
+          </Stack>
         </Stack>
       </Stack> */}
-      {/* <Stack position="fixed" width="926px" height="573px"
-        display="flex" alignItems="center"
-        justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
-        <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
-          <Stack fontSize="55px">회원가입 실패</Stack>
-          <img
-            src={register} alt="register icon"
-            width="266px" height="232px"
-          />
-          <Stack fontSize="32px">이미 사용중인 아이디에요!</Stack>
-          <Stack
-            bgcolor="#FF8181" 
-            style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px" , boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)"}}
-            onClick={() => {
-              // 클릭 이벤트 처리 코드를 여기에 추가
-            }}
-          >확 인</Stack>
+      {/* <Stack height="100%" alignItems="center" justifyContent="center">
+        <Stack position="fixed" width="926px" height="573px"
+          display="flex" alignItems="center"
+          justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
+          <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
+            <Stack fontSize="55px">회원가입 실패</Stack>
+            <img
+              src={register} alt="register icon"
+              width="266px" height="232px"
+            />
+            <Stack fontSize="32px">이미 사용중인 아이디에요!</Stack>
+            <Stack
+              bgcolor="#FF8181"
+              style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
+              onClick={() => {
+                // 클릭 이벤트 처리 코드를 여기에 추가
+              }}
+            >확 인</Stack>
+          </Stack>
         </Stack>
       </Stack> */}
-      {/* <Stack position="fixed" width="926px" height="573px"
-        display="flex" alignItems="center"
-        justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)"  >
-        <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
-          <Stack fontSize="55px">회원가입 실패</Stack>
-          <img
-            src={register} alt="register icon"
-            width="266px" height="232px"
-          />
-          <Stack fontSize="32px">이미 사용중인 닉네임이에요!</Stack>
-          <Stack
-            bgcolor="#FF8181"
-            style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)"}}
-            onClick={() => {
-              // 클릭 이벤트 처리 코드를 여기에 추가 
-            }}>확  인</Stack>
+      {/* <Stack height="100%" alignItems="center" justifyContent="center">
+        <Stack position="fixed" width="926px" height="573px"
+          display="flex" alignItems="center"
+          justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)"  >
+          <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
+            <Stack fontSize="55px">회원가입 실패</Stack>
+            <img
+              src={register} alt="register icon"
+              width="266px" height="232px"
+            />
+            <Stack fontSize="32px">이미 사용중인 닉네임이에요!</Stack>
+            <Stack
+              bgcolor="#FF8181"
+              style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
+              onClick={() => {
+                // 클릭 이벤트 처리 코드를 여기에 추가 
+              }}>확  인</Stack>
+          </Stack>
         </Stack>
       </Stack> */}
     </>
