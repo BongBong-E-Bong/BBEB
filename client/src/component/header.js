@@ -120,55 +120,86 @@ function Header() {
         </Stack>
       )}
       <React.Fragment>
-          <Stack
-            style={{ position: "fixed", cursor: "pointer", color: "black", margin: "100px" }}
-            onClick={() => {
-              setShowLoginForm(true); // Show the login form when clicked
-            }}>로그인</Stack>
-          {showLoginForm && (
-            <Stack position="fixed" width="1230px" height="617px" zIndex={showLoginForm ? 1 : 0}
-              display="flex" direction="row" alignItems="center"
-              justifyContent="space-around" bgcolor="#F88C8C" >
-              <Stack width="753px" height="598px" justifyContent="center">
-                <img
-                  src={login} alt="login icon"
-                  width="700px" height="598px"
-                />
-              </Stack>
-              <Stack width="440px" height="598px" alignItems="center" justifyContent="center" gap="40px">
-                <Stack fontSize="36px">login</Stack>
+        <Stack
+          style={{ position: "fixed", cursor: "pointer", color: "black" }}
+          onClick={() => {
+            setShowRegisterForm(true); // Show the login form when clicked
+          }}>회원가입</Stack>
+        {showRegisterForm && (
+          <Stack position="fixed" width="1230px" height="617px"
+            display="flex" direction="row" alignItems="center"
+            justifyContent="space-around" bgcolor="#F88C8C" >
+            <Stack width="753px" height="598px" justifyContent="center" >
+              <img
+                src={register} alt="register icon"
+                width="607px" height="601px"
+              />
+            </Stack>
+            <Stack width="440px" height="598px" justifyContent="center" gap="40px">
+              <Stack fontSize="36px" display="flex" marginLeft="100px">Register</Stack>
+              <Stack gap="50px">
                 <TextField
                   placeholder={"id를 입력하세요"}
                   multiline
                   maxRows={4}
                   InputProps={{
-                    style: { backgroundColor: "white", borderRadius: "8px", width: "271px", height: "40px" }
+                    style: { backgroundColor: "white", borderRadius: "20px", width: "341px", height: "40px" }
                   }}
                 />
                 <TextField
-                  id="outlined-multiline-flexible"
-                  placeholder={"비밀번호를 입력하세요"}
+                  placeholder={"비밀번호"}
                   multiline
                   maxRows={4}
                   InputProps={{
-                    style: { backgroundColor: "white", borderRadius: "8px", width: "271px", height: "40px" }
+                    style: { backgroundColor: "white", borderRadius: "20px", width: "341px", height: "40px" }
                   }}
                 />
-                <Stack
-                  bgcolor="#D76464"
-                  style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "271px", height: "33px", alignItems: "center", justifyContent: "center", boxShadow: "0px 3px 2px rgba(0, 0, 0, 0.3)" }}
-                  onClick={() => {
-                    // 클릭 이벤트 처리 코드를 여기에 추가
-                  }}>SIGN IN</Stack>
-                <Stack
-                  style={{ cursor: "pointer", width: "271px", height: "33px", alignItems: "center", justifyContent: "center" }}
-                  onClick={() => {
-                    // 클릭 이벤트 처리 코드를 여기에 추가
-                  }}> <img src={kakaologo} alt="kakaologo icon" /></Stack>
+                <TextField
+                  placeholder={"비밀번호 다시 입력"}
+                  multiline
+                  maxRows={4}
+                  InputProps={{
+                    style: { backgroundColor: "white", borderRadius: "20px", width: "341px", height: "40px" }
+                  }}
+                />
+                <TextField
+                  placeholder={"닉네임"}
+                  multiline
+                  maxRows={4}
+                  InputProps={{
+                    style: { backgroundColor: "white", borderRadius: "20px", width: "341px", height: "40px" }
+                  }}
+                />
               </Stack>
+              <Stack
+                bgcolor="#D76464"
+                style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "341px", height: "33px", alignItems: "center", justifyContent: "center", boxShadow: "0px 3px 2px rgba(0, 0, 0, 0.3)" }}
+                onClick={() => {
+                  // 클릭 이벤트 처리 코드를 여기에 추가
+                }}>REGISTER</Stack>
             </Stack>
-          )}
-      </React.Fragment>
+          </Stack>
+        )}
+      </React.Fragment >
+      {/* <Stack position="fixed" width="926px" height="573px"
+        display="flex" alignItems="center"
+        justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
+        <Stack width="906px" height="553px" bgcolor="white" justifyContent="center" alignItems="center"  gap="20px">
+          <Stack fontSize="55px">회원 가입 성공~!</Stack>
+          <img
+            src={register} alt="register icon"
+            width="266px" height="232px"
+          />
+          <Stack fontSize="32px">환영해용!!</Stack>     
+          <Stack
+            bgcolor="#FF8181"
+            style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize:"32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)"}}
+            onClick={() => {
+              // 클릭 이벤트 처리 코드를 여기에 추가
+            }}
+          >확 인</Stack>
+        </Stack>
+      </Stack> */}
       {/* <Stack position="fixed" width="926px" height="573px"
         display="flex" alignItems="center"
         justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
@@ -205,6 +236,62 @@ function Header() {
               // 클릭 이벤트 처리 코드를 여기에 추가
             }}
           >확 인</Stack>
+        </Stack>
+      </Stack> */}
+      {/* <Stack position="fixed" width="926px" height="573px"
+        display="flex" alignItems="center"
+        justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
+        <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
+          <Stack fontSize="55px">회원가입 실패</Stack>
+          <img
+            src={register} alt="register icon"
+            width="266px" height="232px"
+          />
+          <Stack fontSize="32px">비밀번호가 일치하지 않아요!</Stack>
+          <Stack
+            bgcolor="#FF8181"
+            style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
+            onClick={() => {
+              // 클릭 이벤트 처리 코드를 여기에 추가
+            }}
+          >확 인</Stack>
+        </Stack>
+      </Stack> */}
+      {/* <Stack position="fixed" width="926px" height="573px"
+        display="flex" alignItems="center"
+        justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
+        <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
+          <Stack fontSize="55px">회원가입 실패</Stack>
+          <img
+            src={register} alt="register icon"
+            width="266px" height="232px"
+          />
+          <Stack fontSize="32px">이미 사용중인 아이디에요!</Stack>
+          <Stack
+            bgcolor="#FF8181" 
+            style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px" , boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)"}}
+            onClick={() => {
+              // 클릭 이벤트 처리 코드를 여기에 추가
+            }}
+          >확 인</Stack>
+        </Stack>
+      </Stack> */}
+      {/* <Stack position="fixed" width="926px" height="573px"
+        display="flex" alignItems="center"
+        justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)"  >
+        <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
+          <Stack fontSize="55px">회원가입 실패</Stack>
+          <img
+            src={register} alt="register icon"
+            width="266px" height="232px"
+          />
+          <Stack fontSize="32px">이미 사용중인 닉네임이에요!</Stack>
+          <Stack
+            bgcolor="#FF8181"
+            style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)"}}
+            onClick={() => {
+              // 클릭 이벤트 처리 코드를 여기에 추가 
+            }}>확  인</Stack>
         </Stack>
       </Stack> */}
     </>
