@@ -126,14 +126,12 @@ function Header() {
               setShowLoginForm(true); // Show the login form when clicked
             }}>로그인</Stack>
           {showLoginForm && (
-            <Stack position="fixed" width="1230px" height="617px" zIndex={showLoginForm ? 1 : 0}
-              display="flex" direction="row" alignItems="center"
-              justifyContent="space-around" bgcolor="#F88C8C" >
+            <Stack height="100%" alignItems="center" justifyContent="center">
+            <Stack position="fixed" width="1230px" height="617px" display="flex" direction="row" alignItems="center" justifyContent="space-around" bgcolor="#F88C8C">
               <Stack width="753px" height="598px" justifyContent="center">
                 <img
                   src={login} alt="login icon"
-                  width="700px" height="598px"
-                />
+                  width="700px" height="598px"/>
               </Stack>
               <Stack width="440px" height="598px" alignItems="center" justifyContent="center" gap="40px">
                 <Stack fontSize="36px">login</Stack>
@@ -166,6 +164,7 @@ function Header() {
                     // 클릭 이벤트 처리 코드를 여기에 추가
                   }}> <img src={kakaologo} alt="kakaologo icon" /></Stack>
               </Stack>
+            </Stack>
             </Stack>
           )}
       </React.Fragment>
