@@ -7,6 +7,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 function Post() {
+  const tags = ["이봉이 좋아", "이봉이 싫어", "메롱", "메롱롱"];
+
   return (
     <>
       <Header />
@@ -34,7 +36,6 @@ function Post() {
             <img src={obong} alt="obong" width="75px" height="85px"></img>
           </Stack>
         </Stack>
-
         <Stack
           width="1314px"
           minHeight="700px"
@@ -74,8 +75,17 @@ function Post() {
                 marginLeft="10px"
                 alignItems="center"
               >
-                <Chip label="이봉이 좋아" variant="outlined" />
-                <Chip label="이봉이 좋아" variant="outlined" />
+                <Chip label="이봉이 좋아" variant="outlined" color="primary" />
+                <Chip
+                  label="이봉이 좋아"
+                  variant="outlined"
+                  color="secondary"
+                />
+                {tags.map((tag, i) => {
+                  return (
+                    <Chip label={tag} variant="outlined" color="secondary" />
+                  );
+                })}
               </Stack>
             </Stack>
             <Stack direction="row" gap="15px" marginRight="20px">

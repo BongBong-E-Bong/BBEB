@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../../component/header";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import ebongbody from "../../image/ebongbody.png";
 import ebongbodyhover from "../../image/ebongbodyhover.png";
 import { useNavigate } from "react-router-dom";
@@ -91,11 +91,19 @@ function Profile() {
             justifyContent="center"
             alignItems="center"
             bgcolor="#98C6BD"
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = "#8BADA7";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = "#98C6BD";
+            // onMouseOver={(e) => {
+            //   e.currentTarget.style.backgroundColor = "#8BADA7";
+            // }}
+            // onMouseOut={(e) => {
+            //   e.currentTarget.style.backgroundColor = "#98C6BD";
+            // }}
+            sx={{
+              ":hover": {
+                backgroundColor: "blue",
+              },
+              ":active": {
+                backgroundColor: "red",
+              },
             }}
             onClick={() => {
               navigate("/Vote");
