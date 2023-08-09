@@ -3,7 +3,8 @@ import Header from "../../component/header";
 import { Stack, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
 import basicProfile from "../../image/profilephoto.png";
-// import VisibilityIcon from "@mui/icons-material/Visibility"; 아이콘 설치
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 function Post() {
   return (
@@ -28,6 +29,7 @@ function Post() {
             marginTop="150px"
             style={{ cursor: "pointer" }}
           >
+            {/* 레이아웃 더 좋은 방법 */}
             <Stack style={{ fontSize: "50px" }}>오봉이의 게시판</Stack>
             <img src={obong} alt="obong" width="75px" height="85px"></img>
           </Stack>
@@ -76,7 +78,8 @@ function Post() {
                 <Chip label="이봉이 좋아" variant="outlined" />
               </Stack>
             </Stack>
-            <Stack direction="row" gap="15px">
+            <Stack direction="row" gap="15px" marginRight="20px">
+              {/* 수정 삭제 버튼 글쓴이가 아닐 경우 */}
               <Stack style={{ fontSize: "20px", cursor: "pointer" }}>
                 수정
               </Stack>
@@ -84,9 +87,9 @@ function Post() {
               <Stack style={{ fontSize: "20px", cursor: "pointer" }}>
                 삭제
               </Stack>
-              <Stack>
-                {/* 조회수 */}
-                {/* <VisibilityIcon></VisibilityIcon> */}
+              <Stack direction="row" gap="10px">
+                {/* 조회수 이거 아이콘 상자 안닫고 쓸 수 있나요?*/}
+                <VisibilityIcon></VisibilityIcon>
                 <Stack style={{ fontSize: "20px" }}>8</Stack>
               </Stack>
             </Stack>
@@ -99,9 +102,20 @@ function Post() {
               height="fit-content"
               marginBottom="30px"
             >
-              <Stack margin="70px 140px 70px 140px">
-                <Stack bgcolor="black" width="30px" height="2000px">
-                  hihihi
+              <Stack margin="70px 140px 40px 140px" alignItems="center">
+                {/* content */}
+                <Stack bgcolor="gray" width="300px" height="2000px">
+                  content
+                </Stack>
+                <Stack
+                  marginTop="60px"
+                  direction="row"
+                  alignItems="center"
+                  gap="20px"
+                >
+                  <ThumbUpIcon style={{ cursor: "pointer" }}></ThumbUpIcon>
+                  {/* 따봉수 */}
+                  <Stack style={{ fontSize: "30px" }}>2</Stack>
                 </Stack>
               </Stack>
             </Stack>
