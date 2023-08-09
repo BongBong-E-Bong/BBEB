@@ -1,0 +1,49 @@
+name: Backend CICD
+run-name: Running
+on:
+  push:
+    branches:
+      - backend
+
+
+env:
+  AWS_REGION: ap-northeast-2
+  AWS_S3_BUCKET: bbeb
+  AWS_CODE_DEPLOY_APPLICATION: cicd-BBEB
+  AWS_CODE_DEPLOY_GROUP: cicd-BBEB-group
+  APPLICATION_YML: ${{ secrets.APPLICATION_YML }}
+
+jobs:
+  build-with-gradle:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: backend 브랜치로 이동
+      uses: actions/checkout@v3
+      with:
+        ref: backend
+    - name: JDK 11 설치
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'corretto'
+    - name: application.yml 생성
+      run: |
+        mkdir website/src/main/resources
+        touch website/src/main/resources/application.yml
+        echo $APPLICATION_YML | base64 --decode >> website/src/main/resources/application.yml
+    - name: gradlew에 실행 권한 부여
+      run: chmod +x ./website/gradlew
+      
+    - name: 프로젝트 빌드
+      working-directory: website
+      run: ./gradlew build -x test
+    - name: AWS credential 설정
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.CICD_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.CICD_SECRET_KEY }}
+    - name: S3에 업로드
+      run: aws deploy push --application-name ${{ env.AWS_CODE_DEPLOY_APPLICATION }} --ignore-hidden-files --s3-location s3://bbeb/$GITHUB_SHA.zip --source .
+    - name: EC2에 배포
+      run: aws deploy create-deployment --application-name ${{ env.AWS_CODE_DEPLOY_APPLICATION }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ env.AWS_CODE_DEPLOY_GROUP }} --s3-location bucket=bbeb,key=$GITHUB_SHA.zip,bundleType=zip
