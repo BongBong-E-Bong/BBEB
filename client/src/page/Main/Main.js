@@ -7,9 +7,9 @@ import Login from "../../component/login";
 function Main() {
   return (
     <Stack minHeight="100vh" height="100vh" weight="100%">
-      <AuthModalSuccess />
+      {/* <AuthModalSuccess /> */}
       {/* <AuthModalFail /> */}
-      {/* <Login /> */}
+      <Login />
     </Stack>
   );
 }
