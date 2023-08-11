@@ -25,32 +25,28 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        try {
-            // 1. Request Header 에서 JWT 토큰 추출
-            String token = resolveToken((HttpServletRequest) request);
 
-            // 2. validateToken 으로 토큰 유효성 검사
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-                // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext 에 저장
-                Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+        // 1. Request Header 에서 JWT 토큰 추출
+        String token = resolveToken((HttpServletRequest) request);
 
-                // refreshToken 갱신
-                TokenDTO tokenDTO = jwtTokenProvider.generateToken(getLoginId(authentication));
+        // 2. validateToken 으로 토큰 유효성 검사
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext 에 저장
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-                httpServletResponse.setHeader("Authorization", "Bearer " + tokenDTO.getAccessToken());
-                if (tokenDTO.getRefreshToken() != null) {
-                    Cookie refreshTokenCookie = new Cookie("refreshToken", tokenDTO.getRefreshToken());
-                    refreshTokenCookie.setMaxAge(30 * 24 * 60 * 60);
-                    refreshTokenCookie.setPath("/");
-                    httpServletResponse.addCookie(refreshTokenCookie);
-                }
+            // refreshToken 갱신
+            TokenDTO tokenDTO = jwtTokenProvider.generateToken(getLoginId(authentication));
+
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+            httpServletResponse.setHeader("Authorization", "Bearer " + tokenDTO.getAccessToken());
+            if (tokenDTO.getRefreshToken() != null) {
+                Cookie refreshTokenCookie = new Cookie("refreshToken", tokenDTO.getRefreshToken());
+                refreshTokenCookie.setMaxAge(30 * 24 * 60 * 60);
+                refreshTokenCookie.setPath("/");
+                httpServletResponse.addCookie(refreshTokenCookie);
             }
-        } catch (Exception e) {
-            request.setAttribute("exception: ", e.toString());
         }
-
         chain.doFilter(request, response);
     }
 

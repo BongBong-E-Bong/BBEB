@@ -33,8 +33,9 @@ public class AuthDTO {
     @Setter
     public static class SingUpResponseDTO {
         private Long memberId;
+        private String loginId;
         private String nickname;
-        private String refreshToken;
+        private String email;
     }
 
     @Data

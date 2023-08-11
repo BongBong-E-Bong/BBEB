@@ -1,5 +1,7 @@
 package bbeb.website.service;
 
+import bbeb.website.config.exception.CustomException;
+import bbeb.website.config.exception.ErrorCode;
 import bbeb.website.config.security.jwt.JwtTokenProvider;
 import bbeb.website.domain.Member;
 import bbeb.website.dto.AuthDTO;
@@ -13,6 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+
+import static bbeb.website.config.exception.ErrorCode.*;
+import static org.springframework.http.HttpStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +33,7 @@ public class AuthService {
         String password = dto.getPassword();
 
         if (loginId == null || password == null)
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            throw new CustomException(BadRequest);
 
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
@@ -45,15 +50,25 @@ public class AuthService {
     public AuthDTO.SingUpResponseDTO signUp(AuthDTO.SingUpRequestDTO dto){
         Member member = dto.toEntity();
         if (member != null){
+            if (memberRepository.findDuplicationByLoginId(member.getLoginId()))
+                throw new CustomException(LOGIN_ID_DUPLICATED);
+
+            if (memberRepository.findDuplicationByNickname(member.getNickname()))
+                throw new CustomException(NICKNAME_DUPLICATED);
+
+            if (memberRepository.findDuplicationByEmail(member.getEmail()))
+                throw new CustomException(EMAIL_DUPLICATED);
+
             member.setPassword(passwordEncoder.encode(member.getPassword()));
             memberRepository.save(member);
             AuthDTO.SingUpResponseDTO responseDTO = new AuthDTO.SingUpResponseDTO();
             responseDTO.setMemberId(member.getId());
+            responseDTO.setLoginId(member.getLoginId());
             responseDTO.setNickname(member.getNickname());
-            responseDTO.setRefreshToken(member.getRefreshToken());
+            responseDTO.setEmail(member.getEmail());
             return responseDTO;
         }
         else
-            throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new CustomException(SERVER_ERROR);
     }
 }
