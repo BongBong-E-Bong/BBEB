@@ -91,11 +91,19 @@ function Profile() {
             justifyContent="center"
             alignItems="center"
             bgcolor="#98C6BD"
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = "#8BADA7";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = "#98C6BD";
+            // onMouseOver={(e) => {
+            //   e.currentTarget.style.backgroundColor = "#8BADA7";
+            // }}
+            // onMouseOut={(e) => {
+            //   e.currentTarget.style.backgroundColor = "#98C6BD";
+            // }}
+            sx={{
+              ":hover": {
+                backgroundColor: "blue",
+              },
+              ":active": {
+                backgroundColor: "red",
+              },
             }}
             onClick={() => {
               navigate("/Vote");
@@ -115,7 +123,14 @@ function Profile() {
           <Stack>
             {twobongHovered ? (
               <Stack alignItems="center" gap="70px">
-                <Stack bgcolor="#FFF8D4" style={{ fontSize: "30px" }}>
+                <Stack
+                  bgcolor="#FFF8D4"
+                  style={{
+                    padding: "0px 8px",
+                    borderRadius: "8px",
+                    fontSize: "30px",
+                  }}
+                >
                   이봉🌱
                 </Stack>
                 <img
@@ -142,11 +157,11 @@ function Profile() {
             )}
           </Stack>
           <Stack>
-            {onebongHovered ? (
-              <Stack alignItems="center" gap="70px">
-                <Stack bgcolor="#FFF8D4" style={{ fontSize: "30px" }}>
-                  이봉🌱
-                </Stack>
+            <Stack alignItems="center" gap="70px">
+              <Stack bgcolor="#FFF8D4" style={{ fontSize: "30px" }}>
+                이봉🌱
+              </Stack>
+              {onebongHovered ? (
                 <img
                   src={ebongbodyhover}
                   alt="ebongbodyhover"
@@ -155,10 +170,7 @@ function Profile() {
                   onMouseOut={handleMouseOut2}
                   style={{ cursor: "pointer" }}
                 />
-              </Stack>
-            ) : (
-              <Stack alignItems="center" gap="70px">
-                <Stack style={{ fontSize: "30px" }}>이봉🌱</Stack>
+              ) : (
                 <img
                   src={ebongbody}
                   alt="ebongbody"
@@ -167,8 +179,8 @@ function Profile() {
                   onMouseOver={handleMouseOver2}
                   style={{ cursor: "pointer" }}
                 />
-              </Stack>
-            )}
+              )}
+            </Stack>
           </Stack>
         </Stack>
       </Stack>
