@@ -31,7 +31,6 @@ function Post() {
             marginTop="150px"
             style={{ cursor: "pointer" }}
           >
-            {/* 레이아웃 더 좋은 방법 */}
             <Stack style={{ fontSize: "50px" }}>오봉이의 게시판</Stack>
             <img src={obong} alt="obong" width="75px" height="85px"></img>
           </Stack>
@@ -75,15 +74,14 @@ function Post() {
                 marginLeft="10px"
                 alignItems="center"
               >
-                <Chip label="이봉이 좋아" variant="outlined" color="primary" />
-                <Chip
-                  label="이봉이 좋아"
-                  variant="outlined"
-                  color="secondary"
-                />
                 {tags.map((tag, i) => {
                   return (
-                    <Chip label={tag} variant="outlined" color="secondary" />
+                    <Chip
+                      label={tag}
+                      variant="outlined"
+                      color="primary"
+                      style={{ cursor: "pointer" }}
+                    />
                   );
                 })}
               </Stack>
@@ -98,8 +96,7 @@ function Post() {
                 삭제
               </Stack>
               <Stack direction="row" gap="10px">
-                {/* 조회수 이거 아이콘 상자 안닫고 쓸 수 있나요?*/}
-                <VisibilityIcon></VisibilityIcon>
+                <VisibilityIcon style={{ color: "#767676" }}></VisibilityIcon>
                 <Stack style={{ fontSize: "20px" }}>8</Stack>
               </Stack>
             </Stack>
@@ -123,7 +120,10 @@ function Post() {
                   alignItems="center"
                   gap="20px"
                 >
-                  <ThumbUpIcon style={{ cursor: "pointer" }}></ThumbUpIcon>
+                  <ThumbUpIcon
+                    fontSize="large"
+                    style={{ cursor: "pointer", color: "#767676" }}
+                  ></ThumbUpIcon>
                   {/* 따봉수 */}
                   <Stack style={{ fontSize: "30px" }}>2</Stack>
                 </Stack>
