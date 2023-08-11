@@ -5,19 +5,8 @@ import kakaologo from "../image/kakaologo.png";
 import Modal from "@mui/material/Modal"
 
 function Header() {
-  const [showLoginForm, setShowLoginForm] = useState(false);
-
-  const handleLoginClick = () => {
-    setShowLoginForm(!showLoginForm); 
-  };
   return (
     <>
-      <Stack
-        style={{ position: "fixed", cursor: "pointer", color: "black", margin: "100px" }}
-        onClick={() => {
-          setShowLoginForm(true); // 클릭 시 로그인 모달을 보이도록 설정
-        }}>로그인</Stack>
-      <Modal open={showLoginForm} onClose={() => setShowLoginForm(false)}>
         <Stack height="100%" alignItems="center" justifyContent="center">
           <Stack position="fixed" width="1230px" height="617px" display="flex" direction="row" alignItems="center" justifyContent="space-around" bgcolor="#F88C8C">
             <Stack width="753px" height="598px" justifyContent="center">
@@ -25,25 +14,41 @@ function Header() {
                 src={login} alt="login icon"
                 width="700px" height="598px" />
             </Stack>
-            <Stack width="440px" height="598px" alignItems="center" justifyContent="center" gap="40px">
+            <Stack width="440px" height="598px" alignItems="center" justifyContent="center" gap="3.5%">
               <Stack fontSize="36px">login</Stack>
-              <TextField
-                placeholder={"id를 입력하세요"}
-                multiline
-                maxRows={4}
-                InputProps={{
-                  style: { backgroundColor: "white", borderRadius: "8px", width: "271px", height: "40px" }
-                }}
-              />
-              <TextField
-                id="outlined-multiline-flexible"
-                placeholder={"비밀번호를 입력하세요"}
-                multiline
-                maxRows={4}
-                InputProps={{
-                  style: { backgroundColor: "white", borderRadius: "8px", width: "271px", height: "40px" }
-                }}
-              />
+              <Stack>
+                <Stack marginBottom="8px">ID</Stack>
+                <TextField
+                  placeholder={"id를 입력하세요"}
+                  multiline
+                  maxRows={4}
+                  InputProps={{
+                    style: {
+                      backgroundColor: "white",
+                      borderRadius: "8px",
+                      width: "271px",
+                      height: "40px",
+                      
+                    },
+                  }}
+                />
+              </Stack>
+              <Stack>
+                <Stack marginBottom="8px">Password</Stack>
+                <TextField
+                  placeholder={"비밀번호를 입력하세요"}
+                  multiline
+                  maxRows={4}
+                  InputProps={{
+                    style: {
+                      backgroundColor: "white",
+                      borderRadius: "8px",
+                      width: "271px",
+                      height: "40px",
+                    },
+                  }}
+                />
+              </Stack>
               <Stack
                 bgcolor="#D76464"
                 style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "271px", height: "33px", alignItems: "center", justifyContent: "center", boxShadow: "0px 3px 2px rgba(0, 0, 0, 0.3)" }}
@@ -58,7 +63,6 @@ function Header() {
             </Stack>
           </Stack>
         </Stack>
-      </Modal>
       {/* <Stack height="100%" alignItems="center" justifyContent="center">
         <Stack position="fixed" width="926px" height="573px"
           display="flex" alignItems="center"
