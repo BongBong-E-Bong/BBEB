@@ -61,7 +61,7 @@ function Header() {
           justifyContent="center"
           alignItems="flex-end"
         >
-          <Stack //로그인X일 때
+          {/* <Stack //로그인X일 때
             width="50%"
             height="10%"
             alignItem="flex-end"
@@ -75,9 +75,9 @@ function Header() {
             <Stack style={{ fontSize: "150%" }}>|</Stack>
             <Stack style={{ cursor: "pointer", fontSize: "150%" }}>
               회원 가입
-            </Stack>
-          </Stack>
-          {/* <Stack width="12%" height="70%">
+            </Stack> */}
+          {/* </Stack> */}
+          <Stack width="12%" height="70%">
             <img
               alt="profileImage"
               src={profileImage}
@@ -89,7 +89,7 @@ function Header() {
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
             />
-          </Stack> */}
+          </Stack>
         </Stack>
       </Stack>
 
