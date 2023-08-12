@@ -27,7 +27,7 @@ function Profile() {
   const buttonStyles = {
     borderRadius: "10px",
     cursor: "pointer",
-    fontSize: "240%",
+    fontSize: "30px",
     color: "white",
     WebkitTextStroke: "1px black",
     boxShadow: "0px 10px 20px -10px gray",
@@ -37,7 +37,6 @@ function Profile() {
     <>
       <Header />
       <Stack alignItems="center" width="100%" height="100vh" bgcolor="white">
-        <Stack width="100%" height="20%" />
         <Stack
           bgcolor="#FFDEDE"
           width="80%"
@@ -45,9 +44,10 @@ function Profile() {
           justifyContent="center"
           style={{
             fontWeight: "500",
-            fontSize: "360%",
+            fontSize: "55px",
           }}
           paddingLeft="5%"
+          marginTop="9%"
         >
           <Stack>이봉이 형제 프로필</Stack>
         </Stack>
@@ -57,7 +57,7 @@ function Profile() {
           width="80%"
           height="8%"
           gap="2%"
-          marginTop="1%"
+          marginTop="2%"
         >
           <Stack
             width="17%"

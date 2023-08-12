@@ -19,22 +19,40 @@ function Post() {
         alignItems="center"
         gap="40px"
       >
-        <Stack width="1314px" justifyContent="flex-end">
+        {/* <Stack width="100%" height="5%" marginLeft="10%" marginTop="10%">
           <Stack
-            width="400px"
-            height="28px"
+            width="20%"
+            height="100%"
             bgcolor="#FFDEDE"
             direction="row"
             justifyContent="center"
             alignItems="center"
-            gap="10px"
-            marginTop="150px"
+            // gap="10px"
             style={{ cursor: "pointer" }}
           >
-            <Stack style={{ fontSize: "50px" }}>오봉이의 게시판</Stack>
-            <img src={obong} alt="obong" width="75px" height="85px"></img>
+            <Stack style={{ fontSize: "200%" }}>오봉이의 게시판</Stack>
+            <img src={obong} alt="obong" width="10%" height="10%"></img>
+          </Stack>
+        </Stack> */}
+        <Stack width="100%" height="30vh" bgcolor="black">
+          <Stack
+            width="25%"
+            height="10%"
+            marginLeft="10%"
+            marginTop="10%"
+            bgcolor="#FFDEDE"
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            style={{ cursor: "pointer" }}
+          >
+            <Stack width="100%" height="100%" style={{ fontSize: "200%" }}>
+              오봉이의 게시판
+            </Stack>
+            <img src={obong} alt="obong" width="10%" height="10%"></img>
           </Stack>
         </Stack>
+
         <Stack
           width="1314px"
           minHeight="700px"
