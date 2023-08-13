@@ -90,7 +90,7 @@ function Comment() {
                   height="100%"
                   direction="row"
                   alignItems="flex-start"
-                  marginTop="5px"
+                  marginTop="5px 0 5px 0"
                   gap="8px"
                 >
                   <Stack width="8%" height="100%" justifyContent="flex-end">
