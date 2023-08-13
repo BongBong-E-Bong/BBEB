@@ -76,23 +76,6 @@ function Post() {
                 <Stack style={{ fontSize: "14px" }}>2001.08.23</Stack>
               </Stack>
               {/* 태그 */}
-              <Stack
-                direction="row"
-                gap="10px"
-                marginLeft="10px"
-                alignItems="center"
-              >
-                {tags.map((tag, i) => {
-                  return (
-                    <Chip
-                      label={tag}
-                      variant="outlined"
-                      color="primary"
-                      style={{ cursor: "pointer", fontSize: "15px" }}
-                    />
-                  );
-                })}
-              </Stack>
             </Stack>
             <Stack direction="row" gap="15px" width="20%">
               {/* 수정 삭제 버튼 글쓴이가 아닐 경우 */}
@@ -111,6 +94,23 @@ function Post() {
                 <Stack style={{ fontSize: "17px" }}>8</Stack>
               </Stack>
             </Stack>
+          </Stack>
+          <Stack
+            direction="row"
+            gap="10px"
+            margin="0 10% 1% 10%"
+            alignItems="center"
+          >
+            {tags.map((tag, i) => {
+              return (
+                <Chip
+                  label={tag}
+                  variant="outlined"
+                  color="primary"
+                  style={{ cursor: "pointer", fontSize: "15px" }}
+                />
+              );
+            })}
           </Stack>
         </Stack>
         <Stack
