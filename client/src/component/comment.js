@@ -8,10 +8,15 @@ function Comment() {
       basicProfile,
       "이봉",
       "2001.08.23",
-      "이봉이좋아 너무 좋아~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~이봉이좋아 너무 좋아~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "이봉이좋아 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~이봉이좋아 너무 좋아~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
     ],
     [basicProfile, "이봉", "2001.08.23", "이봉이좋아"],
-    [basicProfile, "이봉", "2001.08.23", "이봉이좋아"],
+    [
+      basicProfile,
+      "이봉",
+      "2001.08.23",
+      "이봉이좋아 이봉이좋아 이봉이좋아 이봉이좋아 이봉이좋아",
+    ],
   ];
 
   return (
@@ -73,15 +78,20 @@ function Comment() {
                   width="87%"
                   height="100%"
                   direction="row"
-                  alignItems="center"
+                  alignItems="flex-start"
+                  marginTop="5px"
                   gap="8px"
                 >
-                  <img
-                    alt="basicProfile"
-                    src={comment[0]}
-                    width="8%"
-                    style={{ borderRadius: "50%" }}
-                  />
+                  <Stack width="8%" height="100%" justifyContent="flex-end">
+                    <img
+                      alt="basicProfile"
+                      src={comment[0]}
+                      width="50px"
+                      height="50px"
+                      style={{ borderRadius: "50%" }}
+                    />
+                  </Stack>
+
                   <Stack gap="2px">
                     <Stack direction="row" alignItems="flex-end" gap="6px">
                       <Stack fontSize="19px">{comment[1]}</Stack>
