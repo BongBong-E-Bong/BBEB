@@ -31,6 +31,7 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const login = true;
 
   return (
     <>
@@ -61,35 +62,38 @@ function Header() {
           justifyContent="center"
           alignItems="flex-end"
         >
-          {/* <Stack //로그인X일 때
-            width="50%"
-            height="10%"
-            alignItem="flex-end"
-            justifyContent="center"
-            direction="row"
-            gap="10%"
-          >
-            <Stack style={{ cursor: "pointer", fontSize: "150%" }}>
-              로그인
+          {login ? (
+            <Stack width="12%" height="70%">
+              <img
+                alt="profileImage"
+                src={profileImage}
+                width="100%"
+                height="100%"
+                style={{ cursor: "pointer", borderRadius: "50%" }}
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+              />
             </Stack>
-            <Stack style={{ fontSize: "150%" }}>|</Stack>
-            <Stack style={{ cursor: "pointer", fontSize: "150%" }}>
-              회원 가입
-            </Stack> */}
-          {/* </Stack> */}
-          <Stack width="12%" height="70%">
-            <img
-              alt="profileImage"
-              src={profileImage}
-              width="100%"
-              height="100%"
-              style={{ cursor: "pointer", borderRadius: "50%" }}
-              aria-controls={open ? "basic-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClick}
-            />
-          </Stack>
+          ) : (
+            <Stack
+              width="50%"
+              height="10%"
+              alignItem="flex-end"
+              justifyContent="center"
+              direction="row"
+              gap="10%"
+            >
+              <Stack style={{ cursor: "pointer", fontSize: "150%" }}>
+                로그인
+              </Stack>
+              <Stack style={{ fontSize: "150%" }}>|</Stack>
+              <Stack style={{ cursor: "pointer", fontSize: "150%" }}>
+                회원 가입
+              </Stack>
+            </Stack>
+          )}
         </Stack>
       </Stack>
 
