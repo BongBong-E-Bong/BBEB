@@ -7,7 +7,19 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 function Post() {
-  const tags = ["이봉이 좋아", "이봉이 싫어", "메롱", "메롱롱"];
+  const tags = [
+    "이봉이 좋아",
+    "이봉이 싫어",
+    "메롱",
+    "메롱롱",
+    "안연안여나ㅓㅇ리널인",
+    "Ddddddddddddddd",
+    "Ddddddddddddddd",
+    "Ddddddddddddddd",
+    "Ddddddddddddddd",
+    "Ddddddddddddddd",
+    "Ddddddddddddddd",
+  ];
 
   return (
     <>
@@ -75,9 +87,8 @@ function Post() {
                 {/* 날짜 */}
                 <Stack style={{ fontSize: "14px" }}>2001.08.23</Stack>
               </Stack>
-              {/* 태그 */}
             </Stack>
-            <Stack direction="row" gap="15px" width="20%">
+            <Stack direction="row" gap="15px" minWidth="fit-content">
               {/* 수정 삭제 버튼 글쓴이가 아닐 경우 */}
               <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
                 수정
@@ -97,10 +108,14 @@ function Post() {
           </Stack>
           <Stack
             direction="row"
+            width="70%"
             gap="10px"
             margin="0 10% 1% 10%"
             alignItems="center"
+            height="fit-content"
+            flexWrap="wrap"
           >
+            {/* 태그 */}
             {tags.map((tag, i) => {
               return (
                 <Chip
@@ -118,7 +133,6 @@ function Post() {
           minHeight="50.5vh"
           height="fit-content"
           bgcolor="#FAF3F0"
-          // justifyContent="center"
           alignItems="center"
         >
           <Stack
@@ -134,7 +148,6 @@ function Post() {
               width="75%"
               minHeight="18.7vh"
               height="fit-content"
-              // bgcolor="white"
               margin="10% 0 10% 0"
               justifyContent="center"
               alignItems="center"
