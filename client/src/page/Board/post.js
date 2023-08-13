@@ -107,7 +107,7 @@ function Post() {
                 <VisibilityIcon
                   style={{ color: "#767676" }}
                   sx={{ fontSize: "17px" }}
-                ></VisibilityIcon>
+                />
                 <Stack style={{ fontSize: "17px" }}>8</Stack>
               </Stack>
             </Stack>
