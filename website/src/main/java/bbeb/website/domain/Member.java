@@ -36,6 +36,10 @@ public class Member implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    private Profile profile;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
