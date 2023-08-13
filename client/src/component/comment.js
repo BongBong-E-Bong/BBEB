@@ -4,14 +4,14 @@ import basicProfile from "../image/profilephoto.png";
 
 function Comment() {
   const comments = [
-    "이봉이 좋아",
-    "이봉이 싫어",
-    "메롱",
-    "메롱롱",
-    "메롱롱롱롱롱롱롱",
-    "메롱롱롱롱롱롱롱",
-    "메롱롱롱롱롱롱롱",
-    "메롱롱롱롱롱롱롱",
+    [
+      basicProfile,
+      "이봉",
+      "2001.08.23",
+      "이봉이좋아 너무 좋아~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~이봉이좋아 너무 좋아~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    ],
+    [basicProfile, "이봉", "2001.08.23", "이봉이좋아"],
+    [basicProfile, "이봉", "2001.08.23", "이봉이좋아"],
   ];
 
   return (
@@ -33,7 +33,7 @@ function Comment() {
           <img
             alt="basicProfile"
             src={basicProfile}
-            width="6.5%"
+            width="6%"
             height="70%"
             style={{ borderRadius: "50%" }}
           />
@@ -50,26 +50,59 @@ function Comment() {
             <Stack>댓글 쓰기</Stack>
             <Stack direction="row">
               <Stack>(</Stack>
-              <Stack>3</Stack>
-              {/* 댓글수 */}
+              <Stack>{comments.length}</Stack>
               <Stack>)</Stack>
             </Stack>
           </Button>
         </Stack>
       </Stack>
       <Stack bgcolor="#FAF3F0" width="70%" height="fit-content">
-        <Stack width="100%" height="fit-content">
+        <Stack width="100%" height="fit-content" alignItems="center">
           {comments.map((comment, i) => {
             return (
-              <Stack width="100%" height="10vh">
-                {comment}
+              <Stack
+                direction="row"
+                width="75%"
+                minHeight="10vh"
+                height="fit-content"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ borderBottom: "1px solid #ccc" }}
+              >
+                <Stack
+                  width="87%"
+                  height="100%"
+                  direction="row"
+                  alignItems="center"
+                  gap="8px"
+                >
+                  <img
+                    alt="basicProfile"
+                    src={comment[0]}
+                    width="8%"
+                    style={{ borderRadius: "50%" }}
+                  />
+                  <Stack gap="2px">
+                    <Stack direction="row" alignItems="flex-end" gap="6px">
+                      <Stack fontSize="19px">{comment[1]}</Stack>
+                      <Stack fontSize="12px"> {comment[2]}</Stack>
+                    </Stack>
+                    <Stack fontSize="17px" flexWrap="wrap">
+                      {comment[3]}
+                    </Stack>
+                  </Stack>
+                </Stack>
+                <Stack direction="row" gap="9%" width="11%">
+                  {/* 댓글 작성자가 아닐 경우X */}
+                  <Stack fontSize="17px" style={{ cursor: "pointer" }}>
+                    수정
+                  </Stack>
+                  <Stack fontSize="17px">|</Stack>
+                  <Stack fontSize="17px" style={{ cursor: "pointer" }}>
+                    삭제
+                  </Stack>
+                </Stack>
               </Stack>
-              //   <Chip
-              //     label={comment}
-              //     variant="outlined"
-              //     color="primary"
-              //     style={{ cursor: "pointer", fontSize: "15px" }}
-              //   />
             );
           })}
         </Stack>
