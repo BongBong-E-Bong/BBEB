@@ -42,22 +42,33 @@ function Comment() {
             height="70%"
             style={{ borderRadius: "50%" }}
           />
-          <Stack width="65%">
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              color="primary"
-              sx={{ bgcolor: "white" }}
-              placeholder="댓글을 입력하세요."
-            />
-          </Stack>
-          <Button variant="contained" color="primary" sx={{ height: "60%" }}>
-            <Stack>댓글 쓰기</Stack>
-            <Stack direction="row">
-              <Stack>(</Stack>
-              <Stack>{comments.length}</Stack>
-              <Stack>)</Stack>
-            </Stack>
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            color="primary"
+            sx={{
+              width: "65%",
+              bgcolor: "white",
+              "& .MuiOutlinedInput-input": {
+                height: "100%",
+                padding: "4px 8px",
+                fontSize: "20px",
+              },
+              "&.MuiTextField-root": {
+                height: "60%",
+              },
+              "& .MuiOutlinedInput-root": {
+                height: "100%",
+              },
+            }}
+            placeholder="댓글을 입력하세요."
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ fontSize: "18px", height: "60%" }}
+          >
+            댓글쓰기({comments.length})
           </Button>
         </Stack>
       </Stack>
