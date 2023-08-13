@@ -58,6 +58,13 @@ dependencies {
 
 	//json
 	implementation 'org.json:json:20200518'
+
+	//image
+	implementation 'commons-io:commons-io:2.11.0'
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+
+	//aws
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {
