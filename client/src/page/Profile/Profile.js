@@ -24,19 +24,10 @@ function Profile() {
     setOnebongHovered(false);
   };
 
-  const goRangkingStyles = {
+  const buttonStyles = {
     borderRadius: "10px",
     cursor: "pointer",
-    fontSize: "40px",
-    color: "white",
-    WebkitTextStroke: "1px black",
-    boxShadow: "0px 10px 20px -10px gray",
-  };
-
-  const goVoteStyles = {
-    borderRadius: "10px",
-    cursor: "pointer",
-    fontSize: "40px",
+    fontSize: "30px",
     color: "white",
     WebkitTextStroke: "1px black",
     boxShadow: "0px 10px 20px -10px gray",
@@ -44,144 +35,183 @@ function Profile() {
 
   return (
     <>
-      <Header zIndex="30" />
-      <Stack alignItems="center" gap="30px" height="100vh">
-        <Stack height="150px" />
+      <Header />
+      <Stack alignItems="center" width="100%" height="100vh" bgcolor="white">
         <Stack
           bgcolor="#FFDEDE"
-          width="1300px"
-          height="25px"
+          width="80%"
+          height="3%"
           justifyContent="center"
           style={{
             fontWeight: "500",
-            fontSize: "70px",
+            fontSize: "55px",
           }}
-          paddingLeft="80px"
+          paddingLeft="5%"
+          marginTop="9%"
         >
           <Stack>이봉이 형제 프로필</Stack>
         </Stack>
         <Stack
           direction="row"
           justifyContent="flex-end"
-          width="1380px"
-          gap="20px"
+          width="80%"
+          height="8%"
+          gap="2%"
+          marginTop="2%"
         >
           <Stack
-            width="200px"
-            height="60px"
+            width="17%"
+            height="100%"
             justifyContent="center"
             alignItems="center"
             bgcolor="#FF8181"
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = "#EB7C7C";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = "#FF8181";
+            sx={{
+              ":hover": {
+                backgroundColor: "#EB7C7C",
+              },
+              ":active": {
+                backgroundColor: "#FFCBCB",
+              },
             }}
             onClick={() => {
               navigate("/Rangking");
             }}
-            style={goRangkingStyles}
+            style={buttonStyles}
           >
             순위보기
           </Stack>
           <Stack
-            width="200px"
-            height="60px"
+            width="17%"
+            height="100%"
             justifyContent="center"
             alignItems="center"
             bgcolor="#98C6BD"
-            // onMouseOver={(e) => {
-            //   e.currentTarget.style.backgroundColor = "#8BADA7";
-            // }}
-            // onMouseOut={(e) => {
-            //   e.currentTarget.style.backgroundColor = "#98C6BD";
-            // }}
             sx={{
               ":hover": {
-                backgroundColor: "blue",
+                backgroundColor: "#81ABA4",
               },
               ":active": {
-                backgroundColor: "red",
+                backgroundColor: "#C8DAD7",
               },
             }}
             onClick={() => {
               navigate("/Vote");
             }}
-            style={goVoteStyles}
+            style={buttonStyles}
           >
             투표하러GO
           </Stack>
         </Stack>
         <Stack
           direction="row"
-          alignItems="flex-end"
-          height="550px"
-          width="1380px"
+          height="70%"
+          width="85%"
           justifyContent="space-around"
         >
-          <Stack>
+          <Stack height="100%" width="100%">
             {twobongHovered ? (
-              <Stack alignItems="center" gap="70px">
+              <Stack
+                alignItems="center"
+                justifyContent="flex-end"
+                height="100%"
+                width="14%"
+              >
                 <Stack
                   bgcolor="#FFF8D4"
+                  height="7%"
                   style={{
-                    padding: "0px 8px",
-                    borderRadius: "8px",
-                    fontSize: "30px",
+                    padding: "0px 3%",
+                    fontSize: "150%",
                   }}
+                  marginBottom="10%"
                 >
                   이봉🌱
                 </Stack>
                 <img
                   src={ebongbodyhover}
                   alt="ebongbodyhover"
-                  width="190px"
-                  height="400px"
+                  width="100%"
+                  height="70%"
                   onMouseOut={handleMouseOut}
                   style={{ cursor: "pointer" }}
                 />
               </Stack>
             ) : (
-              <Stack alignItems="center" gap="70px">
-                <Stack style={{ fontSize: "30px" }}>이봉🌱</Stack>
+              <Stack
+                height="100%"
+                width="14%"
+                alignItems="center"
+                justifyContent="flex-end"
+              >
+                <Stack
+                  height="7%"
+                  style={{ padding: "0px 3%", fontSize: "150%" }}
+                  marginBottom="10%"
+                >
+                  이봉🌱
+                </Stack>
                 <img
                   src={ebongbody}
                   alt="ebongbody"
-                  width="190px"
-                  height="400px"
+                  width="100%"
+                  height="70%"
                   onMouseOver={handleMouseOver}
                   style={{ cursor: "pointer" }}
                 />
               </Stack>
             )}
           </Stack>
-          <Stack>
-            <Stack alignItems="center" gap="70px">
-              <Stack bgcolor="#FFF8D4" style={{ fontSize: "30px" }}>
+          {onebongHovered ? (
+            <Stack
+              alignItems="center"
+              justifyContent="flex-end"
+              height="100%"
+              width="14%"
+            >
+              <Stack
+                bgcolor="#FFF8D4"
+                height="7%"
+                style={{
+                  padding: "0px 3%",
+                  fontSize: "150%",
+                }}
+                marginBottom="10%"
+              >
                 이봉🌱
               </Stack>
-              {onebongHovered ? (
-                <img
-                  src={ebongbodyhover}
-                  alt="ebongbodyhover"
-                  width="190px"
-                  height="400px"
-                  onMouseOut={handleMouseOut2}
-                  style={{ cursor: "pointer" }}
-                />
-              ) : (
-                <img
-                  src={ebongbody}
-                  alt="ebongbody"
-                  width="190px"
-                  height="400px"
-                  onMouseOver={handleMouseOver2}
-                  style={{ cursor: "pointer" }}
-                />
-              )}
+              <img
+                src={ebongbodyhover}
+                alt="ebongbodyhover"
+                width="100%"
+                height="70%"
+                onMouseOut={handleMouseOut2}
+                style={{ cursor: "pointer" }}
+              />
             </Stack>
-          </Stack>
+          ) : (
+            <Stack
+              height="100%"
+              width="14%"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Stack
+                height="7%"
+                style={{ padding: "0px 3%", fontSize: "150%" }}
+                marginBottom="10%"
+              >
+                이봉🌱
+              </Stack>
+              <img
+                src={ebongbody}
+                alt="ebongbody"
+                width="100%"
+                height="70%"
+                onMouseOver={handleMouseOver2}
+                style={{ cursor: "pointer" }}
+              />
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </>
