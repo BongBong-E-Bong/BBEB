@@ -36,8 +36,13 @@ public class Member implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private Profile profile;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tetris_id")
+    private TetrisScore tetrisScore;
 
 
     @Override

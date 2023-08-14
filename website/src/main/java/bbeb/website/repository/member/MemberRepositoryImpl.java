@@ -1,6 +1,6 @@
-package bbeb.website.repository;
+package bbeb.website.repository.member;
 
-import bbeb.website.domain.QMember;
+import bbeb.website.repository.member.MemberRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
