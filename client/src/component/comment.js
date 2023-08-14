@@ -6,10 +6,10 @@ import {
   InputAdornment,
   IconButton,
   Menu,
-  MenuItem,
 } from "@mui/material";
 import MoodIcon from "@mui/icons-material/Mood";
 import basicProfile from "../image/profilephoto.png";
+import emoticon0 from "../emoticon/...emoticon.png";
 
 function Comment() {
   const comments = [
@@ -28,14 +28,26 @@ function Comment() {
     ],
   ];
 
+  const emoticons = [
+    emoticon0,
+    emoticon0,
+    emoticon0,
+    emoticon0,
+    emoticon0,
+    emoticon0,
+    emoticon0,
+    emoticon0,
+    emoticon0,
+    emoticon0,
+  ];
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const stackRef = React.useRef(null);
-
+  const emoticonRef = React.useRef(null);
   const handleClick = (event) => {
-    setAnchorEl(stackRef.current); // Stack 컴포넌트의 ref를 anchorEl로 설정
+    setAnchorEl(emoticonRef.current); // Stack 컴포넌트의 ref를 anchorEl로 설정
   };
 
   return (
@@ -65,7 +77,7 @@ function Comment() {
             id="outlined-basic"
             variant="outlined"
             color="primary"
-            ref={stackRef}
+            ref={emoticonRef}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -121,14 +133,32 @@ function Comment() {
         getContentAnchorEl={null}
         PaperProps={{
           style: {
-            maxHeight: "200px",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
             width: "45%",
           },
         }}
       >
-        <MenuItem onClick={handleClose}>hi</MenuItem>
-        <MenuItem onClick={handleClose}>hihi</MenuItem>
-        <MenuItem onClick={handleClose}>hihi</MenuItem>
+        <Stack
+          direction="row"
+          gap="10%"
+          flexWrap="wrap"
+          justifyContent="center"
+        >
+          {emoticons.map((emoticon, i) => {
+            return (
+              <Stack width="100px" height="110px">
+                <img
+                  alt="emoticon0"
+                  src={emoticon}
+                  width="100%"
+                  height="100%"
+                  style={{ cursor: "pointer" }}
+                  onClick={handleClose}
+                />
+              </Stack>
+            );
+          })}
+        </Stack>
       </Menu>
       <Stack bgcolor="#FAF3F0" width="70%" height="fit-content">
         <Stack width="100%" height="fit-content" alignItems="center">
@@ -147,7 +177,6 @@ function Comment() {
                   width="87%"
                   height="100%"
                   direction="row"
-                  // alignItems="flex-start"
                   margin="5px 0 5px 0"
                   gap="8px"
                 >
