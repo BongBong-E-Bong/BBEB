@@ -197,10 +197,12 @@ function Comment() {
                       gap="6px"
                       height="!00%"
                     >
-                      <Stack fontSize="19px">{comment[1]}</Stack>
+                      <Stack fontSize="19px" style={{ fontWeight: "bold" }}>
+                        {comment[1]}
+                      </Stack>
                       <Stack fontSize="12px"> {comment[2]}</Stack>
                     </Stack>
-                    <Stack fontSize="17px" flexWrap="wrap">
+                    <Stack fontSize="16px" flexWrap="wrap">
                       {comment[3]}
                     </Stack>
                   </Stack>
