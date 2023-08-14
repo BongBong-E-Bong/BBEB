@@ -1,5 +1,14 @@
 import React from "react";
-import { Stack, TextField, Button } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  Button,
+  InputAdornment,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import MoodIcon from "@mui/icons-material/Mood";
 import basicProfile from "../image/profilephoto.png";
 
 function Comment() {
@@ -18,6 +27,16 @@ function Comment() {
       "이봉이좋아 이봉이좋아 이봉이좋아 이봉이좋아 이봉이좋아",
     ],
   ];
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const stackRef = React.useRef(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(stackRef.current); // Stack 컴포넌트의 ref를 anchorEl로 설정
+  };
 
   return (
     <Stack
@@ -39,13 +58,27 @@ function Comment() {
             alt="basicProfile"
             src={basicProfile}
             width="6%"
-            height="70%"
+            height="66%"
             style={{ borderRadius: "50%" }}
           />
           <TextField
             id="outlined-basic"
             variant="outlined"
             color="primary"
+            ref={stackRef}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    edge="end"
+                    onClick={handleClick}
+                  >
+                    <MoodIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
             sx={{
               width: "65%",
               bgcolor: "white",
@@ -72,6 +105,31 @@ function Comment() {
           </Button>
         </Stack>
       </Stack>
+      <Menu
+        aria-labelledby="composition-button"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        getContentAnchorEl={null}
+        PaperProps={{
+          style: {
+            maxHeight: "200px",
+            width: "45%",
+          },
+        }}
+      >
+        <MenuItem onClick={handleClose}>hi</MenuItem>
+        <MenuItem onClick={handleClose}>hihi</MenuItem>
+        <MenuItem onClick={handleClose}>hihi</MenuItem>
+      </Menu>
       <Stack bgcolor="#FAF3F0" width="70%" height="fit-content">
         <Stack width="100%" height="fit-content" alignItems="center">
           {comments.map((comment, i) => {
@@ -89,11 +147,16 @@ function Comment() {
                   width="87%"
                   height="100%"
                   direction="row"
-                  alignItems="flex-start"
-                  marginTop="5px 0 5px 0"
+                  // alignItems="flex-start"
+                  margin="5px 0 5px 0"
                   gap="8px"
                 >
-                  <Stack width="8%" height="100%" justifyContent="flex-end">
+                  <Stack
+                    width="8%"
+                    height="100%"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                  >
                     <img
                       alt="basicProfile"
                       src={comment[0]}
@@ -103,8 +166,13 @@ function Comment() {
                     />
                   </Stack>
 
-                  <Stack gap="2px">
-                    <Stack direction="row" alignItems="flex-end" gap="6px">
+                  <Stack gap="2px" height="100%">
+                    <Stack
+                      direction="row"
+                      alignItems="flex-end"
+                      gap="6px"
+                      height="!00%"
+                    >
                       <Stack fontSize="19px">{comment[1]}</Stack>
                       <Stack fontSize="12px"> {comment[2]}</Stack>
                     </Stack>
