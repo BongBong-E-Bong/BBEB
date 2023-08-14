@@ -16,7 +16,7 @@ function Login() {
                     <Stack width="39%" height="98%" alignItems="center" justifyContent="center" gap="4%" >
                         <Stack fontSize="36px">login</Stack>
                         <Stack  alignItems="center" justifyContent="center">
-                            <Stack marginBottom="3%" sx={{ justifyContent: "flex-start" }}>ID</Stack>
+                            <Stack marginBottom="3%" sx={{ textAlign:"left" }}>ID</Stack>
                             <TextField
                                 id="outlined-multiline-flexible"
                                 placeholder={"id를 입력하세요"}
