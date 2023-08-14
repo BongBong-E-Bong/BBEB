@@ -20,11 +20,6 @@ public class MemberController {
     private final MemberService memberService;
 
 
-    @GetMapping("/api/members")
-    public List<Member> findAll(){
-        return memberService.findAll();
-    }
-
     @PostMapping("/api/members/profile")
     public ProfileDTO.ProfileResponseDTO uploadProfile(@ModelAttribute ProfileDTO.ProfileRequestDTO dto,
                                 Authentication authentication) throws IOException {

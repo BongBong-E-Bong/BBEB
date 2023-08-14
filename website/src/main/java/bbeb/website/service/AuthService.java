@@ -1,23 +1,19 @@
 package bbeb.website.service;
 
 import bbeb.website.config.exception.CustomException;
-import bbeb.website.config.exception.ErrorCode;
 import bbeb.website.config.security.jwt.JwtTokenProvider;
 import bbeb.website.domain.Member;
 import bbeb.website.dto.AuthDTO;
 import bbeb.website.dto.TokenDTO;
-import bbeb.website.repository.MemberRepository;
+import bbeb.website.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import static bbeb.website.config.exception.ErrorCode.*;
-import static org.springframework.http.HttpStatus.*;
 
 @Service
 @RequiredArgsConstructor

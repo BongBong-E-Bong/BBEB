@@ -1,4 +1,4 @@
-package bbeb.website.repository;
+package bbeb.website.repository.member;
 
 import bbeb.website.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

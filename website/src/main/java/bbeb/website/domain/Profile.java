@@ -1,5 +1,6 @@
 package bbeb.website.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,8 +20,8 @@ public class Profile {
 
     private String url;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @OneToOne(mappedBy = "profile")
+    @JsonIgnore
     private Member member;
 
     public void updateUrl(String url) {

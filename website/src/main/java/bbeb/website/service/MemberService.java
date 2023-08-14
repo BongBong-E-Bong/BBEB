@@ -1,17 +1,14 @@
 package bbeb.website.service;
 
 import bbeb.website.config.exception.CustomException;
-import bbeb.website.config.exception.ErrorCode;
 import bbeb.website.domain.Member;
 import bbeb.website.domain.Profile;
 import bbeb.website.dto.ProfileDTO;
-import bbeb.website.repository.MemberRepository;
-import bbeb.website.repository.ProfileRepository;
+import bbeb.website.repository.member.MemberRepository;
+import bbeb.website.repository.profile.ProfileRepository;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,10 +34,6 @@ public class MemberService {
     @Value("${cloud.aws.s3.bucket.profile}")
     private String profileBucketName;
 
-    public List<Member> findAll() {
-        return memberRepository.findAll();
-    }
-
     public ProfileDTO.ProfileResponseDTO uploadProfile(ProfileDTO.ProfileRequestDTO dto,
                                                        String loginId) throws IOException {
         Member member = memberRepository.findByLoginId(loginId)
@@ -61,7 +54,7 @@ public class MemberService {
             }
         }
 
-        Profile profile = profileRepository.findByMember(member);
+        Profile profile = member.getProfile();
 
         if (profile != null) {
             s3Client.deleteObject(new DeleteObjectRequest(profileBucketName, profile.getUrl()));
@@ -75,8 +68,11 @@ public class MemberService {
                     .url(imageFileName)
                     .build();
 
+            member.setProfile(profile);
+
             s3Client.putObject(new PutObjectRequest(profileBucketName, profile.getUrl(), destinationFile));
         }
+
         profileRepository.save(profile);
 
         destinationFile.delete();
@@ -90,7 +86,7 @@ public class MemberService {
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new CustomException(BadRequest));
 
-        Profile profile = profileRepository.findByMember(member);
+        Profile profile = member.getProfile();
 
         ProfileDTO.ProfileResponseDTO dto = new ProfileDTO.ProfileResponseDTO();
 
