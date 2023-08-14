@@ -138,15 +138,10 @@ function Comment() {
           },
         }}
       >
-        <Stack
-          direction="row"
-          gap="10%"
-          flexWrap="wrap"
-          justifyContent="center"
-        >
+        <Stack direction="row" flexWrap="wrap" justifyContent="center">
           {emoticons.map((emoticon, i) => {
             return (
-              <Stack width="100px" height="110px">
+              <Stack width="80px" height="90px" margin="20px 20px 20px 20px">
                 <img
                   alt="emoticon0"
                   src={emoticon}
