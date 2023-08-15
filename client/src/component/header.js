@@ -21,10 +21,12 @@ function Header() {
     if (e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = () => {
+        console.log(reader.result);
+        console.log(e.target.files[0]);
         setprofileImage(reader.result);
         const formData = new FormData();
 
-        formData.append("file", fileInput);
+        formData.append("profile", e.target.files[0]);
 
         // POST 요청을 보내는 함수
         const sendPostRequest = async () => {
@@ -36,11 +38,11 @@ function Header() {
                 headers: {
                   "Content-Type": "multipart/form-data",
                   Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb3NvIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTEzMTYxfQ.ylCUsB8Fn00bGoPT7zvqnvjjt6IvZONO3qIE5-pmJSA",
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb3NvIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTE1NjQ5fQ.CSLUetbEfZB7Wp2RdhdfOH8PKzMZoAcYDzEChqQJLAE",
                 },
               }
             );
-            console.log(response);
+            console.log(response.data);
             getRequest();
           } catch (error) {
             console.error("Error:", error);
@@ -77,7 +79,7 @@ function Header() {
       .get("http://13.125.105.202:8080/api/members/profile", {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb3NvIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTEzMTYxfQ.ylCUsB8Fn00bGoPT7zvqnvjjt6IvZONO3qIE5-pmJSA",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb3NvIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTE1NjQ5fQ.CSLUetbEfZB7Wp2RdhdfOH8PKzMZoAcYDzEChqQJLAE",
         },
       })
       .then((response) => {
