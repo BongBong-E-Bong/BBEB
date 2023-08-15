@@ -8,7 +8,7 @@ public class ProfileDTO {
 
     @Data
     public static class ProfileRequestDTO{
-        private MultipartFile file;
+        private MultipartFile profile;
     }
 
     @Data
