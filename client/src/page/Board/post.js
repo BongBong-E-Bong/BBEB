@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../../component/header";
+import Comment from "../../component/comment";
 import { Stack, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
 import basicProfile from "../../image/profilephoto.png";
@@ -12,13 +13,10 @@ function Post() {
     "이봉이 싫어",
     "메롱",
     "메롱롱",
-    "안연안여나ㅓㅇ리널인",
-    "Ddddddddddddddd",
-    "Ddddddddddddddd",
-    "Ddddddddddddddd",
-    "Ddddddddddddddd",
-    "Ddddddddddddddd",
-    "Ddddddddddddddd",
+    "메롱롱롱롱롱롱롱",
+    "메롱롱롱롱롱롱롱",
+    "메롱롱롱롱롱롱롱",
+    "메롱롱롱롱롱롱롱",
   ];
 
   return (
@@ -175,7 +173,7 @@ function Post() {
           </Stack>
         </Stack>
       </Stack>
-      {/* <Stack>댓글</Stack> */}
+      <Comment />
     </>
   );
 }
