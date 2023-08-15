@@ -87,10 +87,11 @@ function Ranking() {
           return (
             <Stack
               direction="row"
-              justifyContent="space-around"
-              width="50%"
+              justifyContent={i % 2 === 0 ? "flex-end" : "flex-start"}
+              gap="90px"
+              width="60%"
               height="40vh"
-              margin="20px 0 20px 0"
+              margin="50px 0 50px 0"
               alignItems="center"
             >
               <Stack
@@ -122,8 +123,8 @@ function Ranking() {
               <img
                 src={i < 3 ? ebongranking[2] : ebongranking[3]}
                 alt="spotlight"
-                width="30%"
-                height="100%"
+                width="200px"
+                height="300px"
               />
             </Stack>
           );
