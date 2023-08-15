@@ -1,218 +1,147 @@
 import React, { useState, useEffect } from 'react';
-import './css/style.css';
+import '../css/tetris.css';
 
-// 블럭 설정해주기
 const BLOCKS = {
   square: [
-    [[0, 0], [0, 1], [1, 0], [1, 1]],
-    [[0, 0], [0, 1], [1, 0], [1, 1]],
-    [[0, 0], [0, 1], [1, 0], [1, 1]],
-    [[0, 0], [0, 1], [1, 0], [1, 1]],
+      [[0, 0], [0, 1], [1, 0], [1, 1]],
+      [[0, 0], [0, 1], [1, 0], [1, 1]],
+      [[0, 0], [0, 1], [1, 0], [1, 1]],
+      [[0, 0], [0, 1], [1, 0], [1, 1]],
   ],
   bar: [
-    [[1, 0], [2, 0], [3, 0], [4, 0]],
-    [[2, -1], [2, 0], [2, 1], [2, 2]],
-    [[1, 0], [2, 0], [3, 0], [4, 0]],
-    [[2, -1], [2, 0], [2, 1], [2, 2]],
+      [[1, 0], [2, 0], [3, 0], [4, 0]],
+      [[2, -1], [2, 0], [2, 1], [2, 2]],
+      [[1, 0], [2, 0], [3, 0], [4, 0]],
+      [[2, -1], [2, 0], [2, 1], [2, 2]],
   ],
   tree: [
-    [[1, 0], [0, 1], [1, 1], [2, 1]],
-    [[1, 0], [0, 1], [1, 1], [1, 2]],
-    [[2, 1], [0, 1], [1, 1], [1, 2]],
-    [[2, 1], [1, 2], [1, 1], [1, 0]],
+      [[1, 0], [0, 1], [1, 1], [2, 1]],
+      [[1, 0], [0, 1], [1, 1], [1, 2]],
+      [[2, 1], [0, 1], [1, 1], [1, 2]],
+      [[2, 1], [1, 2], [1, 1], [1, 0]],
   ],
   zee: [
-    [[0, 0], [1, 0], [1, 1], [2, 1]],
-    [[0, 1], [1, 0], [1, 1], [0, 2]],
-    [[0, 1], [1, 1], [1, 2], [2, 2]],
-    [[2, 0], [2, 1], [1, 1], [1, 2]],
+      [[0, 0], [1, 0], [1, 1], [2, 1]],
+      [[0, 1], [1, 0], [1, 1], [0, 2]],
+      [[0, 1], [1, 1], [1, 2], [2, 2]],
+      [[2, 0], [2, 1], [1, 1], [1, 2]],
   ],
   elLeft: [
-    [[0, 0], [0, 1], [1, 1], [2, 1]],
-    [[1, 0], [1, 1], [1, 2], [0, 2]],
-    [[0, 1], [1, 1], [2, 1], [2, 2]],
-    [[1, 0], [2, 0], [1, 1], [1, 2]],
+      [[0, 0], [0, 1], [1, 1], [2, 1]],
+      [[1, 0], [1, 1], [1, 2], [0, 2]],
+      [[0, 1], [1, 1], [2, 1], [2, 2]],
+      [[1, 0], [2, 0], [1, 1], [1, 2]],
   ],
   elRight: [
-    [[1, 0], [2, 0], [1, 1], [1, 2]],
-    [[0, 0], [0, 1], [1, 1], [2, 1]],
-    [[0, 2], [1, 0], [1, 1], [1, 2]],
-    [[0, 1], [1, 1], [2, 1], [2, 2]],
+      [[1, 0], [2, 0], [1, 1], [1, 2]],
+      [[0, 0], [0, 1], [1, 1], [2, 1]],
+      [[0, 2], [1, 0], [1, 1], [1, 2]],
+      [[0, 1], [1, 1], [2, 1], [2, 2]],
   ],
 }
 
+const GAME_ROWS = 20;
+const GAME_COLS = 10;
+const BLOCK_SIZE = 30;
+
 function Tetris() {
-  const [score, setScore] = useState(0);
-  const [duration, setDuration] = useState(500);
-  const [movingItem, setMovingItem] = useState({
+
+  const INITIAL_MOVING_ITEM = {
     type: '',
     direction: 3,
     top: 0,
     left: 0,
-  });
-  const [tempMovingItem, setTempMovingItem] = useState({ ...movingItem });
+  };
+
+  const [score, setScore] = useState(0);
+  const [playground, setPlayground] = useState(Array.from({ length: GAME_ROWS }, () => Array(GAME_COLS).fill(0)));
+  const [movingItem, setMovingItem] = useState(INITIAL_MOVING_ITEM);
+  const [downInterval, setDownInterval] = useState(null);
+  const [timeoutId, setTimeoutId] = useState(null);
+
 
   useEffect(() => {
     init();
   }, []);
 
-  function init() {
-    setTempMovingItem({ ...movingItem });
-    tempMovingItem = { ...movingItem };
-    for (let i = 0; i < GAME_ROWS; i++) {
-      prependNewLine();
+useEffect(() => {
+    if (movingItem.type !== '') {
+      renderBlocks(); // Call the rendering logic directly here
     }
+  });
+  
+
+  function init() {
+    setPlayground(Array.from({ length: GAME_ROWS }, () => Array(GAME_COLS).fill(0)));
     generateNewBlock();
   }
 
-  function prependNewLine() {
-    const li = document.createElement("li");
-    const ul = document.createElement("ul");
-    for (let j = 0; j < GAME_COLS; j++) {
-      const matrix = document.createElement("li");
-      ul.prepend(matrix);
-    }
-    li.prepend(ul);
-    playground.prepend(li);
-  }
-
-  function renderBlocks(moveType = '') {
-    const { type, direction, top, left } = tempMovingItem;
-    const movingBlocks = document.querySelectorAll(".moving")
-    movingBlocks.forEach(moving => {
-      moving.classList.remove(type, "moving");
-    })
-    BLOCKS[type][direction].some(block => {
-      const x = block[0] + left;
-      const y = block[1] + top;
-      const target = playground.childNodes[y] ? playground.childNodes[y].childNodes[0].childNodes[x] : null;
-      const isAvailable = checkEmpty(target);
-      if (isAvailable) {
-        target.classList.add(type, "moving")
-      } else {
-        tempMovingItem = { ...movingItem }
-        if (moveType === 'retry') {
-          clearInterval(downInterval)
-          showGameoverText()
+  function renderBlocks() {
+    const { type, direction, top, left } = movingItem;
+  
+    setPlayground(prevPlayground => {
+      const newPlayground = prevPlayground.map(row => [...row]);
+  
+      BLOCKS[type][direction].forEach((block) => {
+        const x = block[0] + left;
+        const y = block[1] + top;
+  
+        if (y >= 0 && y < GAME_ROWS && x >= 0 && x < GAME_COLS) {
+          newPlayground[y][x] = 1;
+        } else {
+          seizeBlock();
         }
-        setTimeout(() => {
-          renderBlocks('retry');
-          if (moveType === "top") {
-            seizeBlock();
-          }
-        }, 0)
-        return true;
-      }
-    })
-    movingItem.left = left;
-    movingItem.top = top;
-    movingItem.direction = direction;
-  }
-
-  //맨 밑에서 더 이상 갈 곳이 없을때 처리할 코드
-  function seizeBlock() {
-    const movingBlocks = document.querySelectorAll(".moving")
-    movingBlocks.forEach(moving => {
-      moving.classList.remove("moving");
-      moving.classList.add("seized");
-    })
-    checkMatch()
-  }
-  function checkMatch() {
-    const childNodes = playground.childNodes;
-    childNodes.forEach(child => {
-      let matched = true;
-      child.children[0].childNodes.forEach(li => {
-        if (!li.classList.contains("seized")) {
-          matched = false;
-        }
-      })
-      if (matched) {
-        child.remove();
-        prependNewLine();
-        score++;
-        scoreDisplay.innerText = score;
-      }
-    })
-    generateNewBlock()
-  }
-  //새로운 아이템 생기게 해줌
-  function generateNewBlock() {
-    clearInterval(downInterval);
-    downInterval = setInterval(() => {
-      moveBlock('top', 1)
-    }, duration)
-    const blockArray = Object.entries(BLOCKS);
-    const randomIndex = Math.floor(Math.random() * blockArray.length)
-    movingItem.type = blockArray[randomIndex][0]
-    movingItem.top = 0;
-    movingItem.left = 3;
-    movingItem.direction = 0;
-    tempMovingItem = { ...movingItem };
-    renderBlocks()
-  }
-
-  function checkEmpty(target) {
-    if (!target || target.classList.contains("seized")) {
-      return false;
-    }
-    return true;
-  }
-  function moveBlock(moveType, amount) {
-    tempMovingItem[moveType] += amount;
-    renderBlocks(moveType)
-  }
-  function chageDirection() {
-    const direction = tempMovingItem.direction;
-    const newDirection = direction === 3 ? 0 : direction + 1;
-    setTempMovingItem({
-      ...tempMovingItem,
-      direction: newDirection,
+      });
+  
+      return newPlayground;
     });
-    renderBlocks();
+  
+    setMovingItem(prev => ({
+      ...prev,
+      left,
+      top,
+      direction,
+    }));
   }
+  
 
-  //스페이스바 눌렀을 때 처리
-  function dropBlock() {
-    clearInterval(downInterval)
-    downInterval = setInterval(() => {
-      moveBlock("top", 1)
-    }, 10)
+  function generateNewBlock() {
+    clearTimeout(timeoutId);
+  
+    const newDuration = 500;
+  
+    const newTimeout = setTimeout(() => {
+      moveBlock('top', 1);
+    }, newDuration);
+  
+    setTimeoutId(newTimeout);
+  
+    const blockArray = Object.keys(BLOCKS);
+    const randomIndex = Math.floor(Math.random() * blockArray.length);
+    const randomBlockType = blockArray[randomIndex];
+  
+    setMovingItem({
+      type: randomBlockType,
+      top: 0,
+      left: 3,
+      direction: 0,
+    });
   }
-
-  function showGameoverText() {
-    gameText.style.display = "flex"
+  
+  
+  function moveBlock(moveType, amount) {
+    setMovingItem((prev) => ({
+      ...prev,
+      [moveType]: prev[moveType] + amount,
+    }));
   }
-
-  // 방향키로 top와 left 조정
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      switch (e.keyCode) {
-        case 39:
-          moveBlock('left', 1);
-          break;
-        case 37:
-          moveBlock('left', -1);
-          break;
-        case 40:
-          moveBlock('top', 1);
-          break;
-        case 38:
-          chageDirection();
-          break;
-        case 32:
-          dropBlock();
-          break;
-        default:
-          break;
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  
+  function seizeBlock() {
+    clearTimeout(timeoutId); // clearTimeout 사용
+    // Handle block collision and update the playground state
+    // ...
+    generateNewBlock();
+  }
 
   return (
     <div className="wrapper">
@@ -222,7 +151,20 @@ function Tetris() {
       </div>
       <div className="score">{score}</div>
       <div className="playground">
-        <ul>{/* ... 플레이그라운드 내용 ... */}</ul>
+        {playground.map((row, rowIndex) => (
+          <div key={rowIndex} className="playground-row">
+            {row.map((cell, colIndex) => (
+              <div
+                key={colIndex}
+                className={`playground-cell ${cell !== 0 ? 'seized' : ''}`}
+                style={{
+                  width: BLOCK_SIZE,
+                  height: BLOCK_SIZE,
+                }}
+              />
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );
