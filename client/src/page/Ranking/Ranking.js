@@ -87,7 +87,7 @@ function Ranking() {
             <Stack
               direction="row"
               justifyContent="space-around"
-              width="70%"
+              width="50%"
               height="40vh"
               margin="20px 0 20px 0"
               alignItems="center"
@@ -97,15 +97,31 @@ function Ranking() {
                 color="white"
                 style={{ fontSize: "40px", fontFamily: "blackboard" }}
               >
-                <Stack>
-                  {i + 1}등 {ebongranking[0]}
+                <Stack direction="row" gap="20px">
+                  <Stack
+                    style={{
+                      color:
+                        i === 0
+                          ? "#FFD700"
+                          : i === 1
+                          ? "#B6B6B6"
+                          : i === 2
+                          ? "#B48C89"
+                          : "white",
+                      WebkitTextStroke: i < 3 ? "1px white" : "none",
+                      fontFamily: "blackboardbold",
+                    }}
+                  >
+                    {i + 1}등
+                  </Stack>
+                  <Stack> {ebongranking[0]}</Stack>
                 </Stack>
                 <Stack>{ebongranking[1]}표</Stack>
               </Stack>
               <img
                 src={ebongranking[2]}
                 alt="spotlight"
-                width="23%"
+                width="30%"
                 height="100%"
               />
             </Stack>
