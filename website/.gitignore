@@ -35,3 +35,12 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### aws ###
+*.perm
+
+### database ###
+bbeb.mwb
+bbeb.mwb.bak
+
+application.yml
