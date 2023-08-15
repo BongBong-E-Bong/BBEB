@@ -41,3 +41,13 @@
   font-family: "omu";  
   src: url("./font/오뮤_다예쁨체.ttf"); 
 }
+
+@font-face {
+  font-family: "blackboard";  
+  src: url("./font/UhBee\ Simple\ girl.ttf"); 
+}
+
+@font-face {
+  font-family: "blackboardbold";  
+  src: url("./font/UhBee\ Simple\ girl\ BOLD.ttf"); 
+}
