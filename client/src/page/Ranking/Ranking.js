@@ -8,14 +8,16 @@ import ebongsad from "../../image/ebongsad.png";
 function Ranking() {
   const navigate = useNavigate();
 
+  const bong = [, "일봉", "이봉", "삼봉", , "오봉", "육봉", "칠봉"];
+
   const ebongrankingg = [
-    ["일봉", 11, spotlight, ebongsad],
-    ["이봉", 23, spotlight, ebongsad],
-    ["삼봉", 55, spotlight, ebongsad],
-    ["오봉", 78, spotlight, ebongsad],
-    ["육봉", 99, spotlight, ebongsad],
-    ["칠봉", 115, spotlight, ebongsad],
-    ["팔봉", 9, spotlight, ebongsad],
+    [bong[1], 11, spotlight, ebongsad],
+    [bong[2], 23, spotlight, ebongsad],
+    [bong[3], 55, spotlight, ebongsad],
+    [bong[5], 78, spotlight, ebongsad],
+    [bong[6], 99, spotlight, ebongsad],
+    [bong[7], 115, spotlight, ebongsad],
+    [bong[8], 9, spotlight, ebongsad],
   ];
 
   const ebongranking = ebongrankingg.sort((a, b) => b[1] - a[1]);
