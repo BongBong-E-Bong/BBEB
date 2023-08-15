@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Stack } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import bbeblogo from "../image/bbeblogo.png";
 import basicProfile from "../image/profilephoto.png";
 import { useNavigate } from "react-router-dom";
+import Login from "./login";
+import Modal from "./Modal";
+import Register from "./Register";
 
 function Header() {
   const navigate = useNavigate();
@@ -31,7 +34,10 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const login = true;
+  const login = false;
+
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [registerOpen, setRegisterOpen] = useState(false);
 
   return (
     <>
@@ -70,9 +76,6 @@ function Header() {
                 width="100%"
                 height="100%"
                 style={{ cursor: "pointer", borderRadius: "50%" }}
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
               />
             </Stack>
@@ -85,11 +88,17 @@ function Header() {
               direction="row"
               gap="10%"
             >
-              <Stack style={{ cursor: "pointer", fontSize: "150%" }}>
+              <Stack
+                style={{ cursor: "pointer", fontSize: "150%" }}
+                onClick={() => setLoginOpen(true)}
+              >
                 로그인
               </Stack>
               <Stack style={{ fontSize: "150%" }}>|</Stack>
-              <Stack style={{ cursor: "pointer", fontSize: "150%" }}>
+              <Stack
+                style={{ cursor: "pointer", fontSize: "150%" }}
+                onClick={() => setRegisterOpen(true)}
+              >
                 회원 가입
               </Stack>
             </Stack>
@@ -145,6 +154,22 @@ function Header() {
         <MenuItem>내가 작성한 글</MenuItem>
         <MenuItem>로그아웃</MenuItem>
       </Menu>
+      <Modal
+        width="70%"
+        height="50%"
+        open={loginOpen}
+        onClose={() => setLoginOpen(false)}
+      >
+        <Login />
+      </Modal>
+      <Modal
+        width="70%"
+        height="50%"
+        open={registerOpen}
+        onClose={() => setRegisterOpen(false)}
+      >
+        <Register />
+      </Modal>
     </>
   );
 }
