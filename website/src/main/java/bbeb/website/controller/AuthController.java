@@ -31,7 +31,7 @@ public class AuthController {
         AuthDTO.SingUpResponseDTO responseDTO = authService.signUp(dto);
 
         return ResponseEntity
-                .status(responseDTO != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
+                .status(responseDTO != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST)
                 .body(responseDTO);
     }
 

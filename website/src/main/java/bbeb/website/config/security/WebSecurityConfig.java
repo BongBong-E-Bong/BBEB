@@ -1,6 +1,7 @@
 package bbeb.website.config.security;
 
 import bbeb.website.config.security.jwt.JwtAuthenticationFilter;
+import bbeb.website.config.security.jwt.JwtExceptionFilter;
 import bbeb.website.config.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
+    private final JwtExceptionFilter jwtExceptionFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -38,9 +40,9 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated();
         http
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(null)
-        ;
+                .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
+                .exceptionHandling();
+
 
         return http.build();
     }

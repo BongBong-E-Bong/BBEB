@@ -1,5 +1,6 @@
 package bbeb.website.config.security.jwt;
 
+import bbeb.website.config.exception.CustomException;
 import bbeb.website.domain.Member;
 import bbeb.website.dto.TokenDTO;
 import bbeb.website.repository.MemberRepository;
@@ -26,6 +27,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
+
+import static bbeb.website.config.exception.ErrorCode.*;
 
 @Slf4j
 @Component
@@ -57,7 +60,7 @@ public class JwtTokenProvider {
     private void setRefreshToken(String loginId, String refreshToken) {
         Member member = memberRepository
                 .findByLoginId(loginId)
-                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new CustomException(BadRequest));
 
         member.setRefreshToken(refreshToken);
         memberRepository.save(member);
@@ -75,7 +78,7 @@ public class JwtTokenProvider {
 
     public TokenDTO generateToken(String loginId) {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CustomException(BadRequest));
 
         String authorities = member.getAuthorities()
                 .stream()
@@ -104,7 +107,7 @@ public class JwtTokenProvider {
         }
 
         if (member.getRefreshToken() == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            throw new CustomException(BadRequest);
         }
 
         member.setLoginId(loginId);
@@ -124,7 +127,7 @@ public class JwtTokenProvider {
 
             if (refreshToken == null) {
                 log.info("refreshToken is Null");
-                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+                throw new CustomException(BadRequest);
             }
 
             // 1. 전달된 refreshToken이 유효한 token인지 확인
@@ -147,14 +150,14 @@ public class JwtTokenProvider {
             log.info("DB 확인이 완료되었습니다. DB 내 refresh token 값: " + dbRefreshToken);
 
             if (dbRefreshToken == null) {
-                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+                throw new CustomException(SERVER_ERROR);
             }
 
             log.info(String.valueOf(dbRefreshToken.equals(refreshToken)));
 
             // 3. refreshToken과 DB에서 가져온 refreshToken 값을 비교
             if (!dbRefreshToken.equals(refreshToken)) {
-                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+                throw new CustomException(INVALID_JWT_TOKEN);
             }
 
             // 4. Authentication 객체를 가져와, 새로운 토큰 생성
@@ -162,16 +165,16 @@ public class JwtTokenProvider {
 
         } catch (SecurityException | MalformedJwtException e){
             log.info("Invalid JWT Token", e);
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            throw new CustomException(INVALID_JWT_TOKEN);
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            throw new CustomException(EXPIRED_JWT_TOKEN);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            throw new CustomException(UNSUPPORTED_JWT_TOKEN);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            throw new CustomException(NON_LOGIN);
         }
     }
 
@@ -203,16 +206,16 @@ public class JwtTokenProvider {
             return true;
         } catch (SecurityException | MalformedJwtException e){
             log.info("Invalid JWT Token", e);
-            return false;
+            throw new CustomException(INVALID_JWT_TOKEN);
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
-            return false;
+            throw new CustomException(EXPIRED_JWT_TOKEN);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
-            return false;
+            throw new CustomException(UNSUPPORTED_JWT_TOKEN);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
-            return false;
+            throw new CustomException(NON_LOGIN);
         }
     }
 
