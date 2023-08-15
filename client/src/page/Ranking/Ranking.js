@@ -82,29 +82,35 @@ function Ranking() {
             </Button>
           </Stack>
         </Stack>
-        <Stack
-          width="100%"
-          height="40vh"
-          bgcolor="yellow"
-          margin="20px 0 20px 0"
-        >
-          {ebongranking.map((ebongranking, i) => {
-            return (
-              <Stack direction="row">
+        {ebongranking.map((ebongranking, i) => {
+          return (
+            <Stack
+              direction="row"
+              justifyContent="space-around"
+              width="70%"
+              height="40vh"
+              margin="20px 0 20px 0"
+              alignItems="center"
+            >
+              <Stack
+                alignItems="center"
+                color="white"
+                style={{ fontSize: "40px", fontFamily: "blackboard" }}
+              >
                 <Stack>
-                  {ebongranking[0]}
-                  {ebongranking[1]}표
+                  {i + 1}등 {ebongranking[0]}
                 </Stack>
-                <img
-                  src={ebongranking[2]}
-                  alt="spotlight"
-                  width="30px"
-                  height="30px"
-                />
+                <Stack>{ebongranking[1]}표</Stack>
               </Stack>
-            );
-          })}
-        </Stack>
+              <img
+                src={ebongranking[2]}
+                alt="spotlight"
+                width="23%"
+                height="100%"
+              />
+            </Stack>
+          );
+        })}
       </Stack>
     </>
   );
