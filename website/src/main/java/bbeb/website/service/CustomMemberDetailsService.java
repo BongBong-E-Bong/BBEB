@@ -1,6 +1,6 @@
 package bbeb.website.service;
 
-import bbeb.website.domain.Member;
+import bbeb.website.domain.member.Member;
 import bbeb.website.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

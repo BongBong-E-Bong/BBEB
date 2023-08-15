@@ -1,5 +1,7 @@
-package bbeb.website.domain;
+package bbeb.website.domain.member;
 
+import bbeb.website.domain.game.TetrisScore;
+import bbeb.website.domain.post.Post;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,6 +45,9 @@ public class Member implements UserDetails {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tetris_id")
     private TetrisScore tetrisScore;
+
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts;
 
 
     @Override

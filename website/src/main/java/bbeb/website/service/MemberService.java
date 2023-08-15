@@ -1,8 +1,8 @@
 package bbeb.website.service;
 
 import bbeb.website.config.exception.CustomException;
-import bbeb.website.domain.Member;
-import bbeb.website.domain.Profile;
+import bbeb.website.domain.member.Member;
+import bbeb.website.domain.member.Profile;
 import bbeb.website.dto.ProfileDTO;
 import bbeb.website.repository.member.MemberRepository;
 import bbeb.website.repository.profile.ProfileRepository;
@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 import static bbeb.website.config.exception.ErrorCode.BadRequest;
@@ -40,7 +39,7 @@ public class MemberService {
                 .orElseThrow(() -> new CustomException(BadRequest));
 
 
-        MultipartFile file = dto.getFile();
+        MultipartFile file = dto.getProfile();
 
         UUID uuid = UUID.randomUUID();
 

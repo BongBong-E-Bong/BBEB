@@ -1,7 +1,7 @@
 package bbeb.website.dto;
 
-import bbeb.website.domain.Member;
-import bbeb.website.domain.Role;
+import bbeb.website.domain.member.Member;
+import bbeb.website.domain.member.Role;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

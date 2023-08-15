@@ -1,8 +1,8 @@
 package bbeb.website.service;
 
 import bbeb.website.config.exception.CustomException;
-import bbeb.website.domain.Member;
-import bbeb.website.domain.TetrisScore;
+import bbeb.website.domain.member.Member;
+import bbeb.website.domain.game.TetrisScore;
 import bbeb.website.dto.TetrisScoreDTO;
 import bbeb.website.repository.member.MemberRepository;
 import bbeb.website.repository.tetrisscore.TetrisScoreRepository;
@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static bbeb.website.config.exception.ErrorCode.BadRequest;
 

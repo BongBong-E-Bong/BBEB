@@ -1,5 +1,6 @@
-package bbeb.website.domain;
+package bbeb.website.domain.member;
 
+import bbeb.website.domain.member.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 

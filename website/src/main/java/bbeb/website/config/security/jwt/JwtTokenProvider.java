@@ -1,7 +1,7 @@
 package bbeb.website.config.security.jwt;
 
 import bbeb.website.config.exception.CustomException;
-import bbeb.website.domain.Member;
+import bbeb.website.domain.member.Member;
 import bbeb.website.dto.TokenDTO;
 import bbeb.website.repository.member.MemberRepository;
 import io.jsonwebtoken.*;
