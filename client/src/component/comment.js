@@ -69,9 +69,9 @@ function Comment() {
           <img
             alt="basicProfile"
             src={basicProfile}
-            width="6%"
+            width="5.5%"
             height="66%"
-            style={{ borderRadius: "50%" }}
+            style={{ borderRadius: "50%", margin: "0.5%" }}
           />
           <TextField
             id="outlined-basic"
