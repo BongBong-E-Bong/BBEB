@@ -22,6 +22,32 @@ function Header() {
       const reader = new FileReader();
       reader.onload = () => {
         setprofileImage(reader.result);
+        const formData = new FormData();
+
+        formData.append("file", fileInput);
+
+        // POST 요청을 보내는 함수
+        const sendPostRequest = async () => {
+          try {
+            const response = axios.post(
+              "http://13.125.105.202:8080/api/members/profile",
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  Authorization:
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb3NvIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTEzMTYxfQ.ylCUsB8Fn00bGoPT7zvqnvjjt6IvZONO3qIE5-pmJSA",
+                },
+              }
+            );
+            console.log(response);
+            getRequest();
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        };
+
+        sendPostRequest();
       };
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -43,11 +69,15 @@ function Header() {
   const [profileImg, setProfileImg] = useState("");
 
   useEffect(() => {
+    getRequest();
+  }, []);
+
+  const getRequest = () => {
     axios
       .get("http://13.125.105.202:8080/api/members/profile", {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXN1IiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTEwNTQzfQ.kN2wbv0sJD-gJhHztoGJ6t25Isz6rmdO-Dlo-PIUGVo",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb3NvIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTEzMTYxfQ.ylCUsB8Fn00bGoPT7zvqnvjjt6IvZONO3qIE5-pmJSA",
         },
       })
       .then((response) => {
@@ -56,27 +86,7 @@ function Header() {
       .catch((error) => {
         console.error("profile img error", error);
       });
-
-    // POST 요청을 보낼 데이터 객체
-    const imgData = {
-      file: { fileInput },
-    };
-
-    // POST 요청을 보내는 함수
-    const sendPostRequest = async () => {
-      try {
-        const response = await axios.post(
-          "http://13.125.105.202:8080/api/members/profile",
-          imgData
-        );
-        console.log("Response:", response.data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    sendPostRequest();
-  }, []);
+  };
 
   return (
     <>
