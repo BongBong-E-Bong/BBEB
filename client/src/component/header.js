@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Stack } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Login from "./login";
 import Modal from "./Modal";
 import Register from "./Register";
+import axios from "axios";
 
 function Header() {
   const navigate = useNavigate();
@@ -34,10 +35,31 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const login = false;
+  const login = true;
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
+
+  const [profileImg, setProfileImg] = useState("");
+
+  useEffect(() => {
+    // 백엔드에서 게시물 목록을 가져옴
+    axios
+      .get("http://13.125.105.202:8080/api/members/profile", {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXN1IiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTEwNTQzfQ.kN2wbv0sJD-gJhHztoGJ6t25Isz6rmdO-Dlo-PIUGVo",
+        },
+      })
+      .then((response) => {
+        setProfileImg(response.data);
+      })
+      .catch((error) => {
+        console.error("profile img error", error);
+      });
+  }, []);
+
+  console.log(profileImg);
 
   return (
     <>
@@ -72,7 +94,7 @@ function Header() {
             <Stack width="12%" height="70%">
               <img
                 alt="profileImage"
-                src={profileImage}
+                src={profileImg.url}
                 width="100%"
                 height="100%"
                 style={{ cursor: "pointer", borderRadius: "50%" }}
