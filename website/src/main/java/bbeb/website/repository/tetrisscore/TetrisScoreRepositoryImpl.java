@@ -13,9 +13,9 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-import static bbeb.website.domain.QMember.member;
-import static bbeb.website.domain.QProfile.profile;
-import static bbeb.website.domain.QTetrisScore.tetrisScore;
+import static bbeb.website.domain.member.QMember.member;
+import static bbeb.website.domain.member.QProfile.profile;
+import static bbeb.website.domain.game.QTetrisScore.tetrisScore;
 
 @RequiredArgsConstructor
 public class TetrisScoreRepositoryImpl implements TetrisScoreRepositoryCustom {
