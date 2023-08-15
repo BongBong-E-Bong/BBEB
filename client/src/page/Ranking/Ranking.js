@@ -31,32 +31,14 @@ function Ranking() {
         alignItems="center"
       >
         <Stack
-          margin="8% 0 4% 0"
+          margin="11% 0 4% 0"
           color="white"
           fontFamily="blackboard"
           style={{ fontSize: "55px" }}
         >
           이봉이 형제 투표 순위👑
         </Stack>
-        <Stack width="70%" justifyContent="space-between" direction="row">
-          <Stack>
-            <Stack
-              color="white"
-              fontFamily="blackboard"
-              style={{ fontSize: "17px" }}
-            >
-              떠든 사람
-              <br />
-              김수돌
-              <br />
-              신채연
-              <br />
-              박소정
-              <br />
-              장희권
-            </Stack>
-          </Stack>
-
+        <Stack width="70%" justifyContent="flex-end" direction="row">
           <Stack
             direction="row"
             height="100px"
@@ -87,9 +69,9 @@ function Ranking() {
           return (
             <Stack
               direction="row"
-              justifyContent={i % 2 === 0 ? "flex-end" : "flex-start"}
-              gap="90px"
-              width="60%"
+              justifyContent="center"
+              gap="25%"
+              width="50%"
               height="40vh"
               margin="50px 0 50px 0"
               alignItems="center"
@@ -129,6 +111,28 @@ function Ranking() {
             </Stack>
           );
         })}
+        <Stack
+          width="100%"
+          height="50vh"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Stack
+            color="white"
+            fontFamily="blackboard"
+            style={{ fontSize: "17px" }}
+          >
+            떠든 사람
+            <br />
+            김수돌
+            <br />
+            신채연
+            <br />
+            박소정
+            <br />
+            장희권
+          </Stack>
+        </Stack>
       </Stack>
     </>
   );
