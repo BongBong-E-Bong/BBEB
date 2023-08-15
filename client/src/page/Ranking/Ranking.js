@@ -3,18 +3,19 @@ import Header from "../../component/header";
 import { Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import spotlight from "../../image/spotlight.png";
+import ebongsad from "../../image/ebongsad.png";
 
 function Ranking() {
   const navigate = useNavigate();
 
   const ebongrankingg = [
-    ["일봉", 11, spotlight],
-    ["이봉", 23, spotlight],
-    ["삼봉", 55, spotlight],
-    ["오봉", 78, spotlight],
-    ["육봉", 99, spotlight],
-    ["칠봉", 115, spotlight],
-    ["팔봉", 9, spotlight],
+    ["일봉", 11, spotlight, ebongsad],
+    ["이봉", 23, spotlight, ebongsad],
+    ["삼봉", 55, spotlight, ebongsad],
+    ["오봉", 78, spotlight, ebongsad],
+    ["육봉", 99, spotlight, ebongsad],
+    ["칠봉", 115, spotlight, ebongsad],
+    ["팔봉", 9, spotlight, ebongsad],
   ];
 
   const ebongranking = ebongrankingg.sort((a, b) => b[1] - a[1]);
@@ -119,7 +120,7 @@ function Ranking() {
                 <Stack>{ebongranking[1]}표</Stack>
               </Stack>
               <img
-                src={ebongranking[2]}
+                src={i < 3 ? ebongranking[2] : ebongranking[3]}
                 alt="spotlight"
                 width="30%"
                 height="100%"
