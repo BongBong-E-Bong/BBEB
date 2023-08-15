@@ -43,7 +43,6 @@ function Header() {
   const [profileImg, setProfileImg] = useState("");
 
   useEffect(() => {
-    // 백엔드에서 게시물 목록을 가져옴
     axios
       .get("http://13.125.105.202:8080/api/members/profile", {
         headers: {
@@ -57,9 +56,27 @@ function Header() {
       .catch((error) => {
         console.error("profile img error", error);
       });
-  }, []);
 
-  console.log(profileImg);
+    // POST 요청을 보낼 데이터 객체
+    const imgData = {
+      file: { fileInput },
+    };
+
+    // POST 요청을 보내는 함수
+    const sendPostRequest = async () => {
+      try {
+        const response = await axios.post(
+          "http://13.125.105.202:8080/api/members/profile",
+          imgData
+        );
+        console.log("Response:", response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    sendPostRequest();
+  }, []);
 
   return (
     <>
