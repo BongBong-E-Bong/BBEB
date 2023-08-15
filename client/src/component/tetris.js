@@ -128,7 +128,6 @@ useEffect(() => {
     });
   }
   
-  
   function moveBlock(moveType, amount) {
     setMovingItem((prev) => ({
       ...prev,
