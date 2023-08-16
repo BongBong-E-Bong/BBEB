@@ -28,7 +28,6 @@ function Header() {
 
         formData.append("profile", e.target.files[0]);
 
-        // POST 요청을 보내는 함수
         const sendPostRequest = async () => {
           try {
             const response = axios.post(
@@ -63,7 +62,7 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const login = false;
+  const login = true;
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
