@@ -63,7 +63,7 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const login = true;
+  const login = false;
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -132,22 +132,22 @@ function Header() {
             </Stack>
           ) : (
             <Stack
-              width="50%"
+              width="100%"
               height="10%"
-              alignItem="flex-end"
-              justifyContent="center"
+              alignItem="center"
+              justifyContent="flex-end"
               direction="row"
-              gap="10%"
+              gap="4%"
             >
               <Stack
-                style={{ cursor: "pointer", fontSize: "150%" }}
+                style={{ cursor: "pointer", fontSize: "20px" }}
                 onClick={() => setLoginOpen(true)}
               >
                 로그인
               </Stack>
-              <Stack style={{ fontSize: "150%" }}>|</Stack>
+              <Stack style={{ fontSize: "20px" }}>|</Stack>
               <Stack
-                style={{ cursor: "pointer", fontSize: "150%" }}
+                style={{ cursor: "pointer", fontSize: "20px" }}
                 onClick={() => setRegisterOpen(true)}
               >
                 회원 가입
