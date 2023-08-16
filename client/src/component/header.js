@@ -38,7 +38,7 @@ function Header() {
                 headers: {
                   "Content-Type": "multipart/form-data",
                   Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb3NvIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTE1NjQ5fQ.CSLUetbEfZB7Wp2RdhdfOH8PKzMZoAcYDzEChqQJLAE",
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXN1IiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTYxMjY1fQ.AC4Uf7acGYTcDIQr9MVeNXcXz2pX6pSq61qAv8a3T0Y",
                 },
               }
             );
@@ -105,8 +105,8 @@ function Header() {
         <img
           src={bbeblogo}
           alt="logo"
-          width="9%"
-          height="50%"
+          width="130px"
+          height="35px"
           style={{ cursor: "pointer", marginLeft: "5%" }}
           onClick={() => {
             navigate("/");
@@ -120,12 +120,12 @@ function Header() {
           alignItems="flex-end"
         >
           {login ? (
-            <Stack width="12%" height="70%">
+            <Stack width="12%" height="70%" justifyContent="center">
               <img
                 alt="profileImage"
-                src={profileImg.url}
-                width="100%"
-                height="100%"
+                src={profileImage}
+                width="50px"
+                height="50px"
                 style={{ cursor: "pointer", borderRadius: "50%" }}
                 onClick={handleClick}
               />
@@ -171,8 +171,8 @@ function Header() {
           <img
             alt="profileImage"
             src={profileImage}
-            width="80%"
-            height="70%"
+            width="110px"
+            height="110px"
             style={{ borderRadius: "50%" }}
           />
         </Stack>
