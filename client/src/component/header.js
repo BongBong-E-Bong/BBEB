@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Stack } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Login from "./login";
 import Modal from "./Modal";
 import Register from "./Register";
+import axios from "axios";
 
 function Header() {
   const navigate = useNavigate();
@@ -16,11 +17,37 @@ function Header() {
 
   const fileInput = React.useRef(null);
 
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
   const onChange = (e) => {
     if (e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = () => {
         setprofileImage(reader.result);
+        const formData = new FormData();
+
+        formData.append("profile", e.target.files[0]);
+
+        const sendPostRequest = async () => {
+          try {
+            const response = axios.post(
+              "http://13.125.105.202:8080/api/members/profile",
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  Authorization: accessToken,
+                },
+              }
+            );
+            console.log(response.data);
+            getRequest();
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        };
+
+        sendPostRequest();
       };
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -34,10 +61,31 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const login = false;
+  const login = true;
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
+
+  const [profileImg, setProfileImg] = useState("");
+
+  useEffect(() => {
+    getRequest();
+  }, []);
+
+  const getRequest = () => {
+    axios
+      .get("http://13.125.105.202:8080/api/members/profile", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setProfileImg(response.data);
+      })
+      .catch((error) => {
+        console.error("profile img error", error);
+      });
+  };
 
   return (
     <>
@@ -54,8 +102,8 @@ function Header() {
         <img
           src={bbeblogo}
           alt="logo"
-          width="9%"
-          height="50%"
+          width="130px"
+          height="35px"
           style={{ cursor: "pointer", marginLeft: "5%" }}
           onClick={() => {
             navigate("/");
@@ -69,34 +117,34 @@ function Header() {
           alignItems="flex-end"
         >
           {login ? (
-            <Stack width="12%" height="70%">
+            <Stack width="12%" height="70%" justifyContent="center">
               <img
                 alt="profileImage"
                 src={profileImage}
-                width="100%"
-                height="100%"
+                width="50px"
+                height="50px"
                 style={{ cursor: "pointer", borderRadius: "50%" }}
                 onClick={handleClick}
               />
             </Stack>
           ) : (
             <Stack
-              width="50%"
+              width="100%"
               height="10%"
-              alignItem="flex-end"
-              justifyContent="center"
+              alignItem="center"
+              justifyContent="flex-end"
               direction="row"
-              gap="10%"
+              gap="4%"
             >
               <Stack
-                style={{ cursor: "pointer", fontSize: "150%" }}
+                style={{ cursor: "pointer", fontSize: "20px" }}
                 onClick={() => setLoginOpen(true)}
               >
                 로그인
               </Stack>
-              <Stack style={{ fontSize: "150%" }}>|</Stack>
+              <Stack style={{ fontSize: "20px" }}>|</Stack>
               <Stack
-                style={{ cursor: "pointer", fontSize: "150%" }}
+                style={{ cursor: "pointer", fontSize: "20px" }}
                 onClick={() => setRegisterOpen(true)}
               >
                 회원 가입
@@ -120,8 +168,8 @@ function Header() {
           <img
             alt="profileImage"
             src={profileImage}
-            width="80%"
-            height="70%"
+            width="110px"
+            height="110px"
             style={{ borderRadius: "50%" }}
           />
         </Stack>
