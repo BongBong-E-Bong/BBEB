@@ -17,6 +17,8 @@ function Header() {
 
   const fileInput = React.useRef(null);
 
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
   const onChange = (e) => {
     if (e.target.files[0]) {
       const reader = new FileReader();
@@ -34,8 +36,7 @@ function Header() {
               {
                 headers: {
                   "Content-Type": "multipart/form-data",
-                  Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXN1IiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTYxMjY1fQ.AC4Uf7acGYTcDIQr9MVeNXcXz2pX6pSq61qAv8a3T0Y",
+                  Authorization: accessToken,
                 },
               }
             );
@@ -75,8 +76,7 @@ function Header() {
     axios
       .get("http://13.125.105.202:8080/api/members/profile", {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb3NvIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjkyMTE1NjQ5fQ.CSLUetbEfZB7Wp2RdhdfOH8PKzMZoAcYDzEChqQJLAE",
+          Authorization: accessToken,
         },
       })
       .then((response) => {
