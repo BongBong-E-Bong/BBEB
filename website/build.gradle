@@ -15,7 +15,7 @@ group = 'bbeb'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = "16"
+	sourceCompatibility = "11"
 }
 
 jar {
@@ -85,4 +85,4 @@ configurations {
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
 }
-targetCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_11
