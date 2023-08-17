@@ -86,7 +86,7 @@ public class JwtTokenProvider {
         String accessToken = Jwts.builder()
                 .setSubject(loginId)
                 .claim("auth", authorities) // 권한 정보를 "auth" 클레임으로 추가
-                .setExpiration(new Date(now + 60 * 30 * 1000))
+                .setExpiration(new Date(now + 24 * 60 * 60 * 1000))
                 .signWith(accessTokenKey, SignatureAlgorithm.HS256)
                 .compact();
 

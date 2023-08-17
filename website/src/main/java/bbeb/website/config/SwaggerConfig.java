@@ -60,4 +60,12 @@ public class SwaggerConfig {
                 .pathsToMatch("/api/tetris/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi postApi() {
+        return GroupedOpenApi.builder()
+                .group("post-api")
+                .pathsToMatch("/api/post/**")
+                .build();
+    }
 }

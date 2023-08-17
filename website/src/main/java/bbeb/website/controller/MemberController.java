@@ -5,9 +5,11 @@ import bbeb.website.dto.ProfileDTO;
 import bbeb.website.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.io.IOException;
 
 @RestController
@@ -18,7 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
 
-    @PostMapping("/api/members/profile")
+    @PostMapping(value = "/api/members/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ProfileDTO.ProfileResponseDTO uploadProfile(@ModelAttribute ProfileDTO.ProfileRequestDTO dto,
                                 Authentication authentication) throws IOException {
 

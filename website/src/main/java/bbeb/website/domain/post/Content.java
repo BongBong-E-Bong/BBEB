@@ -18,9 +18,7 @@ public class Content {
 
     @Enumerated(EnumType.STRING)
     private ContentType contentType;
-
     private String value;
-
     private Long contentOrder;
 
     @ManyToOne(fetch = FetchType.LAZY)
