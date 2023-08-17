@@ -5,6 +5,7 @@ import Profile from "../src/page/Profile/Profile.js";
 import Rangking from "../src/page/Rangking/Rangking.js";
 import Vote from "../src/page/Vote/Vote.js";
 import Post from "./page/Board/post.js";
+import Tetris from "./page/tetris/Tetris";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/rangking" element={<Rangking />} />
         <Route path="/vote" element={<Vote />} />
         <Route path="/post" element={<Post />} />
+        <Route path="/tetris" element={<Tetris />} />
       </Routes>
     </Router>
   );

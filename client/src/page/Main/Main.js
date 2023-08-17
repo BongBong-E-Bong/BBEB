@@ -1,7 +1,6 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import Tetris from '../../tetris/Tetris'
-
+import Tetris from "../tetris/Tetris";
 
 function Main() {
   return (
