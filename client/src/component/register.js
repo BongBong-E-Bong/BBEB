@@ -1,7 +1,28 @@
 import register from "../image/register.png";
 import { Stack, TextField } from "@mui/material";
+import Modal from "./Modal";
+import AuthModalFail from "./authModal_fail";
+import { useState } from "react";
+import axios from "axios";
 
 function Register() {
+  const [open, setOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const getRequest = () => {
+    axios
+      .post("http://13.125.105.202:8080/api/auth/signup", {
+        loginId: "string",
+        password: "string",
+        nickname: "string",
+        email: "string",
+      })
+      .then((response) => {})
+      .catch((error) => {
+        setErrorMessage(error.response.data.message);
+      });
+  };
+
   return (
     <Stack
       position="fixed"
@@ -105,11 +126,20 @@ function Register() {
           }}
           onClick={() => {
             // 클릭 이벤트 처리 코드를 여기에 추가
+            setOpen(true);
+            getRequest();
           }}
         >
           REGISTER
         </Stack>
       </Stack>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <AuthModalFail
+          message={"회원가입 실패"}
+          detailMessage={errorMessage}
+          onClose={() => setOpen(false)}
+        />
+      </Modal>
     </Stack>
   );
 }
