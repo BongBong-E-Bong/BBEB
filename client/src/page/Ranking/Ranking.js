@@ -4,7 +4,9 @@ import { Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import spotlight from "../../image/spotlight.png";
 import ebongsad from "../../image/ebongsad.png";
-// import Bounce from "react-reveal/Bounce";
+import Bounce from "react-reveal/Bounce";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
 
 function Ranking() {
   const navigate = useNavigate();
@@ -49,7 +51,11 @@ function Ranking() {
             color="white"
             fontFamily="blackboard"
             style={{ fontSize: "55px" }}
-          ></Stack>
+          >
+            <Bounce top cascade>
+              이봉이 형제 인기투표 순위
+            </Bounce>
+          </Stack>
           <Stack width="70%" justifyContent="flex-end" direction="row">
             <Stack
               direction="row"
@@ -58,25 +64,31 @@ function Ranking() {
               gap="20px"
               justifyContent="center"
             >
-              <Button
-                variant="outlined"
-                color="secondary"
-                style={{ fontSize: "20px", fontFamily: "blackboard" }}
-                onClick={() => {
-                  navigate("/Profile");
-                }}
-              >
-                이봉이 형제 소개
-              </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                style={{ fontSize: "20px", fontFamily: "blackboard" }}
-              >
-                투표하러 가기
-              </Button>
+              <Fade right>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  style={{
+                    fontSize: "20px",
+                    fontFamily: "blackboard",
+                  }}
+                  onClick={() => {
+                    navigate("/Profile");
+                  }}
+                >
+                  이봉이 형제 소개
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  style={{ fontSize: "20px", fontFamily: "blackboard" }}
+                >
+                  투표하러 가기
+                </Button>
+              </Fade>
             </Stack>
           </Stack>
+
           {ebongranking.map((ebongranking, i) => {
             return (
               <Stack
@@ -88,41 +100,44 @@ function Ranking() {
                 margin="50px 0 50px 0"
                 alignItems="center"
               >
-                <Stack
-                  alignItems="center"
-                  color="white"
-                  style={{ fontSize: "40px", fontFamily: "blackboard" }}
-                >
-                  <Stack direction="row" gap="20px">
-                    <Stack
-                      style={{
-                        color:
-                          i === 0
-                            ? "#FFD700"
-                            : i === 1
-                            ? "#B6B6B6"
-                            : i === 2
-                            ? "#B48C89"
-                            : "white",
-                        WebkitTextStroke: i < 3 ? "1px white" : "none",
-                        fontFamily: "blackboardbold",
-                      }}
-                    >
-                      {i + 1}등
+                <Slide left>
+                  <Stack
+                    alignItems="center"
+                    color="white"
+                    style={{ fontSize: "40px", fontFamily: "blackboard" }}
+                  >
+                    <Stack direction="row" gap="20px">
+                      <Stack
+                        style={{
+                          color:
+                            i === 0
+                              ? "#FFD700"
+                              : i === 1
+                              ? "#B6B6B6"
+                              : i === 2
+                              ? "#B48C89"
+                              : "white",
+                          WebkitTextStroke: i < 3 ? "1px white" : "none",
+                          fontFamily: "blackboardbold",
+                        }}
+                      >
+                        {i + 1}등
+                      </Stack>
+                      <Stack> {bong[ebongranking[0]]}</Stack>
                     </Stack>
-                    <Stack> {bong[ebongranking[0]]}</Stack>
+                    <Stack>{ebongranking[1]}표</Stack>
                   </Stack>
-                  <Stack>{ebongranking[1]}표</Stack>
-                </Stack>
-                <img
-                  src={i < 3 ? ebongranking[2] : ebongranking[3]}
-                  alt="spotlight"
-                  width="200px"
-                  height="300px"
-                />
+                  <img
+                    src={i < 3 ? ebongranking[2] : ebongranking[3]}
+                    alt="spotlight"
+                    width="200px"
+                    height="300px"
+                  />
+                </Slide>
               </Stack>
             );
           })}
+
           <Stack
             width="100%"
             height="50vh"

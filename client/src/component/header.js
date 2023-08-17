@@ -50,6 +50,7 @@ function Header() {
         alignItems="center"
         position="fixed"
         boxShadow="0px 10px 20px -10px #EAEAEA"
+        style={{ zIndex: "100" }}
       >
         <img
           src={bbeblogo}
