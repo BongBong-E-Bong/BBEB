@@ -21,8 +21,6 @@ function Header() {
     if (e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = () => {
-        console.log(reader.result);
-        console.log(e.target.files[0]);
         setprofileImage(reader.result);
         const formData = new FormData();
 
