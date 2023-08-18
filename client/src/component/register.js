@@ -12,14 +12,17 @@ function Register() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [userId, setUserId] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userNickname, setUserNickname] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
   const getRequest = () => {
     axios
       .post("http://13.125.105.202:8080/api/auth/signup", {
         loginId: userId,
-        password: "lkjh",
-        nickname: "lkjh",
-        email: "lkjh@naver.com",
+        password: userPassword,
+        nickname: userNickname,
+        email: userEmail,
       })
       .then((response) => {
         setSuccessModalOpen(true);
@@ -69,6 +72,10 @@ function Register() {
           />
           <TextField
             name="password"
+            value={userPassword}
+            onChange={(e) => {
+              setUserPassword(e.target.value);
+            }}
             placeholder={"비밀번호"}
             multiline
             maxRows={4}
@@ -96,6 +103,10 @@ function Register() {
           />
           <TextField
             name="nickname"
+            value={userNickname}
+            onChange={(e) => {
+              setUserNickname(e.target.value);
+            }}
             placeholder={"닉네임"}
             multiline
             maxRows={4}
@@ -110,6 +121,10 @@ function Register() {
           />
           <TextField
             name="email"
+            value={userEmail}
+            onChange={(e) => {
+              setUserEmail(e.target.value);
+            }}
             placeholder={"이메일"}
             multiline
             maxRows={4}

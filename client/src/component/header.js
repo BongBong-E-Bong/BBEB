@@ -7,7 +7,7 @@ import basicProfile from "../image/profilephoto.png";
 import { useNavigate } from "react-router-dom";
 import Login from "./login";
 import Modal from "./Modal";
-import Register from "./Register";
+import Register from "./register";
 import axios from "axios";
 
 function Header() {
