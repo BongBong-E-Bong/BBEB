@@ -1,7 +1,38 @@
 import register from "../image/register.png";
 import { Stack, TextField } from "@mui/material";
+import Modal from "./Modal";
+import AuthModalFail from "./authModal_fail";
+import AuthModalSuccess from "./authModal_success";
+import { useState } from "react";
+import axios from "axios";
 
 function Register() {
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [failModalOpen, setFailModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [userId, setUserId] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userNickname, setUserNickname] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  const getRequest = () => {
+    axios
+      .post("http://13.125.105.202:8080/api/auth/signup", {
+        loginId: userId,
+        password: userPassword,
+        nickname: userNickname,
+        email: userEmail,
+      })
+      .then((response) => {
+        setSuccessModalOpen(true);
+      })
+      .catch((error) => {
+        setFailModalOpen(true);
+        setErrorMessage(error.response.data.message);
+      });
+  };
+
   return (
     <Stack
       position="fixed"
@@ -23,6 +54,10 @@ function Register() {
         <Stack gap="45px">
           <TextField
             name="loginId"
+            value={userId}
+            onChange={(e) => {
+              setUserId(e.target.value);
+            }}
             placeholder={"id를 입력하세요"}
             multiline
             maxRows={4}
@@ -37,6 +72,10 @@ function Register() {
           />
           <TextField
             name="password"
+            value={userPassword}
+            onChange={(e) => {
+              setUserPassword(e.target.value);
+            }}
             placeholder={"비밀번호"}
             multiline
             maxRows={4}
@@ -64,6 +103,10 @@ function Register() {
           />
           <TextField
             name="nickname"
+            value={userNickname}
+            onChange={(e) => {
+              setUserNickname(e.target.value);
+            }}
             placeholder={"닉네임"}
             multiline
             maxRows={4}
@@ -78,6 +121,10 @@ function Register() {
           />
           <TextField
             name="email"
+            value={userEmail}
+            onChange={(e) => {
+              setUserEmail(e.target.value);
+            }}
             placeholder={"이메일"}
             multiline
             maxRows={4}
@@ -105,11 +152,26 @@ function Register() {
           }}
           onClick={() => {
             // 클릭 이벤트 처리 코드를 여기에 추가
+            getRequest();
           }}
         >
           REGISTER
         </Stack>
       </Stack>
+      <Modal open={successModalOpen} onClose={() => setSuccessModalOpen(false)}>
+        <AuthModalSuccess
+          message={"회원가입 성공"}
+          detailMessage={errorMessage}
+          onClose={() => setSuccessModalOpen(false)}
+        />
+      </Modal>
+      <Modal open={failModalOpen} onClose={() => setFailModalOpen(false)}>
+        <AuthModalFail
+          message={"회원가입 실패"}
+          detailMessage={errorMessage}
+          onClose={() => setFailModalOpen(false)}
+        />
+      </Modal>
     </Stack>
   );
 }
