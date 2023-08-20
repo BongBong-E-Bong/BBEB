@@ -37,7 +37,7 @@ function Login({setOpen}) {
       })
       .catch((error) => {
         setFailModalOpen(true);
-        setErrorMessage(error.response.data.message);
+        setErrorMessage("아이디/비밀번호가 틀렸어요!!");
       });
   };
 
