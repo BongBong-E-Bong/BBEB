@@ -58,11 +58,10 @@ function Login() {
         height="98%"
         alignItems="center"
         justifyContent="center"
-        gap="4%"
       >
         <Stack fontSize="36px">login</Stack>
         <Stack width="100%" alignItems="center" justifyContent="center">
-          <Stack marginBottom="3%" sx={{ width: "85%", textAlign: "left" }}>
+          <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
             ID
           </Stack>
           <TextField
@@ -78,32 +77,33 @@ function Login() {
               style: {
                 backgroundColor: "white",
                 borderRadius: "8px",
-                height: "80%",
+                height: "60%",
               },
             }}
-            sx={{ textAlign: "center", width: "90%" }}
+            sx={{ textAlign: "center", width: "70%" }}
           />
         </Stack>
-        {/* 비밀번호쪽은 아직 수정 안했습니다 */}
-        <Stack>
-          <Stack marginBottom="3%">Password</Stack>
+        <Stack width="100%" alignItems="center" justifyContent="center">
+          <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+            Password
+          </Stack>
           <TextField
-            name="password"
+            name="loginPassword"
+            placeholder={"비밀번호를 입력하세요"}
             value={userPassword}
             onChange={(e) => {
               setUserPassword(e.target.value);
             }}
-            placeholder={"비밀번호를 입력하세요"}
             multiline
             maxRows={4}
             InputProps={{
               style: {
                 backgroundColor: "white",
                 borderRadius: "8px",
-                width: "271px",
-                height: "40px",
+                height: "60%",
               },
             }}
+            sx={{ textAlign: "center", width: "70%" }}
           />
         </Stack>
         <Stack
@@ -112,8 +112,8 @@ function Login() {
             cursor: "pointer",
             color: "white",
             borderRadius: "20px",
-            width: "271px",
-            height: "33px",
+            width: "70%",
+            height: "6%",
             alignItems: "center",
             justifyContent: "center",
             boxShadow: "0px 3px 2px rgba(0, 0, 0, 0.3)",
@@ -131,12 +131,13 @@ function Login() {
             height: "33px",
             alignItems: "center",
             justifyContent: "center",
+            marginTop:"10%",
           }}
           onClick={() => {
             // 카카오톡 나중에 백엔드와 같이 작업
           }}
         >
-          {" "}
+          {/* {" "} */}
           <img src={kakaologo} alt="kakaologo icon" />
         </Stack>
       </Stack>
