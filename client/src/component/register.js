@@ -18,7 +18,29 @@ function Register({setOpen}) {
   const [userEmail, setUserEmail] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const handleSuccessModalClose = () => {
+    setSuccessModalOpen(false);
+    setOpen(false);
+    // Reset the form fields
+    setUserId("");
+    setUserPassword("");
+    setUserNickname("");
+    setUserEmail("");
+    setConfirmPassword("");
+  };
+
+  const handleFailModalClose = () => {
+    setFailModalOpen(false);
+  };
+
   const getRequest = () => {
+
+    if (userPassword !== confirmPassword) {
+      setFailModalOpen(true);
+      setErrorMessage("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
     axios
       .post("http://13.125.105.202:8080/api/auth/signup", {
         loginId: userId,
@@ -29,18 +51,11 @@ function Register({setOpen}) {
       .then((response) => {
         setsuccessMessage("환영해용!!");
         setSuccessModalOpen(true);
-        setOpen(false);
       })
       .catch((error) => {
         setFailModalOpen(true);
         setErrorMessage(error.response.data.message);
       });
-
-      if (userPassword !== confirmPassword) {
-        setFailModalOpen(true);
-        setErrorMessage("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        return;
-      }
   };
 
   return (
@@ -196,18 +211,18 @@ function Register({setOpen}) {
           REGISTER
         </Stack>
       </Stack>
-      <Modal open={successModalOpen} onClose={() => setSuccessModalOpen(false)}>
+      <Modal open={successModalOpen} onClose={handleSuccessModalClose}>
         <AuthModalSuccess
           message={"회원가입 성공"}
           detailMessage={successMessage}
-          onClose={() => setSuccessModalOpen(false)}
+          onClose={handleSuccessModalClose}
         />
       </Modal>
-      <Modal open={failModalOpen} onClose={() => setFailModalOpen(false)}>
+      <Modal open={failModalOpen} onClose={handleFailModalClose}>
         <AuthModalFail
           message={"회원가입 실패"}
           detailMessage={errorMessage}
-          onClose={() => setFailModalOpen(false)}
+          onClose={handleFailModalClose}
         />
       </Modal>
     </Stack>
