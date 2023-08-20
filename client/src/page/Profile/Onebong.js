@@ -2,6 +2,7 @@ import React from "react";
 import { Stack } from "@mui/material";
 import Header from "../../component/header";
 import ProfileForm from "../../component/ProfileForm";
+import Comment from "../../component/comment";
 
 function Onebong() {
   const scrollRef = React.useRef(null);
@@ -18,6 +19,8 @@ function Onebong() {
         <Stack width="50%" height="1000px" bgcolor="pink"></Stack>
         <Stack ref={scrollRef}></Stack>
       </ProfileForm>
+      <Comment />
+      {/* comment에 ref={}안됨 */}
       <Stack
         position="fixed"
         top="35%"

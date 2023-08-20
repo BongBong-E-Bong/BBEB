@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack } from "@mui/material";
 import Header from "./header";
-import Comment from "./comment";
+// import Comment from "./comment";
 
 function ProfileForm({ children }) {
   return (
@@ -53,7 +53,7 @@ function ProfileForm({ children }) {
             {children}
           </Stack>
         </Stack>
-        <Comment />
+        {/* <Comment /> */}
       </Stack>
     </>
   );
