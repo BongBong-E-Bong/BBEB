@@ -6,8 +6,9 @@ const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
   return (
     <Stack Stack height="100%" alignItems="center" justifyContent="center">
       <Stack
-        width="48%"
-        height="57%"
+        position="fixed"
+        width="100%"
+        height="100%"
         display="flex"
         alignItems="center"
         justifyContent="space-around"
@@ -31,15 +32,14 @@ const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
               cursor: "pointer",
               color: "white",
               borderRadius: "20px",
-              width: "27%",
-              height: "14%",
+              width: "26%",
+              height: "13%",
               alignItems: "center",
               justifyContent: "center",
               fontSize: "32px",
               boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)",
             }}
             onClick={() => {
-              // 클릭 이벤트 처리 코드를 여기에 추가
               onClose();
             }}
           >

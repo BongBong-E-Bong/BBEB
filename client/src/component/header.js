@@ -52,7 +52,7 @@ function Header() {
       reader.readAsDataURL(e.target.files[0]);
     }
   };
-
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -61,10 +61,10 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const login = true;
+  const login = false;
 
   const [loginOpen, setLoginOpen] = useState(false);
-  const [registerOpen, setRegisterOpen] = useState(true);
+  const [registerOpen, setRegisterOpen] = useState(false);
 
   const [profileImg, setProfileImg] = useState("");
 
