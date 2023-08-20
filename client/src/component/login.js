@@ -2,8 +2,45 @@ import React, { useState } from "react";
 import { Stack, TextField } from "@mui/material";
 import login from "../image/login.png";
 import kakaologo from "../image/kakaologo.png";
+import axios from "axios";
+import AuthModalFail from "./authModal_fail";
+import AuthModalSuccess from "./authModal_success";
+import Modal from "./Modal";
 
-function Login() {
+function Login({setOpen}) {
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [failModalOpen, setFailModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const [userId, setUserId] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+
+  const handleSuccessModalClose = () => {
+    setSuccessModalOpen(false);
+    setOpen(false);
+  };
+
+  const handleFailModalClose = () => {
+    setFailModalOpen(false);
+  };
+
+  const getRequest = () => {
+    axios
+      .post("http://13.125.105.202:8080/api/auth/signin", {
+        loginId: userId,
+        password: userPassword,
+      })
+      .then((response) => {
+        setSuccessMessage("어서오세용!!");
+        setSuccessModalOpen(true);
+      })
+      .catch((error) => {
+        setFailModalOpen(true);
+        setErrorMessage(error.response.data.message);
+      });
+  };
+
   return (
     <Stack
       position="fixed"
@@ -32,44 +69,52 @@ function Login() {
         height="98%"
         alignItems="center"
         justifyContent="center"
-        gap="4%"
       >
         <Stack fontSize="36px">login</Stack>
         <Stack width="100%" alignItems="center" justifyContent="center">
-          <Stack marginBottom="3%" sx={{ width: "85%", textAlign: "left" }}>
+          <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
             ID
           </Stack>
           <TextField
-            id="outlined-multiline-flexible"
+            name="loginId"
             placeholder={"id를 입력하세요"}
+            value={userId}
+            onChange={(e) => {
+              setUserId(e.target.value);
+            }}
             multiline
             maxRows={4}
             InputProps={{
               style: {
                 backgroundColor: "white",
                 borderRadius: "8px",
-                height: "80%",
+                height: "60%",
               },
             }}
-            sx={{ textAlign: "center", width: "90%" }}
+            sx={{ textAlign: "center", width: "70%" }}
           />
         </Stack>
-        {/* 비밀번호쪽은 아직 수정 안했습니다 */}
-        <Stack>
-          <Stack marginBottom="3%">Password</Stack>
+        <Stack width="100%" alignItems="center" justifyContent="center">
+          <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+            Password
+          </Stack>
           <TextField
-            id="outlined-multiline-flexible"
+            name="loginPassword"
             placeholder={"비밀번호를 입력하세요"}
+            value={userPassword}
+            onChange={(e) => {
+              setUserPassword(e.target.value);
+            }}
             multiline
             maxRows={4}
             InputProps={{
               style: {
                 backgroundColor: "white",
                 borderRadius: "8px",
-                width: "271px",
-                height: "40px",
+                height: "60%",
               },
             }}
+            sx={{ textAlign: "center", width: "70%" }}
           />
         </Stack>
         <Stack
@@ -78,14 +123,14 @@ function Login() {
             cursor: "pointer",
             color: "white",
             borderRadius: "20px",
-            width: "271px",
-            height: "33px",
+            width: "70%",
+            height: "6%",
             alignItems: "center",
             justifyContent: "center",
             boxShadow: "0px 3px 2px rgba(0, 0, 0, 0.3)",
           }}
           onClick={() => {
-            // 클릭 이벤트 처리 코드를 여기에 추가
+            getRequest();
           }}
         >
           SIGN IN
@@ -97,15 +142,30 @@ function Login() {
             height: "33px",
             alignItems: "center",
             justifyContent: "center",
+            marginTop: "10%",
           }}
           onClick={() => {
-            // 클릭 이벤트 처리 코드를 여기에 추가
+            // 카카오톡 나중에 백엔드와 같이 작업
           }}
         >
-          {" "}
+          {/* {" "} */}
           <img src={kakaologo} alt="kakaologo icon" />
         </Stack>
       </Stack>
+      <Modal open={successModalOpen} onClose={handleSuccessModalClose}>
+        <AuthModalSuccess
+          message={"로그인 성공"}
+          detailMessage={successMessage}
+          onClose={handleSuccessModalClose}
+        />
+      </Modal>
+      <Modal open={failModalOpen} onClose={handleFailModalClose}>
+        <AuthModalFail
+          message={"로그인 실패"}
+          detailMessage={errorMessage}
+          onClose={handleFailModalClose}
+        />
+      </Modal>
     </Stack>
   );
 }
