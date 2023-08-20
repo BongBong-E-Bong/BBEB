@@ -1,9 +1,17 @@
 import React from "react";
 import { Stack } from "@mui/material";
+import Header from "../../component/header";
+import ProfileForm from "../../component/ProfileForm";
 
 function Onebong() {
   return (
-    <Stack minHeight="100vh" height="100vh" weight="100%" bgcolor="black" />
+    <>
+      <Header />
+      <ProfileForm>hihi</ProfileForm>
+    </>
+    // <Stack minHeight="100vh" height="100vh" weight="100%" bgcolor="black">
+
+    // </Stack>
   );
 }
 

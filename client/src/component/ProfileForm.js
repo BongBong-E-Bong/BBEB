@@ -3,7 +3,7 @@ import { Stack } from "@mui/material";
 import Header from "./header";
 import Comment from "./comment";
 
-function ProfileForm() {
+function ProfileForm({ children }) {
   return (
     <>
       <Header />
@@ -49,7 +49,9 @@ function ProfileForm() {
               borderColor: "#ff8181",
               padding: "10px",
             }}
-          ></Stack>
+          >
+            {children}
+          </Stack>
         </Stack>
         <Comment />
       </Stack>
