@@ -63,8 +63,8 @@ function Header() {
   };
   const login = true;
 
-  const [loginOpen, setLoginOpen] = useState(false);
-  const [registerOpen, setRegisterOpen] = useState(true);
+  const [loginOpen, setLoginOpen] = useState(true);
+  const [registerOpen, setRegisterOpen] = useState(false);
 
   const [profileImg, setProfileImg] = useState("");
 
@@ -86,6 +86,8 @@ function Header() {
         console.error("profile img error", error);
       });
   };
+
+
 
   return (
     <>
@@ -209,7 +211,7 @@ function Header() {
         open={loginOpen}
         onClose={() => setLoginOpen(false)}
       >
-        <Login />
+        <Login setOpen={setLoginOpen}/>
       </Modal>
       <Modal
         width="70%"
@@ -217,7 +219,7 @@ function Header() {
         open={registerOpen}
         onClose={() => setRegisterOpen(false)}
       >
-        <Register />
+        <Register setOpen={setRegisterOpen}/>
       </Modal>
     </>
   );

@@ -6,10 +6,11 @@ import AuthModalSuccess from "./authModal_success";
 import { useState } from "react";
 import axios from "axios";
 
-function Register() {
+function Register({setOpen}) {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setsuccessMessage] = useState("");
 
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -26,6 +27,7 @@ function Register() {
       })
       .then((response) => {
         setSuccessModalOpen(true);
+        setOpen(false);
       })
       .catch((error) => {
         setFailModalOpen(true);
@@ -188,7 +190,7 @@ function Register() {
       <Modal open={successModalOpen} onClose={() => setSuccessModalOpen(false)}>
         <AuthModalSuccess
           message={"회원가입 성공"}
-          detailMessage={errorMessage}
+          detailMessage={successMessage}
           onClose={() => setSuccessModalOpen(false)}
         />
       </Modal>
