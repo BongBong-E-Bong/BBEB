@@ -21,11 +21,17 @@ function Onebong() {
       <Stack
         position="fixed"
         top="35%"
-        right="5%"
-        style={{ cursor: " pointer" }}
+        right="8%"
+        color="#D47E7E"
+        style={{
+          cursor: " pointer",
+          fontSize: "20px",
+          textDecoration: "underline",
+        }}
+        gap="15px"
       >
         <Stack>일봉이 소개</Stack>
-        <Stack>일봉이 tmi</Stack>
+        <Stack>✨일봉이 tmi</Stack>
         <Stack onClick={scrollClick}>댓글</Stack>
       </Stack>
     </>
