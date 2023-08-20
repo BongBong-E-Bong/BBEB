@@ -49,7 +49,7 @@ const Tetris = () => {
       window.removeEventListener("keydown", handleKeyDown);
       clearInterval(downInterval);
     };
-  }, []);
+  }, [downInterval]);
 
   const init = () => {
     for (let i = 0; i < GAME_ROWS; i++) {
@@ -71,7 +71,13 @@ const Tetris = () => {
   };
 
   const getCellClassName = (rowIndex, colIndex) => {
-    const cell = playgroundRef.current.childNodes[rowIndex]?.childNodes[0]?.childNodes[colIndex];
+    const playground = playgroundRef.current;
+    
+    if (!playground) {
+      return "cell"; // or return some default class name
+    }
+    
+    const cell = playground.childNodes[rowIndex]?.childNodes[0]?.childNodes[colIndex];
     
     if (cell) {
       if (cell.classList.contains("seized")) {
@@ -86,7 +92,7 @@ const Tetris = () => {
     return "cell";
   };
   
-
+  
   const renderBlocks = (moveType = "") => {
     const { type, direction, top, left } = movingItem;
     const movingBlocks = playgroundRef.current.querySelectorAll(".moving");
@@ -207,16 +213,15 @@ function dropBlock() {
 }
 
 function showGameoverText() {
-  const gameText = document.querySelector(".game-text");
-  gameText.style.display = "flex";
+  gameTextRef.current.style.display = "flex";
 }
 
 const handleRestart = () => {
   playgroundRef.current.innerHTML = "";
   gameTextRef.current.style.display = "none";
   setScore(0);
-  scoreDisplayRef.current.innerText = score;
-  setDuration(500); // Reset duration when restarting
+  scoreDisplayRef.current.innerText = "0";
+  setDuration(500);
   init();
 };
 
