@@ -1,4 +1,3 @@
-/* 초기화 코드 */
 * {
     margin: 0;
     padding: 0;
@@ -34,27 +33,35 @@ body {
     margin-bottom: 2rem;
 }
 
-.playground>ul {
-    border: 1px solid #333;
-    width: 250px;
-    margin: 0 auto;
-}
-
-.playground>ul>li {
-    width: 100%;
-    height: 25px;
-}
-
-.playground>ul>li>ul {
+  .playground>ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .playground>ul>li {
+    list-style: none;
     display: flex;
-}
-
-.playground>ul>li>ul>li {
-    width: 25px;
-    height: 25px;
-    outline: 1px solid #ccc;
-}
-
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #333;
+    background-color: #222;
+  }
+  
+  .playground>ul>li>ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .playground>ul>li>ul>li {
+    flex: 1;
+    background-color: #222;
+    border: none;
+  }
+  
 .square{
     background: #67c23a;
 }

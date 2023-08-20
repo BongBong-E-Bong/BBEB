@@ -55,24 +55,26 @@ const Tetris = () => {
     for (let i = 0; i < GAME_ROWS; i++) {
       prependNewLine();
     }
-    setDuration(500);;
+    setDuration(500);
     generateNewBlock();
   };
 
   const prependNewLine = () => {
-    const li = document.createElement("li");
     const ul = document.createElement("ul");
+    const li = document.createElement("li");
+    const innerUl = document.createElement("ul");
     for (let j = 0; j < GAME_COLS; j++) {
       const matrix = document.createElement("li");
-      ul.prepend(matrix);
+      innerUl.prepend(matrix);
     }
-    li.prepend(ul);
-    playgroundRef.current.prepend(li);
+    li.prepend(innerUl);
+    ul.prepend(li);
+    playgroundRef.current.prepend(ul);
   };
 
   const getCellClassName = (rowIndex, colIndex) => {
-    const cell = playgroundRef.current.childNodes[rowIndex]?.childNodes[0]?.childNodes[colIndex];
-    
+    const cell = playgroundRef.current?.childNodes[rowIndex]?.childNodes[0]?.childNodes[0]?.childNodes[colIndex];
+
     if (cell) {
       if (cell.classList.contains("seized")) {
         return "cell seized";
@@ -82,11 +84,10 @@ const Tetris = () => {
         return "cell";
       }
     }
-    
+
     return "cell";
   };
   
-
   const renderBlocks = (moveType = "") => {
     const { type, direction, top, left } = movingItem;
     const movingBlocks = playgroundRef.current.querySelectorAll(".moving");
@@ -220,30 +221,36 @@ const handleRestart = () => {
   init();
 };
 
-
-
-  return (
-    <div className="wrapper">
-      <div className="game-text" ref={gameTextRef}>
-        <span>게임종료</span>
-        <button onClick={handleRestart}>다시시작</button>
-      </div>
-      <div className="score" ref={scoreDisplayRef}>
-        {score}
-      </div>
-      <div className="playground" ref={playgroundRef}>
-        {Array.from({ length: GAME_ROWS }).map((_, rowIndex) => (
-          <ul key={rowIndex}>
-            {Array.from({ length: GAME_COLS }).map((_, colIndex) => (
-              <li
-                key={colIndex}
-                className={getCellClassName(rowIndex, colIndex)}
-              ></li>
-            ))}
-          </ul>
-        ))}
-      </div>
+return (
+  <div className="wrapper">
+    <div className="game-text" ref={gameTextRef}>
+      <span>게임종료</span>
+      <button onClick={handleRestart}>다시시작</button>
     </div>
-  );
+    <div className="score" ref={scoreDisplayRef}>
+      {score}
+    </div>
+    <div className="playground" ref={playgroundRef}>
+      {Array.from({ length: GAME_ROWS }).map((_, rowIndex) => (
+        <ul key={rowIndex}>
+          <li>
+            <ul>
+              {Array.from({ length: GAME_COLS }).map((_, colIndex) => (
+                <li
+                  key={colIndex}
+                  className={getCellClassName(rowIndex, colIndex)}
+                ></li>
+              ))}
+            </ul>
+          </li>
+        </ul>
+      ))}
+    </div>
+  </div>
+);
 };
 export default Tetris;
+
+
+
+
