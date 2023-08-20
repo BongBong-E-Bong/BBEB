@@ -61,10 +61,10 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const login = true;
+  const login = false;
 
   const [loginOpen, setLoginOpen] = useState(false);
-  const [registerOpen, setRegisterOpen] = useState(true);
+  const [registerOpen, setRegisterOpen] = useState(false);
 
   const [profileImg, setProfileImg] = useState("");
 
