@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Main from "../src/page/Main/Main.js";
 import Profile from "../src/page/Profile/Profile.js";
-import ProfileForm from "./component/ProfileForm.js";
+import Onebong from "../src/page/Profile/Onebong.js";
 import Ranking from "../src/page/Ranking/Ranking.js";
 import Vote from "../src/page/Vote/Vote.js";
 import Post from "./page/Board/post.js";
@@ -13,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/ProfileForm" element={<ProfileForm />} />
+        <Route path="/onebong" element={<Onebong />} />
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/vote" element={<Vote />} />
         <Route path="/post" element={<Post />} />
