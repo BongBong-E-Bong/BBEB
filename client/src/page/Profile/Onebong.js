@@ -24,7 +24,7 @@ function Onebong() {
       <Stack
         position="fixed"
         top="35%"
-        right="8%"
+        right="7%"
         color="#D47E7E"
         style={{
           cursor: " pointer",

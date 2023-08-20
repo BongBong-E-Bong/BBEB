@@ -1,9 +1,11 @@
 import React from "react";
 import { Stack } from "@mui/material";
 import Header from "./header";
-// import Comment from "./comment";
+import { useNavigate } from "react-router-dom";
 
 function ProfileForm({ children }) {
+  const navigate = useNavigate();
+
   return (
     <>
       <Header />
@@ -21,6 +23,9 @@ function ProfileForm({ children }) {
             alignItems="center"
             justifyContent="center"
             style={{ fontSize: "36px", cursor: "pointer" }}
+            onClick={() => {
+              navigate("/Profile");
+            }}
           >
             이봉이 형제 프로필
           </Stack>
@@ -53,7 +58,6 @@ function ProfileForm({ children }) {
             {children}
           </Stack>
         </Stack>
-        {/* <Comment /> */}
       </Stack>
     </>
   );
