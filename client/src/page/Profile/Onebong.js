@@ -14,19 +14,19 @@ function Onebong() {
     <>
       <Header />
       <ProfileForm>
-        <Stack
-          width="50%"
-          height="1000px"
-          bgcolor="gray"
-          onClick={scrollClick}
-        ></Stack>
+        <Stack width="50%" height="1000px" bgcolor="gray"></Stack>
         <Stack width="50%" height="1000px" bgcolor="pink"></Stack>
         <Stack ref={scrollRef}></Stack>
       </ProfileForm>
-      <Stack>
+      <Stack
+        position="fixed"
+        top="35%"
+        right="5%"
+        style={{ cursor: " pointer" }}
+      >
         <Stack>일봉이 소개</Stack>
         <Stack>일봉이 tmi</Stack>
-        <Stack>댓글</Stack>
+        <Stack onClick={scrollClick}>댓글</Stack>
       </Stack>
     </>
   );
