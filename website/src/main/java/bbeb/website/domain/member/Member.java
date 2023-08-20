@@ -2,6 +2,7 @@ package bbeb.website.domain.member;
 
 import bbeb.website.domain.game.TetrisScore;
 import bbeb.website.domain.post.Post;
+import bbeb.website.domain.post.PostLike;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,6 +49,9 @@ public class Member implements UserDetails {
 
     @OneToMany(mappedBy = "member")
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "member")
+    private List<PostLike> postLikes;
 
 
     @Override

@@ -1,4 +1,4 @@
-package bbeb.website.repository.content;
+package bbeb.website.repository.post;
 
 import bbeb.website.domain.post.Content;
 import bbeb.website.domain.post.Post;

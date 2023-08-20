@@ -3,6 +3,7 @@ package bbeb.website.dto;
 import bbeb.website.domain.post.Content;
 import bbeb.website.domain.post.ContentType;
 import bbeb.website.domain.post.Post;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,10 +23,19 @@ public class PostDTO {
     @Getter
     @Data
     @Setter
+    @NoArgsConstructor
     public static class Content {
         private String contentType;
         private String value;
         private Long contentOrder;
+
+
+        @QueryProjection
+        public Content(String contentType, String value, Long contentOrder) {
+            this.contentType = contentType;
+            this.value = value;
+            this.contentOrder = contentOrder;
+        }
 
         public bbeb.website.domain.post.Content toEntity(Post post) {
             return bbeb.website.domain.post.Content.builder()
@@ -39,7 +49,7 @@ public class PostDTO {
 
     @Data
     @Getter
-    public static class CreatePostImageResponseDTO{
+    public static class PostImageResponseDTO{
         private String url;
         private String fileName;
     }
@@ -55,11 +65,35 @@ public class PostDTO {
     @Getter
     @Setter
     @Data
-    public static class FindPostResponseDTO {
+    public static class PostResponseDTO {
         private String title;
         private LocalDateTime date;
         private String writer;
         private Long view;
         private List<Content> contents;
+
+        @QueryProjection
+        public PostResponseDTO(String title, LocalDateTime date, String writer, Long view, List<Content> contents) {
+            this.title = title;
+            this.date = date;
+            this.writer = writer;
+            this.view = view;
+            this.contents = contents;
+        }
+    }
+
+    @Data
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class LikeResponseDTO {
+        int total;
+    }
+
+    @Data
+    @Setter
+    public static class PutPostRequestDTO {
+        private String title;
+        private List<Content> content;
     }
 }

@@ -31,4 +31,7 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Content> contents;
+
+    @OneToMany(mappedBy = "post")
+    private List<PostLike> postLikes;
 }
