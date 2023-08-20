@@ -1,6 +1,8 @@
-import { Stack } from "@mui/material";
-import React from "react";
+import React from 'react';
+import { StyledDisplay } from './Styles/StyledDisplay';
 
-const Display = ({ gamOver, text }) => <Stack>{text}</Stack>;
+const Display = ({ gameOver, text }) => (
+    <StyledDisplay gameOver={gameOver}>{text}</StyledDisplay>
+);
 
 export default Display;
