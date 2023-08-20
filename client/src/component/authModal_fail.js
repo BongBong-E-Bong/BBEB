@@ -2,14 +2,15 @@ import React from "react";
 import { Stack } from "@mui/material";
 import register from "../image/register.png";
 
-const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
+const AuthModalFail = ({ detailMessage, onClose, message }) => {
   return (
     <Stack Stack height="100%" alignItems="center" justifyContent="center">
       <Stack
+        position="fixed"
         width="48%"
         height="57%"
         display="flex"
-        alignItems="center"
+        alignItems="center" 
         justifyContent="space-around"
         bgcolor="#F88C8C"
         boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)"
@@ -17,7 +18,7 @@ const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
         <Stack
           width="97%"
           height="96%"
-          bgcolor="white"
+          bgcolor="#FFC7C7"
           justifyContent="center"
           alignItems="center"
           gap="3%"
@@ -39,7 +40,6 @@ const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
               boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)",
             }}
             onClick={() => {
-              // 클릭 이벤트 처리 코드를 여기에 추가
               onClose();
             }}
           >
@@ -50,4 +50,4 @@ const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
     </Stack>
   );
 };
-export default AuthModalSuccess;
+export default AuthModalFail;

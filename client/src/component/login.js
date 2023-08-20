@@ -11,7 +11,7 @@ function Login({setOpen}) {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setsuccessMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -32,6 +32,7 @@ function Login({setOpen}) {
         password: userPassword,
       })
       .then((response) => {
+        setSuccessMessage("어서오세용!!");
         setSuccessModalOpen(true);
       })
       .catch((error) => {

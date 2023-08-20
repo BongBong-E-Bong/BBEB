@@ -16,8 +16,31 @@ function Register({setOpen}) {
   const [userPassword, setUserPassword] = useState("");
   const [userNickname, setUserNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleSuccessModalClose = () => {
+    setSuccessModalOpen(false);
+    setOpen(false);
+    // Reset the form fields
+    setUserId("");
+    setUserPassword("");
+    setUserNickname("");
+    setUserEmail("");
+    setConfirmPassword("");
+  };
+
+  const handleFailModalClose = () => {
+    setFailModalOpen(false);
+  };
 
   const getRequest = () => {
+
+    if (userPassword !== confirmPassword) {
+      setFailModalOpen(true);
+      setErrorMessage("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
     axios
       .post("http://13.125.105.202:8080/api/auth/signup", {
         loginId: userId,
@@ -26,8 +49,8 @@ function Register({setOpen}) {
         email: userEmail,
       })
       .then((response) => {
+        setsuccessMessage("환영해용!!");
         setSuccessModalOpen(true);
-        setOpen(false);
       })
       .catch((error) => {
         setFailModalOpen(true);
@@ -63,7 +86,6 @@ function Register({setOpen}) {
         height="98%"
         alignItems="center"
         justifyContent="center"
-        // gap="1%"
       >
         <Stack fontSize="36px">Register</Stack>
         <Stack width="100%" alignItems="center" justifyContent="center">
@@ -115,6 +137,8 @@ function Register({setOpen}) {
         </Stack>
         <TextField
           placeholder={"비밀번호 다시 입력"}
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           multiline
           maxRows={4}
           InputProps={{
@@ -187,18 +211,18 @@ function Register({setOpen}) {
           REGISTER
         </Stack>
       </Stack>
-      <Modal open={successModalOpen} onClose={() => setSuccessModalOpen(false)}>
+      <Modal open={successModalOpen} onClose={handleSuccessModalClose}>
         <AuthModalSuccess
           message={"회원가입 성공"}
           detailMessage={successMessage}
-          onClose={() => setSuccessModalOpen(false)}
+          onClose={handleSuccessModalClose}
         />
       </Modal>
-      <Modal open={failModalOpen} onClose={() => setFailModalOpen(false)}>
+      <Modal open={failModalOpen} onClose={handleFailModalClose}>
         <AuthModalFail
           message={"회원가입 실패"}
           detailMessage={errorMessage}
-          onClose={() => setFailModalOpen(false)}
+          onClose={handleFailModalClose}
         />
       </Modal>
     </Stack>
