@@ -44,14 +44,30 @@ function Register() {
       justifyContent="space-around"
       bgcolor="#F88C8C"
     >
-      <Stack width="753px" height="598px" justifyContent="center">
-        <img src={register} alt="register icon" width="607px" height="601px" />
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        width="58%"
+        height="98%"
+      >
+        <img
+          src={register}
+          alt="register icon"
+          style={{ width: "100%", height: "100%" }}
+        />
       </Stack>
-      <Stack width="440px" height="598px" justifyContent="center" gap="45px">
-        <Stack fontSize="36px" display="flex" marginLeft="100px">
-          Register
-        </Stack>
-        <Stack gap="45px">
+      <Stack
+        width="39%"
+        height="98%"
+        alignItems="center"
+        justifyContent="center"
+        // gap="1%"
+      >
+        <Stack fontSize="36px">Register</Stack>
+        <Stack width="100%" alignItems="center" justifyContent="center">
+          <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+            ID
+          </Stack>
           <TextField
             name="loginId"
             value={userId}
@@ -64,80 +80,92 @@ function Register() {
             InputProps={{
               style: {
                 backgroundColor: "white",
-                borderRadius: "20px",
-                width: "341px",
-                height: "40px",
+                borderRadius: "8px",
+                height: "60%",
               },
             }}
-          />
-          <TextField
-            name="password"
-            value={userPassword}
-            onChange={(e) => {
-              setUserPassword(e.target.value);
-            }}
-            placeholder={"비밀번호"}
-            multiline
-            maxRows={4}
-            InputProps={{
-              style: {
-                backgroundColor: "white",
-                borderRadius: "20px",
-                width: "341px",
-                height: "40px",
-              },
-            }}
-          />
-          <TextField
-            placeholder={"비밀번호 다시 입력"}
-            multiline
-            maxRows={4}
-            InputProps={{
-              style: {
-                backgroundColor: "white",
-                borderRadius: "20px",
-                width: "341px",
-                height: "40px",
-              },
-            }}
-          />
-          <TextField
-            name="nickname"
-            value={userNickname}
-            onChange={(e) => {
-              setUserNickname(e.target.value);
-            }}
-            placeholder={"닉네임"}
-            multiline
-            maxRows={4}
-            InputProps={{
-              style: {
-                backgroundColor: "white",
-                borderRadius: "20px",
-                width: "341px",
-                height: "40px",
-              },
-            }}
-          />
-          <TextField
-            name="email"
-            value={userEmail}
-            onChange={(e) => {
-              setUserEmail(e.target.value);
-            }}
-            placeholder={"이메일"}
-            multiline
-            maxRows={4}
-            InputProps={{
-              style: {
-                backgroundColor: "white",
-                borderRadius: "20px",
-                width: "341px",
-                height: "40px",
-              },
-            }}
+            sx={{ textAlign: "center", width: "70%" }}
           />
         </Stack>
+        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+          Password
+        </Stack>
+        <TextField
+          name="password"
+          value={userPassword}
+          onChange={(e) => {
+            setUserPassword(e.target.value);
+          }}
+          placeholder={"비밀번호"}
+          multiline
+          maxRows={4}
+          InputProps={{
+            style: {
+              backgroundColor: "white",
+              borderRadius: "20px",
+              width: "341px",
+              height: "40px",
+            },
+          }}
+        />
+        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+          PasswordCheck
+        </Stack>
+        <TextField
+          placeholder={"비밀번호 다시 입력"}
+          multiline
+          maxRows={4}
+          InputProps={{
+            style: {
+              backgroundColor: "white",
+              borderRadius: "20px",
+              width: "341px",
+              height: "40px",
+            },
+          }}
+        />
+        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+          NickName
+        </Stack>
+        <TextField
+          name="nickname"
+          value={userNickname}
+          onChange={(e) => {
+            setUserNickname(e.target.value);
+          }}
+          placeholder={"닉네임"}
+          multiline
+          maxRows={4}
+          InputProps={{
+            style: {
+              backgroundColor: "white",
+              borderRadius: "20px",
+              width: "341px",
+              height: "40px",
+            },
+          }}
+        />
+        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+          Email
+        </Stack>
+        <TextField
+          name="email"
+          value={userEmail}
+          onChange={(e) => {
+            setUserEmail(e.target.value);
+          }}
+          placeholder={"이메일"}
+          multiline
+          maxRows={4}
+          InputProps={{
+            style: {
+              backgroundColor: "white",
+              borderRadius: "20px",
+              width: "341px",
+              height: "40px",
+            },
+          }}
+        />
         <Stack
           bgcolor="#D76464"
           style={{
@@ -151,7 +179,6 @@ function Register() {
             boxShadow: "0px 3px 2px rgba(0, 0, 0, 0.3)",
           }}
           onClick={() => {
-            // 클릭 이벤트 처리 코드를 여기에 추가
             getRequest();
           }}
         >

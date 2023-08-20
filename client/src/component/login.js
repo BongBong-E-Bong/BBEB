@@ -131,7 +131,7 @@ function Login() {
             height: "33px",
             alignItems: "center",
             justifyContent: "center",
-            marginTop:"10%",
+            marginTop: "10%",
           }}
           onClick={() => {
             // 카카오톡 나중에 백엔드와 같이 작업

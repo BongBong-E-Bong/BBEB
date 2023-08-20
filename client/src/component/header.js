@@ -63,8 +63,8 @@ function Header() {
   };
   const login = true;
 
-  const [loginOpen, setLoginOpen] = useState(true);
-  const [registerOpen, setRegisterOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [registerOpen, setRegisterOpen] = useState(true);
 
   const [profileImg, setProfileImg] = useState("");
 
