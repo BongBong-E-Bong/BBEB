@@ -7,13 +7,23 @@ import AuthModalFail from "./authModal_fail";
 import AuthModalSuccess from "./authModal_success";
 import Modal from "./Modal";
 
-function Login() {
+function Login({setOpen}) {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState("");
+
+  const handleSuccessModalClose = () => {
+    setSuccessModalOpen(false);
+    setOpen(false);
+  };
+
+  const handleFailModalClose = () => {
+    setFailModalOpen(false);
+  };
 
   const getRequest = () => {
     axios
@@ -22,6 +32,7 @@ function Login() {
         password: userPassword,
       })
       .then((response) => {
+        setSuccessMessage("어서오세용!!");
         setSuccessModalOpen(true);
       })
       .catch((error) => {
@@ -131,7 +142,7 @@ function Login() {
             height: "33px",
             alignItems: "center",
             justifyContent: "center",
-            marginTop:"10%",
+            marginTop: "10%",
           }}
           onClick={() => {
             // 카카오톡 나중에 백엔드와 같이 작업
@@ -141,18 +152,18 @@ function Login() {
           <img src={kakaologo} alt="kakaologo icon" />
         </Stack>
       </Stack>
-      <Modal open={successModalOpen} onClose={() => setSuccessModalOpen(false)}>
+      <Modal open={successModalOpen} onClose={handleSuccessModalClose}>
         <AuthModalSuccess
-          message={"회원가입 성공"}
-          detailMessage={errorMessage}
-          onClose={() => setSuccessModalOpen(false)}
+          message={"로그인 성공"}
+          detailMessage={successMessage}
+          onClose={handleSuccessModalClose}
         />
       </Modal>
-      <Modal open={failModalOpen} onClose={() => setFailModalOpen(false)}>
+      <Modal open={failModalOpen} onClose={handleFailModalClose}>
         <AuthModalFail
-          message={"회원가입 실패"}
+          message={"로그인 실패"}
           detailMessage={errorMessage}
-          onClose={() => setFailModalOpen(false)}
+          onClose={handleFailModalClose}
         />
       </Modal>
     </Stack>

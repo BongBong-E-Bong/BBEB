@@ -26,7 +26,7 @@ const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
           <img src={register} alt="register icon" width="34%" height="44%" />
           <Stack fontSize="32px">{detailMessage}</Stack>
           <Stack
-            bgcolor="#FF8181"
+            bgcolor="#FF8181"        
             style={{
               cursor: "pointer",
               color: "white",
