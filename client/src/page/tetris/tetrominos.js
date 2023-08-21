@@ -1,15 +1,15 @@
 export const TETROMINOS = {
   // Define tetromino shapes
   I: [
-    [1, 1, 1, 1],
     [0, 0, 0, 0],
+    [1, 1, 1, 1],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ],
   J: [
+    [0, 0, 0],
     [2, 2, 2],
     [0, 0, 2],
-    [0, 0, 0],
   ],
   T: [
     [0, 2, 0],
@@ -36,9 +36,5 @@ export const randomTetromino = () => {
   const tetrominos = "IJLOSTZ";
   const randomTetromino =
     tetrominos[Math.floor(Math.random() * tetrominos.length)];
-  const generatedTetromino = TETROMINOS[randomTetromino];
-  console.log("Generated Tetromino:", generatedTetromino);
-  return generatedTetromino;
+  return TETROMINOS[randomTetromino];
 };
-
-export default TETROMINOS;
