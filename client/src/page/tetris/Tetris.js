@@ -52,10 +52,8 @@ const Tetris = () => {
                 tetrominoShape[offsetY][offsetX];
 
               return (
-                <div
-                  key={x}
-                  className={`cell ${isTetrominoCell ? 'tetromino' : ''}`}
-                />
+<div key={x} className={`cell ${isTetrominoCell ? 'tetromino' : ''}`} />
+
               );
             })}
           </div>
