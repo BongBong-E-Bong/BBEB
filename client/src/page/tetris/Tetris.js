@@ -11,31 +11,39 @@ const Tetris = () => {
 
   const moveDown = () => {
     const newY = position.y + 1;
-
-    if (!checkCollision(currentTetromino.shape, position.x, newY, grid)) {
-      setPosition((prevPosition) => ({ ...prevPosition, y: newY }));
-    } else {
-      // 블록이 바닥에 닿았을 때
-      updateGrid(currentTetromino.shape, position.x, position.y, grid);
+  
+    if (checkCollision(currentTetromino, position.x, newY, grid)) {
+      // 현재 블럭을 고정하고 새로운 블럭을 생성합니다.
+      updateGrid(currentTetromino, position.x, position.y, grid);
       setCurrentTetromino(randomTetromino());
-      setPosition({ x: 4, y: 0 });
+      setPosition((prevPosition) => ({ ...prevPosition, y: 0 }));
+    } else if (
+      newY > 18 ||
+      checkCollision(currentTetromino, position.x, newY + 1, grid)
+    ) {
+      // 블럭이 더 이상 아래로 움직일 수 없으면 고정합니다.
+      updateGrid(currentTetromino, position.x, newY, grid); // 수정된 부분
+      setCurrentTetromino(randomTetromino());
+      setPosition((prevPosition) => ({ ...prevPosition, y: 0 }));
+    } else {
+      // 블럭을 아래로 이동시킵니다.
+      setPosition((prevPosition) => ({ ...prevPosition, y: newY }));
     }
   };
 
   const checkCollision = (tetromino, x, y, grid) => {
     for (let row = 0; row < tetromino.length; row++) {
       for (let col = 0; col < tetromino[row].length; col++) {
-        if (tetromino[row][col] !== 0) {
-          const newY = y + row;
-          const newX = x + col;
-          if (
-            newY >= grid.length ||
-            newX < 0 ||
-            newX >= grid[0].length ||
-            (grid[newY] && grid[newY][newX] !== 0)
-          ) {
-            return true;
-          }
+        const newY = y + row;
+        const newX = x + col;
+  
+        if (
+          newY >= grid.length ||
+          newX < 0 ||
+          newX >= grid[0].length ||
+          (tetromino[row][col] !== 0 && grid[newY][newX] !== 0)
+        ) {
+          return true;
         }
       }
     }
@@ -55,13 +63,13 @@ const Tetris = () => {
       }
     }
 
-    setGrid(newGrid); // 그리드를 업데이트합니다.
+    setGrid(newGrid);
   };
 
   useEffect(() => {
-    const timer = setInterval(moveDown, 1000);
+    const timer = setInterval(moveDown, 100);
     return () => clearInterval(timer);
-  }, [position.y]); // position.y가 변할 때마다 타이머 리셋
+  }, [position.y, currentTetromino]);
 
   return (
     <div className="tetris">
@@ -71,20 +79,24 @@ const Tetris = () => {
             {row.map((cellValue, x) => {
               const tetrominoRow = y - position.y;
               const tetrominoCol = x - position.x;
+
+              // 아래에 이 조건문을 추가하여 블럭을 올바른 위치에 그리도록 합니다.
+              const isTetrominoCell =
+                tetrominoRow >= 0 &&
+                tetrominoRow < currentTetromino.length &&
+                tetrominoCol >= 0 &&
+                tetrominoCol < currentTetromino[tetrominoRow].length;
+
               const cellTetromino =
-                currentTetromino &&
-                currentTetromino.shape[tetrominoRow] &&
-                currentTetromino.shape[tetrominoRow][tetrominoCol];
+                isTetrominoCell &&
+                currentTetromino[tetrominoRow][tetrominoCol];
 
               return (
                 <div
                   key={x}
-                  className={`cell ${cellValue !== 0 || cellTetromino ? "tetromino" : ""}`}
-                  style={{
-                    backgroundColor: cellTetromino
-                      ? currentTetromino.color
-                      : "transparent",
-                  }}
+                  className={`cell ${
+                    cellValue !== 0 || cellTetromino ? "tetromino" : ""
+                  }`}
                 />
               );
             })}
