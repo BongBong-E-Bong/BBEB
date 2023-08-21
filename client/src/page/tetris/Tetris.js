@@ -33,7 +33,7 @@ const Tetris = () => {
 
   const moveDown = () => {
     const newY = position.y + 1;
-  
+
     if (checkCollision(currentTetromino, position.x, newY, grid)) {
       // 현재 블럭을 고정하고 새로운 블럭을 생성합니다.
       updateGrid(currentTetromino, position.x, position.y, grid);
@@ -44,7 +44,7 @@ const Tetris = () => {
       checkCollision(currentTetromino, position.x, newY + 1, grid)
     ) {
       // 블럭이 더 이상 아래로 움직일 수 없으면 고정합니다.
-      updateGrid(currentTetromino, position.x, newY, grid); // 수정된 부분
+      updateGrid(currentTetromino, position.x, newY, grid);
       setCurrentTetromino(randomTetromino());
       setPosition((prevPosition) => ({ ...prevPosition, y: 0 }));
     } else {
@@ -88,17 +88,13 @@ const Tetris = () => {
     setGrid(newGrid);
   };
 
+  const moveDownInterval = 100; // 1초 (밀리초 단위)
   useEffect(() => {
-    const updateGame = () => {
-      moveDown();
-      requestAnimationFrame(updateGame);
-    };
-  
-    const timer = requestAnimationFrame(updateGame);
+    const timer = setInterval(moveDown, moveDownInterval);
     window.addEventListener("keydown", handleKeyPress);
-  
+
     return () => {
-      cancelAnimationFrame(timer);
+      clearInterval(timer);
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, [currentTetromino, position.x, position.y]);
