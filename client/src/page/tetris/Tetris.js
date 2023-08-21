@@ -4,16 +4,38 @@ import { TETROMINOS, randomTetromino } from './tetrominos';
 
 const Tetris = () => {
   const [tetromino, setTetromino] = useState(randomTetromino());
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: 4, y: 0 });
+
 
   const moveDown = () => {
     setPosition((prevPosition) => ({ ...prevPosition, y: prevPosition.y + 1 }));
+  };
+
+  const moveLeft = () => {
+    setPosition((prevPosition) => ({ ...prevPosition, x: prevPosition.x - 1 }));
+  };
+
+  const moveRight = () => {
+    setPosition((prevPosition) => ({ ...prevPosition, x: prevPosition.x + 1 }));
   };
 
   useEffect(() => {
     const timer = setInterval(moveDown, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 37) { // Left Arrow
+      moveLeft();
+    } else if (event.keyCode === 39) { // Right Arrow
+      moveRight();
+    }
+  };
 
   return (
     <div className="tetris">
@@ -28,10 +50,11 @@ const Tetris = () => {
                 tetrominoShape &&
                 tetrominoShape[offsetY] &&
                 tetrominoShape[offsetY][offsetX];
+
               return (
                 <div
                   key={x}
-                  className={`cell ${isTetrominoCell ? "tetromino" : ""}`}
+                  className={`cell ${isTetrominoCell ? 'tetromino' : ''}`}
                 />
               );
             })}
@@ -41,3 +64,5 @@ const Tetris = () => {
     </div>
   );
 };
+
+export default Tetris;
