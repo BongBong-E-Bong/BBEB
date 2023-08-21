@@ -86,7 +86,7 @@ function Register({ setOpen }) {
         justifyContent="center"
         sx={{
           "& > *:not(:last-child)": {
-            marginBottom: "0.1%", // 원하는 간격으로 조정
+            marginBottom: "-4%", // 원하는 간격으로 조정
           },
         }}
       >
@@ -98,8 +98,7 @@ function Register({ setOpen }) {
         >
           Register
         </Stack>
-        <Stack width="100%" alignItems="center" justifyContent="center">
-          <Stack marginBottom="0.5%" sx={{ width: "68%", textAlign: "left" }}>
+          <Stack marginTop="8%" sx={{ width: "68%", textAlign: "left", height:"6.5%" }}>
             ID
           </Stack>
           <TextField
@@ -118,10 +117,9 @@ function Register({ setOpen }) {
                 height: "60%",
               },
             }}
-            sx={{ textAlign: "center", width: "70%", height: "40%" }}
+            sx={{ textAlign: "center", width: "70%"}}
           />
-        </Stack>
-        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+        <Stack marginBottom="0.5%" sx={{ width: "68%", textAlign: "left", height:"6.5%" }}>
           Password
         </Stack>
         <TextField
@@ -142,7 +140,7 @@ function Register({ setOpen }) {
           }}
           sx={{ textAlign: "center", width: "70%" }}
         />
-        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left", height:"6.5%" }}>
           Password Check
         </Stack>
         <TextField
@@ -160,7 +158,7 @@ function Register({ setOpen }) {
           }}
           sx={{ textAlign: "center", width: "70%" }}
         />
-        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left", height:"6.5%" }}>
           NickName
         </Stack>
         <TextField
@@ -181,7 +179,7 @@ function Register({ setOpen }) {
           }}
           sx={{ textAlign: "center", width: "70%" }}
         />
-        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left", height:"6.5%" }}>
           Email
         </Stack>
         <TextField
@@ -202,6 +200,7 @@ function Register({ setOpen }) {
           }}
           sx={{ textAlign: "center", width: "70%" }}
         />
+        <Stack height="6%"></Stack>
         <Stack
           bgcolor="#D76464"
           style={{
