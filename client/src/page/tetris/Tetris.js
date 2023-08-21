@@ -9,6 +9,28 @@ const Tetris = () => {
     Array.from({ length: 20 }, () => Array(10).fill(0))
   );
 
+  const handleKeyPress = (event) => {
+    if (event.key === "ArrowLeft") {
+      moveLeft();
+    } else if (event.key === "ArrowRight") {
+      moveRight();
+    }
+  };
+
+  const moveLeft = () => {
+    const newX = position.x - 1;
+    if (!checkCollision(currentTetromino, newX, position.y, grid)) {
+      setPosition((prevPosition) => ({ ...prevPosition, x: newX }));
+    }
+  };
+
+  const moveRight = () => {
+    const newX = position.x + 1;
+    if (!checkCollision(currentTetromino, newX, position.y, grid)) {
+      setPosition((prevPosition) => ({ ...prevPosition, x: newX }));
+    }
+  };
+
   const moveDown = () => {
     const newY = position.y + 1;
   
@@ -67,9 +89,20 @@ const Tetris = () => {
   };
 
   useEffect(() => {
-    const timer = setInterval(moveDown, 100);
-    return () => clearInterval(timer);
-  }, [position.y, currentTetromino]);
+    const updateGame = () => {
+      moveDown();
+      requestAnimationFrame(updateGame);
+    };
+  
+    const timer = requestAnimationFrame(updateGame);
+    window.addEventListener("keydown", handleKeyPress);
+  
+    return () => {
+      cancelAnimationFrame(timer);
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [currentTetromino, position.x, position.y]);
+  
 
   return (
     <div className="tetris">
