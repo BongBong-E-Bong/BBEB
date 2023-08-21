@@ -6,7 +6,7 @@ import AuthModalSuccess from "./authModal_success";
 import { useState } from "react";
 import axios from "axios";
 
-function Register({setOpen}) {
+function Register({ setOpen }) {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -33,7 +33,6 @@ function Register({setOpen}) {
   };
 
   const getRequest = () => {
-
     if (userPassword !== confirmPassword) {
       setFailModalOpen(true);
       setErrorMessage("비밀번호가 일치하지 않습니다.");
@@ -54,7 +53,7 @@ function Register({setOpen}) {
       .catch((error) => {
         setFailModalOpen(true);
         setErrorMessage(error.response.data.message);
-      }); 
+      });
   };
 
   return (
@@ -91,11 +90,14 @@ function Register({setOpen}) {
           },
         }}
       >
-        <Stack  
-        sx={{
-      fontSize: "36px",
-      marginTop: "-10px", // 원하시는 만큼 음수값으로 조절
-    }}>Register</Stack>
+        <Stack
+          sx={{
+            fontSize: "36px",
+            marginTop: "-10px", // 원하시는 만큼 음수값으로 조절
+          }}
+        >
+          Register
+        </Stack>
         <Stack width="100%" alignItems="center" justifyContent="center">
           <Stack marginBottom="0.5%" sx={{ width: "68%", textAlign: "left" }}>
             ID
@@ -116,7 +118,7 @@ function Register({setOpen}) {
                 height: "60%",
               },
             }}
-            sx={{ textAlign: "center", width: "70%" }}
+            sx={{ textAlign: "center", width: "70%", height: "40%" }}
           />
         </Stack>
         <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>

@@ -52,7 +52,7 @@ function Header() {
       reader.readAsDataURL(e.target.files[0]);
     }
   };
-  
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -86,8 +86,6 @@ function Header() {
         console.error("profile img error", error);
       });
   };
-
-
 
   return (
     <>
@@ -206,20 +204,20 @@ function Header() {
         <MenuItem>로그아웃</MenuItem>
       </Menu>
       <Modal
-        width="70%"
-        height="50%"
+        width="750px"
+        height="430px"
         open={loginOpen}
         onClose={() => setLoginOpen(false)}
       >
-        <Login setOpen={setLoginOpen}/>
+        <Login setOpen={setLoginOpen} />
       </Modal>
       <Modal
-        width="70%"
-        height="50%"
+        width="850px"
+        height="500px"
         open={registerOpen}
         onClose={() => setRegisterOpen(false)}
       >
-        <Register setOpen={setRegisterOpen}/>
+        <Register setOpen={setRegisterOpen} />
       </Modal>
     </>
   );
