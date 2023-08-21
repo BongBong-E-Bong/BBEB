@@ -138,8 +138,8 @@ function Login({setOpen}) {
         <Stack
           style={{
             cursor: "pointer",
-            width: "271px",
-            height: "33px",
+            width: "27%",
+            height: "8%",
             alignItems: "center",
             justifyContent: "center",
             marginTop: "10%",
