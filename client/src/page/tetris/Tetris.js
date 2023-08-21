@@ -12,19 +12,13 @@ const Tetris = () => {
   const moveDown = () => {
     const newY = position.y + 1;
 
-    if (checkCollision(currentTetromino, position.x, newY, grid)) {
-      // 현재 블럭을 고정하고 새로운 블럭을 생성합니다.
-      updateGrid(currentTetromino, position.x, position.y, grid);
-      setCurrentTetromino(randomTetromino());
-      setPosition({ x: 4, y: 0 });
-    } else if (newY > 18 || checkCollision(currentTetromino, position.x, newY + 1, grid)) {
-      // 블럭이 더 이상 아래로 움직일 수 없으면 고정합니다.
-      updateGrid(currentTetromino, position.x, position.y, grid);
-      setCurrentTetromino(randomTetromino());
-      setPosition({ x: 4, y: 0 });
-    } else {
-      // 블럭을 아래로 이동시킵니다.
+    if (!checkCollision(currentTetromino.shape, position.x, newY, grid)) {
       setPosition((prevPosition) => ({ ...prevPosition, y: newY }));
+    } else {
+      // 블록이 바닥에 닿았을 때
+      updateGrid(currentTetromino.shape, position.x, position.y, grid);
+      setCurrentTetromino(randomTetromino());
+      setPosition({ x: 4, y: 0 });
     }
   };
 
@@ -47,7 +41,6 @@ const Tetris = () => {
     }
     return false;
   };
-  
 
   const updateGrid = (tetromino, x, y, grid) => {
     const newGrid = grid.map((row) => [...row]);
@@ -80,13 +73,18 @@ const Tetris = () => {
               const tetrominoCol = x - position.x;
               const cellTetromino =
                 currentTetromino &&
-                currentTetromino[tetrominoRow] &&
-                currentTetromino[tetrominoRow][tetrominoCol];
+                currentTetromino.shape[tetrominoRow] &&
+                currentTetromino.shape[tetrominoRow][tetrominoCol];
 
               return (
                 <div
                   key={x}
                   className={`cell ${cellValue !== 0 || cellTetromino ? "tetromino" : ""}`}
+                  style={{
+                    backgroundColor: cellTetromino
+                      ? currentTetromino.color
+                      : "transparent",
+                  }}
                 />
               );
             })}
