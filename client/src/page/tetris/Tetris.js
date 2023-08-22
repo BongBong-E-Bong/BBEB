@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./Tetris.css";
 import { TETROMINOS, randomTetromino } from "./tetrominos";
 
+const rotate = (matrix) => {
+  const rotatedMatrix = matrix.map((_, index) =>
+    matrix.map((column) => column[index])
+  );
+  return rotatedMatrix.reverse();
+};
+
+
 const Tetris = () => {
   const [currentTetromino, setCurrentTetromino] = useState(randomTetromino());
   const [position, setPosition] = useState({ x: 4, y: 0 });
@@ -12,11 +20,22 @@ const Tetris = () => {
 
   const [score, setScore] = useState(0); // 스코어 상태 추가
 
+  const moveDownInterval = 100; // 1초 (밀리초 단위)
+  
   const handleKeyPress = (event) => {
     if (event.key === "ArrowLeft") {
       moveLeft();
     } else if (event.key === "ArrowRight") {
       moveRight();
+    } else if (event.key === "ArrowUp") { // 방향키 위를 누를 경우
+      rotateTetromino(); // 테트로미노 회전 함수 호출
+    }
+  };
+
+  const rotateTetromino = () => {
+    const rotatedTetromino = rotate(currentTetromino);
+    if (!checkCollision(rotatedTetromino, position.x, position.y, grid)) {
+      setCurrentTetromino(rotatedTetromino);
     }
   };
 
@@ -58,7 +77,6 @@ const Tetris = () => {
     }
   };
   
-
   const checkCollision = (tetromino, x, y, grid) => {
     for (let row = 0; row < tetromino.length; row++) {
       for (let col = 0; col < tetromino[row].length; col++) {
@@ -107,9 +125,7 @@ const Tetris = () => {
 
     setGrid(newGrid);
   };
-  
 
-  const moveDownInterval = 100; // 1초 (밀리초 단위)
   useEffect(() => {
     const timer = setInterval(moveDown, moveDownInterval);
     window.addEventListener("keydown", handleKeyPress);
