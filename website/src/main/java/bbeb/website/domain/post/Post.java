@@ -21,6 +21,10 @@ public class Post {
 
     private String title;
 
+    private String thumbnail;
+
+    private Long isPinned;
+
     private LocalDateTime createdDate;
 
     private Long view;
@@ -34,4 +38,7 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<PostLike> postLikes;
+
+    @OneToMany(mappedBy = "post")
+    private List<PostTag> postTags;
 }

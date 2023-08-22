@@ -2,21 +2,17 @@ package bbeb.website.service;
 
 import bbeb.website.config.exception.CustomException;
 import bbeb.website.domain.member.Member;
-import bbeb.website.domain.post.Content;
-import bbeb.website.domain.post.ContentType;
-import bbeb.website.domain.post.Post;
-import bbeb.website.domain.post.PostLike;
+import bbeb.website.domain.post.*;
 import bbeb.website.dto.PostDTO;
-import bbeb.website.repository.post.ContentRepository;
+import bbeb.website.repository.post.*;
 import bbeb.website.repository.member.MemberRepository;
-import bbeb.website.repository.post.PostLikeRepository;
-import bbeb.website.repository.post.PostRepository;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +35,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final ContentRepository contentRepository;
     private final PostLikeRepository postLikeRepository;
+    private final PostTagRepository postTagRepository;
+    private final TagRepository tagRepository;
 
     private final AmazonS3 s3Client;
     @Value("${cloud.aws.s3.bucket.post}")
@@ -83,18 +81,15 @@ public class PostService {
         Post post = new Post();
         post.setTitle(dto.getTitle());
         post.setCreatedDate(LocalDateTime.now());
+        post.setThumbnail(dto.getThumbnail());
         post.setView(0L);
         post.setMember(member);
-
+        post.setIsPinned(dto.getIsPinned());
         postRepository.save(post);
 
-
-        for (PostDTO.Content contentDTO: dto.getContent()) {
-            Content content = contentDTO.toEntity(post);
-
-            contentRepository.save(content);
-        }
-
+        if (dto.getPostTag() != null)
+            createTag(dto.getPostTag(), post);
+        createContent(dto.getContent(), post);
 
         return PostDTO.CreatePostResponseDTO.builder()
                 .postId(post.getId())
@@ -134,13 +129,21 @@ public class PostService {
 
         if (Objects.equals(post.getMember().getLoginId(), loginId)){
             deleteContent(contentRepository.findByPost(post));
-            deletePostLike(postLikeRepository.findByPostId(postId));
+            deletePostLike(postLikeRepository.findByPost(post));
+            deletePostTag(postTagRepository.findByPost(post));
             postRepository.delete(post);
         }
         else{
             throw new CustomException(BadRequest);
         }
 
+    }
+
+    public void createContent(List<PostDTO.Content> contents, Post post){
+        for (PostDTO.Content contentDTO: contents) {
+            Content content = contentDTO.toEntity(post);
+            contentRepository.save(content);
+        }
     }
 
     public void deleteContent(List<Content> contents){
@@ -155,6 +158,27 @@ public class PostService {
 
     public void deletePostLike(List<PostLike> postLikes){
         postLikeRepository.deleteAll(postLikes);
+    }
+
+    public void createTag(List<PostDTO.PostTag> tags, Post post){
+        for (PostDTO.PostTag tagDTO : tags) {
+            Tag tag = tagRepository.findByValue(tagDTO.getValue());
+
+            if (tag == null){
+                tag = new Tag();
+                tag.setValue(tagDTO.getValue());
+                tagRepository.save(tag);
+            }
+
+            PostTag postTag = new PostTag();
+            postTag.setPost(post);
+            postTag.setTag(tag);
+            postTagRepository.save(postTag);
+        }
+    }
+
+    public void deletePostTag(List<PostTag> postTag){
+        postTagRepository.deleteAll(postTag);
     }
 
     public List<PostDTO.PostImageResponseDTO> putPostImage(Long postId, List<MultipartFile> files, String loginId) throws IOException {
@@ -177,18 +201,38 @@ public class PostService {
                 .orElseThrow(() -> new CustomException(BadRequest));
 
         if (post.getMember().getLoginId().equals(loginId)){
+            if (dto.getThumbnail() != null)
+                post.setThumbnail(dto.getThumbnail());
+
+            if (dto.getIsPinned() != null)
+                post.setIsPinned(dto.getIsPinned());
+
             if (dto.getTitle() != null)
                 post.setTitle(dto.getTitle());
 
             if (dto.getContent() != null) {
-                for (PostDTO.Content contentDTO: dto.getContent()) {
-                    Content content = contentDTO.toEntity(post);
-                    contentRepository.save(content);
-                }
+                createContent(dto.getContent(), post);
+            }
+            if (dto.getTags() != null) {
+                deletePostTag(postTagRepository.findByPost(post));
+                createTag(dto.getTags(), post);
             }
         }
         else{
             throw new CustomException(BadRequest);
         }
+    }
+
+    public Page<PostDTO.PostAllResponseDTO> findAll(PostDTO.PostAllRequestDTO dto) {
+        if (dto.getTitle() != null)
+            return postRepository.searchAllByTitle(dto);
+        else if(dto.getNickname() != null)
+            return postRepository.searchAllByNickname(dto);
+        else if(dto.getContent() != null)
+            return postRepository.searchAllByContent(dto);
+        else if(dto.getTag() != null)
+            return postRepository.searchAllByTag(dto);
+        else
+            return postRepository.searchAll(dto);
     }
 }

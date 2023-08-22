@@ -1,5 +1,6 @@
 package bbeb.website.repository.post;
 
+import bbeb.website.domain.post.Post;
 import bbeb.website.domain.post.PostLike;
 import bbeb.website.domain.post.QPostLike;
 import bbeb.website.dto.PostDTO;
@@ -40,12 +41,11 @@ public class PostLikeRepositoryImpl implements PostLikeRepositoryCustom {
     }
 
     @Override
-    public List<PostLike> findByPostId(Long postId) {
+    public List<PostLike> findByPost(Post post) {
         return queryFactory
                 .select(postLike)
                 .from(postLike)
-                .where(
-                        postLike.post.id.eq(postId))
+                .where(postLike.post.eq(post))
                 .fetch();
     }
 }
