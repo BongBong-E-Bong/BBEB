@@ -27,7 +27,7 @@ const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
           <img src={register} alt="register icon" width="34%" height="44%" />
           <Stack fontSize="32px">{detailMessage}</Stack>
           <Stack
-            bgcolor="#FF8181"        
+            bgcolor="#FF8181"
             style={{
               cursor: "pointer",
               color: "white",
@@ -40,6 +40,7 @@ const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
               boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)",
             }}
             onClick={() => {
+              // 클릭 이벤트 처리 코드를 여기에 추가
               onClose();
             }}
           >

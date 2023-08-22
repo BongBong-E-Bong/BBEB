@@ -4,13 +4,13 @@ import register from "../image/register.png";
 
 const AuthModalFail = ({ detailMessage, onClose, message }) => {
   return (
-    <Stack Stack height="100%" width="100%" alignItems="center" justifyContent="center">
+    <Stack height="100%" alignItems="center" justifyContent="center">
       <Stack
         position="fixed"
-        width="100%"
-        height="100%"
+        width="48%"
+        height="57%"
         display="flex"
-        alignItems="center" 
+        alignItems="center"
         justifyContent="space-around"
         bgcolor="#F88C8C"
         boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)"

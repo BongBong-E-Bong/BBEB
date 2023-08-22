@@ -7,7 +7,7 @@ import AuthModalFail from "./authModal_fail";
 import AuthModalSuccess from "./authModal_success";
 import Modal from "./Modal";
 
-function Login({setOpen}) {
+function Login({ setOpen }) {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
