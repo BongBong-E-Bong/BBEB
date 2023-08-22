@@ -7,7 +7,7 @@ import AuthModalFail from "./authModal_fail";
 import AuthModalSuccess from "./authModal_success";
 import Modal from "./Modal";
 
-function Login({setOpen}) {
+function Login({ setOpen }) {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -37,7 +37,7 @@ function Login({setOpen}) {
       })
       .catch((error) => {
         setFailModalOpen(true);
-        setErrorMessage(error.response.data.message);
+        setErrorMessage("아이디/비밀번호가 틀렸어요!!");
       });
   };
 
@@ -100,12 +100,12 @@ function Login({setOpen}) {
           </Stack>
           <TextField
             name="loginPassword"
+            type="password"
             placeholder={"비밀번호를 입력하세요"}
             value={userPassword}
             onChange={(e) => {
               setUserPassword(e.target.value);
             }}
-            multiline
             maxRows={4}
             InputProps={{
               style: {
@@ -138,8 +138,8 @@ function Login({setOpen}) {
         <Stack
           style={{
             cursor: "pointer",
-            width: "271px",
-            height: "33px",
+            width: "27%",
+            height: "8%",
             alignItems: "center",
             justifyContent: "center",
             marginTop: "10%",
@@ -152,14 +152,24 @@ function Login({setOpen}) {
           <img src={kakaologo} alt="kakaologo icon" />
         </Stack>
       </Stack>
-      <Modal open={successModalOpen} onClose={handleSuccessModalClose}>
+      <Modal
+        width="750px"
+        height="430px"
+        open={successModalOpen}
+        onClose={handleSuccessModalClose}
+      >
         <AuthModalSuccess
           message={"로그인 성공"}
           detailMessage={successMessage}
           onClose={handleSuccessModalClose}
         />
       </Modal>
-      <Modal open={failModalOpen} onClose={handleFailModalClose}>
+      <Modal
+        width="750px"
+        height="430px"
+        open={failModalOpen}
+        onClose={handleFailModalClose}
+      >
         <AuthModalFail
           message={"로그인 실패"}
           detailMessage={errorMessage}

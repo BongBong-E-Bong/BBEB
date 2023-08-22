@@ -87,8 +87,6 @@ function Header() {
       });
   };
 
-
-
   return (
     <>
       <Stack
@@ -206,20 +204,20 @@ function Header() {
         <MenuItem>로그아웃</MenuItem>
       </Menu>
       <Modal
-        width="70%"
-        height="50%"
+        width="750px"
+        height="430px"
         open={loginOpen}
         onClose={() => setLoginOpen(false)}
       >
-        <Login setOpen={setLoginOpen}/>
+        <Login setOpen={setLoginOpen} />
       </Modal>
       <Modal
-        width="70%"
-        height="50%"
+        width="850px"
+        height="500px"
         open={registerOpen}
         onClose={() => setRegisterOpen(false)}
       >
-        <Register setOpen={setRegisterOpen}/>
+        <Register setOpen={setRegisterOpen} />
       </Modal>
     </>
   );

@@ -6,7 +6,7 @@ import AuthModalSuccess from "./authModal_success";
 import { useState } from "react";
 import axios from "axios";
 
-function Register({setOpen}) {
+function Register({ setOpen }) {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -21,7 +21,6 @@ function Register({setOpen}) {
   const handleSuccessModalClose = () => {
     setSuccessModalOpen(false);
     setOpen(false);
-    // Reset the form fields
     setUserId("");
     setUserPassword("");
     setUserNickname("");
@@ -34,7 +33,6 @@ function Register({setOpen}) {
   };
 
   const getRequest = () => {
-
     if (userPassword !== confirmPassword) {
       setFailModalOpen(true);
       setErrorMessage("비밀번호가 일치하지 않습니다.");
@@ -86,71 +84,92 @@ function Register({setOpen}) {
         height="98%"
         alignItems="center"
         justifyContent="center"
+        sx={{
+          "& > *:not(:last-child)": {
+            marginBottom: "-4%", // 원하는 간격으로 조정
+          },
+        }}
       >
-        <Stack fontSize="36px">Register</Stack>
-        <Stack width="100%" alignItems="center" justifyContent="center">
-          <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
-            ID
-          </Stack>
-          <TextField
-            name="loginId"
-            value={userId}
-            onChange={(e) => {
-              setUserId(e.target.value);
-            }}
-            placeholder={"id를 입력하세요"}
-            multiline
-            maxRows={4}
-            InputProps={{
-              style: {
-                backgroundColor: "white",
-                borderRadius: "8px",
-                height: "60%",
-              },
-            }}
-            sx={{ textAlign: "center", width: "70%" }}
-          />
+        <Stack
+          sx={{
+            fontSize: "36px",
+            marginTop: "-10px", // 원하시는 만큼 음수값으로 조절
+          }}
+        >
+          Register
         </Stack>
-        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+        <Stack
+          marginTop="8%"
+          sx={{ width: "68%", textAlign: "left", height: "6.5%" }}
+        >
+          ID
+        </Stack>
+        <TextField
+          name="loginId"
+          value={userId}
+          onChange={(e) => {
+            setUserId(e.target.value);
+          }}
+          placeholder={"id를 입력하세요"}
+          multiline
+          maxRows={4}
+          InputProps={{
+            style: {
+              backgroundColor: "white",
+              borderRadius: "20px",
+              height: "60%",
+            },
+          }}
+          sx={{ textAlign: "center", width: "70%" }}
+        />
+        <Stack
+          marginBottom="0.5%"
+          sx={{ width: "68%", textAlign: "left", height: "6.5%" }}
+        >
           Password
         </Stack>
         <TextField
-          name="password"
+          type="password"
           value={userPassword}
           onChange={(e) => {
             setUserPassword(e.target.value);
           }}
           placeholder={"비밀번호"}
-          multiline
           maxRows={4}
           InputProps={{
             style: {
               backgroundColor: "white",
               borderRadius: "20px",
-              width: "341px",
-              height: "40px",
+              height: "60%",
             },
           }}
+          sx={{ textAlign: "center", width: "70%" }}
         />
-        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
-          PasswordCheck
+        <Stack
+          marginBottom="3%"
+          sx={{ width: "68%", textAlign: "left", height: "6.5%" }}
+        >
+          Password Check
         </Stack>
         <TextField
+          type="password"
           placeholder={"비밀번호 다시 입력"}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          multiline
           maxRows={4}
           InputProps={{
             style: {
               backgroundColor: "white",
               borderRadius: "20px",
-              width: "341px",
-              height: "40px",
+              height: "60%",
             },
           }}
+          sx={{ textAlign: "center", width: "70%" }}
         />
-        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+        <Stack
+          marginBottom="3%"
+          sx={{ width: "68%", textAlign: "left", height: "6.5%" }}
+        >
           NickName
         </Stack>
         <TextField
@@ -166,12 +185,15 @@ function Register({setOpen}) {
             style: {
               backgroundColor: "white",
               borderRadius: "20px",
-              width: "341px",
-              height: "40px",
+              height: "60%",
             },
           }}
+          sx={{ textAlign: "center", width: "70%" }}
         />
-        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
+        <Stack
+          marginBottom="3%"
+          sx={{ width: "68%", textAlign: "left", height: "6.5%" }}
+        >
           Email
         </Stack>
         <TextField
@@ -187,19 +209,20 @@ function Register({setOpen}) {
             style: {
               backgroundColor: "white",
               borderRadius: "20px",
-              width: "341px",
-              height: "40px",
+              height: "60%",
             },
           }}
+          sx={{ textAlign: "center", width: "70%" }}
         />
+        <Stack height="6%"></Stack>
         <Stack
           bgcolor="#D76464"
           style={{
             cursor: "pointer",
             color: "white",
             borderRadius: "20px",
-            width: "341px",
-            height: "33px",
+            width: "70%",
+            height: "6%",
             alignItems: "center",
             justifyContent: "center",
             boxShadow: "0px 3px 2px rgba(0, 0, 0, 0.3)",

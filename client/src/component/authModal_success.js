@@ -4,10 +4,16 @@ import register from "../image/register.png";
 
 const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
   return (
-    <Stack Stack height="100%" alignItems="center" justifyContent="center">
+    <Stack
+      height="100%"
+      width="100%"
+      alignItems="center"
+      justifyContent="center"
+    >
       <Stack
-        width="48%"
-        height="57%"
+        position="fixed"
+        width="100%"
+        height="100%"
         display="flex"
         alignItems="center"
         justifyContent="space-around"
@@ -26,13 +32,13 @@ const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
           <img src={register} alt="register icon" width="34%" height="44%" />
           <Stack fontSize="32px">{detailMessage}</Stack>
           <Stack
-            bgcolor="#FF8181"        
+            bgcolor="#FF8181"
             style={{
               cursor: "pointer",
               color: "white",
               borderRadius: "20px",
-              width: "27%",
-              height: "14%",
+              width: "26%",
+              height: "13%",
               alignItems: "center",
               justifyContent: "center",
               fontSize: "32px",
