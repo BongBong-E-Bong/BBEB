@@ -20,14 +20,27 @@ import Fade from "react-reveal/Fade";
 import Zoom from "react-reveal/Zoom";
 
 function Twobong() {
-  const scrollRef = React.useRef(null);
+  const commentRef = React.useRef(null);
+  const profileRef = React.useRef(null);
+  const tmiRef = React.useRef(null);
+  const storyRef = React.useRef(null);
 
-  const scrollClick = () => {
-    scrollRef.current.scrollIntoView({ behavior: "smooth" });
+  const commentClick = () => {
+    commentRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+  const profileClick = () => {
+    profileRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+  const storyClick = () => {
+    storyRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+  const tmiClick = () => {
+    tmiRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <>
+      <Stack ref={profileRef}></Stack>
       <Header />
       <ProfileForm>
         <Stack
@@ -73,6 +86,7 @@ function Twobong() {
             <Button
               variant="contained"
               sx={{ color: "white", fontSize: "20px" }}
+              ref={storyRef}
             >
               이봉이 투표하러 가기
             </Button>
@@ -108,7 +122,13 @@ function Twobong() {
               <img src={story7} alt="story" width="300px" height="220px" />
             </Fade>
             <Fade>
-              <img src={story8} alt="story" width="400px" height="280px" />
+              <img
+                src={story8}
+                alt="story"
+                width="400px"
+                height="280px"
+                style={{ marginRight: "7%" }}
+              />
             </Fade>
             <Fade>
               <img src={story9} alt="story" width="350px" height="220px" />
@@ -128,11 +148,12 @@ function Twobong() {
             <Fade>
               <img src={story12} alt="story" width="290px" height="480px" />
             </Fade>
+            <Stack ref={tmiRef}></Stack>
           </Stack>
-          <Stack style={{ fontSize: "27px" }} margin="20vh 0 2vh 0">
+          <Stack style={{ fontSize: "27px" }} margin="20vh 0 3vh 0">
             ✨이봉이 tmi
           </Stack>
-          <Stack style={{ fontSize: "23px" }} margin="0 5% 20vh 5%">
+          <Stack style={{ fontSize: "20px" }} margin="0 5% 20vh 5%">
             꿈 : 개발자
             <br />
             싫어하는 것 : 알파벳 B, 숫자 3 (눕히면 엉덩이 모양이라서)
@@ -148,7 +169,7 @@ function Twobong() {
             이루어지지 않아 신을 매우 불신한다.)
           </Stack>
         </Stack>
-        <Stack ref={scrollRef}></Stack>
+        <Stack ref={commentRef}></Stack>
       </ProfileForm>
       <Comment />
 
@@ -164,14 +185,13 @@ function Twobong() {
         }}
         gap="10px"
       >
-        <Stack>소개</Stack>
-        <Stack>
+        <Stack onClick={profileClick}>소개</Stack>
+        <Stack onClick={storyClick}>
           🔎이봉이가 이상한 말투를 <br />
           쓰는 이유
         </Stack>
-        <Stack>✨이봉이 tmi</Stack>
-
-        <Stack onClick={scrollClick}>댓글</Stack>
+        <Stack onClick={tmiClick}>✨이봉이 tmi</Stack>
+        <Stack onClick={commentClick}>댓글</Stack>
       </Stack>
     </>
   );
