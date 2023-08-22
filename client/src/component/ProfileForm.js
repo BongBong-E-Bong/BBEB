@@ -10,7 +10,7 @@ function ProfileForm({ children }) {
     <>
       <Header />
       <Stack
-        minHeight="100vh"
+        minHeight="80vh"
         height="fit-content"
         width="100%"
         alignItems="center"

@@ -47,7 +47,7 @@ function Comment() {
   };
   const emoticonRef = React.useRef(null);
   const handleClick = (event) => {
-    setAnchorEl(emoticonRef.current); // Stack 컴포넌트의 ref를 anchorEl로 설정
+    setAnchorEl(emoticonRef.current);
   };
 
   return (
