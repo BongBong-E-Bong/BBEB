@@ -5,37 +5,49 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #222;
-  color: #fff;
-  font-family: Arial, sans-serif;
 }
 
 .playground {
-  width: 300px; /* playground 너비 */
-  height: 600px; /* playground 높이 */
-  background: #111;
-  border: 2px solid #333;
+  width: "100%";
+  height: "100%";
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+
 
 .row {
   display: flex;
+  flex-shrink: 0; /* 이 부분 추가 */
 }
+
 
 .cell {
   width: 30px;
   height: 30px;
-  border: 1px solid #ccc;
-}
-
-/* cell 스타일 수정 */
-.cell {
   border: 1px solid #333;
-  background-color: #222;
+  background-color: #222; /* 이 스타일 유지 */
 }
 
-/* tetromino 스타일 추가 */
 .tetromino {
   background-color: #ddd;
+}
+
+.game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: "100%";
+  height: "100%";
+}
+
+.restart-button {
+  margin-top: 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
 }
