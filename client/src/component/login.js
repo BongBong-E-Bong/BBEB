@@ -100,12 +100,12 @@ function Login({ setOpen }) {
           </Stack>
           <TextField
             name="loginPassword"
+            type="password"
             placeholder={"비밀번호를 입력하세요"}
             value={userPassword}
             onChange={(e) => {
               setUserPassword(e.target.value);
             }}
-            multiline
             maxRows={4}
             InputProps={{
               style: {

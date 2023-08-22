@@ -129,13 +129,12 @@ function Register({ setOpen }) {
           Password
         </Stack>
         <TextField
-          name="password"
+          type="password"
           value={userPassword}
           onChange={(e) => {
             setUserPassword(e.target.value);
           }}
           placeholder={"비밀번호"}
-          multiline
           maxRows={4}
           InputProps={{
             style: {
@@ -153,10 +152,10 @@ function Register({ setOpen }) {
           Password Check
         </Stack>
         <TextField
+          type="password"
           placeholder={"비밀번호 다시 입력"}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          multiline
           maxRows={4}
           InputProps={{
             style: {
