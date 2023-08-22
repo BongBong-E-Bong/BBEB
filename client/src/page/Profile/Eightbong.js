@@ -4,7 +4,7 @@ import Header from "../../component/header";
 import ProfileForm from "../../component/ProfileForm";
 import Comment from "../../component/comment";
 
-function Onebong() {
+function Eightbong() {
   const scrollRef = React.useRef(null);
 
   const scrollClick = () => {
@@ -40,4 +40,4 @@ function Onebong() {
   );
 }
 
-export default Onebong;
+export default Eightbong;
