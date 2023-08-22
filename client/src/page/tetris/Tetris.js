@@ -10,6 +10,7 @@ const Tetris = () => {
   );
   const [gameOver, setGameOver] = useState(false);
 
+  const [score, setScore] = useState(0); // 스코어 상태 추가
 
   const handleKeyPress = (event) => {
     if (event.key === "ArrowLeft") {
@@ -86,23 +87,29 @@ const Tetris = () => {
           const newY = y + row;
           const newX = x + col;
           newGrid[newY][newX] = tetromino[row][col];
-  
-          // Check if the tetromino has reached the top of the grid
-          if (newY <= 0) {
-            // Set the entire row to 0 when tetromino reaches the top
-            newGrid[newY].fill(0);
-            setGameOver(true);
-            return;
-          }
         }
       }
     }
   
+    // 채워진 줄 삭제 및 스코어 증가
+    let linesCleared = 0;
+    for (let row = newGrid.length - 1; row >= 0; row--) {
+      if (newGrid[row].every((cell) => cell !== 0)) {
+        newGrid.splice(row, 1);
+        newGrid.unshift(Array(10).fill(0));
+        linesCleared++;
+      }
+    }
+
+    if (linesCleared > 0) {
+      setScore((prevScore) => prevScore + linesCleared); // 스코어 증가
+    }
+
     setGrid(newGrid);
   };
   
 
-  const moveDownInterval = 10; // 1초 (밀리초 단위)
+  const moveDownInterval = 100; // 1초 (밀리초 단위)
   useEffect(() => {
     const timer = setInterval(moveDown, moveDownInterval);
     window.addEventListener("keydown", handleKeyPress);
@@ -163,6 +170,12 @@ return (
          </div>
       ))}
     </div>
+    <div className="score-container">
+        <div className="score">
+          <p>Score:</p>
+          <p>{score}</p>
+        </div>
+      </div>
     {gameOver && (
       <div className="game-over">
         <h1>게임 오버!</h1>
