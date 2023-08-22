@@ -69,31 +69,3 @@
   padding: 5px 10px;
   border-radius: 5px;
 }
-
-.tetromino.I {
-  background-color: #00FFFF; /* Cyan */
-}
-
-.tetromino.J {
-  background-color: #0000FF; /* Blue */
-}
-
-.tetromino.L {
-  background-color: #FFA500; /* Orange */
-}
-
-.tetromino.O {
-  background-color: #FFFF00; /* Yellow */
-}
-
-.tetromino.S {
-  background-color: #00FF00; /* Green */
-}
-
-.tetromino.T {
-  background-color: #800080; /* Purple */
-}
-
-.tetromino.Z {
-  background-color: #FF0000; /* Red */
-}

@@ -9,7 +9,6 @@ const rotate = (matrix) => {
   return rotatedMatrix.reverse();
 };
 
-
 const Tetris = () => {
   const [currentTetromino, setCurrentTetromino] = useState(randomTetromino());
   const [position, setPosition] = useState({ x: 4, y: 0 });
@@ -17,15 +16,9 @@ const Tetris = () => {
     Array.from({ length: 20 }, () => Array(10).fill(0))
   );
   const [gameOver, setGameOver] = useState(false);
-
-  const [score, setScore] = useState(0); // 스코어 상태 추가
-
-   // 빠른 내려가기 모드인 경우 100ms, 일반 모드인 경우 1000ms
-
+  const [score, setScore] = useState(0);
   const [isFastDrop, setIsFastDrop] = useState(false);
-
   const moveDownInterval = isFastDrop ? 10 : 1000;
-  
   const handleKeyPress = (event) => {
     if (event.key === "ArrowLeft") {
       moveLeft();
@@ -33,8 +26,9 @@ const Tetris = () => {
       moveRight();
     } else if (event.key === "ArrowUp") {
       rotateTetromino();
-    } else if (event.key === " ") { // 스페이스바 누를 경우
-      setIsFastDrop((prevIsFastDrop) => !prevIsFastDrop); // 상태 토글
+    } else if (event.key === " ") {
+      // 스페이스바 누를 경우
+      setIsFastDrop((prevIsFastDrop) => !prevIsFastDrop);
     }
   };
 
@@ -60,32 +54,28 @@ const Tetris = () => {
   };
 
   const moveDown = () => {
+    if (gameOver) {
+      return; // 게임 오버 상태일 때는 블럭을 더 이상 내려가지 않음
+    }
+
     const newY = position.y + 1;
   
-    if (checkCollision(currentTetromino, position.x, newY, grid)) {
+ if (checkCollision(currentTetromino, position.x, newY, grid)) {
+      updateGrid(currentTetromino, position.x, position.y, grid);
+      setCurrentTetromino(randomTetromino());
+
       if (position.y === 0) {
         console.log("게임 오버!");
         setGameOver(true);
-      } else {
-        // 현재 블럭을 고정하고 새로운 블럭을 생성합니다.
-        updateGrid(currentTetromino, position.x, position.y, grid);
-        setCurrentTetromino(randomTetromino());
-        setPosition((prevPosition) => ({ ...prevPosition, y: 0 }));
-        setIsFastDrop(false); // 다음 블록이 나타났을 때 빠른 내려가기 모드 해제
+        return;
       }
-    } else if (newY > 18 || checkCollision(currentTetromino, position.x, newY + 1, grid)) {
-      // 블럭이 더 이상 아래로 움직일 수 없으면 고정합니다.
-      updateGrid(currentTetromino, position.x, newY, grid);
-      setCurrentTetromino(randomTetromino());
-      setPosition((prevPosition) => ({ ...prevPosition, y: 0 }));
-      setIsFastDrop(false); // 다음 블록이 나타났을 때 빠른 내려가기 모드 해제
+
+      setPosition({ x: 4, y: 0 });
+      setIsFastDrop(false);
     } else {
-      // 블럭을 아래로 이동시킵니다.
       setPosition((prevPosition) => ({ ...prevPosition, y: newY }));
     }
-  };
-  
-  
+  };       
   
   const checkCollision = (tetromino, x, y, grid) => {
     for (let row = 0; row < tetromino.length; row++) {
@@ -108,7 +98,7 @@ const Tetris = () => {
 
   const updateGrid = (tetromino, x, y, grid) => {
     const newGrid = grid.map((row) => [...row]);
-  
+
     for (let row = 0; row < tetromino.length; row++) {
       for (let col = 0; col < tetromino[row].length; col++) {
         if (tetromino[row][col] !== 0) {
@@ -118,9 +108,9 @@ const Tetris = () => {
         }
       }
     }
-  
-    // 채워진 줄 삭제 및 스코어 증가
+
     let linesCleared = 0;
+    
     for (let row = newGrid.length - 1; row >= 0; row--) {
       if (newGrid[row].every((cell) => cell !== 0)) {
         newGrid.splice(row, 1);
@@ -130,14 +120,17 @@ const Tetris = () => {
     }
 
     if (linesCleared > 0) {
-      setScore((prevScore) => prevScore + linesCleared); // 스코어 증가
+      setScore((prevScore) => prevScore + linesCleared);
     }
 
     setGrid(newGrid);
   };
 
   useEffect(() => {
-    const timer = setInterval(moveDown, isFastDrop ? moveDownInterval / 2 : moveDownInterval);
+    const timer = setInterval(
+      moveDown,
+      isFastDrop ? moveDownInterval / 2 : moveDownInterval
+    );
     window.addEventListener("keydown", handleKeyPress);
 
     return () => {
@@ -152,63 +145,88 @@ const Tetris = () => {
     setPosition({ x: 4, y: 0 });
     setGameOver(false);
   };
-  
-return (
-  <div className="tetris">
-    <div className={`playground ${gameOver ? 'game-over' : ''}`}>
-      {grid.map((row, y) => (
-        <div key={y} className="row">
-          {row.map((cellValue, x) => {
-            const tetrominoRow = y - position.y;
-            const tetrominoCol = x - position.x;
 
-            const isTetrominoCell =
-              tetrominoRow >= 0 &&
-              tetrominoRow < currentTetromino.length &&
-              tetrominoCol >= 0 &&
-              tetrominoCol < currentTetromino[tetrominoRow].length;
+  const TETROMINOS_COLORS = {
+    1: "#00FFFF", // I - 청록색
+    2: "#0000FF", // J - 파란색
+    3: "#FFA500", // L - 주황색
+    4: "#FFFF00", // O - 노란색
+    5: "#00FF00", // S - 초록색
+    6: "#800080", // T - 보라색
+    7: "#FF0000", // Z - 빨간색
+  };
 
-            const cellTetromino =
-              isTetrominoCell &&
-              currentTetromino[tetrominoRow][tetrominoCol];
+  return (
+    <div className="tetris">
+      <div className={`playground ${gameOver ? "game-over" : ""}`}>
+        {grid.map((row, y) => (
+          <div key={y} className="row">
+            {row.map((cellValue, x) => {
+              const tetrominoRow = y - position.y;
+              const tetrominoCol = x - position.x;
 
-            // Set cells above the visible grid as empty cells
-            if (tetrominoRow < 0) {
+              // Check if the cell is within the bounds of the tetromino matrix
+              const isTetrominoCell =
+                tetrominoRow >= 0 &&
+                tetrominoRow < currentTetromino.length &&
+                tetrominoCol >= 0 &&
+                tetrominoCol < currentTetromino[tetrominoRow].length;
+
+              const cellTetromino =
+                isTetrominoCell &&
+                currentTetromino[tetrominoRow][tetrominoCol] !== 0; // Check if the tetromino cell is not empty
+
+              // Determine the color of the cell
+              let cellColor = cellTetromino
+                ? TETROMINOS_COLORS[currentTetromino[tetrominoRow][tetrominoCol]]
+                : cellValue !== 0
+                ? TETROMINOS_COLORS[cellValue] // Use the color of the corresponding tetromino
+                : "#ffffff";
+
+              // Set cells above the visible grid as empty cells
+              if (tetrominoRow < 0 || cellValue === 0) {
+                return (
+                  <div
+                    key={x}
+                    className={`cell`}
+                    style={{
+                      backgroundColor: cellColor, // Set the background color based on cellColor
+                      border: cellTetromino ? "0.5px solid #000" : "none" // Add a border for tetromino cells
+                    }}
+                  />
+                );
+              }
+
+              // Add the cell itself
               return (
                 <div
                   key={x}
-                  className={`cell ${cellValue !== 0 ? "tetromino" : ""}`}
+                  className={`cell`}
+                  style={{
+                    backgroundColor: cellColor,
+                    border: cellTetromino ? "0.5px solid #000" : "none"
+                  }}
                 />
               );
-            }
-
-            return (
-              <div
-                key={x}
-                className={`cell ${
-                  cellValue !== 0 || cellTetromino ? "tetromino" : ""
-                }`}
-              />
-            );
-          })}
-         </div>
-      ))}
-    </div>
-    <div className="score-container">
-  <div className="score">
-    <p>Score: {score}</p>
-  </div>
-</div>
-    {gameOver && (
-      <div className="game-over">
-        <h1>Game over</h1>
-        <button className="restart-button" onClick={restartGame}>
-          Replay
-        </button>
+            })}
+          </div>
+        ))}
       </div>
-    )}
-  </div>
-);
+      <div className="score-container">
+        <div className="score">
+          <p>Score: {score}</p>
+        </div>
+      </div>
+      {gameOver && (
+        <div className="game-over">
+          <h1>Game over</h1>
+          <button className="restart-button" onClick={restartGame}>
+            Replay
+          </button>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Tetris;
