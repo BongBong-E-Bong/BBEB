@@ -152,14 +152,24 @@ function Login({ setOpen }) {
           <img src={kakaologo} alt="kakaologo icon" />
         </Stack>
       </Stack>
-      <Modal open={successModalOpen} onClose={handleSuccessModalClose}>
+      <Modal
+        width="750px"
+        height="430px"
+        open={successModalOpen}
+        onClose={handleSuccessModalClose}
+      >
         <AuthModalSuccess
           message={"로그인 성공"}
           detailMessage={successMessage}
           onClose={handleSuccessModalClose}
         />
       </Modal>
-      <Modal open={failModalOpen} onClose={handleFailModalClose}>
+      <Modal
+        width="750px"
+        height="430px"
+        open={failModalOpen}
+        onClose={handleFailModalClose}
+      >
         <AuthModalFail
           message={"로그인 실패"}
           detailMessage={errorMessage}

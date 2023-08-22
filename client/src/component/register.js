@@ -128,9 +128,6 @@ function Register({ setOpen }) {
         >
           Password
         </Stack>
-        <Stack marginBottom="3%" sx={{ width: "68%", textAlign: "left" }}>
-          Password
-        </Stack>
         <TextField
           name="password"
           value={userPassword}

@@ -4,7 +4,12 @@ import register from "../image/register.png";
 
 const AuthModalSuccess = ({ detailMessage, onClose, message }) => {
   return (
-    <Stack Stack height="100%" alignItems="center" justifyContent="center">
+    <Stack
+      height="100%"
+      width="100%"
+      alignItems="center"
+      justifyContent="center"
+    >
       <Stack
         position="fixed"
         width="100%"

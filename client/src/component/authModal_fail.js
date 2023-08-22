@@ -4,11 +4,16 @@ import register from "../image/register.png";
 
 const AuthModalFail = ({ detailMessage, onClose, message }) => {
   return (
-    <Stack height="100%" alignItems="center" justifyContent="center">
+    <Stack
+      width="100%"
+      height="100%"
+      alignItems="center"
+      justifyContent="center"
+    >
       <Stack
         position="fixed"
-        width="48%"
-        height="57%"
+        width="100%"
+        height="100%"
         display="flex"
         alignItems="center"
         justifyContent="space-around"
@@ -18,10 +23,12 @@ const AuthModalFail = ({ detailMessage, onClose, message }) => {
         <Stack
           width="97%"
           height="96%"
-          bgcolor="#FFC7C7"
           justifyContent="center"
           alignItems="center"
           gap="3%"
+          sx={{
+            backgroundColor: "#FFC7C7",
+          }}
         >
           <Stack fontSize="55px">{message}</Stack>
           <img src={register} alt="register icon" width="34%" height="44%" />
