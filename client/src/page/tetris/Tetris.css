@@ -2,13 +2,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60%;
-  height: 65%;
+  width: 68%;
+  height: 73%;
   background-color: #FAF3F0;
   color: #fff;
   font-family: Arial, sans-serif;
   position: absolute;
-  top: 55%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -35,14 +35,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: #111;
 }
 
 .restart-button {
-  margin-top: 10px;
-  background-color: #333;
-  color: #fff;
+  background-color: #FF8181;
+  color: #111;
   border: none;
-  padding: 10px 20px;
+  height: 5%;
+  width: 7%;
   cursor: pointer;
 }
 
@@ -53,12 +54,8 @@
 .cell {
   width: 25px; /* 더 작은 크기로 조정 */
   height: 25px; /* 더 작은 크기로 조정 */
-  border: 1px solid #333;
-  background-color: #222; /* 이 스타일 유지 */
-}
-
-.tetromino {
-  background-color: #ddd;
+  border: 1px solid #CCCCCC;
+  background-color: #ffffff; /* 이 스타일 유지 */
 }
 
 .score-container {
@@ -68,8 +65,35 @@
 }
 
 .score {
-  background-color: #333;
-  color: #fff;
+  color: #111;
   padding: 5px 10px;
   border-radius: 5px;
+}
+
+.tetromino.I {
+  background-color: #00FFFF; /* Cyan */
+}
+
+.tetromino.J {
+  background-color: #0000FF; /* Blue */
+}
+
+.tetromino.L {
+  background-color: #FFA500; /* Orange */
+}
+
+.tetromino.O {
+  background-color: #FFFF00; /* Yellow */
+}
+
+.tetromino.S {
+  background-color: #00FF00; /* Green */
+}
+
+.tetromino.T {
+  background-color: #800080; /* Purple */
+}
+
+.tetromino.Z {
+  background-color: #FF0000; /* Red */
 }

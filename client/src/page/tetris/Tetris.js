@@ -153,8 +153,6 @@ const Tetris = () => {
     setGameOver(false);
   };
   
-// ... (이전 코드 생략)
-
 return (
   <div className="tetris">
     <div className={`playground ${gameOver ? 'game-over' : ''}`}>
@@ -197,16 +195,15 @@ return (
       ))}
     </div>
     <div className="score-container">
-        <div className="score">
-          <p>Score:</p>
-          <p>{score}</p>
-        </div>
-      </div>
+  <div className="score">
+    <p>Score: {score}</p>
+  </div>
+</div>
     {gameOver && (
       <div className="game-over">
-        <h1>게임 오버!</h1>
+        <h1>Game over</h1>
         <button className="restart-button" onClick={restartGame}>
-          다시 시작
+          Replay
         </button>
       </div>
     )}
