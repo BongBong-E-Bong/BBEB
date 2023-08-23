@@ -135,12 +135,12 @@ public class PostDTO {
         private LocalDateTime date;
         private Long view;
         private Long like;
-        // private Long commentCount;
+        private Long commentCount;
         private Long isPinned;
         private List<PostTag> postTag;
 
         @QueryProjection
-        public PostAllResponseDTO(Long postId, String thumbnail, String title, String writer, String memberProfile, LocalDateTime date, Long view, Long like, List<PostTag> postTag, Long isPinned) {
+        public PostAllResponseDTO(Long postId, String thumbnail, String title, String writer, String memberProfile, LocalDateTime date, Long view, Long like, List<PostTag> postTag, Long isPinned, Long commentCount) {
             this.postId = postId;
             this.thumbnail = thumbnail;
             this.title = title;
@@ -149,7 +149,7 @@ public class PostDTO {
             this.date = date;
             this.view = view;
             this.like = like;
-            //this.commentCount = commentCount;
+            this.commentCount = commentCount;
             this.postTag = postTag;
             this.isPinned = isPinned;
         }

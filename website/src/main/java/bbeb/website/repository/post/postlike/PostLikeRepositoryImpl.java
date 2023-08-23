@@ -1,9 +1,8 @@
-package bbeb.website.repository.post;
+package bbeb.website.repository.post.postlike;
 
 import bbeb.website.domain.post.Post;
 import bbeb.website.domain.post.PostLike;
-import bbeb.website.domain.post.QPostLike;
-import bbeb.website.dto.PostDTO;
+import bbeb.website.repository.post.postlike.PostLikeRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 

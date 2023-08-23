@@ -1,29 +1,24 @@
-package bbeb.website.repository.post;
+package bbeb.website.repository.post.post;
 
 import bbeb.website.domain.post.ContentType;
-import bbeb.website.domain.post.QTag;
 import bbeb.website.dto.PostDTO;
 import bbeb.website.dto.QPostDTO_Content;
-import bbeb.website.dto.QPostDTO_PostAllResponseDTO;
 import bbeb.website.dto.QPostDTO_PostTag;
+import bbeb.website.repository.post.postlike.PostLikeRepository;
 import com.amazonaws.services.s3.AmazonS3;
-import com.querydsl.core.QueryFactory;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.expression.spel.ast.Projection;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static bbeb.website.domain.comment.QComment.comment;
 import static bbeb.website.domain.member.QMember.member;
 import static bbeb.website.domain.member.QProfile.profile;
 import static bbeb.website.domain.post.QContent.content;
@@ -36,7 +31,6 @@ import static bbeb.website.domain.post.QTag.tag;
 @Slf4j
 public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
-    private final PostLikeRepository postLikeRepository;
     private final AmazonS3 s3Client;
     @Value("${cloud.aws.s3.bucket.post}")
     private String postBucketName;
@@ -105,12 +99,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                             post.createdDate,
                             post.view,
                             post.isPinned,
-                            postLike.count())
+                            postLike.count(),
+                            comment.count())
                     .from(post)
                     .where(post.createdDate.between(dto.getStartDate(), dto.getEndDate()))
                     .leftJoin(post.member, member)
                     .leftJoin(post.postLikes, postLike)
                     .leftJoin(member.profile, profile)
+                    .leftJoin(post.comments, comment)
                     .groupBy(post.id)
                     .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                     .offset(dto.getPageable().getOffset())
@@ -132,12 +128,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.createdDate,
                         post.view,
                         post.isPinned,
-                        postLike.count())
+                        postLike.count(),
+                        comment.count())
                 .from(post)
                 .where(post.title.contains(dto.getTitle()).and(post.createdDate.between(dto.getStartDate(), dto.getEndDate())))
                 .leftJoin(post.member, member)
                 .leftJoin(member.profile, profile)
                 .leftJoin(post.postLikes, postLike)
+                .leftJoin(post.comments, comment)
                 .groupBy(post.id)
                 .distinct()
                 .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
@@ -159,12 +157,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.createdDate,
                         post.view,
                         post.isPinned,
-                        postLike.count())
+                        postLike.count(),
+                        comment.count())
                 .from(member)
                 .where(member.nickname.eq(dto.getNickname()).and(post.createdDate.between(dto.getStartDate(), dto.getEndDate())))
                 .leftJoin(member.posts, post)
                 .leftJoin(member.profile, profile)
                 .leftJoin(post.postLikes, postLike)
+                .leftJoin(post.comments, comment)
                 .groupBy(post.id)
                 .distinct()
                 .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
@@ -186,13 +186,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.createdDate,
                         post.view,
                         post.isPinned,
-                        postLike.count())
+                        postLike.count(),
+                        comment.count())
                 .from(content)
                 .where(content.value.contains(dto.getContent()).and(content.contentType.eq(ContentType.TEXT)).and(post.createdDate.between(dto.getStartDate(), dto.getEndDate())))
                 .leftJoin(content.post, post)
                 .leftJoin(post.member, member)
                 .leftJoin(member.profile, profile)
                 .leftJoin(post.postLikes, postLike)
+                .leftJoin(post.comments, comment)
                 .groupBy(post.id)
                 .distinct()
                 .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
@@ -214,7 +216,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.createdDate,
                         post.view,
                         post.isPinned,
-                        postLike.count())
+                        postLike.count(),
+                        comment.count())
                 .from(tag)
                 .where(tag.value.eq(dto.getTag()).and(post.createdDate.between(dto.getStartDate(), dto.getEndDate())))
                 .leftJoin(tag.postTagList, postTag)
@@ -222,6 +225,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .leftJoin(post.member, member)
                 .leftJoin(member.profile, profile)
                 .leftJoin(post.postLikes, postLike)
+                .leftJoin(post.comments, comment)
                 .groupBy(post.id)
                 .distinct()
                 .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
@@ -256,7 +260,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                     tuple.get(post.view),
                     tuple.get(postLike.count()),
                     tags,
-                    tuple.get(post.isPinned)
+                    tuple.get(post.isPinned),
+                    tuple.get(comment.count())
             ));
         }
 

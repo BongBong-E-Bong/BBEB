@@ -1,11 +1,17 @@
 package bbeb.website.service;
 
 import bbeb.website.config.exception.CustomException;
+import bbeb.website.domain.comment.Comment;
 import bbeb.website.domain.member.Member;
 import bbeb.website.domain.post.*;
 import bbeb.website.dto.PostDTO;
-import bbeb.website.repository.post.*;
+import bbeb.website.repository.comment.CommentRepository;
 import bbeb.website.repository.member.MemberRepository;
+import bbeb.website.repository.post.content.ContentRepository;
+import bbeb.website.repository.post.post.PostRepository;
+import bbeb.website.repository.post.postlike.PostLikeRepository;
+import bbeb.website.repository.post.tag.PostTagRepository;
+import bbeb.website.repository.post.tag.TagRepository;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -37,6 +43,7 @@ public class PostService {
     private final PostLikeRepository postLikeRepository;
     private final PostTagRepository postTagRepository;
     private final TagRepository tagRepository;
+    private final CommentRepository commentRepository;
 
     private final AmazonS3 s3Client;
     @Value("${cloud.aws.s3.bucket.post}")
@@ -131,6 +138,8 @@ public class PostService {
             deleteContent(contentRepository.findByPost(post));
             deletePostLike(postLikeRepository.findByPost(post));
             deletePostTag(postTagRepository.findByPost(post));
+            deleteComment(commentRepository.findAllByPost(post));
+
             postRepository.delete(post);
         }
         else{
@@ -158,6 +167,10 @@ public class PostService {
 
     public void deletePostLike(List<PostLike> postLikes){
         postLikeRepository.deleteAll(postLikes);
+    }
+
+    public void deleteComment(List<Comment> comments){
+        commentRepository.deleteAll(comments);
     }
 
     public void createTag(List<PostDTO.PostTag> tags, Post post){
@@ -210,9 +223,9 @@ public class PostService {
             if (dto.getTitle() != null)
                 post.setTitle(dto.getTitle());
 
-            if (dto.getContent() != null) {
+            if (dto.getContent() != null)
                 createContent(dto.getContent(), post);
-            }
+
             if (dto.getTags() != null) {
                 deletePostTag(postTagRepository.findByPost(post));
                 createTag(dto.getTags(), post);

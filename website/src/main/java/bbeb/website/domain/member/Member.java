@@ -1,6 +1,7 @@
 package bbeb.website.domain.member;
 
 import bbeb.website.domain.game.TetrisScore;
+import bbeb.website.domain.comment.Comment;
 import bbeb.website.domain.post.Post;
 import bbeb.website.domain.post.PostLike;
 import lombok.*;
@@ -52,6 +53,9 @@ public class Member implements UserDetails {
 
     @OneToMany(mappedBy = "member")
     private List<PostLike> postLikes;
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments;
 
 
     @Override

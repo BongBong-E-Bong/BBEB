@@ -5,7 +5,7 @@ import bbeb.website.domain.member.Member;
 import bbeb.website.domain.member.Profile;
 import bbeb.website.dto.ProfileDTO;
 import bbeb.website.repository.member.MemberRepository;
-import bbeb.website.repository.profile.ProfileRepository;
+import bbeb.website.repository.member.ProfileRepository;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
