@@ -1,5 +1,6 @@
 package bbeb.website.domain.post;
 
+import bbeb.website.domain.comment.Comment;
 import bbeb.website.domain.member.Member;
 import lombok.*;
 
@@ -41,4 +42,7 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<PostTag> postTags;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
 }

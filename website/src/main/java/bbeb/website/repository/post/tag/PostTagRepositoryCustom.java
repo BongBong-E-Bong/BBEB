@@ -1,4 +1,4 @@
-package bbeb.website.repository.post;
+package bbeb.website.repository.post.tag;
 
 import bbeb.website.domain.post.Post;
 import bbeb.website.domain.post.PostTag;

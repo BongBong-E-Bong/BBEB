@@ -1,4 +1,4 @@
-package bbeb.website.repository.post;
+package bbeb.website.repository.post.tag;
 
 import bbeb.website.domain.post.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package bbeb.website.repository.post;
+package bbeb.website.repository.post.postlike;
 
 import bbeb.website.domain.post.Post;
 import bbeb.website.domain.post.PostLike;

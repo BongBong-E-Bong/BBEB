@@ -1,4 +1,4 @@
-package bbeb.website.repository.post;
+package bbeb.website.repository.post.post;
 
 import bbeb.website.dto.PostDTO;
 import org.springframework.data.domain.Page;
