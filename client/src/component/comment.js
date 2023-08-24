@@ -246,6 +246,17 @@ function Comment() {
             );
           })}
         </Stack>
+        {commentData.totalElements > commentData.content.length && (
+          <Stack
+            alignItems="center"
+            justifyContent="Center"
+            width="100%"
+            height="5vh"
+            style={{ cursor: "pointer" }}
+          >
+            댓글 더보기
+          </Stack>
+        )}
       </Stack>
     </Stack>
   );
