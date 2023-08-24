@@ -6,18 +6,44 @@ import obong from "../../image/obong.png";
 import basicProfile from "../../image/profilephoto.png";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import axios from "axios";
 
 function Post() {
-  const tags = [
-    "이봉이 좋아",
-    "이봉이 싫어",
-    "메롱",
-    "메롱롱",
-    "메롱롱롱롱롱롱롱",
-    "메롱롱롱롱롱롱롱",
-    "메롱롱롱롱롱롱롱",
-    "메롱롱롱롱롱롱롱",
-  ];
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const [likeTotal, setLikeTotal] = React.useState(0);
+
+  React.useEffect(() => {
+    axios
+      .get("http://13.125.105.202:8080/api/posts/likes/111", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setLikeTotal(response.data.likeTotal);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
+  const [postData, setPostData] = React.useState(null);
+
+  React.useEffect(() => {
+    axios
+      .get("http://13.125.105.202:8080/api/posts/111", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setPostData(response.data);
+      })
+      .catch((error) => {
+        console.error("post data error", error);
+      });
+  }, []);
 
   return (
     <>
@@ -56,15 +82,15 @@ function Post() {
         <Stack
           width="70%"
           marginTop="2%"
-          minHeight="22vh" //72-
+          minHeight="22vh"
           height="fit-content"
           bgcolor="#FAF3F0"
         >
-          <Stack //제목
+          <Stack
             margin="6% 10% 0.6% 10%"
             style={{ fontSize: "40px", fontWeight: "bold" }}
           >
-            title
+            {postData.title}
           </Stack>
           <Stack
             direction="row"
@@ -79,11 +105,9 @@ function Post() {
                 width="8%"
                 height="8%"
               ></img>
-              <Stack gap="2px" justifyContent="center" alignItems="center">
-                {/* 닉네임  */}
-                <Stack style={{ fontSize: "17px" }}>nickname</Stack>
-                {/* 날짜 */}
-                <Stack style={{ fontSize: "14px" }}>2001.08.23</Stack>
+              <Stack gap="2px" justifyContent="center" alignItems="flex-start">
+                <Stack style={{ fontSize: "17px" }}>{postData.writer}</Stack>
+                <Stack style={{ fontSize: "14px" }}>{postData.date}</Stack>
               </Stack>
             </Stack>
             <Stack direction="row" gap="15px" minWidth="fit-content">
@@ -100,7 +124,7 @@ function Post() {
                   style={{ color: "#767676" }}
                   sx={{ fontSize: "17px" }}
                 />
-                <Stack style={{ fontSize: "17px" }}>8</Stack>
+                <Stack style={{ fontSize: "17px" }}>{postData.view}</Stack>
               </Stack>
             </Stack>
           </Stack>
@@ -113,11 +137,10 @@ function Post() {
             height="fit-content"
             flexWrap="wrap"
           >
-            {/* 태그 */}
-            {tags.map((tag, i) => {
+            {postData.tags.map((tag, i) => {
               return (
                 <Chip
-                  label={tag}
+                  label={tag.value}
                   variant="outlined"
                   color="primary"
                   style={{ cursor: "pointer", fontSize: "15px" }}
@@ -151,8 +174,9 @@ function Post() {
               alignItems="center"
               bgcolor="white"
             >
-              hihihihi
-              {/* content */}
+              {postData.contents.map((content, i) => {
+                return <Stack>{content.value}</Stack>;
+              })}
             </Stack>
             <Stack
               direction="row"
@@ -167,8 +191,7 @@ function Post() {
                 fontSize="large"
                 style={{ cursor: "pointer", color: "#767676" }}
               ></ThumbUpIcon>
-              {/* 따봉수 */}
-              <Stack style={{ fontSize: "30px" }}>2</Stack>
+              <Stack style={{ fontSize: "30px" }}>{likeTotal}</Stack>
             </Stack>
           </Stack>
         </Stack>
