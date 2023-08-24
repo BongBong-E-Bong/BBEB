@@ -40,6 +40,7 @@ public class CommentService {
         comment.setMember(member);
         comment.setPost(post);
         comment.setCreateDate(LocalDateTime.now());
+        comment.setUrl(dto.getUrl());
 
         commentRepository.save(comment);
     }
@@ -61,6 +62,7 @@ public class CommentService {
         if (Objects.equals(comment.getMember().getLoginId(), loginId)){
             comment.setCommentType(Objects.equals(dto.getType(), "TEXT") ? CommentType.TEXT : CommentType.EMOTICON);
             comment.setValue(dto.getValue());
+            comment.setUrl(dto.getUrl());
         }
         else
             throw new CustomException(ErrorCode.BadRequest);

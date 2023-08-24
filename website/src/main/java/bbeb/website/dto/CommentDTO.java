@@ -15,6 +15,7 @@ public class CommentDTO {
         private String value;
         private String type;
         private Long postId;
+        private String url;
     }
 
     @Data
@@ -22,6 +23,7 @@ public class CommentDTO {
     public static class PutCommentRequestDTO {
         private String value;
         private String type;
+        private String url;
     }
 
     @Data
@@ -32,15 +34,17 @@ public class CommentDTO {
         private String profileUrl;
         private LocalDateTime createDate;
         private String type;
+        private String emoticonUrl;
 
         @QueryProjection
 
-        public CommentResponseDTO(String value, String writer, String profileUrl, LocalDateTime createDate, String type) {
+        public CommentResponseDTO(String value, String writer, String profileUrl, LocalDateTime createDate, String type, String emoticonUrl) {
             this.value = value;
             this.writer = writer;
             this.profileUrl = profileUrl;
             this.createDate = createDate;
             this.type = type;
+            this.emoticonUrl = emoticonUrl;
         }
     }
 }
