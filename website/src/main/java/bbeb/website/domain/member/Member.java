@@ -1,5 +1,6 @@
 package bbeb.website.domain.member;
 
+import bbeb.website.domain.character.CharacterLike;
 import bbeb.website.domain.game.TetrisScore;
 import bbeb.website.domain.comment.Comment;
 import bbeb.website.domain.post.Post;
@@ -57,6 +58,8 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member")
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "member")
+    private List<CharacterLike> characterLikes;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
