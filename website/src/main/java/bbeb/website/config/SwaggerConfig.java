@@ -76,4 +76,12 @@ public class SwaggerConfig {
                 .pathsToMatch("/api/comment/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi voteApi() {
+        return GroupedOpenApi.builder()
+                .group("vote-api")
+                .pathsToMatch("/api/vote/**")
+                .build();
+    }
 }

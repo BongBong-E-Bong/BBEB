@@ -72,6 +72,8 @@ public enum ErrorCode {
 
     /* 400 BAD_REQUEST */
     BadRequest(BAD_REQUEST, "잘못된 요청"),
+    DUPLICATION_VOTE(BAD_REQUEST, "하루에 한 번만 투표할 수 있어!"),
+    NOT_EQ_COUNT_VOTE(BAD_REQUEST, "세명 만 투표할 수 있어!"),
 
     /* 401 UNAUTHORIZED */
     INVALID_JWT_TOKEN(UNAUTHORIZED, "손상된 토큰"),
