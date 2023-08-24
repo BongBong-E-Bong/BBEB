@@ -10,45 +10,68 @@ import {
 import MoodIcon from "@mui/icons-material/Mood";
 import basicProfile from "../image/profilephoto.png";
 import emoticon0 from "../emoticon/...emoticon.png";
+import axios from "axios";
 
 function Comment() {
-  const commentData = {
-    totalPages: 0,
-    totalElements: 0,
-    number: 0,
-    sort: {
-      empty: true,
-      sorted: true,
-      unsorted: true,
-    },
-    size: 0,
-    content: [
-      {
-        value: "string",
-        writer: "string",
-        profileUrl: "string",
-        createDate: "2023-08-24T12:59:28.062Z",
-        type: "string",
-        emoticonUrl: "string",
-      },
-    ],
-    numberOfElements: 0,
-    pageable: {
-      sort: {
-        empty: true,
-        sorted: true,
-        unsorted: true,
-      },
-      offset: 0,
-      pageNumber: 0,
-      pageSize: 0,
-      paged: true,
-      unpaged: true,
-    },
-    first: true,
-    last: true,
-    empty: true,
-  };
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const [commentData, setCommentData] = React.useState(0);
+
+  React.useEffect(() => {
+    axios
+      .get(
+        "http://13.125.105.202:8080/api/comment/1?page=0&size=1&sort=string",
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      )
+      .then((response) => {
+        setCommentData(response.data.commentData);
+      })
+      .catch((error) => {
+        console.error("conmment data error:", error);
+      });
+  }, []);
+
+  // const commentData = {
+  //   totalPages: 0,
+  //   totalElements: 0,
+  //   number: 0,
+  //   sort: {
+  //     empty: true,
+  //     sorted: true,
+  //     unsorted: true,
+  //   },
+  //   size: 0,
+  //   content: [
+  //     {
+  //       value: "string",
+  //       writer: "string",
+  //       profileUrl: "string",
+  //       createDate: "2023-08-24T12:59:28.062Z",
+  //       type: "string",
+  //       emoticonUrl: "string",
+  //     },
+  //   ],
+  //   numberOfElements: 0,
+  //   pageable: {
+  //     sort: {
+  //       empty: true,
+  //       sorted: true,
+  //       unsorted: true,
+  //     },
+  //     offset: 0,
+  //     pageNumber: 0,
+  //     pageSize: 0,
+  //     paged: true,
+  //     unpaged: true,
+  //   },
+  //   first: true,
+  //   last: true,
+  //   empty: true,
+  // };
 
   const emoticons = [
     emoticon0,
