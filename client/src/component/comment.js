@@ -12,21 +12,43 @@ import basicProfile from "../image/profilephoto.png";
 import emoticon0 from "../emoticon/...emoticon.png";
 
 function Comment() {
-  const comments = [
-    [
-      basicProfile,
-      "이봉",
-      "2001.08.23",
-      "이봉이좋아 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~ 너무 좋아~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~이봉이좋아 너무 좋아~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+  const commentData = {
+    totalPages: 0,
+    totalElements: 0,
+    number: 0,
+    sort: {
+      empty: true,
+      sorted: true,
+      unsorted: true,
+    },
+    size: 0,
+    content: [
+      {
+        value: "string",
+        writer: "string",
+        profileUrl: "string",
+        createDate: "2023-08-24T12:59:28.062Z",
+        type: "string",
+        emoticonUrl: "string",
+      },
     ],
-    [basicProfile, "이봉", "2001.08.23", "이봉이좋아"],
-    [
-      basicProfile,
-      "이봉",
-      "2001.08.23",
-      "이봉이좋아 이봉이좋아 이봉이좋아 이봉이좋아 이봉이좋아",
-    ],
-  ];
+    numberOfElements: 0,
+    pageable: {
+      sort: {
+        empty: true,
+        sorted: true,
+        unsorted: true,
+      },
+      offset: 0,
+      pageNumber: 0,
+      pageSize: 0,
+      paged: true,
+      unpaged: true,
+    },
+    first: true,
+    last: true,
+    empty: true,
+  };
 
   const emoticons = [
     emoticon0,
@@ -113,7 +135,7 @@ function Comment() {
             color="primary"
             sx={{ fontSize: "18px", height: "60%" }}
           >
-            댓글쓰기({comments.length})
+            댓글쓰기({commentData.content.length})
           </Button>
         </Stack>
       </Stack>
@@ -157,7 +179,7 @@ function Comment() {
       </Menu>
       <Stack bgcolor="#FAF3F0" width="70%" height="fit-content">
         <Stack width="100%" height="fit-content" alignItems="center">
-          {comments.map((comment, i) => {
+          {commentData.content.map((comment, i) => {
             return (
               <Stack
                 direction="row"
@@ -183,7 +205,7 @@ function Comment() {
                   >
                     <img
                       alt="basicProfile"
-                      src={comment[0]}
+                      src={basicProfile}
                       width="50px"
                       height="50px"
                       style={{ borderRadius: "50%" }}
@@ -198,12 +220,15 @@ function Comment() {
                       height="!00%"
                     >
                       <Stack fontSize="19px" style={{ fontWeight: "bold" }}>
-                        {comment[1]}
+                        {commentData.content[i].writer}
                       </Stack>
-                      <Stack fontSize="12px"> {comment[2]}</Stack>
+                      <Stack fontSize="12px">
+                        {" "}
+                        {commentData.content[i].createDate}
+                      </Stack>
                     </Stack>
                     <Stack fontSize="16px" flexWrap="wrap">
-                      {comment[3]}
+                      {commentData.content[i].value}
                     </Stack>
                   </Stack>
                 </Stack>
