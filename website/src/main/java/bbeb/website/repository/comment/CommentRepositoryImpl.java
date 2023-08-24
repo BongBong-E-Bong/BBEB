@@ -37,7 +37,8 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                             member.nickname,
                             profile.url,
                             comment.createDate,
-                            comment.commentType.stringValue()
+                            comment.commentType.stringValue(),
+                            comment.url
                     ))
                     .from(comment)
                     .where(post.id.eq(postId))
@@ -51,8 +52,8 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
         result.forEach(object -> object.setProfileUrl(s3Client.getUrl(profileBucketName, object.getProfileUrl() == null ? "default.jpg" : object.getProfileUrl()).toString()));
         result.forEach(object ->{
-            if (Objects.equals(object.getType(), "EMOTICON"))
-                object.setValue(s3Client.getUrl(emoticonBucketName, object.getValue()).toString());
+            if (Objects.equals(object.getType(), "EMOTICON") || Objects.equals(object.getType(), "EMOTICON_TEXT"))
+                object.setEmoticonUrl(s3Client.getUrl(emoticonBucketName, object.getValue()).toString());
         });
 
         return new PageImpl<>(result, pageable, result.size());

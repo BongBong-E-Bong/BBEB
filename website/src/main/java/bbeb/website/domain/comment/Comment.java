@@ -25,6 +25,7 @@ public class Comment {
     private CommentType commentType;
 
     private String value;
+    private String url;
 
     private LocalDateTime createDate;
 
