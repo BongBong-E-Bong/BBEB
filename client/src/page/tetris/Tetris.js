@@ -154,6 +154,15 @@ const Tetris = () => {
     setGameOver(false);
   };
 
+  const tetrominoStyles = {
+    I: { backgroundColor: "#67c23a" },
+    J: { backgroundColor: "salmon" },
+    T: { backgroundColor: "#3a43c2" },
+    O: { backgroundColor: "#e6a23c" },
+    S: { backgroundColor: "#8e44ad" },
+    Z: { backgroundColor: "#16a085" },
+  };
+
   return (
     <Stack>
       <Header />
@@ -254,43 +263,41 @@ const Tetris = () => {
             </Stack>
           </Stack>
         </Stack>
-        <Stack className={`playground ${gameOver ? "game-over" : ""}`}>
-          {grid.map((row, y) => (
-            <Stack key={y} className="row">
-              {row.map((cellValue, x) => {
-                const tetrominoRow = y - position.y;
-                const tetrominoCol = x - position.x;
+        // ... (이전 코드)
 
-                const isTetrominoCell =
-                  tetrominoRow >= 0 &&
-                  tetrominoRow < currentTetromino.length &&
-                  tetrominoCol >= 0 &&
-                  tetrominoCol < currentTetromino[tetrominoRow].length;
+<div className="playground">
+  {grid.map((row, y) => (
+    <div key={y} className="row">
+      {row.map((cellValue, x) => {
+        const tetrominoRow = y - position.y;
+        const tetrominoCol = x - position.x;
 
-                const cellTetromino =
-                  isTetrominoCell &&
-                  currentTetromino[tetrominoRow][tetrominoCol];
+        const isTetrominoCell =
+          tetrominoRow >= 0 &&
+          tetrominoRow < currentTetromino.length &&
+          tetrominoCol >= 0 &&
+          tetrominoCol < currentTetromino[tetrominoRow].length;
 
-                if (tetrominoRow < 0) {
-                  return (
-                    <div
-                      key={x}
-                      className={`cell ${cellValue !== 0 ? "tetromino" : ""}`}
-                    />
-                  );
-                }
-                return (
-                  <div
-                    key={x}
-                    className={`cell ${
-                      cellValue !== 0 || cellTetromino ? "tetromino" : ""
-                    }`}
-                  />
-                );
-              })}
-            </Stack>
-          ))}
-        </Stack>
+        const cellTetromino =
+          isTetrominoCell &&
+          currentTetromino[tetrominoRow][tetrominoCol];
+
+        const tetrominoClassName = cellTetromino ? `tetromino-${currentTetromino}` : '';
+
+        return (
+          <div
+            key={x}
+            className={`cell ${cellValue !== 0 || tetrominoClassName ? tetrominoClassName : ''}`}
+            style={cellTetromino ? tetrominoStyles[currentTetromino] : null}
+          />
+        );
+      })}
+    </div>
+  ))}
+</div>
+
+// ... (이후 코드)
+
         {!gameOver && (
           <Stack
             color="black"
