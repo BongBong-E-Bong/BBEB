@@ -13,9 +13,9 @@ function Post() {
 
   const [likeTotal, setLikeTotal] = React.useState(0);
 
-  React.useEffect(() => {
+  const likeClick = () => {
     axios
-      .get("http://13.125.105.202:8080/api/posts/likes/111", {
+      .get("http://13.125.105.202:8080/api/posts/likes", {
         headers: {
           Authorization: accessToken,
         },
@@ -24,26 +24,46 @@ function Post() {
         setLikeTotal(response.data.likeTotal);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error("like error:", error);
       });
-  }, []);
+  };
 
-  const [postData, setPostData] = React.useState(null);
+  const postData = {
+    title: "string",
+    date: "2023-08-24T16:26:10.668Z",
+    writer: "string",
+    view: 0,
+    isPinned: 0,
+    contents: [
+      {
+        contentType: "string",
+        value: "string",
+        contentOrder: 0,
+      },
+    ],
+    tags: [
+      {
+        value: "string",
+      },
+    ],
+  };
 
-  React.useEffect(() => {
-    axios
-      .get("http://13.125.105.202:8080/api/posts/111", {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((response) => {
-        setPostData(response.data);
-      })
-      .catch((error) => {
-        console.error("post data error", error);
-      });
-  }, []);
+  // const [postData, setPostData] = React.useState(null);
+
+  // React.useEffect(() => {
+  //   axios
+  //     .get("http://13.125.105.202:8080/api/posts", {
+  //       headers: {
+  //         Authorization: accessToken,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setPostData(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("post data error", error);
+  //     });
+  // }, []);
 
   return (
     <>
@@ -190,6 +210,7 @@ function Post() {
               <ThumbUpIcon
                 fontSize="large"
                 style={{ cursor: "pointer", color: "#767676" }}
+                onClick={likeClick}
               ></ThumbUpIcon>
               <Stack style={{ fontSize: "30px" }}>{likeTotal}</Stack>
             </Stack>
