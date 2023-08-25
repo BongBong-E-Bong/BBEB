@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Tetris.css";
 import { TETROMINOS, randomTetromino } from "./tetrominos";
+import register from "../../image/register.png";
+import Stack from "@mui/material/Stack";
 
 const rotate = (matrix) => {
   const rotatedMatrix = matrix.map((_, index) =>
@@ -8,7 +10,6 @@ const rotate = (matrix) => {
   );
   return rotatedMatrix.reverse();
 };
-
 
 const Tetris = () => {
   const [currentTetromino, setCurrentTetromino] = useState(randomTetromino());
@@ -18,14 +19,12 @@ const Tetris = () => {
   );
   const [gameOver, setGameOver] = useState(false);
 
-  const [score, setScore] = useState(0); // 스코어 상태 추가
-
-   // 빠른 내려가기 모드인 경우 100ms, 일반 모드인 경우 1000ms
+  const [score, setScore] = useState(0);
 
   const [isFastDrop, setIsFastDrop] = useState(false);
 
   const moveDownInterval = isFastDrop ? 10 : 1000;
-  
+
   const handleKeyPress = (event) => {
     if (event.key === "ArrowLeft") {
       moveLeft();
@@ -33,8 +32,8 @@ const Tetris = () => {
       moveRight();
     } else if (event.key === "ArrowUp") {
       rotateTetromino();
-    } else if (event.key === " ") { // 스페이스바 누를 경우
-      setIsFastDrop((prevIsFastDrop) => !prevIsFastDrop); // 상태 토글
+    } else if (event.key === " ") {
+      setIsFastDrop((prevIsFastDrop) => !prevIsFastDrop);
     }
   };
 
@@ -61,32 +60,30 @@ const Tetris = () => {
 
   const moveDown = () => {
     const newY = position.y + 1;
-  
+
     if (checkCollision(currentTetromino, position.x, newY, grid)) {
       if (position.y === 0) {
         console.log("게임 오버!");
         setGameOver(true);
       } else {
-        // 현재 블럭을 고정하고 새로운 블럭을 생성합니다.
         updateGrid(currentTetromino, position.x, position.y, grid);
         setCurrentTetromino(randomTetromino());
         setPosition((prevPosition) => ({ ...prevPosition, y: 0 }));
-        setIsFastDrop(false); // 다음 블록이 나타났을 때 빠른 내려가기 모드 해제
+        setIsFastDrop(false);
       }
-    } else if (newY > 18 || checkCollision(currentTetromino, position.x, newY + 1, grid)) {
-      // 블럭이 더 이상 아래로 움직일 수 없으면 고정합니다.
+    } else if (
+      newY > 18 ||
+      checkCollision(currentTetromino, position.x, newY + 1, grid)
+    ) {
       updateGrid(currentTetromino, position.x, newY, grid);
       setCurrentTetromino(randomTetromino());
       setPosition((prevPosition) => ({ ...prevPosition, y: 0 }));
-      setIsFastDrop(false); // 다음 블록이 나타났을 때 빠른 내려가기 모드 해제
+      setIsFastDrop(false);
     } else {
-      // 블럭을 아래로 이동시킵니다.
       setPosition((prevPosition) => ({ ...prevPosition, y: newY }));
     }
   };
-  
-  
-  
+
   const checkCollision = (tetromino, x, y, grid) => {
     for (let row = 0; row < tetromino.length; row++) {
       for (let col = 0; col < tetromino[row].length; col++) {
@@ -108,7 +105,7 @@ const Tetris = () => {
 
   const updateGrid = (tetromino, x, y, grid) => {
     const newGrid = grid.map((row) => [...row]);
-  
+
     for (let row = 0; row < tetromino.length; row++) {
       for (let col = 0; col < tetromino[row].length; col++) {
         if (tetromino[row][col] !== 0) {
@@ -118,8 +115,7 @@ const Tetris = () => {
         }
       }
     }
-  
-    // 채워진 줄 삭제 및 스코어 증가
+
     let linesCleared = 0;
     for (let row = newGrid.length - 1; row >= 0; row--) {
       if (newGrid[row].every((cell) => cell !== 0)) {
@@ -130,14 +126,17 @@ const Tetris = () => {
     }
 
     if (linesCleared > 0) {
-      setScore((prevScore) => prevScore + linesCleared); // 스코어 증가
+      setScore((prevScore) => prevScore + linesCleared);
     }
 
     setGrid(newGrid);
   };
 
   useEffect(() => {
-    const timer = setInterval(moveDown, isFastDrop ? moveDownInterval / 2 : moveDownInterval);
+    const timer = setInterval(
+      moveDown,
+      isFastDrop ? moveDownInterval / 2 : moveDownInterval
+    );
     window.addEventListener("keydown", handleKeyPress);
 
     return () => {
@@ -152,63 +151,126 @@ const Tetris = () => {
     setPosition({ x: 4, y: 0 });
     setGameOver(false);
   };
+
+  const topScores = [
+    {
+      rank: 1,
+      player: "Player1",
+      score: 1500,
+      photo: require("../../image/register.png").default,
+    },
+    {
+      rank: 2,
+      player: "Player2",
+      score: 1200, 
+      photo: require("../../image/register.png").default,
+    },
+    {
+      rank: 3,
+      player: "Player3",
+      score: 900,
+      photo: require("../../image/register.png").default,
+    },
+  ];
   
-return (
-  <div className="tetris">
-    <div className={`playground ${gameOver ? 'game-over' : ''}`}>
-      {grid.map((row, y) => (
-        <div key={y} className="row">
-          {row.map((cellValue, x) => {
-            const tetrominoRow = y - position.y;
-            const tetrominoCol = x - position.x;
+  return (
+    <Stack>
+      <Stack
+        width="21%"
+        height="10%"
+        marginLeft="15%"
+        marginTop="6%"
+        justifyContent="center"
+        alignItems="center"
+        style={{ cursor: "pointer" }}
+        direction="row"
+      >
+        <img src={register} alt="register" width="30%" height="400%" />
+        <Stack
+          width="100%"
+          height="100%"
+          style={{ fontSize: "40px" }}
+          alignItems="center"
+          justifyContent="center"
+          underline="none"
+          marginLeft="-20%"
+          marginTop="11%"
+        >
+          MINI GAME
+        </Stack>
+      </Stack>
+      <Stack className="tetris" direction="row">
+        <div className="top-scores">
+          <ul style={{ listStyle: "none" }}>
+            {topScores.map((score) => (
+              <li key={score.rank} style={{ listStyleType: "none" }}>
+                <span style={{ color: "black" }}>
+                  {score.rank}
+                  <img
+                    src={score.photo}
+                    alt={`${score.player}'s photo`}
+                    width="30%"
+                    height="400%"
+                  />
+                  {score.player} {score.score}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={`playground ${gameOver ? "game-over" : ""}`}>
+          {grid.map((row, y) => (
+            <div key={y} className="row">
+              {row.map((cellValue, x) => {
+                const tetrominoRow = y - position.y;
+                const tetrominoCol = x - position.x;
 
-            const isTetrominoCell =
-              tetrominoRow >= 0 &&
-              tetrominoRow < currentTetromino.length &&
-              tetrominoCol >= 0 &&
-              tetrominoCol < currentTetromino[tetrominoRow].length;
+                const isTetrominoCell =
+                  tetrominoRow >= 0 &&
+                  tetrominoRow < currentTetromino.length &&
+                  tetrominoCol >= 0 &&
+                  tetrominoCol < currentTetromino[tetrominoRow].length;
 
-            const cellTetromino =
-              isTetrominoCell &&
-              currentTetromino[tetrominoRow][tetrominoCol];
+                const cellTetromino =
+                  isTetrominoCell &&
+                  currentTetromino[tetrominoRow][tetrominoCol];
 
-            // Set cells above the visible grid as empty cells
-            if (tetrominoRow < 0) {
-              return (
-                <div
-                  key={x}
-                  className={`cell ${cellValue !== 0 ? "tetromino" : ""}`}
-                />
-              );
-            }
-
-            return (
-              <div
-                key={x}
-                className={`cell ${
-                  cellValue !== 0 || cellTetromino ? "tetromino" : ""
-                }`}
-              />
-            );
-          })}     
-         </div>
-      ))}
-    </div>
-    <div className="score-container">
-  <div className="score">
-    <p>Score: {score}</p>
-  </div>
-</div>
-    {gameOver && (
-      <div className="game-over">
-        <h1>Game over</h1>
-        <button className="restart-button" onClick={restartGame}>
-          Replay
-        </button>
-      </div>
-    )}
-  </div>
-);
+                if (tetrominoRow < 0) {
+                  return (
+                    <div
+                      key={x}
+                      className={`cell ${cellValue !== 0 ? "tetromino" : ""}`}
+                    />
+                  );
+                }
+                return (
+                  <div
+                    key={x}
+                    className={`cell ${
+                      cellValue !== 0 || cellTetromino ? "tetromino" : ""
+                    }`}
+                  />
+                );
+              })}
+            </div>
+          ))}
+        </div>
+        <Stack className="score-container">
+          <div className="score">
+            <p>Score: {score}</p>
+          </div>
+        </Stack>
+        {gameOver && (
+          <Stack className="game-over">
+            <h1>Game over</h1>
+            <button className="restart-button" onClick={restartGame}>
+              Replay
+            </button>
+          </Stack>
+        )}
+      </Stack>
+    </Stack>
+  );
 };
 
 export default Tetris;
