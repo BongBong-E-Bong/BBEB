@@ -5,6 +5,7 @@ import bbeb.website.domain.game.TetrisScore;
 import bbeb.website.domain.comment.Comment;
 import bbeb.website.domain.post.Post;
 import bbeb.website.domain.post.PostLike;
+import bbeb.website.domain.post.PostView;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -60,6 +61,9 @@ public class Member implements UserDetails {
 
     @OneToMany(mappedBy = "member")
     private List<CharacterLike> characterLikes;
+
+    @OneToMany(mappedBy = "member")
+    private List<PostView> postViews;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

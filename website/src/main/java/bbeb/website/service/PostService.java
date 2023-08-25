@@ -10,6 +10,7 @@ import bbeb.website.repository.member.MemberRepository;
 import bbeb.website.repository.post.content.ContentRepository;
 import bbeb.website.repository.post.post.PostRepository;
 import bbeb.website.repository.post.postlike.PostLikeRepository;
+import bbeb.website.repository.post.postview.PostViewRepository;
 import bbeb.website.repository.post.tag.PostTagRepository;
 import bbeb.website.repository.post.tag.TagRepository;
 import com.amazonaws.services.s3.AmazonS3;
@@ -44,6 +45,7 @@ public class PostService {
     private final PostTagRepository postTagRepository;
     private final TagRepository tagRepository;
     private final CommentRepository commentRepository;
+    private final PostViewRepository postViewRepository;
 
     private final AmazonS3 s3Client;
     @Value("${cloud.aws.s3.bucket.post}")
@@ -103,7 +105,21 @@ public class PostService {
                 .build();
     }
 
-    public PostDTO.PostResponseDTO findPost(Long postId) {
+    public PostDTO.PostResponseDTO findPost(Long postId, String loginId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(BadRequest));
+
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new CustomException(BadRequest));
+
+        if (postViewRepository.findByPostAndMember(post, member) == null){
+            post.plusView();
+            PostView postView = new PostView();
+            postView.setPost(post);
+            postView.setMember(member);
+            postViewRepository.save(postView);
+        }
+
         return postRepository.findOneRequestDTOByMemberAndPost(postId);
     }
 

@@ -68,9 +68,10 @@ public class PostController {
 
     @GetMapping(value = "/api/posts/{postId}")
     public PostDTO.PostResponseDTO findPost(
-            @PathVariable("postId") Long postId
+            @PathVariable("postId") Long postId,
+            Authentication authentication
     ){
-        return postService.findPost(postId);
+        return postService.findPost(postId, authentication.getName());
     }
 
     @DeleteMapping(value = "/api/posts/{postId}")
