@@ -48,18 +48,6 @@
     background-color: #ffffff; /* 이 스타일 유지 */
   }
   
-  .score-container {
-    position: absolute;
-    top: 10%;
-    right: 10%;
-  }
-  
-  .score {
-    color: #111;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-  
   .tetromino {
     background-color: #ddd;
   }

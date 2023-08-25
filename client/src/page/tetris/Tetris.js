@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Tetris.css";
 import { TETROMINOS, randomTetromino } from "./tetrominos";
 import register from "../../image/register.png";
+import Tetris_sample from "../../image/Tetris_sample.png";
 import Stack from "@mui/material/Stack";
 import Header from "../../component/header";
 
@@ -153,27 +154,6 @@ const Tetris = () => {
     setGameOver(false);
   };
 
-  const topScores = [
-    {
-      rank: 1,
-      player: "Player1",
-      score: 1500,
-      photo: require("../../image/register.png").default,
-    },
-    {
-      rank: 2,
-      player: "Player2",
-      score: 1200,
-      photo: require("../../image/register.png").default,
-    },
-    {
-      rank: 3,
-      player: "Player3",
-      score: 900,
-      photo: require("../../image/register.png").default,
-    },
-  ];
-
   return (
     <Stack>
       <Header />
@@ -187,39 +167,93 @@ const Tetris = () => {
         style={{ cursor: "pointer" }}
         direction="row"
       >
-        <img src={register} alt="register" width="30%" height="400%" />
-        <Stack
-          width="100%"
-          height="100%"
-          style={{ fontSize: "40px" }}
-          alignItems="center"
-          justifyContent="center"
-          underline="none"
-          marginLeft="-20%"
-          marginTop="11%"
-        >
-          MINI GAME
+        <Stack>
+          <img src={register} alt="register" width="30%" height="400%" />
+          <Stack
+            width="100%"
+            height="100%"
+            style={{ fontSize: "40px" }}
+            alignItems="center"
+            justifyContent="center"
+            underline="none"
+            marginLeft="5%"
+            marginTop="-17%"
+          >
+            MINI GAME
+          </Stack>
         </Stack>
       </Stack>
-      <Stack className="tetris" direction="row">
-        <div className="top-scores">
-          <ul style={{ listStyle: "none" }}>
-            {topScores.map((score) => (
-              <li key={score.rank} style={{ listStyleType: "none" }}>
-                <span style={{ color: "black" }}>
-                  {score.rank}
-                  <img
-                    src={score.photo}
-                    alt={`${score.player}'s photo`}
-                    width="30%"
-                    height="400%"
-                  />
-                  {score.player} {score.score}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <Stack className="tetris">
+        <Stack
+          position="fixed"
+          marginLeft="-70%"
+          marginTop="-25%"
+          direction="row"
+          display="flex"
+        >
+          <Stack style={{ listStyle: "none", gap: "25%" }}>
+            <Stack direction="row" spacing={4}>
+              <Stack color="black" fontSize="48px">
+                1
+              </Stack>
+              <Stack>
+                <img
+                  src={Tetris_sample}
+                  alt="Tetris_sample icon"
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </Stack>
+              <Stack spacing={2.5}>
+                <Stack color="black" fontSize="13px">
+                  이봉이 엉덩이
+                </Stack>
+                <Stack color="black" fontSize="13px">
+                  score: 93483948
+                </Stack>
+              </Stack>
+            </Stack>
+            <Stack direction="row" spacing={4}>
+              <Stack color="black" fontSize="48px">
+                2
+              </Stack>
+              <Stack>
+                <img
+                  src={Tetris_sample}
+                  alt="Tetris_sample icon"
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </Stack>
+              <Stack spacing={2.5}>
+                <Stack color="black" fontSize="13px">
+                  이봉이 엉덩이
+                </Stack>
+                <Stack color="black" fontSize="13px">
+                  score: 93483948
+                </Stack>
+              </Stack>
+            </Stack>
+            <Stack direction="row" spacing={4}>
+              <Stack color="black" fontSize="48px">
+                3
+              </Stack>
+              <Stack>
+                <img
+                  src={Tetris_sample}
+                  alt="Tetris_sample icon"
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </Stack>
+              <Stack spacing={2.5}>
+                <Stack color="black" fontSize="13px">
+                  이봉이 엉덩이
+                </Stack>
+                <Stack color="black" fontSize="13px">
+                  score: 93483948
+                </Stack>
+              </Stack>
+            </Stack>
+          </Stack>
+        </Stack>
         <div className={`playground ${gameOver ? "game-over" : ""}`}>
           {grid.map((row, y) => (
             <div key={y} className="row">
@@ -257,14 +291,24 @@ const Tetris = () => {
             </div>
           ))}
         </div>
-        <Stack className="score-container">
-          <div className="score">
-            <p>Score: {score}</p>
-          </div>
-        </Stack>
+        {!gameOver && (
+          <Stack
+            color="black"
+            position="absolute"
+            marginLeft="70%"
+            marginTop="-35%"
+            fontSize="30px"
+          >
+            Score: {score}
+          </Stack>
+        )}
+
         {gameOver && (
-          <Stack className="game-over">
-            <Stack fontSize="30px">Game over</Stack>
+          <Stack className="game-over" spacing={5} marginTop="-2.5%">
+            <Stack spacing={2.5}>
+              <Stack fontSize="30px">Game over</Stack>
+              <Stack fontSize="24px">Score: {score}</Stack>
+            </Stack>
             <Stack
               bgcolor="#FF8181"
               style={{
