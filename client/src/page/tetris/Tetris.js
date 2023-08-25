@@ -254,9 +254,9 @@ const Tetris = () => {
             </Stack>
           </Stack>
         </Stack>
-        <div className={`playground ${gameOver ? "game-over" : ""}`}>
+        <Stack className={`playground ${gameOver ? "game-over" : ""}`}>
           {grid.map((row, y) => (
-            <div key={y} className="row">
+            <Stack key={y} className="row">
               {row.map((cellValue, x) => {
                 const tetrominoRow = y - position.y;
                 const tetrominoCol = x - position.x;
@@ -288,9 +288,9 @@ const Tetris = () => {
                   />
                 );
               })}
-            </div>
+            </Stack>
           ))}
-        </div>
+        </Stack>
         {!gameOver && (
           <Stack
             color="black"
