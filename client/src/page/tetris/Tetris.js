@@ -179,7 +179,7 @@ const Tetris = () => {
         width="21%"
         height="10%"
         marginLeft="15%"
-        marginTop="6%"
+        marginTop="8.5%"
         justifyContent="center"
         alignItems="center"
         style={{ cursor: "pointer" }}
