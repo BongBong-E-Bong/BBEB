@@ -1,9 +1,12 @@
 import React from "react";
 import { Stack, Checkbox } from "@mui/material";
 import register from "../../image/register.png";
+import Header from "../../component/header";
 
 function Choice() {
   return (
+    <>
+    <Header />
     <Stack
       width="68%"
       height="62%"
@@ -107,6 +110,7 @@ function Choice() {
         </Stack>
       </Stack>
     </Stack>
+    </>
   );
 }
 
