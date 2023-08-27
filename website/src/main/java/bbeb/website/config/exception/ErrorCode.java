@@ -72,6 +72,7 @@ public enum ErrorCode {
 
     /* 400 BAD_REQUEST */
     BadRequest(BAD_REQUEST, "잘못된 요청"),
+
     DUPLICATION_VOTE(BAD_REQUEST, "하루에 한 번만 투표할 수 있어!"),
     NOT_EQ_COUNT_VOTE(BAD_REQUEST, "세명 만 투표할 수 있어!"),
 
@@ -86,10 +87,6 @@ public enum ErrorCode {
 
     /* 404 NOT_FOUND */
     USER_NOT_FOUND(NOT_FOUND, "일치하는 유저 정보 없음"),
-    SUBJECT_NOT_FOUND(NOT_FOUND, "일치하는 과목 정보 없음"),
-    AUDITOR_NOT_FOUND(NOT_FOUND, "일치하는 수강생 정보 없음"),
-    ATTENDANCE_NOT_FOUND(NOT_FOUND, "일치하는 출석 정보 없음"),
-    TYPE_NOT_FOUND(NOT_FOUND, "일치하는 타입 정보 없음"),
 
 
     /* 409 CONFLICT */

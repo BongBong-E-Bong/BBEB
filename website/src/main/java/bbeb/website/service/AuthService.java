@@ -29,7 +29,7 @@ public class AuthService {
         String password = dto.getPassword();
 
         if (loginId == null || password == null)
-            throw new CustomException(BadRequest);
+            throw new CustomException(USER_NOT_FOUND);
 
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
