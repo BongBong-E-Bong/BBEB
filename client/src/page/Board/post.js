@@ -21,7 +21,7 @@ function Post() {
         },
       })
       .then((response) => {
-        setLikeTotal(response.data.likeTotal);
+        setLikeTotal(response.data.total);
       })
       .catch((error) => {
         console.error("like error:", error);
