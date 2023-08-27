@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static bbeb.website.config.exception.ErrorCode.BadRequest;
+import static bbeb.website.config.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +51,7 @@ public class PostService {
     @Value("${cloud.aws.s3.bucket.post}")
     private String postBucketName;
 
-    public List<PostDTO.PostImageResponseDTO> createPostImage(List<MultipartFile> files, String loginId) throws IOException {
+    public List<PostDTO.PostImageResponseDTO> createPostImage(List<MultipartFile> files) throws IOException {
 
         List<PostDTO.PostImageResponseDTO> dtoList = new ArrayList<>();
 
@@ -85,7 +85,7 @@ public class PostService {
 
     public PostDTO.CreatePostResponseDTO createPost(PostDTO.CreatePostRequestDTO dto, String loginId) {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new CustomException(BadRequest));
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         Post post = new Post();
         post.setTitle(dto.getTitle());
@@ -107,10 +107,10 @@ public class PostService {
 
     public PostDTO.PostResponseDTO findPost(Long postId, String loginId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(BadRequest));
+                .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new CustomException(BadRequest));
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         if (postViewRepository.findByPostAndMember(post, member) == null){
             post.plusView();
@@ -123,14 +123,14 @@ public class PostService {
         return postRepository.findOneRequestDTOByMemberAndPost(postId);
     }
 
-    public PostDTO.LikeResponseDTO postLike(Long postId, String loginId){
+    public void postLike(Long postId, String loginId){
         PostLike postLike = postLikeRepository.findByPostIdAndLoginId(postId, loginId);
         if (postLike == null){
             Post post = postRepository.findById(postId)
-                    .orElseThrow(() -> new CustomException(BadRequest));
+                    .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
             Member member = memberRepository.findByLoginId(loginId)
-                    .orElseThrow(() -> new CustomException(BadRequest));
+                    .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
             postLike = new PostLike();
 
@@ -142,13 +142,11 @@ public class PostService {
         else{
             postLikeRepository.delete(postLike);
         }
-
-        return new PostDTO.LikeResponseDTO(postLikeRepository.totalLike(postId));
     }
 
     public void deletePost(Long postId, String loginId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(BadRequest));
+                .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
         if (Objects.equals(post.getMember().getLoginId(), loginId)){
             deleteContent(contentRepository.findByPost(post));
@@ -159,7 +157,7 @@ public class PostService {
             postRepository.delete(post);
         }
         else{
-            throw new CustomException(BadRequest);
+            throw new CustomException(USER_NOT_FOUND);
         }
 
     }
@@ -212,22 +210,22 @@ public class PostService {
 
     public List<PostDTO.PostImageResponseDTO> putPostImage(Long postId, List<MultipartFile> files, String loginId) throws IOException {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(BadRequest));
+                .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
 
         if (post.getMember().getLoginId().equals(loginId)) {
             deleteContent(contentRepository.findByPost(post));
 
-            return createPostImage(files, loginId);
+            return createPostImage(files);
         }
         else{
-            throw new CustomException(BadRequest);
+            throw new CustomException(USER_NOT_FOUND);
         }
     }
 
     public void putPost(Long postId, PostDTO.PutPostRequestDTO dto, String loginId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(BadRequest));
+                .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
         if (post.getMember().getLoginId().equals(loginId)){
             if (dto.getThumbnail() != null)
@@ -248,7 +246,7 @@ public class PostService {
             }
         }
         else{
-            throw new CustomException(BadRequest);
+            throw new CustomException(USER_NOT_FOUND);
         }
     }
 
