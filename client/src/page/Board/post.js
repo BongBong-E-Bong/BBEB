@@ -28,42 +28,23 @@ function Post() {
       });
   };
 
-  const postData = {
-    title: "string",
-    date: "2023-08-24T16:26:10.668Z",
-    writer: "string",
-    view: 0,
-    isPinned: 0,
-    contents: [
-      {
-        contentType: "string",
-        value: "string",
-        contentOrder: 0,
-      },
-    ],
-    tags: [
-      {
-        value: "string",
-      },
-    ],
-  };
+  const [postData, setPostData] = React.useState(null);
 
-  // const [postData, setPostData] = React.useState(null);
-
-  // React.useEffect(() => {
-  //   axios
-  //     .get("http://13.125.105.202:8080/api/posts", {
-  //       headers: {
-  //         Authorization: accessToken,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       setPostData(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("post data error", error);
-  //     });
-  // }, []);
+  React.useEffect(() => {
+    axios
+      .get("http://13.125.105.202:8080/api/posts/126", {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTMyMjAwOTZ9.gZO-eiFRCuyjfrEoRxyh6VyX0llivU_LHMxAgQjNw3g",
+        },
+      })
+      .then((response) => {
+        setPostData(response.data);
+      })
+      .catch((error) => {
+        console.error("post data error", error);
+      });
+  }, []);
 
   return (
     <>
@@ -110,7 +91,7 @@ function Post() {
             margin="6% 10% 0.6% 10%"
             style={{ fontSize: "40px", fontWeight: "bold" }}
           >
-            {postData.title}
+            {postData?.title}
           </Stack>
           <Stack
             direction="row"
@@ -126,8 +107,8 @@ function Post() {
                 height="8%"
               ></img>
               <Stack gap="2px" justifyContent="center" alignItems="flex-start">
-                <Stack style={{ fontSize: "17px" }}>{postData.writer}</Stack>
-                <Stack style={{ fontSize: "14px" }}>{postData.date}</Stack>
+                <Stack style={{ fontSize: "17px" }}>{postData?.writer}</Stack>
+                <Stack style={{ fontSize: "14px" }}>{postData?.date}</Stack>
               </Stack>
             </Stack>
             <Stack direction="row" gap="15px" minWidth="fit-content">
@@ -144,7 +125,7 @@ function Post() {
                   style={{ color: "#767676" }}
                   sx={{ fontSize: "17px" }}
                 />
-                <Stack style={{ fontSize: "17px" }}>{postData.view}</Stack>
+                <Stack style={{ fontSize: "17px" }}>{postData?.view}</Stack>
               </Stack>
             </Stack>
           </Stack>
@@ -157,7 +138,7 @@ function Post() {
             height="fit-content"
             flexWrap="wrap"
           >
-            {postData.tags.map((tag, i) => {
+            {postData?.tags.map((tag, i) => {
               return (
                 <Chip
                   label={tag.value}
@@ -194,7 +175,7 @@ function Post() {
               alignItems="center"
               bgcolor="white"
             >
-              {postData.contents.map((content, i) => {
+              {postData?.contents.map((content, i) => {
                 return <Stack>{content.value}</Stack>;
               })}
             </Stack>
