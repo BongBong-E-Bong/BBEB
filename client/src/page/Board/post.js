@@ -34,8 +34,7 @@ function Post() {
     axios
       .get("http://13.125.105.202:8080/api/posts/126", {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTMyMjAwOTZ9.gZO-eiFRCuyjfrEoRxyh6VyX0llivU_LHMxAgQjNw3g",
+          Authorization: accessToken,
         },
       })
       .then((response) => {
