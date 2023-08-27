@@ -29,10 +29,10 @@ public class CommentService {
 
     public void create(CommentDTO.CreateCommentRequestDTO dto, String loginId) {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new CustomException(ErrorCode.BadRequest));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Post post = postRepository.findById(dto.getPostId())
-                .orElseThrow(() -> new CustomException(ErrorCode.BadRequest));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         Comment comment = new Comment();
         comment.setCommentType(Objects.equals(dto.getType(), "TEXT") ? CommentType.TEXT : CommentType.EMOTICON);
@@ -47,17 +47,17 @@ public class CommentService {
 
     public void delete(Long commentId, String loginId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CustomException(ErrorCode.BadRequest));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         if (Objects.equals(comment.getMember().getLoginId(), loginId))
             commentRepository.delete(comment);
         else
-            throw new CustomException(ErrorCode.BadRequest);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
     }
 
     public void fetch(CommentDTO.PutCommentRequestDTO dto, Long commentId, String loginId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CustomException(ErrorCode.BadRequest));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         if (Objects.equals(comment.getMember().getLoginId(), loginId)){
             comment.setCommentType(Objects.equals(dto.getType(), "TEXT") ? CommentType.TEXT : CommentType.EMOTICON);
@@ -65,7 +65,7 @@ public class CommentService {
             comment.setUrl(dto.getUrl());
         }
         else
-            throw new CustomException(ErrorCode.BadRequest);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
     }
 
     public Page<CommentDTO.CommentResponseDTO> find(Long postId, Pageable pageable) {

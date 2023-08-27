@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static bbeb.website.config.exception.ErrorCode.BadRequest;
+import static bbeb.website.config.exception.ErrorCode.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class MemberService {
     public ProfileDTO.ProfileResponseDTO uploadProfile(ProfileDTO.ProfileRequestDTO dto,
                                                        String loginId) throws IOException {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new CustomException(BadRequest));
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
 
         MultipartFile file = dto.getProfile();
@@ -83,7 +84,7 @@ public class MemberService {
 
     public ProfileDTO.ProfileResponseDTO getProfile(String loginId){
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new CustomException(BadRequest));
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         Profile profile = member.getProfile();
 
