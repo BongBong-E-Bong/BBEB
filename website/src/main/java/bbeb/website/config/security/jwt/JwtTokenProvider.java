@@ -1,17 +1,15 @@
 package bbeb.website.config.security.jwt;
 
 import bbeb.website.config.exception.CustomException;
-import bbeb.website.domain.Member;
+import bbeb.website.domain.member.Member;
 import bbeb.website.dto.TokenDTO;
-import bbeb.website.repository.MemberRepository;
+import bbeb.website.repository.member.MemberRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,8 +17,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -90,7 +86,7 @@ public class JwtTokenProvider {
         String accessToken = Jwts.builder()
                 .setSubject(loginId)
                 .claim("auth", authorities) // 권한 정보를 "auth" 클레임으로 추가
-                .setExpiration(new Date(now + 60 * 30 * 1000))
+                .setExpiration(new Date(now + 24 * 60 * 60 * 1000))
                 .signWith(accessTokenKey, SignatureAlgorithm.HS256)
                 .compact();
 

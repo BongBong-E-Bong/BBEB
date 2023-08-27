@@ -1,12 +1,12 @@
-package bbeb.website.repository;
+package bbeb.website.repository.member;
 
-import bbeb.website.domain.QMember;
+import bbeb.website.repository.member.MemberRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-import static bbeb.website.domain.QMember.member;
+import static bbeb.website.domain.member.QMember.member;
 
 @RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepositoryCustom {

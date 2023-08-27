@@ -52,4 +52,36 @@ public class SwaggerConfig {
                 .pathsToMatch("/api/members/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi tetrisApi() {
+        return GroupedOpenApi.builder()
+                .group("tetris-api")
+                .pathsToMatch("/api/tetris/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi postApi() {
+        return GroupedOpenApi.builder()
+                .group("post-api")
+                .pathsToMatch("/api/posts/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi commentApi() {
+        return GroupedOpenApi.builder()
+                .group("comment-api")
+                .pathsToMatch("/api/comment/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi voteApi() {
+        return GroupedOpenApi.builder()
+                .group("vote-api")
+                .pathsToMatch("/api/vote/**")
+                .build();
+    }
 }
