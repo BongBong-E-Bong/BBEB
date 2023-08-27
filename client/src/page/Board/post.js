@@ -15,7 +15,7 @@ function Post() {
 
   const likeClick = () => {
     axios
-      .get("http://13.125.105.202:8080/api/posts/likes", {
+      .get("http://13.125.105.202:8080/api/posts/likes/126", {
         headers: {
           Authorization: accessToken,
         },
