@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static bbeb.website.config.exception.ErrorCode.BadRequest;
+import static bbeb.website.config.exception.ErrorCode.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +21,9 @@ public class TetrisScoreService {
     private final TetrisScoreRepository tetrisScoreRepository;
 
 
-    public TetrisScoreDTO.TetrisScoreUpdateDTO updateScore(TetrisScoreDTO.TetrisScoreUpdateDTO dto, String loginId) {
+    public void updateScore(TetrisScoreDTO.TetrisScoreUpdateDTO dto, String loginId) {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new CustomException(BadRequest));
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         TetrisScore tetrisScore = member.getTetrisScore();
 
@@ -39,10 +40,6 @@ public class TetrisScoreService {
         }
 
         tetrisScoreRepository.save(tetrisScore);
-
-        dto.setScore(tetrisScore.getScore());
-
-        return dto;
     }
 
     public Page<TetrisScoreDTO.TetrisScoreGetDTO> searchScore(Pageable pageable) {

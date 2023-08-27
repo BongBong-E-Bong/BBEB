@@ -3,6 +3,7 @@ package bbeb.website.dto;
 import bbeb.website.domain.post.ContentType;
 import bbeb.website.domain.post.Post;
 import com.querydsl.core.annotations.QueryProjection;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,8 +18,11 @@ public class PostDTO {
     @Getter
     @Setter
     public static class CreatePostRequestDTO{
+        @Schema(description = "글 제목", example = "하하!")
         private String title;
+        @Schema(description = "썸네일", example = "호두.jpg")
         private String thumbnail;
+        @Schema(description = "고정 여부(고정O: 1, 고정X: 0)", example = "1")
         private Long isPinned;
         private List<Content> content;
         private List<PostTag> postTag;
@@ -30,6 +34,7 @@ public class PostDTO {
     @Setter
     @NoArgsConstructor
     public static class PostTag {
+        @Schema(description = "태그", example = "고양이")
         private String value;
 
         @QueryProjection
@@ -44,8 +49,11 @@ public class PostDTO {
     @Setter
     @NoArgsConstructor
     public static class Content {
+        @Schema(description = "content TYPE(TEXT, IMAGE)", example = "TEXT")
         private String contentType;
+        @Schema(description = "응답 받은 이미지 url 이나 내용", example = "하하!")
         private String value;
+        @Schema(description = "순서 0부터 시작~", example = "0")
         private Long contentOrder;
 
 
@@ -69,7 +77,9 @@ public class PostDTO {
     @Data
     @Getter
     public static class PostImageResponseDTO{
+        @Schema(description = "이미지 url", example = "호두.jpg")
         private String url;
+        @Schema(description = "파일 이름", example = "호두.jpg")
         private String fileName;
     }
 
@@ -78,6 +88,7 @@ public class PostDTO {
     @Setter
     @Builder
     public static class CreatePostResponseDTO {
+        @Schema(description = "글 아이디", example = "1")
         private Long postId;
     }
 
@@ -85,10 +96,15 @@ public class PostDTO {
     @Setter
     @Data
     public static class PostResponseDTO {
+        @Schema(description = "글 제목", example = "하하!")
         private String title;
+        @Schema(description = "글 작성일", example = "2023-08-27T16:52:53.291Z")
         private LocalDateTime date;
+        @Schema(description = "글 작성자", example = "hg_yellow")
         private String writer;
+        @Schema(description = "글 조회수", example = "100")
         private Long view;
+        @Schema(description = "고정 여부(고정O: 1, 고정X: 0)", example = "1")
         private Long isPinned;
         private List<Content> contents;
         private List<PostTag> tags;
@@ -110,14 +126,18 @@ public class PostDTO {
     @Setter
     @AllArgsConstructor
     public static class LikeResponseDTO {
+        @Schema(description = "좋아요 수", example = "100")
         int total;
     }
 
     @Data
     @Setter
     public static class PutPostRequestDTO {
+        @Schema(description = "글 제목", example = "하하!")
         private String title;
+        @Schema(description = "썸네일", example = "호두.jpg")
         private String thumbnail;
+        @Schema(description = "고정 여부(고정O: 1, 고정X: 0)", example = "1")
         private Long isPinned;
         private List<Content> content;
         private List<PostTag> tags;
@@ -127,15 +147,25 @@ public class PostDTO {
     @Getter
     @Setter
     public static class PostAllResponseDTO {
+        @Schema(description = "글 ID", example = "100")
         private Long postId;
+        @Schema(description = "썸네일", example = "호두.jpg")
         private String thumbnail;
+        @Schema(description = "글 제목", example = "하하!")
         private String title;
+        @Schema(description = "작성자", example = "hg_yellow")
         private String writer;
+        @Schema(description = "작성자 프로필", example = "호두.jpg")
         private String memberProfile;
+        @Schema(description = "글 작성일", example = "2023-08-27T16:52:53.291Z")
         private LocalDateTime date;
+        @Schema(description = "조회수", example = "100")
         private Long view;
+        @Schema(description = "좋아요 수", example = "100")
         private Long like;
+        @Schema(description = "댓글 수", example = "100")
         private Long commentCount;
+        @Schema(description = "고정 여부(고정O: 1, 고정X: 0)", example = "1")
         private Long isPinned;
         private List<PostTag> postTag;
 

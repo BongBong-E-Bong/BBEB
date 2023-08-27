@@ -25,9 +25,9 @@ public class CharacterService {
 
     public void vote(List<VoteDTO.VoteRequestDTO> dto, String loginId) {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new CustomException(ErrorCode.BadRequest));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        if (dto.size() != 3)
+        if (dto.size() > 3)
             throw new CustomException(ErrorCode.NOT_EQ_COUNT_VOTE);
 
         if (characterLikeRepository.findAllByMember(member).size() == 0){

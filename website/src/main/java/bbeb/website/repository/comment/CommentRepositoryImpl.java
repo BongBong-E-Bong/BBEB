@@ -38,7 +38,8 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                             profile.url,
                             comment.createDate,
                             comment.commentType.stringValue(),
-                            comment.url
+                            comment.url,
+                            comment.id
                     ))
                     .from(comment)
                     .where(post.id.eq(postId))
