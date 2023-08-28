@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Tetris.css";
-import { TETROMINOS, randomTetromino } from "./tetrominos";
+import TETROMINOS from "./tetrominos.js";
 import register from "../../image/register.png";
 import Tetris_sample from "../../image/Tetris_sample.png";
 import Stack from "@mui/material/Stack";
@@ -14,6 +14,13 @@ const rotate = (matrix) => {
 };
 
 const Tetris = () => {
+  const randomTetromino = () => {
+    const tetrominos = "IJLOSTZ";
+    const randomTetromino =
+      tetrominos[Math.floor(Math.random() * tetrominos.length)];
+    return TETROMINOS[randomTetromino] || TETROMINOS["I"]; // Default to a known tetromino if undefined
+  };
+
   const [currentTetromino, setCurrentTetromino] = useState(randomTetromino());
   const [position, setPosition] = useState({ x: 4, y: 0 });
   const [grid, setGrid] = useState(
@@ -263,41 +270,39 @@ const Tetris = () => {
             </Stack>
           </Stack>
         </Stack>
-        // ... (이전 코드)
+        <div className="playground">
+          {grid.map((row, y) => (
+            <div key={y} className="row">
+              {row.map((cellValue, x) => {
+                const tetrominoRow = y - position.y;
+                const tetrominoCol = x - position.x;
 
-<div className="playground">
-  {grid.map((row, y) => (
-    <div key={y} className="row">
-      {row.map((cellValue, x) => {
-        const tetrominoRow = y - position.y;
-        const tetrominoCol = x - position.x;
+                const isTetrominoCell =
+                  tetrominoRow >= 0 &&
+                  tetrominoRow < currentTetromino.length &&
+                  tetrominoCol >= 0 &&
+                  tetrominoCol < currentTetromino[tetrominoRow].length;
 
-        const isTetrominoCell =
-          tetrominoRow >= 0 &&
-          tetrominoRow < currentTetromino.length &&
-          tetrominoCol >= 0 &&
-          tetrominoCol < currentTetromino[tetrominoRow].length;
-
-        const cellTetromino =
-          isTetrominoCell &&
-          currentTetromino[tetrominoRow][tetrominoCol];
-
-        const tetrominoClassName = cellTetromino ? `tetromino-${currentTetromino}` : '';
-
-        return (
-          <div
-            key={x}
-            className={`cell ${cellValue !== 0 || tetrominoClassName ? tetrominoClassName : ''}`}
-            style={cellTetromino ? tetrominoStyles[currentTetromino] : null}
-          />
-        );
-      })}
-    </div>
-  ))}
-</div>
-
-// ... (이후 코드)
-
+                const cellTetromino =
+                  isTetrominoCell &&
+                  currentTetromino[tetrominoRow][tetrominoCol];
+                  
+                return (
+                  <div
+                    key={x}
+                    className={`cell ${cellTetromino ? "tetromino" : ""}`}
+                    style={
+                      cellTetromino
+                        ? tetrominoStyles[currentTetromino]
+                        : { backgroundColor: "white" }
+                    }
+                  />
+                );
+              })}
+            </div>
+          ))}
+        </div>
+        // ... (이후 코드)
         {!gameOver && (
           <Stack
             color="black"
@@ -309,7 +314,6 @@ const Tetris = () => {
             Score: {score}
           </Stack>
         )}
-
         {gameOver && (
           <Stack className="game-over" spacing={5} marginTop="-2.5%">
             <Stack spacing={2.5}>
