@@ -6,13 +6,15 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../../component/Modal";
 import SuccessModal from "./successModal";
 import AuthModalFail from "../../component/authModal_fail";
+import axios from "axios";
 
 function Choice() {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
-  const navigate = useNavigate();
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [order, setOrder] = useState("");
+  const navigate = useNavigate();
 
   const handleCheckboxChange = (checkboxName) => {
     if (selectedCheckboxes.includes(checkboxName)) {
@@ -29,11 +31,11 @@ function Choice() {
     }
   };
 
+  const login = true;
+
   const handleVoteSuccess = () => {
     setSuccessModalOpen(true);
   };
-
-  const login=false;
 
   const handleVoteFail = (errorType) => {
     let errorMessage = "";
@@ -42,9 +44,39 @@ function Choice() {
     } else if (errorType === "notLoggedIn") {
       errorMessage = "회원만 투표할 수 있어!";
     }
-
     setFailModalOpen(true);
     setErrorMessage(errorMessage);
+  };
+
+  // 투표 제출 버튼 클릭 시 실행되는 함수
+  const handleVoteSubmit = () => {
+    if (!login) {
+      handleVoteFail("notLoggedIn");
+      return;
+    }
+    if (selectedCheckboxes.length === 0) {
+      handleVoteFail("noSelection");
+      return;
+    }
+    if (login) {
+      if (selectedCheckboxes.length == !0) {
+        handleVoteSuccess();
+      }
+    }
+
+    axios
+      .post("http://your-backend-url/api/vote",{
+        order: order,
+      })
+      .then((response) => {
+        //여기 코드가 계속 안먹혀서 handleVoteSubmit의 이중 if문에 넣었습니다..
+      })
+      .catch((error) => {
+        if (error.response && error.response.data) {
+          setFailModalOpen(true);
+          setErrorMessage(error.response.data.message);
+        }
+      });
   };
 
   return (
@@ -144,15 +176,7 @@ function Choice() {
               textShadow:
                 "1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000",
             }}
-            onClick={() => {
-              if (!login) {
-                handleVoteFail("notLoggedIn");
-              } else if (selectedCheckboxes.length >= 1) {
-                handleVoteSuccess();
-              } else {
-                handleVoteFail("noSelection");
-              }
-            }}
+            onClick={handleVoteSubmit}
           >
             <Stack fontSize="32px">투표하기</Stack>
           </Stack>
