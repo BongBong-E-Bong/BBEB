@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import { Stack, Checkbox } from "@mui/material";
 import register from "../../image/register.png";
 import Header from "../../component/header";
-import { useNavigate } from "react-router-dom"; // useNavigate 가져오기
+import { useNavigate } from "react-router-dom";
+import Modal from "../../component/Modal";
+import SuccessModal from "./successModal";
+import AuthModalFail from "../../component/authModal_fail";
 
 function Choice() {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
-  const navigate = useNavigate(); // useNavigate 함수를 navigate 변수에 할당
+  const navigate = useNavigate();
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [failModalOpen, setFailModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleCheckboxChange = (checkboxName) => {
     if (selectedCheckboxes.includes(checkboxName)) {
@@ -22,6 +28,25 @@ function Choice() {
       }
     }
   };
+
+  const handleVoteSuccess = () => {
+    setSuccessModalOpen(true);
+  };
+
+  const login=false;
+
+  const handleVoteFail = (errorType) => {
+    let errorMessage = "";
+    if (errorType === "noSelection") {
+      errorMessage = "클릭 하라고!!";
+    } else if (errorType === "notLoggedIn") {
+      errorMessage = "회원만 투표할 수 있어!";
+    }
+
+    setFailModalOpen(true);
+    setErrorMessage(errorMessage);
+  };
+
   return (
     <>
       <Header />
@@ -120,12 +145,17 @@ function Choice() {
                 "1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000",
             }}
             onClick={() => {
-              //내용 추가
+              if (!login) {
+                handleVoteFail("notLoggedIn");
+              } else if (selectedCheckboxes.length >= 1) {
+                handleVoteSuccess();
+              } else {
+                handleVoteFail("noSelection");
+              }
             }}
           >
             <Stack fontSize="32px">투표하기</Stack>
           </Stack>
-
           <Stack
             bgcolor="#FFF"
             style={{
@@ -149,6 +179,30 @@ function Choice() {
           </Stack>
         </Stack>
       </Stack>
+      <Modal
+        width="750px"
+        height="430px"
+        open={successModalOpen}
+        onClose={() => setSuccessModalOpen(false)}
+      >
+        <SuccessModal
+          message={"투표 성공"}
+          detailMessage={"날 선택해줘서 정말 고마워"}
+          onClose={() => setSuccessModalOpen(false)}
+        />
+      </Modal>
+      <Modal
+        width="750px"
+        height="430px"
+        open={failModalOpen}
+        onClose={() => setFailModalOpen(false)}
+      >
+        <AuthModalFail
+          message={"투표 실패"}
+          detailMessage={errorMessage}
+          onClose={() => setFailModalOpen(false)}
+        />
+      </Modal>
     </>
   );
 }
