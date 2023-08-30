@@ -6,10 +6,16 @@ import obong from "../../image/obong.png";
 import writepoto from "../../image/write_poto.png";
 
 function WriteModal({ setOpen }) {
+  const [thumbnail, setThumbnail] = useState(null); // State to hold selected thumbnail
+
   const handleCloseModal = () => {
     setOpen(false);
   };
 
+  const handleThumbnailChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setThumbnail(selectedFile);
+  };
   return (
     <Modal open={true} onClose={handleCloseModal}>
       <Stack
@@ -51,13 +57,17 @@ function WriteModal({ setOpen }) {
               <Stack>게시판 규칙을 설명해줄게</Stack>
             </Stack>
             <Stack alignItems="center">
-              <img
-                src={writepoto}
-                alt="writeouto"
-                width="40px"
-                height="40px"
-              ></img>
-            </Stack>
+          <label htmlFor="thumbnailInput">
+            <img src={writepoto} alt="writeouto" width="40px" height="40px"></img>
+          </label>
+          <input
+            id="thumbnailInput"
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleThumbnailChange}
+          />
+        </Stack>
             <Stack></Stack>
           </Stack>
         </Stack>
@@ -148,7 +158,6 @@ function WriteModal({ setOpen }) {
             }}
           />
         </Stack>
-
         <Stack
           bgcolor="#7AAAA7"
           sx={{
