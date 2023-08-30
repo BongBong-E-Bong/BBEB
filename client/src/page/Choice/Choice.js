@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Stack, Checkbox } from "@mui/material";
 import register from "../../image/register.png";
 import Header from "../../component/header";
+import { useNavigate } from "react-router-dom"; // useNavigate 가져오기
 
 function Choice() {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const navigate = useNavigate(); // useNavigate 함수를 navigate 변수에 할당
 
   const handleCheckboxChange = (checkboxName) => {
     if (selectedCheckboxes.includes(checkboxName)) {
@@ -140,7 +142,7 @@ function Choice() {
               border: "2px solid #FF8181",
             }}
             onClick={() => {
-              //내용 추가
+              navigate("/Ranking");
             }}
           >
             <Stack fontSize="32px">결과보기</Stack>
