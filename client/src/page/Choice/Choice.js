@@ -59,7 +59,7 @@ function Choice() {
       return;
     }
     if (login) {
-      if (selectedCheckboxes.length == !0) {
+      if (selectedCheckboxes.length > 0) {
         handleVoteSuccess();
       }
     }
