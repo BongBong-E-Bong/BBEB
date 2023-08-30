@@ -12,7 +12,7 @@ import axios from "axios";
 function Ranking() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
-  const [voteTotal, setVoteTotal] = React.useState(0);
+  const [voteTotal, setVoteTotal] = React.useState([]);
 
   React.useEffect(() => {
     axios
@@ -32,56 +32,18 @@ function Ranking() {
 
   const navigate = useNavigate();
 
-  // const voteTotal = [
-  //   {
-  //     order: 1,
-  //     likeCount: 3,
-  //   },
-  //   {
-  //     order: 2,
-  //     likeCount: 2,
-  //   },
-  //   {
-  //     order: 3,
-  //     likeCount: 2,
-  //   },
-  //   {
-  //     order: 4,
-  //     likeCount: 0,
-  //   },
-  //   {
-  //     order: 5,
-  //     likeCount: 0,
-  //   },
-  //   {
-  //     order: 6,
-  //     likeCount: 0,
-  //   },
-  //   {
-  //     order: 7,
-  //     likeCount: 0,
-  //   },
-  //   {
-  //     order: 8,
-  //     likeCount: 0,
-  //   },
-  // ];
-
-  const bong = [, "일봉", "이봉", "삼봉", , "오봉", "육봉", "칠봉", "팔봉"];
-
-  const photo = [
+  const bong = [
     [],
-    [spotlight, ebongsad],
-    [spotlight, ebongsad],
-    [spotlight, ebongsad],
+    ["일봉", spotlight, ebongsad],
+    ["이봉", spotlight, ebongsad],
+    ["삼봉", spotlight, ebongsad],
     [],
-    [spotlight, ebongsad],
-    [spotlight, ebongsad],
-    [spotlight, ebongsad],
-    [spotlight, ebongsad],
+    ["오봉", spotlight, ebongsad],
+    ["육봉", spotlight, ebongsad],
+    ["칠봉", spotlight, ebongsad],
+    ["팔봉", spotlight, ebongsad],
   ];
 
-  console.log(voteTotal);
   return (
     <>
       <Header />
@@ -134,64 +96,59 @@ function Ranking() {
             </Fade>
           </Stack>
         </Stack>
-        {voteTotal?.map((vote, i) => {
+        {voteTotal.map((vote, i) => {
+          console.log(bong[vote?.order]);
           return (
-            <Stack>
-              <Stack>1</Stack>
-              <Stack>1</Stack>
-            </Stack>
+            bong[vote.order].length > 0 && (
+              <Stack
+                direction="row"
+                justifyContent="center"
+                gap="25%"
+                width="50%"
+                height="40vh"
+                margin="50px 0 50px 0"
+                alignItems="center"
+              >
+                <Slide left>
+                  <Stack
+                    alignItems="center"
+                    color="white"
+                    style={{ fontSize: "40px", fontFamily: "blackboard" }}
+                  >
+                    <Stack direction="row" gap="20px">
+                      <Stack
+                        style={{
+                          color:
+                            i === 0
+                              ? "#FFD700"
+                              : i === 1
+                              ? "#B6B6B6"
+                              : i === 2
+                              ? "#B48C89"
+                              : "white",
+                          WebkitTextStroke: i < 3 ? "1px white" : "none",
+                          fontFamily: "blackboardbold",
+                        }}
+                      >
+                        {i + 1}등
+                      </Stack>
+                      <Stack>{bong[vote?.order]?.[0]}</Stack>
+                    </Stack>
+                    <Stack>{vote.likeCount}표</Stack>
+                  </Stack>
+                  <img
+                    src={
+                      i < 3 ? bong[vote?.order]?.[1] : bong[vote?.order]?.[2]
+                    }
+                    alt="spotlight"
+                    width="200px"
+                    height="300px"
+                  />
+                </Slide>
+              </Stack>
+            )
           );
         })}
-        {/* <Stack>{bong[voteTotal[0].order]}</Stack> */}
-        {/* {voteTotal.map((vote, i) => {
-          console.log("return");
-          return (
-            <Stack
-              direction="row"
-              justifyContent="center"
-              gap="25%"
-              width="50%"
-              height="40vh"
-              margin="50px 0 50px 0"
-              alignItems="center"
-            >
-              <Slide left>
-                <Stack
-                  alignItems="center"
-                  color="white"
-                  style={{ fontSize: "40px", fontFamily: "blackboard" }}
-                >
-                  <Stack direction="row" gap="20px">
-                    <Stack
-                      style={{
-                        color:
-                          i === 0
-                            ? "#FFD700"
-                            : i === 1
-                            ? "#B6B6B6"
-                            : i === 2
-                            ? "#B48C89"
-                            : "white",
-                        WebkitTextStroke: i < 3 ? "1px white" : "none",
-                        fontFamily: "blackboardbold",
-                      }}
-                    >
-                      {i + 1}등
-                    </Stack>
-                    <Stack>{bong[vote.order]}</Stack>
-                  </Stack>
-                  <Stack>{vote.likeCount}표</Stack>
-                </Stack>
-                <img
-                  src={i < 3 ? photo[i + 1][0] : photo[i + 1][1]}
-                  alt="spotlight"
-                  width="200px"
-                  height="300px"
-                />
-              </Slide>
-            </Stack>
-          );
-        })} */}
 
         <Stack
           width="100%"
