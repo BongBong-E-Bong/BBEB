@@ -13,7 +13,6 @@ function Choice() {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [order, setOrder] = useState("");
   const navigate = useNavigate();
 
   const handleCheckboxChange = (checkboxName) => {
@@ -48,7 +47,6 @@ function Choice() {
     setErrorMessage(errorMessage);
   };
 
-  // 투표 제출 버튼 클릭 시 실행되는 함수
   const handleVoteSubmit = () => {
     if (!login) {
       handleVoteFail("notLoggedIn");
@@ -63,10 +61,10 @@ function Choice() {
         handleVoteSuccess();
       }
     }
-
+    const selectedOrder = selectedCheckboxes.join;
     axios
-      .post("http://your-backend-url/api/vote",{
-        order: order,
+      .post("http://13.125.105.202:8080/api/vote",{
+        order: selectedOrder,
       })
       .then((response) => {
         //여기 코드가 계속 안먹혀서 handleVoteSubmit의 이중 if문에 넣었습니다..
