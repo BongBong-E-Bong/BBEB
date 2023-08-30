@@ -31,12 +31,7 @@ function Write() {
   return (
     <>
       <Header />
-      <Stack
-        minHeight="100vh"
-        height="fit-content"
-        width="100%"
-        alignItems="center"
-      >
+      <Stack minHeight="100vh" height="100%" width="100%" alignItems="center">
         <Stack width="100%" height="22vh">
           <Stack
             width="21%"
@@ -79,7 +74,7 @@ function Write() {
                   label="제목"
                   placeholder="제목을 입력하세요."
                   variant="outlined"
-                  style={{ width: "80%" }}
+                  style={{ width: "80%", backgroundColor: "#FFF" }}
                 />
               </Stack>
               <Stack alignItems="center">
@@ -90,7 +85,7 @@ function Write() {
                   value={tagInput}
                   onChange={handleTagInputChange}
                   onKeyPress={handleTagInputKeyPress}
-                  style={{ width: "80%" }} // Adjust maxWidth value as needed
+                  style={{ width: "80%", backgroundColor: "#FFF" }} // Adjust maxWidth value as needed
                 />
               </Stack>
               <Stack width="100%">
@@ -100,19 +95,65 @@ function Write() {
                       key={index}
                       label={tag}
                       onClick={() => handleTagClick(tag)}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        cursor: "pointer",
+                        backgroundColor: "#FAF3F0",
+                        border: "1px solid #FF8181",
+                        color: "#FF8181",
+                      }}
                     />
                   ))}
                 </Stack>
               </Stack>
             </Stack>
-            <Stack width="100%" height="100%" alignItems="center">
+            <Stack width="100%" height="100%" alignItems="center" spacing={2}>
               <TextField
                 placeholder="내용을 입력하세요."
                 variant="outlined"
-                style={{ width: "80%"}}
+                multiline // Enable multi-line input
+                rows={10} // Adjust the number of rows to set the height
+                style={{ width: "80%", backgroundColor: "#FFF" }}
               />
-              내용을 입력하세요, 나가기 글쓰기 버튼
+              <Stack
+                width="100%"
+                height="100%"
+                direction="row"
+                justifyContent="center"
+                spacing={3}
+              >
+                <Stack
+                  bgcolor="#FFF"
+                  sx={{
+                    cursor: "pointer",
+                    color: "black",
+                    borderRadius: "10px",
+                    alignItems: "center",
+                    border: "1px solid #FF8181",
+                    width: "6%",
+                  }}
+                  onClick={() => {
+                    //내용 추가
+                  }}
+                >
+                  <Stack fontSize="20px">나가기</Stack>
+                </Stack>
+                <Stack
+                  bgcolor="#FF8181"
+                  sx={{
+                    cursor: "pointer",
+                    color: "white",
+                    borderRadius: "10px",
+                    alignItems: "center",
+                    border: "1px solid #FF8181",
+                    width: "6%",
+                  }}
+                  onClick={() => {
+                    //내용 추가
+                  }}
+                >
+                  <Stack fontSize="20px">글쓰기</Stack>
+                </Stack>
+              </Stack>
             </Stack>
           </Stack>
         </Stack>
