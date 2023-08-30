@@ -8,6 +8,16 @@ import SuccessModal from "./successModal";
 import AuthModalFail from "../../component/authModal_fail";
 import axios from "axios";
 
+const candidateItems = [
+  { name: "일봉이", image: register },
+  { name: "이봉이", image: register },
+  { name: "삼봉이", image: register },
+  { name: "사봉이", image: register },
+  { name: "오봉이", image: register },
+  { name: "육봉이", image: register },
+  { name: "칠봉이", image: register },
+];
+
 function Choice() {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
@@ -30,8 +40,6 @@ function Choice() {
     }
   };
 
-  const login = true;
-
   const handleVoteSuccess = () => {
     setSuccessModalOpen(true);
   };
@@ -47,7 +55,10 @@ function Choice() {
     setErrorMessage(errorMessage);
   };
 
+
   const handleVoteSubmit = () => {
+    const login = true; 
+
     if (!login) {
       handleVoteFail("notLoggedIn");
       return;
@@ -56,18 +67,18 @@ function Choice() {
       handleVoteFail("noSelection");
       return;
     }
-    if (login) {
-      if (selectedCheckboxes.length > 0) {
-        handleVoteSuccess();
-      }
+    if (login && selectedCheckboxes.length > 0) {
+      handleVoteSuccess(); // 모달 창 열기
     }
-    const selectedOrder = selectedCheckboxes.join;
+
+    const selectedOrder = selectedCheckboxes.map((item) => item.name).join(",");
+
     axios
-      .post("http://13.125.105.202:8080/api/vote",{
+      .post("http://13.125.105.202:8080/api/vote", {
         order: selectedOrder,
       })
       .then((response) => {
-        //여기 코드가 계속 안먹혀서 handleVoteSubmit의 이중 if문에 넣었습니다..
+        //then이 안먹어서 위에 71행의 if문에서 처리해줌
       })
       .catch((error) => {
         if (error.response && error.response.data) {
@@ -76,7 +87,6 @@ function Choice() {
         }
       });
   };
-
   return (
     <>
       <Header />
@@ -96,62 +106,23 @@ function Choice() {
           justifyContent="center"
           marginTop="6%"
         >
-          <Stack alignItems="center" spacing={2}>
-            <Stack fontSize="32px">일봉이</Stack>
-            <img src={register} alt="일봉 사진" width="60%" height="100%" />
-            <Checkbox
-              checked={selectedCheckboxes.includes("일봉이")}
-              onChange={() => handleCheckboxChange("일봉이")}
-            />
-          </Stack>
-          <Stack alignItems="center" spacing={2}>
-            <Stack fontSize="32px">이봉이</Stack>
-            <img src={register} alt="일봉 사진" width="60%" height="100%" />
-            <Checkbox
-              checked={selectedCheckboxes.includes("이봉이")}
-              onChange={() => handleCheckboxChange("이봉이")}
-            />
-          </Stack>
-          <Stack alignItems="center" spacing={2}>
-            <Stack fontSize="32px">삼봉이</Stack>
-            <img src={register} alt="일봉 사진" width="60%" height="100%" />
-            <Checkbox
-              checked={selectedCheckboxes.includes("삼봉이")}
-              onChange={() => handleCheckboxChange("삼봉이")}
-            />
-          </Stack>
-          <Stack alignItems="center" spacing={2}>
-            <Stack fontSize="32px">오봉이</Stack>
-            <img src={register} alt="일봉 사진" width="60%" height="100%" />
-            <Checkbox
-              checked={selectedCheckboxes.includes("사봉이")}
-              onChange={() => handleCheckboxChange("사봉이")}
-            />
-          </Stack>
-          <Stack alignItems="center" spacing={2}>
-            <Stack fontSize="32px">육봉이</Stack>
-            <img src={register} alt="일봉 사진" width="60%" height="100%" />
-            <Checkbox
-              checked={selectedCheckboxes.includes("오봉이")}
-              onChange={() => handleCheckboxChange("오봉이")}
-            />
-          </Stack>
-          <Stack alignItems="center" spacing={2}>
-            <Stack fontSize="32px">칠봉이</Stack>
-            <img src={register} alt="일봉 사진" width="60%" height="100%" />
-            <Checkbox
-              checked={selectedCheckboxes.includes("육봉이")}
-              onChange={() => handleCheckboxChange("육봉이")}
-            />
-          </Stack>
-          <Stack alignItems="center" spacing={2}>
-            <Stack fontSize="32px">팔봉이</Stack>
-            <img src={register} alt="일봉 사진" width="60%" height="100%" />
-            <Checkbox
-              checked={selectedCheckboxes.includes("칠봉이")}
-              onChange={() => handleCheckboxChange("칠봉이")}
-            />
-          </Stack>
+          {candidateItems.map((candidate) => (
+            <Stack key={candidate.name} alignItems="center" spacing={2}>
+              <Stack fontSize="32px">{candidate.name}</Stack>
+              <img
+                src={candidate.image}
+                alt={`${candidate.name} 사진`}
+                width="60%"
+                height="100%"
+              />
+              <Checkbox
+                checked={selectedCheckboxes.some(
+                  (item) => item.name === candidate.name
+                )}
+                onChange={() => handleCheckboxChange(candidate)}
+              />
+            </Stack>
+          ))}
         </Stack>
         <Stack
           height="100%"
