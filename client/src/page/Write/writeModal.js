@@ -3,6 +3,7 @@ import { Stack, Checkbox } from "@mui/material";
 import axios from "axios";
 import Modal from "../../component/Modal";
 import obong from "../../image/obong.png";
+import writepoto from "../../image/write_poto.png";
 
 function WriteModal({ setOpen }) {
   const handleCloseModal = () => {
@@ -22,14 +23,20 @@ function WriteModal({ setOpen }) {
         bgcolor="#F88C8C"
       >
         <Stack
-          spacing={5}
           width="450px"
           height="450px"
           alignItems="center"
-          justifyContent="space-around"
+          justifyContent="center"
         >
-          <Stack borderTop="1px solid black" borderBottom="1px solid black">
-            <Stack fontSize="36px" alignItems="center">Thumbnail upload</Stack>
+          <Stack
+            borderTop="1px solid black"
+            borderBottom="1px solid black"
+            spacing={2}
+          >
+            <Stack></Stack>
+            <Stack fontSize="36px" alignItems="center">
+              Thumbnail upload
+            </Stack>
             <Stack
               bgcolor="#FFFBEE"
               alignItems="center"
@@ -42,6 +49,15 @@ function WriteModal({ setOpen }) {
               <Stack>안녕 난 오봉이야</Stack>
               <Stack>게시판 규칙을 설명해줄게</Stack>
             </Stack>
+            <Stack alignItems="center">
+              <img
+                src={writepoto}
+                alt="writeouto"
+                width="40px"
+                height="40px"
+              ></img>
+            </Stack>
+            <Stack></Stack>
           </Stack>
         </Stack>
         <Stack
@@ -58,9 +74,7 @@ function WriteModal({ setOpen }) {
               marginLeft: "390px",
               marginTop: "-40px",
             }}
-            onClick={() => {
-              //이후 추가
-            }}
+            onClick={handleCloseModal}
           >
             <Stack fontSize="40px">x</Stack>
           </Stack>
