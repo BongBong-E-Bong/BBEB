@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import Header from "../../component/header";
-import { Stack, Checkbox, TextField, Chip, hexToRgb } from "@mui/material";
+import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
 import axios from "axios";
+import WriteModal from "./writeModal";
 
 function Write() {
   const [checked, setChecked] = useState(false);
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
   const handleTagInputChange = (event) => {
     setTagInput(event.target.value);
   };
@@ -59,12 +61,12 @@ function Write() {
         <Stack
           width="70%"
           marginTop="2%"
-          minHeight="100vh"
+          minHeight="74vh"
           height="fit-content"
           bgcolor="#FAF3F0"
         >
           <Stack spacing={6}>
-            <Stack spacing={2}>
+            <Stack spacing={2}> 
               <Stack justifyContent="flex-end" alignItems="center">
                 <Checkbox checked={checked} onChange={handleChange} />
                 {checked ? "고정 되었습니다." : "고정되지 않은 상태입니다."}
@@ -106,12 +108,12 @@ function Write() {
                 </Stack>
               </Stack>
             </Stack>
-            <Stack width="100%" height="100%" alignItems="center" spacing={2}>
+            <Stack width="100%" height="100%" alignItems="center" spacing={4}>
               <TextField
                 placeholder="내용을 입력하세요."
                 variant="outlined"
                 multiline // Enable multi-line input
-                rows={10} // Adjust the number of rows to set the height
+                rows={13} // Adjust the number of rows to set the height
                 style={{ width: "80%", backgroundColor: "#FFF" }}
               />
               <Stack
@@ -148,11 +150,12 @@ function Write() {
                     width: "6%",
                   }}
                   onClick={() => {
-                    //내용 추가
+                    setModalOpen(true)
                   }}
                 >
                   <Stack fontSize="20px">글쓰기</Stack>
                 </Stack>
+                {modalOpen && <WriteModal setOpen={setModalOpen} />}
               </Stack>
             </Stack>
           </Stack>

@@ -1,7 +1,7 @@
 import { Box, Modal as MuiModal } from "@mui/material";
 import React from "react";
 
-function Modal({ width = "70%", height = "50%", children, ...rest }) {
+function Modal({ width = "50%", height = "50%", children, ...rest }) {
   return (
     <MuiModal {...rest}>
       <Box
