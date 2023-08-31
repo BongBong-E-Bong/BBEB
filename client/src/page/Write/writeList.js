@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Header from "../../component/header";
-import { Stack } from "@mui/material";
+import { Stack, Switch } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import obong from "../../image/obong.png";
 
 function WriteList() {
@@ -8,7 +10,7 @@ function WriteList() {
     <>
       <Header />
       <Stack minHeight="100vh" height="100%" width="100%" alignItems="center">
-        <Stack width="100%" height="22vh">
+      <Stack width="100%" height="22vh">
           <Stack
             width="21%"
             height="10%"
@@ -32,20 +34,35 @@ function WriteList() {
             <img src={obong} alt="obong" width="20%" height="400%"></img>
           </Stack>
         </Stack>
-        <Stack direction="row">
-          <Stack direction="row">
-            <Stack>날짜</Stack>
-            <Stack>좋아요 순/최신순</Stack>
+        <Stack
+          width="70%"
+          marginTop="2%"
+          minHeight="74vh"
+          height="fit-content"
+          bgcolor="#FAF3F0"
+        >
+          <Stack direction="row" spacing={40}>
+            <Stack direction="row">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker />
+              </LocalizationProvider>
+            </Stack>
+            <Stack direction="row">
+              <Stack>좋아요 순</Stack>
+              <Switch></Switch>
+              <Stack>최신순</Stack>
+            </Stack>
+
+            <Stack direction="row">
+              <Stack>글 제목</Stack>
+              <Stack>검색</Stack>
+              <Stack>글쓰기</Stack>
+            </Stack>
           </Stack>
-          <Stack direction="row">
-            <Stack>글 제목</Stack>
-            <Stack>검색</Stack>
-            <Stack>글쓰기</Stack>
-          </Stack>
+          <Stack>'오봉이' 검색 결과(8)</Stack>
+          <Stack>목록 부분</Stack>
+          <Stack>페이지네이션 부분</Stack>
         </Stack>
-        <Stack>'오봉이' 검색 결과(8)</Stack>
-        <Stack>목록 부분</Stack>
-        <Stack>페이지네이션 부분</Stack>
       </Stack>
     </>
   );

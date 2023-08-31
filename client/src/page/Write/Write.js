@@ -4,12 +4,17 @@ import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
+// import WriteList from "./writeList";
+import { useNavigate } from "react-router-dom"; // useNavigate 훅을 임포트
 
 function Write() {
   const [checked, setChecked] = useState(false);
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+  
   const handleTagInputChange = (event) => {
     setTagInput(event.target.value);
   };
@@ -134,7 +139,7 @@ function Write() {
                     width: "6%",
                   }}
                   onClick={() => {
-                    //내용 추가
+                    navigate("/writeList");
                   }}
                 >
                   <Stack fontSize="20px">나가기</Stack>
