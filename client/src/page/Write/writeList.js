@@ -182,7 +182,7 @@ function WriteList() {
                     <Stack fontSize="12px">2001-08-23</Stack>
                     <Stack fontSize="12px">🐷오봉이</Stack>
                   </Stack>
-                  <Stack direction="row" spacing={1} sx={{ padding: "8%" }}>
+                  <Stack direction="row" spacing={1}>
                     <Stack direction="row" spacing={0.5}>
                       <Stack>
                         <img src={like} alt="like" />
@@ -204,7 +204,6 @@ function WriteList() {
                   </Stack>
                 </Stack>
               </Paper>
-
               <Paper
                 elevation={0}
                 sx={{
@@ -332,7 +331,7 @@ function WriteList() {
                     <Stack fontSize="12px">2001-08-23</Stack>
                     <Stack fontSize="12px">🐷오봉이</Stack>
                   </Stack>
-                  <Stack direction="row" spacing={1} sx={{ padding: "8%" }}>
+                  <Stack direction="row" spacing={1}>
                     <Stack direction="row" spacing={0.5}>
                       <Stack>
                         <img src={like} alt="like" />
