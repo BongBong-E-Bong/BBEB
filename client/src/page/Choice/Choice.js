@@ -9,13 +9,13 @@ import AuthModalFail from "../../component/authModal_fail";
 import axios from "axios";
 
 const candidateItems = [
-  { name: "일봉이", image: register },
-  { name: "이봉이", image: register },
-  { name: "삼봉이", image: register },
-  { name: "오봉이", image: register },
-  { name: "육봉이", image: register },
-  { name: "칠봉이", image: register },
-  { name: "팔봉이", image: register },
+  { name: "일봉이", image: register, id: 1 },
+  { name: "이봉이", image: register, id: 2 },
+  { name: "삼봉이", image: register, id: 3 },
+  { name: "오봉이", image: register, id: 5 },
+  { name: "육봉이", image: register, id: 6 },
+  { name: "칠봉이", image: register, id: 7 },
+  { name: "팔봉이", image: register, id: 8 },
 ];
 
 function Choice() {
@@ -23,7 +23,9 @@ function Choice() {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
   const handleCheckboxChange = (checkboxName) => {
     if (selectedCheckboxes.includes(checkboxName)) {
@@ -55,9 +57,8 @@ function Choice() {
     setErrorMessage(errorMessage);
   };
 
-
   const handleVoteSubmit = () => {
-    const login = true; 
+    const login = true;
 
     if (!login) {
       handleVoteFail("notLoggedIn");
@@ -67,18 +68,23 @@ function Choice() {
       handleVoteFail("noSelection");
       return;
     }
-    if (login && selectedCheckboxes.length > 0) {
-      handleVoteSuccess(); // 모달 창 열기
-    }
+    // if (login && selectedCheckboxes.length > 0) {
+    //   handleVoteSuccess(); // 모달 창 열기
+    // }
 
-    const selectedOrder = selectedCheckboxes.map((item) => item.name).join(",");
+    const selectedOrder = selectedCheckboxes.map((item) => {
+      return { order: item.id };
+    });
 
     axios
-      .post("http://13.125.105.202:8080/api/vote", {
-        order: selectedOrder,
+      .post("http://13.125.105.202:8080/api/vote", selectedOrder, {
+        headers: {
+          Authorization: accessToken,
+        },
       })
       .then((response) => {
         //then이 안먹어서 위에 71행의 if문에서 처리해줌
+        setSuccessModalOpen(true);
       })
       .catch((error) => {
         if (error.response && error.response.data) {
@@ -106,23 +112,25 @@ function Choice() {
           justifyContent="center"
           marginTop="6%"
         >
-          {candidateItems.map((candidate) => (
-            <Stack key={candidate.name} alignItems="center" spacing={2}>
-              <Stack fontSize="32px">{candidate.name}</Stack>
-              <img
-                src={candidate.image}
-                alt={`${candidate.name} 사진`}
-                width="60%"
-                height="100%"
-              />
-              <Checkbox
-                checked={selectedCheckboxes.some(
-                  (item) => item.name === candidate.name
-                )}
-                onChange={() => handleCheckboxChange(candidate)}
-              />
-            </Stack>
-          ))}
+          {candidateItems.map((candidate) => {
+            return (
+              <Stack key={candidate.name} alignItems="center" spacing={2}>
+                <Stack fontSize="32px">{candidate.name}</Stack>
+                <img
+                  src={candidate.image}
+                  alt={`${candidate.name} 사진`}
+                  width="60%"
+                  height="100%"
+                />
+                <Checkbox
+                  checked={selectedCheckboxes.some(
+                    (item) => item.name === candidate.name
+                  )}
+                  onChange={() => handleCheckboxChange(candidate)}
+                />
+              </Stack>
+            );
+          })}
         </Stack>
         <Stack
           height="100%"
