@@ -144,7 +144,7 @@ function WriteList() {
                   alt="thumnail"
                   style={{
                     width: "100%",
-                    height: "100%",
+                    height: "80%",
                     objectFit: "cover", // 이미지를 컨테이너에 맞추면서 잘라냄
                     position: "absolute", // 이미지를 컨테이너 안에서 절대 포지션으로 배치
                     top: 0,
@@ -156,10 +156,12 @@ function WriteList() {
                   direction="row"
                   bgcolor="#FAF3F0"
                   sx={{
-                    marginTop: "50%",
+                    position: "absolute", // 상대 포지션으로 배치
+                    bottom: 0, // 아래쪽에 배치
+                    left: 0, // 왼쪽에 배치
                     borderBottomLeftRadius: "20px",
                     borderBottomRightRadius: "20px",
-                    
+                    width: "100%", // 스택 너비를 100%로 설정하여 컨테이너 너비와 일치
                   }}
                 >
                   <Stack>이미지</Stack>
