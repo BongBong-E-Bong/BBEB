@@ -177,12 +177,12 @@ function WriteList() {
                       marginLeft: "5%",
                     }}
                   />
-                  <Stack>
+                  <Stack width="100%">
                     <Stack fontSize="14px">안녕 난 오봉이야</Stack>
                     <Stack fontSize="12px">2001-08-23</Stack>
                     <Stack fontSize="12px">🐷오봉이</Stack>
                   </Stack>
-                  <Stack direction="row" spacing={1}>
+                  <Stack direction="row" spacing={1} width="100%">
                     <Stack direction="row" spacing={0.5}>
                       <Stack>
                         <img src={like} alt="like" />
