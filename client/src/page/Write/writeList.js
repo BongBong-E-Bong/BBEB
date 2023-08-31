@@ -5,7 +5,6 @@ import {
   Switch,
   Autocomplete,
   TextField,
-  Typography,
   Paper,
   Pagination,
 } from "@mui/material"; // TextField와 Autocomplete 불러오기
@@ -13,6 +12,9 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import obong from "../../image/obong.png";
 import thumnail from "../../image/thumnail.png";
+import hit from "../../image/hit.png";
+import like from "../../image/like.png";
+import comment from "../../image/comment.png";
 import { useNavigate } from "react-router-dom";
 
 function WriteList() {
@@ -135,8 +137,8 @@ function WriteList() {
                   backgroundColor: "#D9D9D9",
                   width: "24%",
                   cursor: "pointer",
-                  position: "relative", // 부모 컨테이너에 relative 포지션 추가
-                  overflow: "hidden", // 넘치는 부분 숨김 처리
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
                 <img
@@ -144,39 +146,65 @@ function WriteList() {
                   alt="thumnail"
                   style={{
                     width: "100%",
-                    height: "80%",
-                    objectFit: "cover", // 이미지를 컨테이너에 맞추면서 잘라냄
-                    position: "absolute", // 이미지를 컨테이너 안에서 절대 포지션으로 배치
+                    height: "70%",
+                    objectFit: "cover",
+                    position: "absolute",
                     top: 0,
                     left: 0,
                   }}
                 />
-
                 <Stack
                   direction="row"
                   bgcolor="#FAF3F0"
+                  spacing={1}
                   sx={{
-                    position: "absolute", // 상대 포지션으로 배치
-                    bottom: 0, // 아래쪽에 배치
-                    left: 0, // 왼쪽에 배치
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
                     borderBottomLeftRadius: "20px",
                     borderBottomRightRadius: "20px",
-                    width: "100%", // 스택 너비를 100%로 설정하여 컨테이너 너비와 일치
+                    width: "100%",
+                    alignItems: "center",
                   }}
                 >
-                  <Stack>이미지</Stack>
+                  <img
+                    src={obong}
+                    alt="obong"
+                    style={{
+                      width: "13%",
+                      borderRadius: "50px",
+                      padding: "3%",
+                      marginLeft: "5%",
+                    }}
+                  />
                   <Stack>
-                    <Stack>제목</Stack>
-                    <Stack>작성일</Stack>
-                    <Stack>작성자</Stack>
+                    <Stack fontSize="14px">안녕 난 오봉이야</Stack>
+                    <Stack fontSize="12px">2001-08-23</Stack>
+                    <Stack fontSize="12px">🐷오봉이</Stack>
                   </Stack>
-                  <Stack>
-                    <Stack>따봉</Stack>
-                    <Stack>조회수</Stack>
-                    <Stack>댓글 수</Stack>
+                  <Stack direction="row" spacing={1} sx={{ padding: "8%" }}>
+                    <Stack direction="row" spacing={0.5}>
+                      <Stack>
+                        <img src={like} alt="like" />
+                      </Stack>
+                      <Stack>5</Stack>
+                    </Stack>
+                    <Stack direction="row" spacing={0.5}>
+                      <Stack>
+                        <img src={hit} alt="hit" />
+                      </Stack>
+                      <Stack>5</Stack>
+                    </Stack>
+                    <Stack direction="row" spacing={0.5}>
+                      <Stack>
+                        <img src={comment} alt="comment" />
+                      </Stack>
+                      <Stack>5</Stack>
+                    </Stack>
                   </Stack>
                 </Stack>
               </Paper>
+
               <Paper
                 elevation={0}
                 sx={{
