@@ -12,10 +12,10 @@ const candidateItems = [
   { name: "일봉이", image: register },
   { name: "이봉이", image: register },
   { name: "삼봉이", image: register },
-  { name: "사봉이", image: register },
   { name: "오봉이", image: register },
   { name: "육봉이", image: register },
   { name: "칠봉이", image: register },
+  { name: "팔봉이", image: register },
 ];
 
 function Choice() {
@@ -102,7 +102,7 @@ function Choice() {
       >
         <Stack
           direction="row"
-          spacing={-13}
+          spacing={-10}
           justifyContent="center"
           marginTop="6%"
         >
