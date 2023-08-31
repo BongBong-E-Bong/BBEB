@@ -4,8 +4,7 @@ import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
-// import WriteList from "./writeList";
-import { useNavigate } from "react-router-dom"; // useNavigate 훅을 임포트
+import { useNavigate } from "react-router-dom";
 
 function Write() {
   const [checked, setChecked] = useState(false);
