@@ -211,57 +211,146 @@ function WriteList() {
                   borderRadius: "20px",
                   backgroundColor: "#D9D9D9",
                   width: "24%",
+                  cursor: "pointer",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
+                <img
+                  src={thumnail}
+                  alt="thumnail"
+                  style={{
+                    width: "100%",
+                    height: "70%",
+                    objectFit: "cover",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
+                />
                 <Stack
                   direction="row"
                   bgcolor="#FAF3F0"
+                  spacing={1}
                   sx={{
-                    marginTop: "50%",
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
                     borderBottomLeftRadius: "20px",
                     borderBottomRightRadius: "20px",
+                    width: "100%",
+                    alignItems: "center",
                   }}
                 >
-                  <Stack>이미지</Stack>
+                  <img
+                    src={obong}
+                    alt="obong"
+                    style={{
+                      width: "13%",
+                      borderRadius: "50px",
+                      padding: "3%",
+                      marginLeft: "5%",
+                    }}
+                  />
                   <Stack>
-                    <Stack>제목 </Stack>
-                    <Stack>작성일</Stack>
-                    <Stack>작성자</Stack>
+                    <Stack fontSize="14px">안녕 난 오봉이야</Stack>
+                    <Stack fontSize="12px">2001-08-23</Stack>
+                    <Stack fontSize="12px">🐷오봉이</Stack>
                   </Stack>
-                  <Stack>
-                    <Stack>따봉</Stack>
-                    <Stack>조회수</Stack>
-                    <Stack>댓글 수</Stack>
+                  <Stack direction="row" spacing={1} sx={{ padding: "8%" }}>
+                    <Stack direction="row" spacing={0.5}>
+                      <Stack>
+                        <img src={like} alt="like" />
+                      </Stack>
+                      <Stack>5</Stack>
+                    </Stack>
+                    <Stack direction="row" spacing={0.5}>
+                      <Stack>
+                        <img src={hit} alt="hit" />
+                      </Stack>
+                      <Stack>5</Stack>
+                    </Stack>
+                    <Stack direction="row" spacing={0.5}>
+                      <Stack>
+                        <img src={comment} alt="comment" />
+                      </Stack>
+                      <Stack>5</Stack>
+                    </Stack>
                   </Stack>
                 </Stack>
               </Paper>
+
               <Paper
                 elevation={0}
                 sx={{
                   borderRadius: "20px",
                   backgroundColor: "#D9D9D9",
                   width: "24%",
+                  cursor: "pointer",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
+                <img
+                  src={thumnail}
+                  alt="thumnail"
+                  style={{
+                    width: "100%",
+                    height: "70%",
+                    objectFit: "cover",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
+                />
                 <Stack
                   direction="row"
                   bgcolor="#FAF3F0"
+                  spacing={1}
                   sx={{
-                    marginTop: "50%",
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
                     borderBottomLeftRadius: "20px",
                     borderBottomRightRadius: "20px",
+                    width: "100%",
+                    alignItems: "center",
                   }}
                 >
-                  <Stack>이미지</Stack>
+                  <img
+                    src={obong}
+                    alt="obong"
+                    style={{
+                      width: "13%",
+                      borderRadius: "50px",
+                      padding: "3%",
+                      marginLeft: "5%",
+                    }}
+                  />
                   <Stack>
-                    <Stack>제목 </Stack>
-                    <Stack>작성일</Stack>
-                    <Stack>작성자</Stack>
+                    <Stack fontSize="14px">안녕 난 오봉이야</Stack>
+                    <Stack fontSize="12px">2001-08-23</Stack>
+                    <Stack fontSize="12px">🐷오봉이</Stack>
                   </Stack>
-                  <Stack>
-                    <Stack>따봉</Stack>
-                    <Stack>조회수</Stack>
-                    <Stack>댓글 수</Stack>
+                  <Stack direction="row" spacing={1} sx={{ padding: "8%" }}>
+                    <Stack direction="row" spacing={0.5}>
+                      <Stack>
+                        <img src={like} alt="like" />
+                      </Stack>
+                      <Stack>5</Stack>
+                    </Stack>
+                    <Stack direction="row" spacing={0.5}>
+                      <Stack>
+                        <img src={hit} alt="hit" />
+                      </Stack>
+                      <Stack>5</Stack>
+                    </Stack>
+                    <Stack direction="row" spacing={0.5}>
+                      <Stack>
+                        <img src={comment} alt="comment" />
+                      </Stack>
+                      <Stack>5</Stack>
+                    </Stack>
                   </Stack>
                 </Stack>
               </Paper>
