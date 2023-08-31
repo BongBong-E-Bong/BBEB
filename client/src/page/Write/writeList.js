@@ -128,14 +128,30 @@ function WriteList() {
           <Stack>'오봉이' 검색 결과(8)</Stack>
           <Stack spacing={10} marginTop="2%" height="100%" width="100%">
             <Stack direction="row" justifyContent="space-between">
-            <Paper
+              <Paper
                 elevation={0}
                 sx={{
                   borderRadius: "20px",
                   backgroundColor: "#D9D9D9",
                   width: "24%",
+                  cursor: "pointer",
+                  position: "relative", // 부모 컨테이너에 relative 포지션 추가
+                  overflow: "hidden", // 넘치는 부분 숨김 처리
                 }}
               >
+                <img
+                  src={thumnail}
+                  alt="thumnail"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover", // 이미지를 컨테이너에 맞추면서 잘라냄
+                    position: "absolute", // 이미지를 컨테이너 안에서 절대 포지션으로 배치
+                    top: 0,
+                    left: 0,
+                  }}
+                />
+
                 <Stack
                   direction="row"
                   bgcolor="#FAF3F0"
@@ -143,6 +159,7 @@ function WriteList() {
                     marginTop: "50%",
                     borderBottomLeftRadius: "20px",
                     borderBottomRightRadius: "20px",
+                    
                   }}
                 >
                   <Stack>이미지</Stack>
