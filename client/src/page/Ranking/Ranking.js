@@ -23,7 +23,6 @@ function Ranking() {
       })
       .then((response) => {
         setVoteTotal(response.data);
-        console.log(voteTotal);
       })
       .catch((error) => {
         console.error("vote error:", error);
@@ -97,7 +96,6 @@ function Ranking() {
           </Stack>
         </Stack>
         {voteTotal.map((vote, i) => {
-          console.log(bong[vote?.order]);
           return (
             bong[vote.order].length > 0 && (
               <Stack
