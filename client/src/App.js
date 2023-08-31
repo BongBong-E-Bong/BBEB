@@ -12,6 +12,7 @@ import Eightbong from "../src/page/Profile/Eightbong.js";
 import Ranking from "../src/page/Ranking/Ranking.js";
 import Vote from "../src/page/Vote/Vote.js";
 import Post from "../src/page/Board/post.js";
+import Choice from "../src/page/Choice/Choice.js";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/vote" element={<Vote />} />
         <Route path="/post" element={<Post />} />
+        <Route path="/Choice" element={<Choice />} />
       </Routes>
     </Router>
   );
