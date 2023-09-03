@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack } from "@mui/material";
+import { Stack, Button } from "@mui/material";
 import bongbong from "../../image/bongbong.gif";
 import banner from "../../image/banner.png";
 import Header from "../../component/header";
@@ -12,6 +12,19 @@ function Main() {
 
   const [position, setPosition] = React.useState({ x: 0, y: 0 });
 
+  const containedButtonStyles = {
+    color: "white",
+    width: "30%",
+    height: "50px",
+    fontSize: "22px",
+  };
+
+  const outlinedButtonStyles = {
+    width: "30%",
+    height: "50px",
+    fontSize: "22px",
+  };
+
   return (
     <Stack
       minHeight="100vh"
@@ -20,7 +33,6 @@ function Main() {
       onMouseMove={mouseMove}
     >
       <Header />
-
       <Stack
         width="100%"
         alignItems="center"
@@ -64,7 +76,23 @@ function Main() {
           />
         </RubberBand>
       </Stack>
-
+      <Stack
+        width="100%"
+        alignItems="center"
+        style={{ marginTop: "250px" }}
+        gap="10px"
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          style={containedButtonStyles}
+        >
+          웹툰 보러가기
+        </Button>
+        <Button variant="outlined" color="primary" style={outlinedButtonStyles}>
+          이봉이 형제 프로필
+        </Button>
+      </Stack>
       <img
         width="100px"
         height="125px"
