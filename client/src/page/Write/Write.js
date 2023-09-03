@@ -5,6 +5,7 @@ import obong from "../../image/obong.png";
 import FormatAlignCenter from "../../image/FormatAlignCenter.png";
 import FormatAlignLeft from "../../image/FormatAlignLeft.png";
 import FormatAlignRight from "../../image/FormatAlignRight.png";
+import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
 import { useNavigate } from "react-router-dom";
@@ -42,6 +43,18 @@ function Write() {
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handlePhotoUpload = (event) => {
+    const selectedFile = event.target.files[0];
+    
+    if (selectedFile) {
+      setSelectedImage(URL.createObjectURL(selectedFile)); // 이미지 파일을 저장
+    }
+  };
+  
+  
 
   useEffect(() => {
     const textField = document.getElementById("content-textfield"); // ID를 이용해 DOM 요소 가져옴
@@ -157,12 +170,26 @@ function Write() {
                         <img src={FormatAlignCenter} alt="FormatAlignCenter" />
                       ) : align === "right" ? (
                         <img src={FormatAlignRight} alt="FormatAlignRight" />
-                      ) : (
-                        null
-                      )}
+                      ) : null}
                     </Stack>
                   </Stack>
                 ))}
+                <Stack>
+                  <input
+                    type="file"
+                    id="photo-input"
+                    style={{ display: "none" }}
+                    accept="image/*"
+                    onChange={handlePhotoUpload}
+                  />
+                  <label htmlFor="photo-input">
+                    <img
+                      src={AddPhotoAlternate}
+                      alt="AddPhotoAlternate"
+                      style={{ cursor: "pointer" }}
+                    />
+                  </label>
+                </Stack>
               </Stack>
               <TextField
                 id="content-textfield"
