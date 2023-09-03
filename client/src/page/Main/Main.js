@@ -25,6 +25,19 @@ function Main() {
     fontSize: "22px",
   };
 
+  const buttonsData = [
+    {
+      label: "웹툰 보러가기",
+      navigate: "https://comic.naver.com/challenge/list?titleId=806769",
+      variant: "contained",
+    },
+    { label: "이봉이 형제 프로필", navigate: "/profile", variant: "outlined" },
+    { label: "투표하러 가기", navigate: "/main", variant: "contained" },
+    { label: "인기 투표 순위", navigate: "/ranking", variant: "outlined" },
+    { label: "미니 게임", navigate: "/main", variant: "contained" },
+    { label: "오봉이의 게시판", navigate: "/main", variant: "outlined" },
+  ];
+
   return (
     <Stack
       minHeight="100vh"
@@ -82,6 +95,7 @@ function Main() {
         style={{ marginTop: "250px" }}
         gap="10px"
       >
+        {buttonsData.map}
         <Button
           variant="contained"
           color="primary"
