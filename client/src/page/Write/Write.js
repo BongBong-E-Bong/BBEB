@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../component/header";
 import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
@@ -11,9 +11,14 @@ function Write() {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [textAlignment, setTextAlignment] = useState("left"); // 기본 정렬은 왼쪽입니다.
+
+  const handleAlignmentChange = (alignment) => {
+    setTextAlignment(alignment);
+  };
 
   const navigate = useNavigate();
-  
+
   const handleTagInputChange = (event) => {
     setTagInput(event.target.value);
   };
@@ -33,6 +38,13 @@ function Write() {
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
+
+  useEffect(() => {
+    const textField = document.getElementById("content-textfield"); // ID를 이용해 DOM 요소 가져옴
+    if (textField) {
+      textField.style.textAlign = textAlignment; // textAlignment에 따라 스타일 변경
+    }
+  }, [textAlignment]);
 
   return (
     <>
@@ -69,8 +81,9 @@ function Write() {
           height="fit-content"
           bgcolor="#FAF3F0"
         >
+          {/* 여기 6이 태그랑 내용 사이 공백 */}
           <Stack spacing={6}>
-            <Stack spacing={2}> 
+            <Stack spacing={2}>
               <Stack justifyContent="flex-end" alignItems="center">
                 <Checkbox checked={checked} onChange={handleChange} />
                 {checked ? "고정 되었습니다." : "고정되지 않은 상태입니다."}
@@ -113,13 +126,68 @@ function Write() {
               </Stack>
             </Stack>
             <Stack width="100%" height="100%" alignItems="center" spacing={4}>
+              <Stack
+                width="100%"
+                height="100%"
+                direction="row"
+                justifyContent="center"
+                spacing={3}
+              >
+                <Stack
+                  bgcolor={textAlignment === "left" ? "#FF8181" : "#FFF"}
+                  sx={{
+                    cursor: "pointer",
+                    color: textAlignment === "left" ? "white" : "black",
+                    borderRadius: "10px",
+                    alignItems: "center",
+                    border: "1px solid #FF8181",
+                    width: "6%",
+                  }}
+                  onClick={() => handleAlignmentChange("left")}
+                >
+                  <Stack fontSize="20px">왼쪽 정렬</Stack>
+                </Stack>
+                <Stack
+                  bgcolor={textAlignment === "center" ? "#FF8181" : "#FFF"}
+                  sx={{
+                    cursor: "pointer",
+                    color: textAlignment === "center" ? "white" : "black",
+                    borderRadius: "10px",
+                    alignItems: "center",
+                    border: "1px solid #FF8181",
+                    width: "6%",
+                  }}
+                  onClick={() => handleAlignmentChange("center")}
+                >
+                  <Stack fontSize="20px">가운데 정렬</Stack>
+                </Stack>
+                <Stack
+                  bgcolor={textAlignment === "right" ? "#FF8181" : "#FFF"}
+                  sx={{
+                    cursor: "pointer",
+                    color: textAlignment === "right" ? "white" : "black",
+                    borderRadius: "10px",
+                    alignItems: "center",
+                    border: "1px solid #FF8181",
+                    width: "6%",
+                  }}
+                  onClick={() => handleAlignmentChange("right")}
+                >
+                  <Stack fontSize="20px">오른쪽 정렬</Stack>
+                </Stack>
+              </Stack>
               <TextField
+                id="content-textfield"
                 placeholder="내용을 입력하세요."
                 variant="outlined"
-                multiline // Enable multi-line input
-                rows={13} // Adjust the number of rows to set the height
-                style={{ width: "80%", backgroundColor: "#FFF" }}
+                multiline
+                rows={13}
+                style={{
+                  width: "80%",
+                  backgroundColor: "#FFF",
+                }}
               />
+
               <Stack
                 width="100%"
                 height="100%"
@@ -154,7 +222,7 @@ function Write() {
                     width: "6%",
                   }}
                   onClick={() => {
-                    setModalOpen(true)
+                    setModalOpen(true);
                   }}
                 >
                   <Stack fontSize="20px">글쓰기</Stack>
