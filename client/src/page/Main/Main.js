@@ -3,7 +3,6 @@ import { Stack, Button } from "@mui/material";
 import bongbong from "../../image/bongbong.gif";
 import banner from "../../image/banner.png";
 import Header from "../../component/header";
-import RubberBand from "react-reveal/RubberBand";
 import { useNavigate } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 
@@ -56,42 +55,20 @@ function Main() {
         gap="100px"
         style={{ marginTop: "150px" }}
       >
-        <RubberBand>
-          <img
-            width="900px"
-            height="250px"
-            alt="banner"
-            src={banner}
-            style={{ cursor: "pointer" }}
-          />
-        </RubberBand>
-        <RubberBand>
-          <img
-            width="900px"
-            height="250px"
-            alt="banner"
-            src={banner}
-            style={{ cursor: "pointer" }}
-          />
-        </RubberBand>
-        <RubberBand>
-          <img
-            width="900px"
-            height="250px"
-            alt="banner"
-            src={banner}
-            style={{ cursor: "pointer" }}
-          />
-        </RubberBand>
-        <RubberBand>
-          <img
-            width="900px"
-            height="250px"
-            alt="banner"
-            src={banner}
-            style={{ cursor: "pointer" }}
-          />
-        </RubberBand>
+        {buttonsData.map((button, i) => (
+          <Fade>
+            <img
+              width="900px"
+              height="250px"
+              alt="banner"
+              src={banner}
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                navigate(button.navigate);
+              }}
+            />
+          </Fade>
+        ))}
       </Stack>
       <Fade bottom>
         <Stack
