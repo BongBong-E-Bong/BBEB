@@ -4,8 +4,12 @@ import bongbong from "../../image/bongbong.gif";
 import banner from "../../image/banner.png";
 import Header from "../../component/header";
 import RubberBand from "react-reveal/RubberBand";
+import { useNavigate } from "react-router-dom";
+import Fade from "react-reveal/Fade";
 
 function Main() {
+  const navigate = useNavigate();
+
   const mouseMove = (e) => {
     setPosition({ x: e.pageX, y: e.pageY });
   };
@@ -89,24 +93,31 @@ function Main() {
           />
         </RubberBand>
       </Stack>
-      <Stack
-        width="100%"
-        alignItems="center"
-        style={{ marginTop: "250px" }}
-        gap="10px"
-      >
-        {buttonsData.map}
-        <Button
-          variant="contained"
-          color="primary"
-          style={containedButtonStyles}
+      <Fade bottom>
+        <Stack
+          width="100%"
+          alignItems="center"
+          style={{ marginTop: "250px", paddingBottom: "150px" }}
+          gap="10px"
         >
-          웹툰 보러가기
-        </Button>
-        <Button variant="outlined" color="primary" style={outlinedButtonStyles}>
-          이봉이 형제 프로필
-        </Button>
-      </Stack>
+          {buttonsData.map((button, i) => (
+            <Button
+              variant={button.variant}
+              color="primary"
+              style={
+                button.variant === "contained"
+                  ? containedButtonStyles
+                  : outlinedButtonStyles
+              }
+              onClick={() => {
+                navigate(button.navigate);
+              }}
+            >
+              {button.label}
+            </Button>
+          ))}
+        </Stack>
+      </Fade>
       <img
         width="100px"
         height="125px"
