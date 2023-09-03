@@ -4,7 +4,7 @@ import bongbong from "../../image/bongbong.gif";
 
 function Main() {
   const mouseMove = (e) => {
-    setPosition({ x: e.clientX, y: e.clientY });
+    setPosition({ x: e.pageX, y: e.pageY });
   };
 
   const [position, setPosition] = React.useState({ x: 0, y: 0 });
@@ -22,11 +22,11 @@ function Main() {
         alt="bongbong"
         src={bongbong}
         style={{
-          position: "absolute",
+          position: "fixed",
           left: `${position.x}px`,
           top: `${position.y}px`,
-
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-50%, 30%)",
+          transition: "left 1s ease-out, top 1s ease-out",
         }}
       />
     </Stack>
