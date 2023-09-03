@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Header from "../../component/header";
 import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
+import FormatAlignCenter from "../../image/FormatAlignCenter.png";
+import FormatAlignLeft from "../../image/FormatAlignLeft.png";
+import FormatAlignRight from "../../image/FormatAlignRight.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
 import { useNavigate } from "react-router-dom";
@@ -11,10 +14,11 @@ function Write() {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [textAlignment, setTextAlignment] = useState("left"); // 기본 정렬은 왼쪽입니다.
+  const [alignment, setAlignment] = useState("left");
+  const alignments = ["left", "center", "right"]; // 4개의 정렬 옵션
 
   const handleAlignmentChange = (alignment) => {
-    setTextAlignment(alignment);
+    setAlignment(alignment);
   };
 
   const navigate = useNavigate();
@@ -42,9 +46,12 @@ function Write() {
   useEffect(() => {
     const textField = document.getElementById("content-textfield"); // ID를 이용해 DOM 요소 가져옴
     if (textField) {
-      textField.style.textAlign = textAlignment; // textAlignment에 따라 스타일 변경
+      if (alignment !== "justify") {
+        // 양쪽 정렬이 아닐 때만 스타일 변경
+        textField.style.textAlign = alignment;
+      }
     }
-  }, [textAlignment]);
+  }, [alignment]);
 
   return (
     <>
@@ -82,7 +89,7 @@ function Write() {
           bgcolor="#FAF3F0"
         >
           {/* 여기 6이 태그랑 내용 사이 공백 */}
-          <Stack spacing={6}>
+          <Stack spacing={1}>
             <Stack spacing={2}>
               <Stack justifyContent="flex-end" alignItems="center">
                 <Checkbox checked={checked} onChange={handleChange} />
@@ -104,7 +111,7 @@ function Write() {
                   value={tagInput}
                   onChange={handleTagInputChange}
                   onKeyPress={handleTagInputKeyPress}
-                  style={{ width: "80%", backgroundColor: "#FFF" }} // Adjust maxWidth value as needed
+                  style={{ width: "80%", backgroundColor: "#FFF" }}
                 />
               </Stack>
               <Stack width="100%">
@@ -125,7 +132,7 @@ function Write() {
                 </Stack>
               </Stack>
             </Stack>
-            <Stack width="100%" height="100%" alignItems="center" spacing={4}>
+            <Stack width="100%" height="100%" alignItems="center" spacing={2}>
               <Stack
                 width="100%"
                 height="100%"
@@ -133,55 +140,36 @@ function Write() {
                 justifyContent="center"
                 spacing={3}
               >
-                <Stack
-                  bgcolor={textAlignment === "left" ? "#FF8181" : "#FFF"}
-                  sx={{
-                    cursor: "pointer",
-                    color: textAlignment === "left" ? "white" : "black",
-                    borderRadius: "10px",
-                    alignItems: "center",
-                    border: "1px solid #FF8181",
-                    width: "6%",
-                  }}
-                  onClick={() => handleAlignmentChange("left")}
-                >
-                  <Stack fontSize="20px">왼쪽 정렬</Stack>
-                </Stack>
-                <Stack
-                  bgcolor={textAlignment === "center" ? "#FF8181" : "#FFF"}
-                  sx={{
-                    cursor: "pointer",
-                    color: textAlignment === "center" ? "white" : "black",
-                    borderRadius: "10px",
-                    alignItems: "center",
-                    border: "1px solid #FF8181",
-                    width: "6%",
-                  }}
-                  onClick={() => handleAlignmentChange("center")}
-                >
-                  <Stack fontSize="20px">가운데 정렬</Stack>
-                </Stack>
-                <Stack
-                  bgcolor={textAlignment === "right" ? "#FF8181" : "#FFF"}
-                  sx={{
-                    cursor: "pointer",
-                    color: textAlignment === "right" ? "white" : "black",
-                    borderRadius: "10px",
-                    alignItems: "center",
-                    border: "1px solid #FF8181",
-                    width: "6%",
-                  }}
-                  onClick={() => handleAlignmentChange("right")}
-                >
-                  <Stack fontSize="20px">오른쪽 정렬</Stack>
-                </Stack>
+                {alignments.map((align) => (
+                  <Stack
+                    key={align}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      handleAlignmentChange(align);
+                    }}
+                  >
+                    <Stack>
+                      {align === "left" ? (
+                        <img src={FormatAlignLeft} alt="FormatAlignLeft" />
+                      ) : align === "center" ? (
+                        <img src={FormatAlignCenter} alt="FormatAlignCenter" />
+                      ) : align === "right" ? (
+                        <img src={FormatAlignRight} alt="FormatAlignRight" />
+                      ) : (
+                        null
+                      )}
+                    </Stack>
+                  </Stack>
+                ))}
               </Stack>
               <TextField
                 id="content-textfield"
                 placeholder="내용을 입력하세요."
                 variant="outlined"
                 multiline
-                rows={13}
+                rows={15}
                 style={{
                   width: "80%",
                   backgroundColor: "#FFF",
