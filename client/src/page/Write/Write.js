@@ -210,38 +210,41 @@ function Write() {
                 justifyContent="center"
                 spacing={3}
               >
-                <Stack
-                  bgcolor="#FFF"
-                  sx={{
-                    cursor: "pointer",
-                    color: "black",
-                    borderRadius: "10px",
-                    alignItems: "center",
-                    border: "1px solid #FF8181",
-                    width: "6%",
-                  }}
-                  onClick={() => {
-                    navigate("/writeList");
-                  }}
-                >
-                  <Stack fontSize="20px">나가기</Stack>
-                </Stack>
-                <Stack
-                  bgcolor="#FF8181"
-                  sx={{
-                    cursor: "pointer",
-                    color: "white",
-                    borderRadius: "10px",
-                    alignItems: "center",
-                    border: "1px solid #FF8181",
-                    width: "6%",
-                  }}
-                  onClick={() => {
-                    setModalOpen(true);
-                  }}
-                >
-                  <Stack fontSize="20px">글쓰기</Stack>
-                </Stack>
+               <Stack
+  bgcolor="#FFF"
+  sx={{
+    cursor: "pointer",
+    color: "black",
+    borderRadius: "10px",
+    alignItems: "center",
+    border: "1px solid #FF8181",
+    width: "6%",
+    height: "10%" // 백분율(%)로 높이 조정 (원하는 비율로 수정)
+  }}
+  onClick={() => {
+    navigate("/writeList");
+  }}
+>
+  <Stack fontSize="20px">나가기</Stack>
+</Stack>
+<Stack
+  bgcolor="#FF8181"
+  sx={{
+    cursor: "pointer",
+    color: "white",
+    borderRadius: "10px",
+    alignItems: "center",
+    border: "1px solid #FF8181",
+    width: "6%",
+    height: "10%" // 백분율(%)로 높이 조정 (원하는 비율로 수정)
+  }}
+  onClick={() => {
+    setModalOpen(true);
+  }}
+>
+  <Stack fontSize="20px">글쓰기</Stack>
+</Stack>
+
                 {modalOpen && <WriteModal setOpen={setModalOpen} />}
               </Stack>
             </Stack>
