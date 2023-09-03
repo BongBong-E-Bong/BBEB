@@ -16,7 +16,7 @@ function Write() {
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [alignment, setAlignment] = useState("left");
-  const alignments = ["left", "center", "right"]; // 4개의 정렬 옵션
+  const alignments = ["left", "center", "right"];
 
   const handleAlignmentChange = (alignment) => {
     setAlignment(alignment);
@@ -48,19 +48,16 @@ function Write() {
 
   const handlePhotoUpload = (event) => {
     const selectedFile = event.target.files[0];
-    
+
     if (selectedFile) {
-      setSelectedImage(URL.createObjectURL(selectedFile)); // 이미지 파일을 저장
+      setSelectedImage(URL.createObjectURL(selectedFile));
     }
   };
-  
-  
 
   useEffect(() => {
-    const textField = document.getElementById("content-textfield"); // ID를 이용해 DOM 요소 가져옴
+    const textField = document.getElementById("content-textfield");
     if (textField) {
       if (alignment !== "justify") {
-        // 양쪽 정렬이 아닐 때만 스타일 변경
         textField.style.textAlign = alignment;
       }
     }
@@ -101,13 +98,19 @@ function Write() {
           height="fit-content"
           bgcolor="#FAF3F0"
         >
-          {/* 여기 6이 태그랑 내용 사이 공백 */}
           <Stack spacing={1}>
             <Stack spacing={2}>
-              <Stack justifyContent="flex-end" alignItems="center">
-                <Checkbox checked={checked} onChange={handleChange} />
-                {checked ? "고정 되었습니다." : "고정되지 않은 상태입니다."}
+              <Stack>
+                <Checkbox
+                  checked={checked}
+                  onChange={handleChange}
+                  sx={{ justifyContent: "flex-end" }}
+                />
+                {/* <span style={{ marginLeft: "auto" }}>
+                  {checked ? "고정 됐는데!!" : ""}
+                </span> */}
               </Stack>
+
               <Stack alignItems="center">
                 <TextField
                   label="제목"
@@ -150,8 +153,8 @@ function Write() {
                 width="100%"
                 height="100%"
                 direction="row"
-                justifyContent="center"
                 spacing={3}
+                justifyContent="center"
               >
                 {alignments.map((align) => (
                   <Stack
@@ -196,7 +199,7 @@ function Write() {
                 placeholder="내용을 입력하세요."
                 variant="outlined"
                 multiline
-                rows={15}
+                rows={14}
                 style={{
                   width: "80%",
                   backgroundColor: "#FFF",
@@ -210,40 +213,40 @@ function Write() {
                 justifyContent="center"
                 spacing={3}
               >
-               <Stack
-  bgcolor="#FFF"
-  sx={{
-    cursor: "pointer",
-    color: "black",
-    borderRadius: "10px",
-    alignItems: "center",
-    border: "1px solid #FF8181",
-    width: "6%",
-    height: "10%" // 백분율(%)로 높이 조정 (원하는 비율로 수정)
-  }}
-  onClick={() => {
-    navigate("/writeList");
-  }}
->
-  <Stack fontSize="20px">나가기</Stack>
-</Stack>
-<Stack
-  bgcolor="#FF8181"
-  sx={{
-    cursor: "pointer",
-    color: "white",
-    borderRadius: "10px",
-    alignItems: "center",
-    border: "1px solid #FF8181",
-    width: "6%",
-    height: "10%" // 백분율(%)로 높이 조정 (원하는 비율로 수정)
-  }}
-  onClick={() => {
-    setModalOpen(true);
-  }}
->
-  <Stack fontSize="20px">글쓰기</Stack>
-</Stack>
+                <Stack
+                  bgcolor="#FFF"
+                  sx={{
+                    cursor: "pointer",
+                    color: "black",
+                    borderRadius: "10px",
+                    alignItems: "center",
+                    border: "1px solid #FF8181",
+                    width: "6%",
+                    height: "10%", 
+                  }}
+                  onClick={() => {
+                    navigate("/writeList");
+                  }}
+                >
+                  <Stack fontSize="20px">나가기</Stack>
+                </Stack>
+                <Stack
+                  bgcolor="#FF8181"
+                  sx={{
+                    cursor: "pointer",
+                    color: "white",
+                    borderRadius: "10px",
+                    alignItems: "center",
+                    border: "1px solid #FF8181",
+                    width: "6%",
+                    height: "10%",
+                  }}
+                  onClick={() => {
+                    setModalOpen(true);
+                  }}
+                >
+                  <Stack fontSize="20px">글쓰기</Stack>
+                </Stack>
 
                 {modalOpen && <WriteModal setOpen={setModalOpen} />}
               </Stack>
