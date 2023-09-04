@@ -16,6 +16,7 @@ function Header() {
   const [profileImage, setprofileImage] = React.useState(basicProfile);
 
   const fileInput = React.useRef(null);
+  const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
 
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
@@ -61,7 +62,6 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const login = true;
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -117,7 +117,7 @@ function Header() {
           justifyContent="center"
           alignItems="flex-end"
         >
-          {login ? (
+          {isLogin ? (
             <Stack width="12%" height="70%" justifyContent="center">
               <img
                 alt="profileImage"
@@ -201,7 +201,14 @@ function Header() {
           ref={fileInput}
         />
         <MenuItem>내가 작성한 글</MenuItem>
-        <MenuItem>로그아웃</MenuItem>
+        <MenuItem
+          onClick={() => {
+            localStorage.clear();
+            setAnchorEl(null);
+          }}
+        >
+          로그아웃
+        </MenuItem>
       </Menu>
       <Modal
         width="750px"
