@@ -1,5 +1,11 @@
-package bbeb.website.domain;
+package bbeb.website.domain.member;
 
+import bbeb.website.domain.character.CharacterLike;
+import bbeb.website.domain.game.TetrisScore;
+import bbeb.website.domain.comment.Comment;
+import bbeb.website.domain.post.Post;
+import bbeb.website.domain.post.PostLike;
+import bbeb.website.domain.post.PostView;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,6 +41,29 @@ public class Member implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tetris_id")
+    private TetrisScore tetrisScore;
+
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts;
+
+    @OneToMany(mappedBy = "member")
+    private List<PostLike> postLikes;
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "member")
+    private List<CharacterLike> characterLikes;
+
+    @OneToMany(mappedBy = "member")
+    private List<PostView> postViews;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

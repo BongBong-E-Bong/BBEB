@@ -25,7 +25,7 @@ function Login({ setOpen }) {
     setFailModalOpen(false);
   };
 
-  const getRequest = () => {
+  const postRequest = () => {
     axios
       .post("http://13.125.105.202:8080/api/auth/signin", {
         loginId: userId,
@@ -34,6 +34,11 @@ function Login({ setOpen }) {
       .then((response) => {
         setSuccessMessage("어서오세용!!");
         setSuccessModalOpen(true);
+        localStorage.setItem("accessDoraTokenDora", response.data.accessToken);
+        localStorage.setItem(
+          "refreshDoraTokenDora",
+          response.data.refreshToken
+        );
       })
       .catch((error) => {
         setFailModalOpen(true);
@@ -130,7 +135,7 @@ function Login({ setOpen }) {
             boxShadow: "0px 3px 2px rgba(0, 0, 0, 0.3)",
           }}
           onClick={() => {
-            getRequest();
+            postRequest();
           }}
         >
           SIGN IN

@@ -23,9 +23,9 @@ function Choice() {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
 
   const handleCheckboxChange = (checkboxName) => {
     if (selectedCheckboxes.includes(checkboxName)) {

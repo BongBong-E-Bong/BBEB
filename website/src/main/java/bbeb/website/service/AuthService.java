@@ -1,23 +1,19 @@
 package bbeb.website.service;
 
 import bbeb.website.config.exception.CustomException;
-import bbeb.website.config.exception.ErrorCode;
 import bbeb.website.config.security.jwt.JwtTokenProvider;
-import bbeb.website.domain.Member;
+import bbeb.website.domain.member.Member;
 import bbeb.website.dto.AuthDTO;
 import bbeb.website.dto.TokenDTO;
-import bbeb.website.repository.MemberRepository;
+import bbeb.website.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import static bbeb.website.config.exception.ErrorCode.*;
-import static org.springframework.http.HttpStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +29,7 @@ public class AuthService {
         String password = dto.getPassword();
 
         if (loginId == null || password == null)
-            throw new CustomException(BadRequest);
+            throw new CustomException(USER_NOT_FOUND);
 
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
