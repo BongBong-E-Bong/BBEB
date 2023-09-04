@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../component/header";
-import { Stack, Checkbox, TextField, Chip } from "@mui/material";
+import { Stack, Checkbox, TextField, Chip, Switch } from "@mui/material";
 import obong from "../../image/obong.png";
 import FormatAlignCenter from "../../image/FormatAlignCenter.png";
 import FormatAlignLeft from "../../image/FormatAlignLeft.png";
@@ -44,6 +44,7 @@ function Write() {
     setChecked(event.target.checked);
   };
 
+  
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handlePhotoUpload = (event) => {
