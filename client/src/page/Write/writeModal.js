@@ -5,6 +5,7 @@ import Modal from "../../component/Modal";
 import obong from "../../image/obong.png";
 import writepoto from "../../image/write_poto.png";
 
+
 function WriteModal({ setOpen }) {
   const [thumbnail, setThumbnail] = useState(null); // State to hold selected thumbnail
 

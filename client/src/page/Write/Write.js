@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../component/header";
-import { Stack, Checkbox, TextField, Chip} from "@mui/material";
+import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
 import FormatAlignCenter from "../../image/FormatAlignCenter.png";
 import FormatAlignLeft from "../../image/FormatAlignLeft.png";
@@ -9,6 +9,12 @@ import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
 import { useNavigate } from "react-router-dom";
+import { Editor } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
 
 function Write() {
   const [checked, setChecked] = useState(false);
@@ -44,7 +50,6 @@ function Write() {
     setChecked(event.target.checked);
   };
 
-  
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handlePhotoUpload = (event) => {
@@ -73,7 +78,7 @@ function Write() {
             width="21%"
             height="10%"
             marginLeft="15%"
-            marginTop="10%"
+            marginTop="8%"
             bgcolor="#FFDEDE"
             direction="row"
             justifyContent="center"
@@ -94,7 +99,7 @@ function Write() {
         </Stack>
         <Stack
           width="70%"
-          marginTop="2%"
+          marginTop="0%"
           minHeight="74vh"
           height="fit-content"
           bgcolor="#FAF3F0"
@@ -149,64 +154,19 @@ function Write() {
                 </Stack>
               </Stack>
             </Stack>
-            <Stack width="100%" height="100%" alignItems="center" spacing={2}>
-              <Stack
-                width="100%"
-                height="100%"
-                direction="row"
-                spacing={3}
-                justifyContent="center"
-              >
-                {alignments.map((align) => (
-                  <Stack
-                    key={align}
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      handleAlignmentChange(align);
-                    }}
-                  >
-                    <Stack>
-                      {align === "left" ? (
-                        <img src={FormatAlignLeft} alt="FormatAlignLeft" />
-                      ) : align === "center" ? (
-                        <img src={FormatAlignCenter} alt="FormatAlignCenter" />
-                      ) : align === "right" ? (
-                        <img src={FormatAlignRight} alt="FormatAlignRight" />
-                      ) : null}
-                    </Stack>
-                  </Stack>
-                ))}
-                <Stack>
-                  <input
-                    type="file"
-                    id="photo-input"
-                    style={{ display: "none" }}
-                    accept="image/*"
-                    onChange={handlePhotoUpload}
-                  />
-                  <label htmlFor="photo-input">
-                    <img
-                      src={AddPhotoAlternate}
-                      alt="AddPhotoAlternate"
-                      style={{ cursor: "pointer" }}
-                    />
-                  </label>
-                </Stack>
+            <Stack width="100%" height="100%"  spacing={2}>
+              <Stack className="edit_wrap">
+                <Editor
+                  initialValue="hello react editor world!"
+                  previewStyle="vertical"
+                  height="450px"//%로 바꾸면 안먹어요..
+                  initialEditType="wysiwyg"
+                  useCommandShortcut={false}
+                  plugins={[colorSyntax]}
+                  language="ko-KR"
+                  sx={{width:"67767px"}} //너비가 안먹어요..
+                />
               </Stack>
-              <TextField
-                id="content-textfield"
-                placeholder="내용을 입력하세요."
-                variant="outlined"
-                multiline
-                rows={14}
-                style={{
-                  width: "80%",
-                  backgroundColor: "#FFF",
-                }}
-              />
-
               <Stack
                 width="100%"
                 height="100%"
@@ -223,7 +183,7 @@ function Write() {
                     alignItems: "center",
                     border: "1px solid #FF8181",
                     width: "6%",
-                    height: "10%", 
+                    height: "10%",
                   }}
                   onClick={() => {
                     //이후 추가
