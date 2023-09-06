@@ -154,19 +154,20 @@ function Write() {
                 </Stack>
               </Stack>
             </Stack>
-            <Stack width="100%" height="100%"  spacing={2}>
+            <Stack width="100%" height="100%" spacing={2}>
               <Stack className="edit_wrap">
                 <Editor
                   initialValue="hello react editor world!"
                   previewStyle="vertical"
-                  height="450px"//%로 바꾸면 안먹어요..
+                  height="400px" // 높이를 300px로 설정
                   initialEditType="wysiwyg"
                   useCommandShortcut={false}
                   plugins={[colorSyntax]}
                   language="ko-KR"
-                  sx={{width:"67767px"}} //너비가 안먹어요..
+                  width="10px"
                 />
               </Stack>
+
               <Stack
                 width="100%"
                 height="100%"
