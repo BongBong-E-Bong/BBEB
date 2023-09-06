@@ -121,31 +121,28 @@ function Write() {
                 style={{ width: "65%", backgroundColor: "#FFF" }}
               />
             </Stack>
-            <Stack alignItems="center">
-            <Stack alignItems="center">
-  <Stack direction="row" alignItems="center" style={{ width: "65%" }}> {/* 수정된 부분 */}
-    <TextField
-      label="태그"
-      placeholder="태그를 입력하세요."
-      variant="outlined"
-      style={{ width: "100%", backgroundColor: "#FFF" }}
-      value={tagInput}
-      onChange={handleTagInputChange}
-      onKeyPress={handleTagInputKeyPress}
-    />
-    {tags.map((tag, index) => (
-      <Chip
-        key={index}
-        label={tag}
-        onDelete={() => handleTagClick(tag)}
-        variant="outlined"
-        style={{ margin: "4px" }}
-      />
-    ))}
-  </Stack>
-</Stack>
-
-
+            <Stack alignItems="center" direction="row">
+              {" "}
+              {/* 수정된 부분 */}
+              <TextField
+                label="태그"
+                placeholder="태그를 입력하세요."
+                variant="outlined"
+                style={{ width: "65%", backgroundColor: "#FFF" }}
+                value={tagInput}
+                onChange={handleTagInputChange}
+                onKeyPress={handleTagInputKeyPress}
+              />
+              {tags.map((tag, index) => (
+                <Chip
+                  key={index}
+                  label={tag}
+                  onDelete={() => handleTagClick(tag)}
+                  variant="outlined"
+                  style={{ margin: "4px" }}
+                />
+              ))}
+            </Stack>
 
             <Stack height="100%" spacing={2}>
               <Stack
