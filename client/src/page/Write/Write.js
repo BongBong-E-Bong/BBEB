@@ -2,10 +2,6 @@ import React, { useState, useEffect } from "react";
 import Header from "../../component/header";
 import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
-import FormatAlignCenter from "../../image/FormatAlignCenter.png";
-import FormatAlignLeft from "../../image/FormatAlignLeft.png";
-import FormatAlignRight from "../../image/FormatAlignRight.png";
-import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +18,6 @@ function Write() {
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [alignment, setAlignment] = useState("left");
-  const alignments = ["left", "center", "right"];
 
   const handleAlignmentChange = (alignment) => {
     setAlignment(alignment);
@@ -38,6 +33,8 @@ function Write() {
     if (event.key === "Enter" && tagInput.trim() !== "") {
       setTags([...tags, tagInput.trim()]);
       setTagInput("");
+
+      // Chip을 추가하는 로직 추가
     }
   };
 
@@ -106,65 +103,65 @@ function Write() {
         >
           <Stack spacing={1}>
             <Stack spacing={2}>
-              <Stack>
-                <Checkbox
-                  checked={checked}
-                  onChange={handleChange}
-                  sx={{ justifyContent: "flex-end" }}
-                />
-                {/* <span style={{ marginLeft: "auto" }}>
-                  {checked ? "고정 됐는데!!" : ""}
-                </span> */}
-              </Stack>
-
-              <Stack alignItems="center">
-                <TextField
-                  label="제목"
-                  placeholder="제목을 입력하세요."
-                  variant="outlined"
-                  style={{ width: "80%", backgroundColor: "#FFF" }}
-                />
-              </Stack>
-              <Stack alignItems="center">
-                <TextField
-                  label="태그"
-                  placeholder="태그를 입력하세요."
-                  variant="outlined"
-                  value={tagInput}
-                  onChange={handleTagInputChange}
-                  onKeyPress={handleTagInputKeyPress}
-                  style={{ width: "80%", backgroundColor: "#FFF" }}
-                />
-              </Stack>
-              <Stack width="100%">
-                <Stack direction="row" spacing={2} marginLeft="10%">
-                  {tags.map((tag, index) => (
-                    <Chip
-                      key={index}
-                      label={tag}
-                      onClick={() => handleTagClick(tag)}
-                      style={{
-                        cursor: "pointer",
-                        backgroundColor: "#FAF3F0",
-                        border: "1px solid #FF8181",
-                        color: "#FF8181",
-                      }}
-                    />
-                  ))}
-                </Stack>
-              </Stack>
+              <Checkbox
+                checked={checked}
+                onChange={handleChange}
+                sx={{ justifyContent: "flex-end" }}
+              />
+              {/* <span style={{ marginLeft: "auto" }}>
+    {checked ? "고정 됐는데!!" : ""}
+  </span> */}
             </Stack>
-            <Stack width="100%" height="100%" spacing={2}>
-              <Stack className="edit_wrap">
+
+            <Stack alignItems="center">
+              <TextField
+                label="제목"
+                placeholder="제목을 입력하세요."
+                variant="outlined"
+                style={{ width: "65%", backgroundColor: "#FFF" }}
+              />
+            </Stack>
+            <Stack alignItems="center">
+            <Stack alignItems="center">
+  <Stack direction="row" alignItems="center" style={{ width: "65%" }}> {/* 수정된 부분 */}
+    <TextField
+      label="태그"
+      placeholder="태그를 입력하세요."
+      variant="outlined"
+      style={{ width: "100%", backgroundColor: "#FFF" }}
+      value={tagInput}
+      onChange={handleTagInputChange}
+      onKeyPress={handleTagInputKeyPress}
+    />
+    {tags.map((tag, index) => (
+      <Chip
+        key={index}
+        label={tag}
+        onDelete={() => handleTagClick(tag)}
+        variant="outlined"
+        style={{ margin: "4px" }}
+      />
+    ))}
+  </Stack>
+</Stack>
+
+
+
+            <Stack height="100%" spacing={2}>
+              <Stack
+                className="edit_wrap"
+                width="100%"
+                justifyContent="center"
+                alignItems="center"
+              >
                 <Editor
-                  initialValue="hello react editor world!"
+                  initialValue="내용을 입력하세요."
                   previewStyle="vertical"
                   height="400px" // 높이를 300px로 설정
                   initialEditType="wysiwyg"
                   useCommandShortcut={false}
                   plugins={[colorSyntax]}
                   language="ko-KR"
-                  width="10px"
                 />
               </Stack>
 
