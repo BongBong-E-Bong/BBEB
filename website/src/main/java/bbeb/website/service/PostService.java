@@ -120,7 +120,12 @@ public class PostService {
             postViewRepository.save(postView);
         }
 
-        return postRepository.findOneRequestDTOByMemberAndPost(postId);
+
+        PostDTO.PostResponseDTO dto = postRepository.findOneRequestDTOByMemberAndPost(postId);
+
+        dto.setIsUpdate(dto.getWriter().equals(member.getNickname()));
+
+        return dto;
     }
 
     public void postLike(Long postId, String loginId){

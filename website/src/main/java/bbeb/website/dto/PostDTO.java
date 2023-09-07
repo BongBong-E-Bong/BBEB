@@ -108,9 +108,11 @@ public class PostDTO {
         private Long isPinned;
         private List<Content> contents;
         private List<PostTag> tags;
+        @Schema(description = "수정/삭제 여부", example = "true, false")
+        private Boolean isUpdate;
 
         @QueryProjection
-        public PostResponseDTO(String title, LocalDateTime date, String writer, Long view, Long isPinned, List<Content> contents, List<PostTag> tags) {
+        public PostResponseDTO(String title, LocalDateTime date, String writer, Long view, Long isPinned, List<Content> contents, List<PostTag> tags, Boolean isUpdate) {
             this.title = title;
             this.date = date;
             this.writer = writer;
@@ -118,6 +120,7 @@ public class PostDTO {
             this.isPinned = isPinned;
             this.contents = contents;
             this.tags = tags;
+            this.isUpdate = isUpdate;
         }
     }
 
