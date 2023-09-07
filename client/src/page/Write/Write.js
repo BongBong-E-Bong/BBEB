@@ -118,7 +118,7 @@ function Write() {
                   label="제목"
                   placeholder="제목을 입력하세요."
                   variant="outlined"
-                  style={{ width: "80%", backgroundColor: "#FFF" }}
+                  style={{ width: "65%", backgroundColor: "#FFF" }}
                 />
               </Stack>
               <Stack alignItems="center">
@@ -129,38 +129,43 @@ function Write() {
                   value={tagInput}
                   onChange={handleTagInputChange}
                   onKeyPress={handleTagInputKeyPress}
-                  style={{ width: "80%", backgroundColor: "#FFF" }}
+                  style={{ width: "65%", backgroundColor: "#FFF" }}
                 />
               </Stack>
               <Stack width="100%">
-                <Stack direction="row" spacing={2} marginLeft="10%">
-                  {tags.map((tag, index) => (
-                    <Chip
-                      key={index}
-                      label={tag}
-                      onClick={() => handleTagClick(tag)}
-                      style={{
-                        cursor: "pointer",
-                        backgroundColor: "#FAF3F0",
-                        border: "1px solid #FF8181",
-                        color: "#FF8181",
-                      }}
-                    />
-                  ))}
-                </Stack>
+              <Stack alignItems="flex-start" direction="row" flexWrap="wrap" style={{ marginLeft:"18%", width: "65%" }}>
+  {tags.map((tag, index) => (
+    <Chip
+      key={index}
+      label={tag}
+      onClick={() => handleTagClick(tag)}
+      style={{
+        cursor: "pointer",
+        backgroundColor: "#FAF3F0",
+        border: "1px solid #FF8181",
+        color: "#FF8181",
+        margin: '4px'
+      }}
+    />
+  ))}
+</Stack>
               </Stack>
             </Stack>
             <Stack width="100%" height="100%" spacing={2}>
-              <Stack className="edit_wrap">
+              <Stack
+                className="edit_wrap"
+                width="100%"
+                justifyContent="center"
+                alignItems="center"
+              >
                 <Editor
-                  initialValue="hello react editor world!"
+                  initialValue="내용을 입력하세요."
                   previewStyle="vertical"
                   height="400px" // 높이를 300px로 설정
                   initialEditType="wysiwyg"
                   useCommandShortcut={false}
                   plugins={[colorSyntax]}
                   language="ko-KR"
-                  width="10px"
                 />
               </Stack>
 
