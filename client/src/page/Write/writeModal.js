@@ -4,7 +4,7 @@ import axios from "axios";
 import Modal from "../../component/Modal";
 import obong from "../../image/obong.png";
 import writepoto from "../../image/write_poto.png";
-import WriteFail from "./writeFail"; // WriteFail 컴포넌트 임포트
+import AuthModalFail from "../../component/authModal_fail";
 
 function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
@@ -151,7 +151,9 @@ function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
               <li style={{ marginBottom: "10px" }}>
                 음란성 게시물을 올리지 않는다.
               </li>
-              <li style={{ marginBottom: "10px" }}>게시물을 도배하지 않는다.</li>
+              <li style={{ marginBottom: "10px" }}>
+                게시물을 도배하지 않는다.
+              </li>
               <li style={{ marginBottom: "10px" }}>어그로를 끌지 않는다.</li>
               <li style={{ marginBottom: "10px" }}>
                 친구를 왕따시키지 않는다.
@@ -206,12 +208,11 @@ function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
           </Stack>
         </Stack>
       </Stack>
-      {/* WriteFail 컴포넌트를 사용하여 로그인 상태가 아닐 때 표시 */}
       {!isLogin && (
-        <WriteFail
-          message="로그인이 필요합니다."
-          detailMessage="글을 작성하려면 먼저 로그인하세요."
-          onConfirm={() => {
+        <AuthModalFail
+          message="실패"
+          detailMessage="회원만 글을 작성할 수 있어!"
+          onClose={() => {
             setAuthModalFailOpen(false);
             setOpen(false);
           }}

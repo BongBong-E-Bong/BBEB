@@ -4,7 +4,6 @@ import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
-import WriteFail from "./writeFail";
 import { useNavigate } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -40,7 +39,6 @@ function Write() {
       setTagInput("");
     }
   };
-
   const handleTagClick = (tagToRemove) => {
     const updatedTags = tags.filter((tag) => tag !== tagToRemove);
     setTags(updatedTags);
@@ -83,11 +81,11 @@ function Write() {
           },
         ],
         postTag: tags.map((tag) => ({ value: tag })),
-      };
-
+      }; 
       axios
         .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
           headers: {
+            "Content-Type": "application/json",
             Authorization: accessToken,
           },
         })
@@ -265,16 +263,6 @@ function Write() {
           </Stack>
         </Stack>
       </Stack>
-      {authModalFailOpen && (
-        <Modal width="750px" height="430px">
-          <WriteFail
-            message="실패"
-            detailMessage="회원만 글을 작성할 수 있어! "
-            onClose={() => setAuthModalFailOpen(false)}
-            onConfirm={handleAuthModalConfirm}
-          />
-        </Modal>
-      )}
     </>
   );
 }

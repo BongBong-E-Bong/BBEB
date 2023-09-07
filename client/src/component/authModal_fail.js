@@ -2,7 +2,7 @@ import React from "react";
 import { Stack } from "@mui/material";
 import register from "../image/register.png";
 
-const AuthModalFail = ({ detailMessage, onClose, message, onConfirm }) => {
+const AuthModalFail = ({ detailMessage, onClose, message }) => {
   return (
     <Stack
       width="100%"
