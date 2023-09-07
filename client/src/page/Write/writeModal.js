@@ -4,10 +4,11 @@ import axios from "axios";
 import Modal from "../../component/Modal";
 import obong from "../../image/obong.png";
 import writepoto from "../../image/write_poto.png";
+import WriteFail from "./writeFail"; // WriteFail 컴포넌트 임포트
 
-
-function WriteModal({ setOpen }) {
-  const [thumbnail, setThumbnail] = useState(null); // State to hold selected thumbnail
+function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
+  const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
+  const [thumbnail, setThumbnail] = useState(null);
 
   const handleCloseModal = () => {
     setOpen(false);
@@ -18,9 +19,25 @@ function WriteModal({ setOpen }) {
     setThumbnail(selectedFile);
   };
 
-  const [isChecked, setIsChecked] = useState(false); // State to hold checkbox status
+  const [isChecked, setIsChecked] = useState(false);
+
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
+  };
+
+  const handleWriteClick = () => {
+    if (isLogin) {
+      if (isChecked) {
+        onCreatePost();
+        setOpen(false);
+      } else {
+        // 확인 체크가 되지 않았을 때 WriteFail을 표시
+        setAuthModalFailOpen(true);
+      }
+    } else {
+      // 로그인 상태가 아닌 경우 WriteFail을 표시
+      setAuthModalFailOpen(true);
+    }
   };
 
   return (
@@ -134,9 +151,7 @@ function WriteModal({ setOpen }) {
               <li style={{ marginBottom: "10px" }}>
                 음란성 게시물을 올리지 않는다.
               </li>
-              <li style={{ marginBottom: "10px" }}>
-                게시물을 도배하지 않는다.
-              </li>
+              <li style={{ marginBottom: "10px" }}>게시물을 도배하지 않는다.</li>
               <li style={{ marginBottom: "10px" }}>어그로를 끌지 않는다.</li>
               <li style={{ marginBottom: "10px" }}>
                 친구를 왕따시키지 않는다.
@@ -168,32 +183,40 @@ function WriteModal({ setOpen }) {
                     color: "white",
                   },
                 }}
-                checked={isChecked} // Checkbox 상태 설정
-                onChange={handleCheckboxChange} // Checkbox 변경 핸들러 설정
+                checked={isChecked}
+                onChange={handleCheckboxChange}
               />
             </Stack>
             <Stack
-  bgcolor="#7AAAA7"
-  sx={{
-    cursor: isChecked ? "pointer" : "default", // 조건에 따라 cursor 설정
-    color: "white",
-    borderRadius: "20px",
-    alignItems: "center",
-    width: "170px",
-    height: "30px",
-    justifyContent: "center",
-    opacity: isChecked ? 1 : 0.5, // 투명도 조건에 따라 설정
-  }}
-  onClick={() => {
-    // 이후 추가
-  }}
->
-  <Stack fontSize="15px">글쓰기</Stack>
-</Stack>
-
+              bgcolor="#7AAAA7"
+              sx={{
+                cursor: isChecked ? "pointer" : "default",
+                color: "white",
+                borderRadius: "20px",
+                alignItems: "center",
+                width: "170px",
+                height: "30px",
+                justifyContent: "center",
+                opacity: isChecked ? 1 : 0.5,
+              }}
+              onClick={handleWriteClick}
+            >
+              <Stack fontSize="15px">글쓰기</Stack>
+            </Stack>
           </Stack>
         </Stack>
       </Stack>
+      {/* WriteFail 컴포넌트를 사용하여 로그인 상태가 아닐 때 표시 */}
+      {!isLogin && (
+        <WriteFail
+          message="로그인이 필요합니다."
+          detailMessage="글을 작성하려면 먼저 로그인하세요."
+          onConfirm={() => {
+            setAuthModalFailOpen(false);
+            setOpen(false);
+          }}
+        />
+      )}
     </Modal>
   );
 }

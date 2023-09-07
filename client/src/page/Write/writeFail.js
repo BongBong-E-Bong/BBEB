@@ -1,8 +1,8 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import register from "../image/register.png";
+import register from "../../image/register.png";
 
-const AuthModalFail = ({ detailMessage, onClose, message, onConfirm }) => {
+const WriteFail = ({ detailMessage, onClose, message, onConfirm }) => {
   return (
     <Stack
       width="100%"
@@ -47,7 +47,7 @@ const AuthModalFail = ({ detailMessage, onClose, message, onConfirm }) => {
               boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)",
             }}
             onClick={() => {
-              onClose();
+              onConfirm();
             }}
           >
             확 인
@@ -57,4 +57,5 @@ const AuthModalFail = ({ detailMessage, onClose, message, onConfirm }) => {
     </Stack>
   );
 };
-export default AuthModalFail;
+
+export default WriteFail;

@@ -4,6 +4,7 @@ import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
+import WriteFail from "./writeFail";
 import { useNavigate } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -11,6 +12,7 @@ import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import "tui-color-picker/dist/tui-color-picker.css";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
+import Modal from "../../component/Modal";
 
 function Write() {
   const [checked, setChecked] = useState(false);
@@ -18,7 +20,9 @@ function Write() {
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [alignment, setAlignment] = useState("left");
-  const alignments = ["left", "center", "right"];
+  const [authModalFailOpen, setAuthModalFailOpen] = useState(false);
+  const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
   const handleAlignmentChange = (alignment) => {
     setAlignment(alignment);
@@ -65,6 +69,45 @@ function Write() {
     }
   }, [alignment]);
 
+  const handleCreatePost = () => {
+    if (isLogin) {
+      const postDataToSend = {
+        title: "하하!",
+        thumbnail: "호두.jpg",
+        isPinned: 1,
+        content: [
+          {
+            contentType: "TEXT",
+            value: "하하!",
+            contentOrder: 0,
+          },
+        ],
+        postTag: tags.map((tag) => ({ value: tag })),
+      };
+
+      axios
+        .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
+          headers: {
+            Authorization: accessToken,
+          },
+        })
+        .then((response) => {
+          console.log("게시글이 성공적으로 생성되었습니다.", response.data);
+          // navigate("/YourNextRoute");
+        })
+        .catch((error) => {
+          setAuthModalFailOpen(true);
+        });
+    } else {
+      // 로그아웃 상태에서 글쓰기를 눌렀을 때 AuthModalFail을 표시
+      setAuthModalFailOpen(true);
+    }
+  };
+
+  const handleAuthModalConfirm = () => {
+    setAuthModalFailOpen(false);
+  };
+
   return (
     <>
       <Header />
@@ -103,14 +146,7 @@ function Write() {
           <Stack spacing={1}>
             <Stack spacing={2}>
               <Stack>
-                <Checkbox
-                  checked={checked}
-                  onChange={handleChange}
-                  sx={{ justifyContent: "flex-end" }}
-                />
-                {/* <span style={{ marginLeft: "auto" }}>
-                  {checked ? "고정 됐는데!!" : ""}
-                </span> */}
+                <Checkbox sx={{ justifyContent: "flex-end" }} />
               </Stack>
 
               <Stack alignItems="center">
@@ -133,22 +169,27 @@ function Write() {
                 />
               </Stack>
               <Stack width="100%">
-              <Stack alignItems="flex-start" direction="row" flexWrap="wrap" style={{ marginLeft:"18%", width: "65%" }}>
-  {tags.map((tag, index) => (
-    <Chip
-      key={index}
-      label={tag}
-      onClick={() => handleTagClick(tag)}
-      style={{
-        cursor: "pointer",
-        backgroundColor: "#FAF3F0",
-        border: "1px solid #FF8181",
-        color: "#FF8181",
-        margin: '4px'
-      }}
-    />
-  ))}
-</Stack>
+                <Stack
+                  alignItems="flex-start"
+                  direction="row"
+                  flexWrap="wrap"
+                  style={{ marginLeft: "18%", width: "65%" }}
+                >
+                  {tags.map((tag, index) => (
+                    <Chip
+                      key={index}
+                      label={tag}
+                      onClick={() => handleTagClick(tag)}
+                      style={{
+                        cursor: "pointer",
+                        backgroundColor: "#FAF3F0",
+                        border: "1px solid #FF8181",
+                        color: "#FF8181",
+                        margin: "4px",
+                      }}
+                    />
+                  ))}
+                </Stack>
               </Stack>
             </Stack>
             <Stack width="100%" height="100%" spacing={2}>
@@ -161,8 +202,8 @@ function Write() {
                 <Editor
                   initialValue="내용을 입력하세요."
                   previewStyle="vertical"
-                  height="400px" // 높이를 300px로 설정
-                  initialEditType="wysiwyg"
+                  height="400px"
+                  initialEditType="wysiwyg" //이부분 위지윅으로만 했는데, 마크다운도 나오고 있음
                   useCommandShortcut={false}
                   plugins={[colorSyntax]}
                   language="ko-KR"
@@ -183,9 +224,10 @@ function Write() {
                     color: "black",
                     borderRadius: "10px",
                     alignItems: "center",
+                    justifyContent: "center",
                     border: "1px solid #FF8181",
                     width: "6%",
-                    height: "10%",
+                    height: "30px",
                   }}
                   onClick={() => {
                     //이후 추가
@@ -201,8 +243,9 @@ function Write() {
                     borderRadius: "10px",
                     alignItems: "center",
                     border: "1px solid #FF8181",
+                    justifyContent: "center",
                     width: "6%",
-                    height: "10%",
+                    height: "30px",
                   }}
                   onClick={() => {
                     setModalOpen(true);
@@ -210,13 +253,28 @@ function Write() {
                 >
                   <Stack fontSize="20px">글쓰기</Stack>
                 </Stack>
-
-                {modalOpen && <WriteModal setOpen={setModalOpen} />}
+                {modalOpen && (
+                  <WriteModal
+                    setOpen={setModalOpen}
+                    onCreatePost={handleCreatePost}
+                    setAuthModalFailOpen={setAuthModalFailOpen}
+                  />
+                )}
               </Stack>
             </Stack>
           </Stack>
         </Stack>
       </Stack>
+      {authModalFailOpen && (
+        <Modal width="750px" height="430px">
+          <WriteFail
+            message="실패"
+            detailMessage="회원만 글을 작성할 수 있어! "
+            onClose={() => setAuthModalFailOpen(false)}
+            onConfirm={handleAuthModalConfirm}
+          />
+        </Modal>
+      )}
     </>
   );
 }
