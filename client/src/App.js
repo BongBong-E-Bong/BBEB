@@ -13,6 +13,8 @@ import Ranking from "../src/page/Ranking/Ranking.js";
 import Vote from "../src/page/Vote/Vote.js";
 import Post from "../src/page/Board/post.js";
 import Choice from "../src/page/Choice/Choice.js";
+import Write from "../src/page/Write/Write.js";
+import WriteList from "../src/page/Write/writeList";
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
         <Route path="/vote" element={<Vote />} />
         <Route path="/post" element={<Post />} />
         <Route path="/Choice" element={<Choice />} />
+        <Route path="/Write" element={<Write />} />
+        <Route path="/writeList" element={<WriteList />} />
       </Routes>
     </Router>
   );
