@@ -68,7 +68,7 @@ public class CommentService {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
     }
 
-    public Page<CommentDTO.CommentResponseDTO> find(Long postId, Pageable pageable) {
-        return commentRepository.search(postId, pageable);
+    public Page<CommentDTO.CommentResponseDTO> find(Long postId, Pageable pageable, String loginId) {
+        return commentRepository.search(postId, pageable, loginId);
     }
 }
