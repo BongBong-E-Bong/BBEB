@@ -18,7 +18,7 @@ function Post() {
 
   const likeClick = () => {
     axios
-      .get("http://13.125.105.202:8080/api/posts/likes/193", {
+      .get("http://13.125.105.202:8080/api/posts/likes/213", {
         headers: {
           Authorization: accessToken,
         },
@@ -35,7 +35,7 @@ function Post() {
 
   React.useEffect(() => {
     axios
-      .get("http://13.125.105.202:8080/api/posts/193", {
+      .get("http://13.125.105.202:8080/api/posts/213", {
         headers: {
           Authorization: accessToken,
         },
@@ -50,15 +50,13 @@ function Post() {
 
   const handleDelete = () => {
     axios
-      .delete("http://13.125.105.202:8080/api/posts/193", {
+      .delete("http://13.125.105.202:8080/api/posts/213", {
         headers: {
           Authorization: accessToken,
         },
       })
       .then((response) => {
-        if (response.status === 204) {
-          navigate("/");
-        }
+        navigate("/");
       })
       .catch((error) => {
         console.error("delete error", error);
