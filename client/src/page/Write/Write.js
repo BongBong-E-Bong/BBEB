@@ -81,7 +81,7 @@ function Write() {
           },
         ],
         postTag: tags.map((tag) => ({ value: tag })),
-      }; 
+      };
       axios
         .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
           headers: {

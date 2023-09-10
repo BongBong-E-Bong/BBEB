@@ -35,13 +35,29 @@ function WriteList() {
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
+
+  const posts = [
+    {
+      id: 1,
+      thumbnail: thumnail,
+      obongImage: obong,
+      title: "안녕 난 오봉이야",
+      date: "2001-08-23",
+      author: "🐷오봉이",
+      likeCount: 5,
+      hitCount: 5,
+      commentCount: 5,
+    },
+    // 다른 게시글 데이터도 추가할 수 있습니다.
+  ];
+
   return (
     <>
       <Header />
       <Stack alignItems="center">
         <Stack width="100%" height="22vh">
           <Stack
-            width="26%"
+            width="25%"
             height="10%"
             marginLeft="15%"
             marginTop="9%"
@@ -52,13 +68,13 @@ function WriteList() {
             style={{ cursor: "pointer" }}
           >
             <Stack
-              width="100%"
+              width="fit-content"
               height="100%"
-              style={{ fontSize: "55px" }}
+              style={{ fontSize: "40px" }}
               alignItems="center"
               justifyContent="center"
             >
-              오봉이🐷의 게시판
+              오봉이의 게시판
             </Stack>
             <img src={obong} alt="obong" width="25%" height="600%"></img>
           </Stack>
@@ -177,12 +193,12 @@ function WriteList() {
                       marginLeft: "5%",
                     }}
                   />
-                  <Stack width="100%">
+                  <Stack>
                     <Stack fontSize="14px">안녕 난 오봉이야</Stack>
                     <Stack fontSize="12px">2001-08-23</Stack>
                     <Stack fontSize="12px">🐷오봉이</Stack>
                   </Stack>
-                  <Stack direction="row" spacing={1} width="100%">
+                  <Stack direction="row" spacing={1}>
                     <Stack direction="row" spacing={0.5}>
                       <Stack>
                         <img src={like} alt="like" />
@@ -256,7 +272,7 @@ function WriteList() {
                     <Stack fontSize="12px">2001-08-23</Stack>
                     <Stack fontSize="12px">🐷오봉이</Stack>
                   </Stack>
-                  <Stack direction="row" spacing={1} sx={{ padding: "8%" }}>
+                  <Stack direction="row" spacing={1}>
                     <Stack direction="row" spacing={0.5}>
                       <Stack>
                         <img src={like} alt="like" />
@@ -397,7 +413,7 @@ function WriteList() {
                   direction="row"
                   bgcolor="#FAF3F0"
                   sx={{
-                    marginTop: "50%",
+                    FarginTop: "50%",
                     borderBottomLeftRadius: "20px",
                     borderBottomRightRadius: "20px",
                   }}
