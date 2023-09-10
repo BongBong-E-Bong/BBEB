@@ -157,6 +157,7 @@ public class PostService {
             deleteContent(contentRepository.findByPost(post));
             deletePostLike(postLikeRepository.findByPost(post));
             deletePostTag(postTagRepository.findByPost(post));
+            deletePostView(postViewRepository.findAllByPost(post));
             deleteComment(commentRepository.findAllByPost(post));
 
             postRepository.delete(post);
@@ -165,6 +166,10 @@ public class PostService {
             throw new CustomException(USER_NOT_FOUND);
         }
 
+    }
+
+    private void deletePostView(List<PostView> postViews) {
+        postViewRepository.deleteAll(postViews);
     }
 
     public void createContent(List<PostDTO.Content> contents, Post post){
