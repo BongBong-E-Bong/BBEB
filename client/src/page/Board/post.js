@@ -7,9 +7,12 @@ import basicProfile from "../../image/profilephoto.png";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Post() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const navigate = useNavigate();
 
   const [likeTotal, setLikeTotal] = React.useState(0);
 
@@ -44,6 +47,23 @@ function Post() {
         console.error("post data error", error);
       });
   }, []);
+
+  const handleDelete = () => {
+    axios
+      .delete("http://13.125.105.202:8080/api/posts/193", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        if (response.status === 204) {
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.error("delete error", error);
+      });
+  };
 
   return (
     <>
@@ -99,7 +119,7 @@ function Post() {
             alignItems="center"
           >
             <Stack direction="row" gap="10px">
-              <img //프사
+              <img
                 src={basicProfile}
                 alt="basicProfile"
                 width="8%"
@@ -117,7 +137,10 @@ function Post() {
                     수정
                   </Stack>
                   <Stack style={{ fontSize: "17px" }}>|</Stack>
-                  <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
+                  <Stack
+                    style={{ fontSize: "17px", cursor: "pointer" }}
+                    onClick={handleDelete}
+                  >
                     삭제
                   </Stack>
                 </>
