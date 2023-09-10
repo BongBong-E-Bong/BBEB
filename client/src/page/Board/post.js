@@ -65,6 +65,17 @@ function Post() {
       });
   };
 
+  const originalDateTimeString = postData?.date;
+  const originalDateTime = new Date(originalDateTimeString);
+
+  const year = originalDateTime.getFullYear();
+  const month = (originalDateTime.getMonth() + 1).toString().padStart(2, "0");
+  const day = originalDateTime.getDate().toString().padStart(2, "0");
+  const hours = originalDateTime.getHours().toString().padStart(2, "0");
+  const minutes = originalDateTime.getMinutes().toString().padStart(2, "0");
+
+  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
   return (
     <>
       <Header />
@@ -127,7 +138,7 @@ function Post() {
               ></img>
               <Stack gap="2px" justifyContent="center" alignItems="flex-start">
                 <Stack style={{ fontSize: "17px" }}>{postData?.writer}</Stack>
-                <Stack style={{ fontSize: "14px" }}>{postData?.date}</Stack>
+                <Stack style={{ fontSize: "14px" }}>{formattedDateTime}</Stack>
               </Stack>
             </Stack>
             <Stack direction="row" gap="15px" minWidth="fit-content">
