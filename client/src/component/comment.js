@@ -15,25 +15,67 @@ import axios from "axios";
 function Comment() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
-  const [commentData, setCommentData] = React.useState(0);
+  // const [commentData, setCommentData] = React.useState(0);
 
-  React.useEffect(() => {
-    axios
-      .get(
-        "http://13.125.105.202:8080/api/comment/1?page=0&size=1&sort=string",
-        {
-          headers: {
-            Authorization: accessToken,
-          },
-        }
-      )
-      .then((response) => {
-        setCommentData(response.data.commentData);
-      })
-      .catch((error) => {
-        console.error("conmment data error:", error);
-      });
-  }, []);
+  // React.useEffect(() => {
+  //   axios
+  //     .get(
+  //       "http://13.125.105.202:8080/api/comment/221?page=0&size=1&sort=string",
+  //       {
+  //         headers: {
+  //           Authorization: accessToken,
+  //         },
+  //       }
+  //     )
+  //     .then((response) => {
+  //       setCommentData(response.data.commentData);
+  //     })
+  //     .catch((error) => {
+  //       console.error("conmment data error:", error);
+  //     });
+  // }, []);
+
+  const commentData = {
+    content: [
+      {
+        value: "이봉이",
+        writer: "string",
+        profileUrl:
+          "https://s3.ap-northeast-2.amazonaws.com/bbeb-image/profile/default.jpg",
+        createDate: "2023-09-10T11:09:49.949564",
+        commentId: 225,
+        type: "EMOTICON",
+        emoticonUrl:
+          "https://s3.ap-northeast-2.amazonaws.com/bbeb-image/emoticon/%EC%9D%B4%EB%B4%89%EC%9D%B4",
+        isUpdate: true,
+      },
+    ],
+    pageable: {
+      sort: {
+        empty: false,
+        sorted: true,
+        unsorted: false,
+      },
+      offset: 0,
+      pageNumber: 0,
+      pageSize: 1,
+      paged: true,
+      unpaged: false,
+    },
+    totalPages: 1,
+    totalElements: 1,
+    last: true,
+    number: 0,
+    sort: {
+      empty: false,
+      sorted: true,
+      unsorted: false,
+    },
+    size: 1,
+    numberOfElements: 1,
+    first: true,
+    empty: false,
+  };
 
   // const commentData = {
   //   totalPages: 0,
@@ -228,7 +270,7 @@ function Comment() {
                   >
                     <img
                       alt="basicProfile"
-                      src={basicProfile}
+                      src={commentData.content[i].profileUrl}
                       width="50px"
                       height="50px"
                       style={{ borderRadius: "50%" }}
@@ -255,16 +297,17 @@ function Comment() {
                     </Stack>
                   </Stack>
                 </Stack>
-                <Stack direction="row" gap="9%" width="11%">
-                  {/* 댓글 작성자가 아닐 경우X */}
-                  <Stack fontSize="17px" style={{ cursor: "pointer" }}>
-                    수정
+                {commentData.content[i].isUpdate ? (
+                  <Stack direction="row" gap="9%" width="11%">
+                    <Stack fontSize="17px" style={{ cursor: "pointer" }}>
+                      수정
+                    </Stack>
+                    <Stack fontSize="17px">|</Stack>
+                    <Stack fontSize="17px" style={{ cursor: "pointer" }}>
+                      삭제
+                    </Stack>
                   </Stack>
-                  <Stack fontSize="17px">|</Stack>
-                  <Stack fontSize="17px" style={{ cursor: "pointer" }}>
-                    삭제
-                  </Stack>
-                </Stack>
+                ) : null}
               </Stack>
             );
           })}
