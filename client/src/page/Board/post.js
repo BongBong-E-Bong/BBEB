@@ -15,7 +15,7 @@ function Post() {
 
   const likeClick = () => {
     axios
-      .get("http://13.125.105.202:8080/api/posts/likes/126", {
+      .get("http://13.125.105.202:8080/api/posts/likes/193", {
         headers: {
           Authorization: accessToken,
         },
@@ -32,7 +32,7 @@ function Post() {
 
   React.useEffect(() => {
     axios
-      .get("http://13.125.105.202:8080/api/posts/126", {
+      .get("http://13.125.105.202:8080/api/posts/193", {
         headers: {
           Authorization: accessToken,
         },
@@ -111,14 +111,17 @@ function Post() {
               </Stack>
             </Stack>
             <Stack direction="row" gap="15px" minWidth="fit-content">
-              {/* 수정 삭제 버튼 글쓴이가 아닐 경우 */}
-              <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
-                수정
-              </Stack>
-              <Stack style={{ fontSize: "17px" }}>|</Stack>
-              <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
-                삭제
-              </Stack>
+              {postData?.isUpdate ? (
+                <>
+                  <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
+                    수정
+                  </Stack>
+                  <Stack style={{ fontSize: "17px" }}>|</Stack>
+                  <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
+                    삭제
+                  </Stack>
+                </>
+              ) : null}
               <Stack direction="row" gap="10px">
                 <VisibilityIcon
                   style={{ color: "#767676" }}
@@ -197,6 +200,7 @@ function Post() {
           </Stack>
         </Stack>
       </Stack>
+
       <Comment />
     </>
   );
