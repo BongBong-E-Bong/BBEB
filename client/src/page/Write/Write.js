@@ -5,12 +5,6 @@ import obong from "../../image/obong.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
 import { useNavigate } from "react-router-dom";
-import { Editor } from "@toast-ui/react-editor";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-import "tui-color-picker/dist/tui-color-picker.css";
-import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
-import "@toast-ui/editor/dist/i18n/ko-kr";
 import Modal from "../../component/Modal";
 import FormatAlignCenter from "../../image/FormatAlignCenter.png";
 import FormatAlignLeft from "../../image/FormatAlignLeft.png";
@@ -22,10 +16,10 @@ function Write() {
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [alignment, setAlignment] = useState("left");
+  const alignments = ["left", "center", "right"]; // 4개의 정렬 옵션
   const [authModalFailOpen, setAuthModalFailOpen] = useState(false);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
-  
 
   const handleAlignmentChange = (alignment) => {
     setAlignment(alignment);
@@ -61,15 +55,6 @@ function Write() {
       setSelectedImage(URL.createObjectURL(selectedFile));
     }
   };
-
-  useEffect(() => {
-    const textField = document.getElementById("content-textfield");
-    if (textField) {
-      if (alignment !== "justify") {
-        textField.style.textAlign = alignment;
-      }
-    }
-  }, [alignment]);
 
   const handleCreatePost = () => {
     if (isLogin) {
@@ -110,6 +95,16 @@ function Write() {
     setAuthModalFailOpen(false);
   };
 
+  useEffect(() => {
+    const textField = document.getElementById("content-textfield"); // ID를 이용해 DOM 요소 가져옴
+    if (textField) {
+      if (alignment !== "justify") {
+        // 양쪽 정렬이 아닐 때만 스타일 변경
+        textField.style.textAlign = alignment;
+      }
+    }
+  }, [alignment]);
+
   return (
     <>
       <Header />
@@ -119,7 +114,7 @@ function Write() {
             width="21%"
             height="10%"
             marginLeft="15%"
-            marginTop="8%"
+            marginTop="10%"
             bgcolor="#FFDEDE"
             direction="row"
             justifyContent="center"
@@ -140,23 +135,23 @@ function Write() {
         </Stack>
         <Stack
           width="70%"
-          marginTop="0%"
+          marginTop="2%"
           minHeight="74vh"
           height="fit-content"
           bgcolor="#FAF3F0"
         >
           <Stack spacing={1}>
             <Stack spacing={2}>
-              <Stack>
-                <Checkbox sx={{ justifyContent: "flex-end" }} />
+              <Stack justifyContent="flex-end" alignItems="center">
+                <Checkbox checked={checked} onChange={handleChange} />
+                {checked ? "고정 되었습니다." : "고정되지 않은 상태입니다."}
               </Stack>
-
               <Stack alignItems="center">
                 <TextField
                   label="제목"
                   placeholder="제목을 입력하세요."
                   variant="outlined"
-                  style={{ width: "65%", backgroundColor: "#FFF" }}
+                  style={{ width: "80%", backgroundColor: "#FFF" }}
                 />
               </Stack>
               <Stack alignItems="center">
@@ -167,50 +162,75 @@ function Write() {
                   value={tagInput}
                   onChange={handleTagInputChange}
                   onKeyPress={handleTagInputKeyPress}
-                  style={{ width: "65%", backgroundColor: "#FFF" }}
+                  style={{ width: "80%", backgroundColor: "#FFF" }}
                 />
-              </Stack>
-              <Stack width="100%">
                 <Stack
-                  alignItems="flex-start"
                   direction="row"
                   flexWrap="wrap"
-                  style={{ marginLeft: "18%", width: "65%" }}
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  style={{ width: "80%" }} // 텍스트 필드 너비를 기준으로 설정
                 >
                   {tags.map((tag, index) => (
                     <Chip
                       key={index}
                       label={tag}
-                      onClick={() => handleTagClick(tag)}
                       style={{
-                        cursor: "pointer",
+                        margin: "4px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        maxWidth: "100%", // 넘어가도 최대 너비 설정
+                        color: "#FF8181",
                         backgroundColor: "#FAF3F0",
                         border: "1px solid #FF8181",
-                        color: "#FF8181",
-                        margin: "4px",
                       }}
                     />
                   ))}
                 </Stack>
               </Stack>
             </Stack>
-            <Stack width="100%" height="100%" spacing={2}>
+            <Stack width="100%" height="100%" alignItems="center" spacing={2}>
               <Stack
-                className="edit_wrap"
                 width="100%"
+                height="100%"
+                direction="row"
                 justifyContent="center"
-                alignItems="center"
+                spacing={3}
               >
-                <Editor
-                  initialValue="내용을 입력하세요."
-                  previewStyle="vertical"
-                  height="400px"
-                  initialEditType="wysiwyg" //이부분 위지윅으로만 했는데, 마크다운도 나오고 있음
-                  useCommandShortcut={false}
-                  plugins={[colorSyntax]}
-                  language="ko-KR"
-                />
+                {alignments.map((align) => (
+                  <Stack
+                    key={align}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      handleAlignmentChange(align);
+                    }}
+                  >
+                    <Stack>
+                      {align === "left" ? (
+                        <img src={FormatAlignLeft} alt="FormatAlignLeft" />
+                      ) : align === "center" ? (
+                        <img src={FormatAlignCenter} alt="FormatAlignCenter" />
+                      ) : align === "right" ? (
+                        <img src={FormatAlignRight} alt="FormatAlignRight" />
+                      ) : null}
+                    </Stack>
+                  </Stack>
+                ))}
               </Stack>
+              <TextField
+                id="content-textfield"
+                placeholder="내용을 입력하세요."
+                variant="outlined"
+                multiline
+                rows={15}
+                style={{
+                  width: "80%",
+                  backgroundColor: "#FFF",
+                }}
+              />
 
               <Stack
                 width="100%"
