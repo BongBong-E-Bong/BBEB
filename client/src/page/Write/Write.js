@@ -156,7 +156,7 @@ function Write() {
                   label="제목"
                   placeholder="제목을 입력하세요."
                   variant="outlined"
-                  style={{ width: "80%", backgroundColor: "#FFF" }}
+                  style={{ width: "65%", backgroundColor: "#FFF" }}
                 />
               </Stack>
               <Stack alignItems="center">
@@ -167,11 +167,16 @@ function Write() {
                   value={tagInput}
                   onChange={handleTagInputChange}
                   onKeyPress={handleTagInputKeyPress}
-                  style={{ width: "80%", backgroundColor: "#FFF" }}
+                  style={{ width: "65%", backgroundColor: "#FFF" }}
                 />
               </Stack>
               <Stack width="100%">
-                <Stack direction="row" spacing={2} marginLeft="10%">
+                <Stack
+                  alignItems="flex-start"
+                  direction="row"
+                  flexWrap="wrap"
+                  style={{ marginLeft: "18%", width: "65%" }}
+                >
                   {tags.map((tag, index) => (
                     <Chip
                       key={index}
@@ -182,70 +187,30 @@ function Write() {
                         backgroundColor: "#FAF3F0",
                         border: "1px solid #FF8181",
                         color: "#FF8181",
+                        margin: "4px",
                       }}
                     />
                   ))}
                 </Stack>
               </Stack>
             </Stack>
-            <Stack width="100%" height="100%" alignItems="center" spacing={2}>
+            <Stack width="100%" height="100%" spacing={2}>
               <Stack
+                className="edit_wrap"
                 width="100%"
-                height="100%"
-                direction="row"
-                spacing={3}
                 justifyContent="center"
+                alignItems="center"
               >
-                {alignments.map((align) => (
-                  <Stack
-                    key={align}
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      handleAlignmentChange(align);
-                    }}
-                  >
-                    <Stack>
-                      {align === "left" ? (
-                        <img src={FormatAlignLeft} alt="FormatAlignLeft" />
-                      ) : align === "center" ? (
-                        <img src={FormatAlignCenter} alt="FormatAlignCenter" />
-                      ) : align === "right" ? (
-                        <img src={FormatAlignRight} alt="FormatAlignRight" />
-                      ) : null}
-                    </Stack>
-                  </Stack>
-                ))}
-                <Stack>
-                  <input
-                    type="file"
-                    id="photo-input"
-                    style={{ display: "none" }}
-                    accept="image/*"
-                    onChange={handlePhotoUpload}
-                  />
-                  <label htmlFor="photo-input">
-                    <img
-                      src={AddPhotoAlternate}
-                      alt="AddPhotoAlternate"
-                      style={{ cursor: "pointer" }}
-                    />
-                  </label>
-                </Stack>
+                <Editor
+                  initialValue="내용을 입력하세요."
+                  previewStyle="vertical"
+                  height="400px"
+                  initialEditType="wysiwyg" //이부분 위지윅으로만 했는데, 마크다운도 나오고 있음
+                  useCommandShortcut={false}
+                  plugins={[colorSyntax]}
+                  language="ko-KR"
+                />
               </Stack>
-              <TextField
-                id="content-textfield"
-                placeholder="내용을 입력하세요."
-                variant="outlined"
-                multiline
-                rows={14}
-                style={{
-                  width: "80%",
-                  backgroundColor: "#FFF",
-                }}
-              />
-
 
               <Stack
                 width="100%"
