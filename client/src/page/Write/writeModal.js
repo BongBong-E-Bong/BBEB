@@ -110,7 +110,7 @@ function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
             sx={{
               cursor: "pointer",
               color: "black",
-              marginLeft: "390px",
+              marginLeft: "340px",
               marginTop: "-40px",
             }}
             onClick={handleCloseModal}

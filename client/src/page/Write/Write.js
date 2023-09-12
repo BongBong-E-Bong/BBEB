@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../../component/header";
 import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../component/Modal";
 import FormatAlignCenter from "../../image/FormatAlignCenter.png";
 import FormatAlignLeft from "../../image/FormatAlignLeft.png";
 import FormatAlignRight from "../../image/FormatAlignRight.png";
+import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
+import Modal from "../../component/Modal";
 
 function Write() {
   const [checked, setChecked] = useState(false);
@@ -20,6 +21,8 @@ function Write() {
   const [authModalFailOpen, setAuthModalFailOpen] = useState(false);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [text, setText] = useState(""); // 텍스트 입력을 위한 상태
 
   const handleAlignmentChange = (alignment) => {
     setAlignment(alignment);
@@ -46,13 +49,23 @@ function Write() {
     setChecked(event.target.checked);
   };
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const handlePhotoUpload = (event) => {
+  const handleImageUpload = (event) => {
     const selectedFile = event.target.files[0];
 
     if (selectedFile) {
-      setSelectedImage(URL.createObjectURL(selectedFile));
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        setSelectedImage(e.target.result);
+      };
+
+      reader.readAsDataURL(selectedFile);
+
+      // 이미지를 업로드할 때 text 상태에 입력된 텍스트를 추가
+      const textValue = document.getElementById("content-textfield").value;
+      setText(textValue);
+    } else {
+      setSelectedImage(null);
     }
   };
 
@@ -65,12 +78,22 @@ function Write() {
         content: [
           {
             contentType: "TEXT",
-            value: "하하!",
+            value: text, // 변경된 부분: text 상태 사용
             contentOrder: 0,
           },
         ],
         postTag: tags.map((tag) => ({ value: tag })),
       };
+
+      // 이미지 데이터가 있는 경우에만 이미지 데이터를 추가
+      if (selectedImage) {
+        postDataToSend.content.push({
+          contentType: "IMAGE",
+          value: selectedImage,
+          contentOrder: 1,
+        });
+      }
+
       axios
         .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
           headers: {
@@ -99,11 +122,16 @@ function Write() {
     const textField = document.getElementById("content-textfield"); // ID를 이용해 DOM 요소 가져옴
     if (textField) {
       if (alignment !== "justify") {
-        // 양쪽 정렬이 아닐 때만 스타일 변경
         textField.style.textAlign = alignment;
       }
     }
-  }, [alignment]);
+
+    // text 상태와 selectedImage 상태를 함께 업데이트
+    const textValue = textField.value;
+    if (textValue !== text) {
+      setText(textValue);
+    }
+  }, [alignment, text]);
 
   return (
     <>
@@ -169,21 +197,23 @@ function Write() {
                   flexWrap="wrap"
                   justifyContent="flex-start"
                   alignItems="center"
-                  style={{ width: "80%" }} // 텍스트 필드 너비를 기준으로 설정
+                  style={{ width: "80%" }}
                 >
                   {tags.map((tag, index) => (
                     <Chip
                       key={index}
                       label={tag}
+                      onClick={() => handleTagClick(tag)} // Chip 클릭 시 handleTagClick 함수 호출
                       style={{
                         margin: "4px",
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        maxWidth: "100%", // 넘어가도 최대 너비 설정
+                        maxWidth: "100%",
                         color: "#FF8181",
                         backgroundColor: "#FAF3F0",
                         border: "1px solid #FF8181",
+                        cursor: "pointer", // 커서를 포인터로 변경하여 클릭 가능한 모양으로 표시
                       }}
                     />
                   ))}
@@ -219,7 +249,18 @@ function Write() {
                     </Stack>
                   </Stack>
                 ))}
+                <label htmlFor="image-upload" style={{ cursor: "pointer" }}>
+                  <img src={AddPhotoAlternate} alt="AddPhotoAlternate" />
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="image-upload"
+                  style={{ display: "none" }}
+                  onChange={handleImageUpload}
+                />
               </Stack>
+
               <TextField
                 id="content-textfield"
                 placeholder="내용을 입력하세요."
@@ -229,6 +270,22 @@ function Write() {
                 style={{
                   width: "80%",
                   backgroundColor: "#FFF",
+                }}
+                value={text} // 텍스트 상태로 변경
+                onChange={(e) => setText(e.target.value)} // 텍스트 입력 상태 업데이트
+                InputProps={{
+                  endAdornment: selectedImage && (
+                    <img
+                      src={selectedImage}
+                      alt=""
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "400px",
+                        display: "block",
+                        margin: "auto",
+                      }}
+                    />
+                  ),
                 }}
               />
 
@@ -249,7 +306,6 @@ function Write() {
                     justifyContent: "center",
                     border: "1px solid #FF8181",
                     width: "6%",
-                    height: "30px",
                   }}
                   onClick={() => {
                     //이후 추가
@@ -267,7 +323,6 @@ function Write() {
                     border: "1px solid #FF8181",
                     justifyContent: "center",
                     width: "6%",
-                    height: "30px",
                   }}
                   onClick={() => {
                     setModalOpen(true);
