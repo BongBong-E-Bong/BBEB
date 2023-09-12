@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../component/header";
 import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
@@ -17,13 +17,22 @@ function Write() {
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [alignment, setAlignment] = useState("left");
-  const alignments = ["left", "center", "right"]; // 4개의 정렬 옵션
+  const alignments = ["left", "center", "right"];
   const [authModalFailOpen, setAuthModalFailOpen] = useState(false);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [text, setText] = useState(""); // 텍스트 입력을 위한 상태
+  const [selectedImages, setSelectedImages] = useState([]); // 이미지 배열로 변경
+  const [text, setText] = useState("");
+  const [content, setContent] = useState([]);
 
+  // 이미지와 텍스트 추가 함수
+  const addTextToContent = (text) => {
+    setContent([...content, { type: "text", value: text }]);
+  };
+
+  const addImageToContent = (image) => {
+    setContent([...content, { type: "image", value: image }]);
+  };
   const handleAlignmentChange = (alignment) => {
     setAlignment(alignment);
   };
@@ -50,22 +59,30 @@ function Write() {
   };
 
   const handleImageUpload = (event) => {
-    const selectedFile = event.target.files[0];
+    const selectedFiles = event.target.files;
 
-    if (selectedFile) {
-      const reader = new FileReader();
+    if (selectedFiles.length > 0) {
+      const newImages = Array.from(selectedFiles).map((file) => {
+        const reader = new FileReader();
 
-      reader.onload = (e) => {
-        setSelectedImage(e.target.result);
-      };
+        return new Promise((resolve) => {
+          reader.onload = (e) => {
+            resolve(e.target.result);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
 
-      reader.readAsDataURL(selectedFile);
+      Promise.all(newImages).then((imageDataArray) => {
+        // 이미지를 콘텐츠에 추가
+        imageDataArray.forEach((image) => {
+          addImageToContent(image);
+        });
 
-      // 이미지를 업로드할 때 text 상태에 입력된 텍스트를 추가
-      const textValue = document.getElementById("content-textfield").value;
-      setText(textValue);
-    } else {
-      setSelectedImage(null);
+        // 이미지를 업로드할 때 text 상태에 입력된 텍스트를 추가
+        const textValue = document.getElementById("content-textfield").value;
+        addTextToContent(textValue);
+      });
     }
   };
 
@@ -75,24 +92,25 @@ function Write() {
         title: "하하!",
         thumbnail: "호두.jpg",
         isPinned: 1,
-        content: [
-          {
-            contentType: "TEXT",
-            value: text, // 변경된 부분: text 상태 사용
-            contentOrder: 0,
-          },
-        ],
+        content: [],
         postTag: tags.map((tag) => ({ value: tag })),
       };
 
-      // 이미지 데이터가 있는 경우에만 이미지 데이터를 추가
-      if (selectedImage) {
+      // 텍스트 콘텐츠 추가
+      postDataToSend.content.push({
+        contentType: "TEXT",
+        value: text,
+        contentOrder: 0,
+      });
+
+      // 이미지 데이터 추가
+      selectedImages.forEach((image, index) => {
         postDataToSend.content.push({
           contentType: "IMAGE",
-          value: selectedImage,
-          contentOrder: 1,
+          value: image,
+          contentOrder: index + 1, // 순서 지정
         });
-      }
+      });
 
       axios
         .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
@@ -126,7 +144,7 @@ function Write() {
       }
     }
 
-    // text 상태와 selectedImage 상태를 함께 업데이트
+    // text 상태와 selectedImages 상태를 함께 업데이트
     const textValue = textField.value;
     if (textValue !== text) {
       setText(textValue);
@@ -258,6 +276,7 @@ function Write() {
                   id="image-upload"
                   style={{ display: "none" }}
                   onChange={handleImageUpload}
+                  multiple // 여러 이미지를 선택할 수 있도록 추가
                 />
               </Stack>
 
@@ -271,21 +290,27 @@ function Write() {
                   width: "80%",
                   backgroundColor: "#FFF",
                 }}
-                value={text} // 텍스트 상태로 변경
-                onChange={(e) => setText(e.target.value)} // 텍스트 입력 상태 업데이트
+                value={content
+                  .filter((item) => item.type === "text")
+                  .map((item) => item.value)
+                  .join("\n")} // 텍스트 상태로 변경
+                onChange={(e) => addTextToContent(e.target.value)} // 텍스트 입력 상태 업데이트
                 InputProps={{
-                  endAdornment: selectedImage && (
-                    <img
-                      src={selectedImage}
-                      alt=""
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "400px",
-                        display: "block",
-                        margin: "auto",
-                      }}
-                    />
-                  ),
+                  endAdornment: content
+                    .filter((item) => item.type === "image")
+                    .map((item, index) => (
+                      <img
+                        key={index}
+                        src={item.value}
+                        alt=""
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "400px",
+                          display: "block",
+                          margin: "auto",
+                        }}
+                      />
+                    )),
                 }}
               />
 
