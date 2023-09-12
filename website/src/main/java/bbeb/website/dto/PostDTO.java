@@ -24,6 +24,9 @@ public class PostDTO {
         private String thumbnail;
         @Schema(description = "고정 여부(고정O: 1, 고정X: 0)", example = "1")
         private Long isPinned;
+        @Schema(description = "정렬 타입(기본: 0, 왼쪽: 1, 중앙: 2, 오른쪽: 3", example = "1")
+        private Long sortType;
+
         private List<Content> content;
         private List<PostTag> postTag;
     }
@@ -106,13 +109,17 @@ public class PostDTO {
         private Long view;
         @Schema(description = "고정 여부(고정O: 1, 고정X: 0)", example = "1")
         private Long isPinned;
+
+        @Schema(description = "정렬 타입", example = "BASIC")
+        private String sortType;
+
         private List<Content> contents;
         private List<PostTag> tags;
         @Schema(description = "수정/삭제 여부", example = "true, false")
         private Boolean isUpdate;
 
         @QueryProjection
-        public PostResponseDTO(String title, LocalDateTime date, String writer, Long view, Long isPinned, List<Content> contents, List<PostTag> tags, Boolean isUpdate) {
+        public PostResponseDTO(String title, LocalDateTime date, String writer, Long view, Long isPinned, List<Content> contents, List<PostTag> tags, Boolean isUpdate, String sortType) {
             this.title = title;
             this.date = date;
             this.writer = writer;
@@ -121,6 +128,7 @@ public class PostDTO {
             this.contents = contents;
             this.tags = tags;
             this.isUpdate = isUpdate;
+            this.sortType = sortType;
         }
     }
 
@@ -142,6 +150,8 @@ public class PostDTO {
         private String thumbnail;
         @Schema(description = "고정 여부(고정O: 1, 고정X: 0)", example = "1")
         private Long isPinned;
+        @Schema(description = "정렬 타입(기본: 0, 왼쪽: 1, 중앙: 2, 오른쪽: 3", example = "1")
+        private Long sortType;
         private List<Content> content;
         private List<PostTag> tags;
     }
