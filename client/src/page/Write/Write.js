@@ -9,7 +9,6 @@ import FormatAlignCenter from "../../image/FormatAlignCenter.png";
 import FormatAlignLeft from "../../image/FormatAlignLeft.png";
 import FormatAlignRight from "../../image/FormatAlignRight.png";
 import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
-import Modal from "../../component/Modal";
 
 function Write() {
   const [checked, setChecked] = useState(false);
@@ -21,18 +20,11 @@ function Write() {
   const [authModalFailOpen, setAuthModalFailOpen] = useState(false);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
-  const [selectedImages, setSelectedImages] = useState([]); // 이미지 배열로 변경
+  const [selectedImages, setSelectedImages] = useState([]);
   const [text, setText] = useState("");
-  const [content, setContent] = useState([]);
+  const [title, setTitle] = useState("");
+  const [postTags, setPostTags] = useState([]);
 
-  // 이미지와 텍스트 추가 함수
-  const addTextToContent = (text) => {
-    setContent([...content, { type: "text", value: text }]);
-  };
-
-  const addImageToContent = (image) => {
-    setContent([...content, { type: "image", value: image }]);
-  };
   const handleAlignmentChange = (alignment) => {
     setAlignment(alignment);
   };
@@ -63,52 +55,43 @@ function Write() {
 
     if (selectedFiles.length > 0) {
       const newImages = Array.from(selectedFiles).map((file) => {
-        const reader = new FileReader();
-
-        return new Promise((resolve) => {
-          reader.onload = (e) => {
-            resolve(e.target.result);
-          };
-          reader.readAsDataURL(file);
-        });
+        return `![Image](${URL.createObjectURL(file)})`;
       });
 
-      Promise.all(newImages).then((imageDataArray) => {
-        // 이미지를 콘텐츠에 추가
-        imageDataArray.forEach((image) => {
-          addImageToContent(image);
-        });
+      const imagesString = newImages.join("\n");
+      const newText = `${text}\n${imagesString}`;
 
-        // 이미지를 업로드할 때 text 상태에 입력된 텍스트를 추가
-        const textValue = document.getElementById("content-textfield").value;
-        addTextToContent(textValue);
-      });
+      setText(newText);
     }
   };
 
   const handleCreatePost = () => {
     if (isLogin) {
       const postDataToSend = {
-        title: "하하!",
+        title: title,
         thumbnail: "호두.jpg",
         isPinned: 1,
-        content: [],
-        postTag: tags.map((tag) => ({ value: tag })),
+        content: [
+          {
+            contentType: "TEXT",
+            value: "하하!",
+            contentOrder: 0,
+          },
+        ],
+        postTag: postTags,
       };
 
-      // 텍스트 콘텐츠 추가
       postDataToSend.content.push({
         contentType: "TEXT",
         value: text,
         contentOrder: 0,
       });
 
-      // 이미지 데이터 추가
       selectedImages.forEach((image, index) => {
         postDataToSend.content.push({
           contentType: "IMAGE",
           value: image,
-          contentOrder: index + 1, // 순서 지정
+          contentOrder: index + 1,
         });
       });
 
@@ -120,31 +103,22 @@ function Write() {
           },
         })
         .then((response) => {
-          console.log("게시글이 성공적으로 생성되었습니다.", response.data);
           // navigate("/YourNextRoute");
         })
         .catch((error) => {
           setAuthModalFailOpen(true);
         });
     } else {
-      // 로그아웃 상태에서 글쓰기를 눌렀을 때 AuthModalFail을 표시
       setAuthModalFailOpen(true);
     }
   };
 
-  const handleAuthModalConfirm = () => {
-    setAuthModalFailOpen(false);
-  };
-
   useEffect(() => {
-    const textField = document.getElementById("content-textfield"); // ID를 이용해 DOM 요소 가져옴
+    const textField = document.getElementById("content-textfield");
     if (textField) {
-      if (alignment !== "justify") {
-        textField.style.textAlign = alignment;
-      }
+      textField.style.textAlign = alignment;
     }
 
-    // text 상태와 selectedImages 상태를 함께 업데이트
     const textValue = textField.value;
     if (textValue !== text) {
       setText(textValue);
@@ -198,6 +172,8 @@ function Write() {
                   placeholder="제목을 입력하세요."
                   variant="outlined"
                   style={{ width: "80%", backgroundColor: "#FFF" }}
+                  value={title} // title 상태를 TextField와 연결
+                  onChange={(e) => setTitle(e.target.value)} // title 상태를 업데이트
                 />
               </Stack>
               <Stack alignItems="center">
@@ -221,7 +197,7 @@ function Write() {
                     <Chip
                       key={index}
                       label={tag}
-                      onClick={() => handleTagClick(tag)} // Chip 클릭 시 handleTagClick 함수 호출
+                      onClick={() => handleTagClick(tag)}
                       style={{
                         margin: "4px",
                         whiteSpace: "nowrap",
@@ -231,7 +207,7 @@ function Write() {
                         color: "#FF8181",
                         backgroundColor: "#FAF3F0",
                         border: "1px solid #FF8181",
-                        cursor: "pointer", // 커서를 포인터로 변경하여 클릭 가능한 모양으로 표시
+                        cursor: "pointer",
                       }}
                     />
                   ))}
@@ -276,7 +252,7 @@ function Write() {
                   id="image-upload"
                   style={{ display: "none" }}
                   onChange={handleImageUpload}
-                  multiple // 여러 이미지를 선택할 수 있도록 추가
+                  multiple
                 />
               </Stack>
 
@@ -290,27 +266,26 @@ function Write() {
                   width: "80%",
                   backgroundColor: "#FFF",
                 }}
-                value={content
-                  .filter((item) => item.type === "text")
-                  .map((item) => item.value)
-                  .join("\n")} // 텍스트 상태로 변경
-                onChange={(e) => addTextToContent(e.target.value)} // 텍스트 입력 상태 업데이트
+                value={text}
+                onChange={(e) => setText(e.target.value)}
                 InputProps={{
-                  endAdornment: content
-                    .filter((item) => item.type === "image")
-                    .map((item, index) => (
-                      <img
-                        key={index}
-                        src={item.value}
-                        alt=""
-                        style={{
-                          maxWidth: "100%",
-                          maxHeight: "400px",
-                          display: "block",
-                          margin: "auto",
-                        }}
-                      />
-                    )),
+                  endAdornment: (
+                    <div>
+                      {selectedImages.map((image, index) => (
+                        <img
+                          key={index}
+                          src={image}
+                          alt=""
+                          style={{
+                            maxWidth: "100%",
+                            maxHeight: "400px",
+                            display: "block",
+                            margin: "auto",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  ),
                 }}
               />
 

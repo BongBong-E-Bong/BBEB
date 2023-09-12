@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Stack, Checkbox } from "@mui/material";
-import axios from "axios";
 import Modal from "../../component/Modal";
 import obong from "../../image/obong.png";
 import writepoto from "../../image/write_poto.png";
@@ -31,11 +30,9 @@ function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
         onCreatePost();
         setOpen(false);
       } else {
-        // 확인 체크가 되지 않았을 때 WriteFail을 표시
         setAuthModalFailOpen(true);
       }
     } else {
-      // 로그인 상태가 아닌 경우 WriteFail을 표시
       setAuthModalFailOpen(true);
     }
   };

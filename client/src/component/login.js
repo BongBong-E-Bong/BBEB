@@ -153,7 +153,6 @@ function Login({ setOpen }) {
             // 카카오톡 나중에 백엔드와 같이 작업
           }}
         >
-          {/* {" "} */}
           <img src={kakaologo} alt="kakaologo icon" />
         </Stack>
       </Stack>
