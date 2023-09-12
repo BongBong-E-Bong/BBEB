@@ -3,7 +3,6 @@ import { Stack, Checkbox } from "@mui/material";
 import Modal from "../../component/Modal";
 import obong from "../../image/obong.png";
 import writepoto from "../../image/write_poto.png";
-import AuthModalFail from "../../component/authModal_fail";
 
 function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
@@ -38,16 +37,20 @@ function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
   };
 
   return (
-    <Modal open={true} onClose={handleCloseModal}>
+    <Modal
+      width={"fit-content"}
+      height={"fit-content"}
+      open={true}
+      onClose={handleCloseModal}
+    >
       <Stack
-        position="fixed"
-        width="100%"
-        height="100%"
         display="flex"
         direction="row"
         alignItems="center"
         justifyContent="space-around"
         bgcolor="#F88C8C"
+        width="100%"
+        height="100%"
       >
         <Stack
           alignItems="center"
@@ -135,8 +138,8 @@ function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
                 게시판 규칙은 확인 했니?
               </Stack>
             </Stack>
-            <Stack>
-              <img src={obong} alt="obong" width="20%" height="400%"></img>
+            <Stack height="100%" width="100%">
+              <img src={obong} alt="obong" width="50px" height="50px"></img>
             </Stack>
           </Stack>
           <Stack fontSize="16px">
@@ -205,16 +208,6 @@ function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
           </Stack>
         </Stack>
       </Stack>
-      {!isLogin && (
-        <AuthModalFail
-          message="실패"
-          detailMessage="회원만 글을 작성할 수 있어!"
-          onClose={() => {
-            setAuthModalFailOpen(false);
-            setOpen(false);
-          }}
-        />
-      )}
     </Modal>
   );
 }

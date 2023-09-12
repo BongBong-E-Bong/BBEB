@@ -9,8 +9,8 @@ import FormatAlignCenter from "../../image/FormatAlignCenter.png";
 import FormatAlignLeft from "../../image/FormatAlignLeft.png";
 import FormatAlignRight from "../../image/FormatAlignRight.png";
 import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
-
-function Write() {
+import AuthModalFail from "../../component/authModal_fail";
+function Write(setOpen) {
   const [checked, setChecked] = useState(false);
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
@@ -323,9 +323,14 @@ function Write() {
                     border: "1px solid #FF8181",
                     justifyContent: "center",
                     width: "6%",
+                    height: "35px",
                   }}
                   onClick={() => {
-                    setModalOpen(true);
+                    if (isLogin) {
+                      setModalOpen(true);
+                    } else {
+                      setAuthModalFailOpen(true);
+                    }
                   }}
                 >
                   <Stack fontSize="20px">글쓰기</Stack>
@@ -338,6 +343,16 @@ function Write() {
                   />
                 )}
               </Stack>
+              {!isLogin && (
+                <AuthModalFail
+                  message="실패"
+                  detailMessage="회원만 글을 작성할 수 있어!"
+                  onClose={() => {
+                    setAuthModalFailOpen(false);
+                    setOpen(false);
+                  }}
+                />
+              )}
             </Stack>
           </Stack>
         </Stack>
