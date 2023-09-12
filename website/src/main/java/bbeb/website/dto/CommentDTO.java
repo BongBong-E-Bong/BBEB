@@ -52,11 +52,9 @@ public class CommentDTO {
         @Schema(description = "이모티콘 url", example = "https://bbeb-image.s3.ap-northeast-2.amazonaws.com/emoticon/%ED%98%B8%EB%91%90.jpg")
         private String emoticonUrl;
 
-        @Schema(description = "수정/삭제 여부", example = "true, false")
-        private Boolean isUpdate;
-
         @QueryProjection
-        public CommentResponseDTO(String value, String writer, String profileUrl, LocalDateTime createDate, String type, String emoticonUrl, Long commentId, Boolean isUpdate) {
+
+        public CommentResponseDTO(String value, String writer, String profileUrl, LocalDateTime createDate, String type, String emoticonUrl, Long commentId) {
             this.value = value;
             this.writer = writer;
             this.profileUrl = profileUrl;
@@ -64,7 +62,6 @@ public class CommentDTO {
             this.type = type;
             this.emoticonUrl = emoticonUrl;
             this.commentId = commentId;
-            this.isUpdate = isUpdate;
         }
     }
 }
