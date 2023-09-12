@@ -120,12 +120,7 @@ public class PostService {
             postViewRepository.save(postView);
         }
 
-
-        PostDTO.PostResponseDTO dto = postRepository.findOneRequestDTOByMemberAndPost(postId);
-
-        dto.setIsUpdate(dto.getWriter().equals(member.getNickname()));
-
-        return dto;
+        return postRepository.findOneRequestDTOByMemberAndPost(postId);
     }
 
     public void postLike(Long postId, String loginId){
@@ -157,7 +152,6 @@ public class PostService {
             deleteContent(contentRepository.findByPost(post));
             deletePostLike(postLikeRepository.findByPost(post));
             deletePostTag(postTagRepository.findByPost(post));
-            deletePostView(postViewRepository.findAllByPost(post));
             deleteComment(commentRepository.findAllByPost(post));
 
             postRepository.delete(post);
@@ -166,10 +160,6 @@ public class PostService {
             throw new CustomException(USER_NOT_FOUND);
         }
 
-    }
-
-    private void deletePostView(List<PostView> postViews) {
-        postViewRepository.deleteAll(postViews);
     }
 
     public void createContent(List<PostDTO.Content> contents, Post post){

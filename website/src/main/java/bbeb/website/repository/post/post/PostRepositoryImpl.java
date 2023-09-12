@@ -84,8 +84,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 tuple.get(post.view),
                 tuple.get(post.isPinned),
                 contentDto,
-                tagsDto,
-                null
+                tagsDto
         );
     }
 
