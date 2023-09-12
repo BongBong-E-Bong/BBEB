@@ -45,7 +45,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.createdDate,
                         member.nickname,
                         post.view,
-                        post.isPinned)
+                        post.isPinned,
+                        post.sortType)
                 .from(post)
                 .leftJoin(post.member, member)
                 .leftJoin(post.contents, content)
@@ -84,7 +85,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 tuple.get(post.view),
                 tuple.get(post.isPinned),
                 contentDto,
-                tagsDto
+                tagsDto,
+                null,
+                tuple.get(post.sortType).toString()
         );
     }
 

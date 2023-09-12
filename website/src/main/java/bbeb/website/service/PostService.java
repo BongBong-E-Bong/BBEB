@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -37,6 +38,7 @@ import static bbeb.website.config.exception.ErrorCode.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class PostService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
@@ -94,6 +96,7 @@ public class PostService {
         post.setView(0L);
         post.setMember(member);
         post.setIsPinned(dto.getIsPinned());
+        post.setSortType(Sort.values()[Math.toIntExact(dto.getSortType())]);
         postRepository.save(post);
 
         if (dto.getPostTag() != null)
@@ -120,7 +123,12 @@ public class PostService {
             postViewRepository.save(postView);
         }
 
-        return postRepository.findOneRequestDTOByMemberAndPost(postId);
+
+        PostDTO.PostResponseDTO dto = postRepository.findOneRequestDTOByMemberAndPost(postId);
+
+        dto.setIsUpdate(dto.getWriter().equals(member.getNickname()));
+
+        return dto;
     }
 
     public void postLike(Long postId, String loginId){
@@ -152,6 +160,7 @@ public class PostService {
             deleteContent(contentRepository.findByPost(post));
             deletePostLike(postLikeRepository.findByPost(post));
             deletePostTag(postTagRepository.findByPost(post));
+            deletePostView(postViewRepository.findAllByPost(post));
             deleteComment(commentRepository.findAllByPost(post));
 
             postRepository.delete(post);
@@ -160,6 +169,10 @@ public class PostService {
             throw new CustomException(USER_NOT_FOUND);
         }
 
+    }
+
+    private void deletePostView(List<PostView> postViews) {
+        postViewRepository.deleteAll(postViews);
     }
 
     public void createContent(List<PostDTO.Content> contents, Post post){
@@ -237,12 +250,18 @@ public class PostService {
             if (dto.getTitle() != null)
                 post.setTitle(dto.getTitle());
 
-            if (dto.getContent() != null)
+            if (dto.getContent() != null) {
+                deleteContent(contentRepository.findByPost(post));
                 createContent(dto.getContent(), post);
+            }
 
             if (dto.getTags() != null) {
                 deletePostTag(postTagRepository.findByPost(post));
                 createTag(dto.getTags(), post);
+            }
+
+            if(dto.getSortType() != null){
+                post.setSortType(Sort.values()[Math.toIntExact(dto.getSortType())]);
             }
         }
         else{
