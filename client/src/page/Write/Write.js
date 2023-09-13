@@ -70,12 +70,18 @@ function Write(setOpen) {
 
     if (selectedFiles.length > 0) {
       const newImages = Array.from(selectedFiles).map((file) => {
-        return `![Image](${URL.createObjectURL(file)})`;
+        return URL.createObjectURL(file);
       });
 
-      const imagesString = newImages.join("\n");
+      // Generate image tags with data URLs
+      const imagesString = newImages
+        .map((image) => `<img src="${image}" alt="" />`)
+        .join("\n");
+
+      // Append image tags to the text
       const newText = `${text}\n${imagesString}`;
 
+      // Update the text
       setText(newText);
     }
   };
@@ -144,7 +150,7 @@ function Write(setOpen) {
   };
 
   useEffect(() => {
-    const textField = document.getElementById("content-textfield"); 
+    const textField = document.getElementById("content-textfield");
     if (textField) {
       textField.style.textAlign = textAlignment;
     }
@@ -199,8 +205,8 @@ function Write(setOpen) {
                   placeholder="제목을 입력하세요."
                   variant="outlined"
                   style={{ width: "80%", backgroundColor: "#FFF" }}
-                  value={title} 
-                  onChange={(e) => setTitle(e.target.value)} 
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </Stack>
               <Stack alignItems="center">
@@ -297,20 +303,29 @@ function Write(setOpen) {
                 onChange={(e) => setText(e.target.value)}
                 InputProps={{
                   endAdornment: (
-                    <div>
-                      {selectedImages.map((image, index) => (
-                        <img
-                          key={index}
-                          src={image}
-                          alt=""
-                          style={{
-                            maxWidth: "100%",
-                            maxHeight: "400px",
-                            display: "block",
-                            margin: "auto",
-                          }}
-                        />
-                      ))}
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <div
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "400px",
+                          margin: "auto",
+                        }}
+                      >
+                        {selectedImages.map((image, index) => (
+                          <img
+                            key={index}
+                            src={image}
+                            alt=""
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "400px",
+                              display: "block",
+                              margin: "auto",
+                            }}
+                          />
+                        ))}
+                      </div>
+                      <div dangerouslySetInnerHTML={{ __html: text }}></div>
                     </div>
                   ),
                 }}
@@ -363,12 +378,12 @@ function Write(setOpen) {
                   <Stack fontSize="20px">글쓰기</Stack>
                 </Stack>
                 {modalOpen && (
-                   <WriteModal
-                   setOpen={setModalOpen}
-                   onCreatePost={handleCreatePost}
-                   setAuthModalFailOpen={setAuthModalFailOpen}
-                   thumbnail={thumbnail} // 수정된 부분
-                 />
+                  <WriteModal
+                    setOpen={setModalOpen}
+                    onCreatePost={handleCreatePost}
+                    setAuthModalFailOpen={setAuthModalFailOpen}
+                    thumbnail={thumbnail} // 수정된 부분
+                  />
                 )}
               </Stack>
               <Modal
@@ -390,5 +405,4 @@ function Write(setOpen) {
     </>
   );
 }
-
 export default Write;
