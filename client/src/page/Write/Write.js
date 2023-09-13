@@ -10,6 +10,8 @@ import FormatAlignLeft from "../../image/FormatAlignLeft.png";
 import FormatAlignRight from "../../image/FormatAlignRight.png";
 import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
 import AuthModalFail from "../../component/authModal_fail";
+import Modal from "../../component/Modal";
+
 function Write(setOpen) {
   const [checked, setChecked] = useState(false);
   const [tags, setTags] = useState([]);
@@ -24,13 +26,13 @@ function Write(setOpen) {
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [postTags, setPostTags] = useState([]);
-
-  const handleAlignmentChange = (alignment) => {
-    setAlignment(alignment);
-  };
+  const [failModalOpen, setFailModalOpen] = useState(false);
+  const [textAlignment, setTextAlignment] = useState("left"); // 기본 정렬은 왼쪽입니다.
 
   const navigate = useNavigate();
-
+  const handleFailModalClose = () => {
+    setFailModalOpen(false);
+  };
   const handleTagInputChange = (event) => {
     setTagInput(event.target.value);
   };
@@ -46,6 +48,9 @@ function Write(setOpen) {
     setTags(updatedTags);
   };
 
+  const handleAlignmentChange = (alignment) => {
+    setTextAlignment(alignment);
+  };
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
@@ -114,16 +119,11 @@ function Write(setOpen) {
   };
 
   useEffect(() => {
-    const textField = document.getElementById("content-textfield");
+    const textField = document.getElementById("content-textfield"); // ID를 이용해 DOM 요소 가져옴
     if (textField) {
-      textField.style.textAlign = alignment;
+      textField.style.textAlign = textAlignment; // textAlignment에 따라 스타일 변경
     }
-
-    const textValue = textField.value;
-    if (textValue !== text) {
-      setText(textValue);
-    }
-  }, [alignment, text]);
+  }, [textAlignment]);
 
   return (
     <>
@@ -329,7 +329,7 @@ function Write(setOpen) {
                     if (isLogin) {
                       setModalOpen(true);
                     } else {
-                      setAuthModalFailOpen(true);
+                      setFailModalOpen(true);
                     }
                   }}
                 >
@@ -343,16 +343,18 @@ function Write(setOpen) {
                   />
                 )}
               </Stack>
-              {!isLogin && (
+              <Modal
+                width="750px"
+                height="430px"
+                open={failModalOpen}
+                onClose={handleFailModalClose}
+              >
                 <AuthModalFail
                   message="실패"
                   detailMessage="회원만 글을 작성할 수 있어!"
-                  onClose={() => {
-                    setAuthModalFailOpen(false);
-                    setOpen(false);
-                  }}
+                  onClose={handleFailModalClose}
                 />
-              )}
+              </Modal>
             </Stack>
           </Stack>
         </Stack>
