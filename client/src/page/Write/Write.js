@@ -11,6 +11,7 @@ import FormatAlignRight from "../../image/FormatAlignRight.png";
 import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
 import AuthModalFail from "../../component/authModal_fail";
 import Modal from "../../component/Modal";
+import jwt_decode from "jwt-decode";
 
 function Write(setOpen) {
   const [checked, setChecked] = useState(false);
@@ -20,14 +21,23 @@ function Write(setOpen) {
   const [alignment, setAlignment] = useState("left");
   const alignments = ["left", "center", "right"];
   const [authModalFailOpen, setAuthModalFailOpen] = useState(false);
-  const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
   const [selectedImages, setSelectedImages] = useState([]);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [postTags, setPostTags] = useState([]);
   const [failModalOpen, setFailModalOpen] = useState(false);
-  const [textAlignment, setTextAlignment] = useState("left"); // 기본 정렬은 왼쪽입니다.
+  const [textAlignment, setTextAlignment] = useState("left");
+
+  const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  let isAdmin = false;
+  if (accessToken) {
+    const decodedToken = jwt_decode(accessToken);
+    console.log("Decoded Token:", decodedToken); // Log the decoded token
+    isAdmin = decodedToken.isAdmin;
+  }
+  
 
   const navigate = useNavigate();
   const handleFailModalClose = () => {
@@ -163,8 +173,10 @@ function Write(setOpen) {
           <Stack spacing={1}>
             <Stack spacing={2}>
               <Stack justifyContent="flex-end" alignItems="center">
-                <Checkbox checked={checked} onChange={handleChange} />
-                {checked ? "고정 되었습니다." : "고정되지 않은 상태입니다."}
+                {isAdmin && (
+                  <Checkbox checked={checked} onChange={handleChange} />
+                )}
+                {/* {checked ? "고정 되었습니다." : "고정되지 않은 상태입니다."} */}
               </Stack>
               <Stack alignItems="center">
                 <TextField
