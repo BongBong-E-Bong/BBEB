@@ -27,6 +27,7 @@ function Write(setOpen) {
   const [postTags, setPostTags] = useState([]);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [textAlignment, setTextAlignment] = useState("left");
+  const [thumbnail, setThumbnail] = useState(null); // Define thumbnail and setThumbnail
 
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
@@ -34,10 +35,8 @@ function Write(setOpen) {
   let isAdmin = false;
   if (accessToken) {
     const decodedToken = jwt_decode(accessToken);
-    console.log("Decoded Token:", decodedToken); // Log the decoded token
     isAdmin = decodedToken.isAdmin;
   }
-  
 
   const navigate = useNavigate();
   const handleFailModalClose = () => {
@@ -53,6 +52,7 @@ function Write(setOpen) {
       setTagInput("");
     }
   };
+
   const handleTagClick = (tagToRemove) => {
     const updatedTags = tags.filter((tag) => tag !== tagToRemove);
     setTags(updatedTags);
@@ -84,13 +84,28 @@ function Write(setOpen) {
     if (isLogin) {
       const postDataToSend = {
         title: title,
-        thumbnail: "호두.jpg",
-        isPinned: 1,
+        thumbnail: thumbnail ? thumbnail.name : "",
+        isPinned: checked ? 1 : 0,
         content: [
           {
             contentType: "TEXT",
             value: "하하!",
             contentOrder: 0,
+          },
+          {
+            contentType: "TEXT",
+            value: "하하!",
+            contentOrder: 1,
+          },
+          {
+            contentType: "TEXT",
+            value: "하하!",
+            contentOrder: 2,
+          },
+          {
+            contentType: "TEXT",
+            value: "하하!",
+            contentOrder: 3,
           },
         ],
         postTag: postTags,
@@ -118,7 +133,7 @@ function Write(setOpen) {
           },
         })
         .then((response) => {
-          // navigate("/YourNextRoute");
+          //글쓰기 성공한 뒤에 코드 이후 추가
         })
         .catch((error) => {
           setAuthModalFailOpen(true);
@@ -129,9 +144,9 @@ function Write(setOpen) {
   };
 
   useEffect(() => {
-    const textField = document.getElementById("content-textfield"); // ID를 이용해 DOM 요소 가져옴
+    const textField = document.getElementById("content-textfield"); 
     if (textField) {
-      textField.style.textAlign = textAlignment; // textAlignment에 따라 스타일 변경
+      textField.style.textAlign = textAlignment;
     }
   }, [textAlignment]);
 
@@ -184,8 +199,8 @@ function Write(setOpen) {
                   placeholder="제목을 입력하세요."
                   variant="outlined"
                   style={{ width: "80%", backgroundColor: "#FFF" }}
-                  value={title} // title 상태를 TextField와 연결
-                  onChange={(e) => setTitle(e.target.value)} // title 상태를 업데이트
+                  value={title} 
+                  onChange={(e) => setTitle(e.target.value)} 
                 />
               </Stack>
               <Stack alignItems="center">
@@ -348,11 +363,12 @@ function Write(setOpen) {
                   <Stack fontSize="20px">글쓰기</Stack>
                 </Stack>
                 {modalOpen && (
-                  <WriteModal
-                    setOpen={setModalOpen}
-                    onCreatePost={handleCreatePost}
-                    setAuthModalFailOpen={setAuthModalFailOpen}
-                  />
+                   <WriteModal
+                   setOpen={setModalOpen}
+                   onCreatePost={handleCreatePost}
+                   setAuthModalFailOpen={setAuthModalFailOpen}
+                   thumbnail={thumbnail} // 수정된 부분
+                 />
                 )}
               </Stack>
               <Modal

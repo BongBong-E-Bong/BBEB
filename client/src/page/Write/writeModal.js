@@ -4,17 +4,21 @@ import Modal from "../../component/Modal";
 import obong from "../../image/obong.png";
 import writepoto from "../../image/write_poto.png";
 
-function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
+function WriteModal({
+  setOpen,
+  onCreatePost,
+  setAuthModalFailOpen,
+  thumbnail,
+}) {
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
-  const [thumbnail, setThumbnail] = useState(null);
-
+  const [selectedThumbnail, setSelectedThumbnail] = useState(null);
   const handleCloseModal = () => {
     setOpen(false);
   };
 
   const handleThumbnailChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setThumbnail(selectedFile);
+    const file = event.target.files[0];
+    setSelectedThumbnail(file);
   };
 
   const [isChecked, setIsChecked] = useState(false);
