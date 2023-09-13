@@ -49,8 +49,8 @@ function WriteModal({ setOpen, onCreatePost, setAuthModalFailOpen }) {
         alignItems="center"
         justifyContent="space-around"
         bgcolor="#F88C8C"
-        width="100%"
-        height="100%"
+        width="1000px"
+        height="500px"
       >
         <Stack
           alignItems="center"
