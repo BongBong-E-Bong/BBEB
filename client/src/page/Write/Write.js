@@ -57,25 +57,21 @@ function Write() {
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
-  const [imageData, setImageData] = useState(""); // 이미지 데이터를 저장할 상태
+  const [imageData, setImageData] = useState("");
 
   const handleImageUpload = (event) => {
     const selectedFiles = event.target.files;
-  
+
     if (selectedFiles.length > 0) {
       const fileReader = new FileReader();
-  
+
       fileReader.onload = (e) => {
         const imageFile = selectedFiles[0];
         const newImageTag = `![${imageFile.name}](${e.target.result})`;
-  
-        // 이미지 태그를 텍스트에 추가
         const newText = `${text}\n${newImageTag}`;
-  
-        // 텍스트 업데이트
         setText(newText);
       };
-  
+
       fileReader.readAsDataURL(selectedFiles[0]);
     }
   };
@@ -93,38 +89,9 @@ function Write() {
             value: "하하!",
             contentOrder: 0,
           },
-          {
-            contentType: "TEXT",
-            value: "하하!",
-            contentOrder: 1,
-          },
-          {
-            contentType: "TEXT",
-            value: "하하!",
-            contentOrder: 2,
-          },
-          {
-            contentType: "TEXT",
-            value: "하하!",
-            contentOrder: 3,
-          },
         ],
-        postTag: postTags,
+        postTag: [{ postTags, }],
       };
-
-      postDataToSend.content.push({
-        contentType: "TEXT",
-        value: text,
-        contentOrder: 0,
-      });
-
-      selectedImages.forEach((image, index) => {
-        postDataToSend.content.push({
-          contentType: "IMAGE",
-          value: image,
-          contentOrder: index + 1,
-        });
-      });
 
       axios
         .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
@@ -162,6 +129,7 @@ function Write() {
 
   const isAdmin = decodedToken && decodedToken.isAdmin;
   console.log("isAdmin:", isAdmin);
+  console.log(decodedToken);
 
   return (
     <>
@@ -296,19 +264,18 @@ function Write() {
               </Stack>
 
               <TextField
-  id="content-textfield"
-  placeholder="내용을 입력하세요."
-  variant="outlined"
-  multiline
-  rows={15}
-  style={{
-    width: "80%",
-    backgroundColor: "#FFF",
-  }}
-  value={text}
-  onChange={(e) => setText(e.target.value)}
-/>
-
+                id="content-textfield"
+                placeholder="내용을 입력하세요."
+                variant="outlined"
+                multiline
+                rows={15}
+                style={{
+                  width: "80%",
+                  backgroundColor: "#FFF",
+                }}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+              />
 
               <Stack
                 width="100%"
@@ -381,6 +348,17 @@ function Write() {
           </Stack>
         </Stack>
       </Stack>
+      {/* {stepContentClasses.map((content) => {
+        if (content.contentType === "TEXT") {
+          return <div key={content.id}>{content.value}</div>;
+        } else {
+          return (
+            <duv key={content.id}>
+              <imge src={content.value} alt="" />
+            </duv>
+          );
+        }
+      })} */}
     </>
   );
 }
