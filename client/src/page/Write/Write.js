@@ -13,7 +13,7 @@ import AuthModalFail from "../../component/authModal_fail";
 import Modal from "../../component/Modal";
 import jwt_decode from "jwt-decode";
 
-function Write(setOpen) {
+function Write() {
   const [checked, setChecked] = useState(false);
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
@@ -27,16 +27,9 @@ function Write(setOpen) {
   const [postTags, setPostTags] = useState([]);
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [textAlignment, setTextAlignment] = useState("left");
-  const [thumbnail, setThumbnail] = useState(null); // Define thumbnail and setThumbnail
-
+  const [thumbnail, setThumbnail] = useState(null);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
-
-  let isAdmin = false;
-  if (accessToken) {
-    const decodedToken = jwt_decode(accessToken);
-    isAdmin = decodedToken.isAdmin;
-  }
 
   const navigate = useNavigate();
   const handleFailModalClose = () => {
@@ -64,27 +57,29 @@ function Write(setOpen) {
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
+  const [imageData, setImageData] = useState(""); // 이미지 데이터를 저장할 상태
 
   const handleImageUpload = (event) => {
     const selectedFiles = event.target.files;
-
+  
     if (selectedFiles.length > 0) {
-      const newImages = Array.from(selectedFiles).map((file) => {
-        return URL.createObjectURL(file);
-      });
-
-      // Generate image tags with data URLs
-      const imagesString = newImages
-        .map((image) => `<img src="${image}" alt="" />`)
-        .join("\n");
-
-      // Append image tags to the text
-      const newText = `${text}\n${imagesString}`;
-
-      // Update the text
-      setText(newText);
+      const fileReader = new FileReader();
+  
+      fileReader.onload = (e) => {
+        const imageFile = selectedFiles[0];
+        const newImageTag = `![${imageFile.name}](${e.target.result})`;
+  
+        // 이미지 태그를 텍스트에 추가
+        const newText = `${text}\n${newImageTag}`;
+  
+        // 텍스트 업데이트
+        setText(newText);
+      };
+  
+      fileReader.readAsDataURL(selectedFiles[0]);
     }
   };
+  
 
   const handleCreatePost = () => {
     if (isLogin) {
@@ -139,7 +134,7 @@ function Write(setOpen) {
           },
         })
         .then((response) => {
-          //글쓰기 성공한 뒤에 코드 이후 추가
+          // 글쓰기 성공한 뒤에 코드 이후 추가
         })
         .catch((error) => {
           setAuthModalFailOpen(true);
@@ -155,6 +150,18 @@ function Write(setOpen) {
       textField.style.textAlign = textAlignment;
     }
   }, [textAlignment]);
+
+  const [decodedToken, setDecodedToken] = useState(null);
+
+  useEffect(() => {
+    if (accessToken) {
+      const decoded = jwt_decode(accessToken);
+      setDecodedToken(decoded);
+    }
+  }, [accessToken]);
+
+  const isAdmin = decodedToken && decodedToken.isAdmin;
+  console.log("isAdmin:", isAdmin);
 
   return (
     <>
@@ -197,7 +204,6 @@ function Write(setOpen) {
                 {isAdmin && (
                   <Checkbox checked={checked} onChange={handleChange} />
                 )}
-                {/* {checked ? "고정 되었습니다." : "고정되지 않은 상태입니다."} */}
               </Stack>
               <Stack alignItems="center">
                 <TextField
@@ -290,46 +296,19 @@ function Write(setOpen) {
               </Stack>
 
               <TextField
-                id="content-textfield"
-                placeholder="내용을 입력하세요."
-                variant="outlined"
-                multiline
-                rows={15}
-                style={{
-                  width: "80%",
-                  backgroundColor: "#FFF",
-                }}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                InputProps={{
-                  endAdornment: (
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <div
-                        style={{
-                          maxWidth: "100%",
-                          maxHeight: "400px",
-                          margin: "auto",
-                        }}
-                      >
-                        {selectedImages.map((image, index) => (
-                          <img
-                            key={index}
-                            src={image}
-                            alt=""
-                            style={{
-                              maxWidth: "100%",
-                              maxHeight: "400px",
-                              display: "block",
-                              margin: "auto",
-                            }}
-                          />
-                        ))}
-                      </div>
-                      <div dangerouslySetInnerHTML={{ __html: text }}></div>
-                    </div>
-                  ),
-                }}
-              />
+  id="content-textfield"
+  placeholder="내용을 입력하세요."
+  variant="outlined"
+  multiline
+  rows={15}
+  style={{
+    width: "80%",
+    backgroundColor: "#FFF",
+  }}
+  value={text}
+  onChange={(e) => setText(e.target.value)}
+/>
+
 
               <Stack
                 width="100%"
@@ -350,7 +329,7 @@ function Write(setOpen) {
                     width: "6%",
                   }}
                   onClick={() => {
-                    //이후 추가
+                    // 이후 추가
                   }}
                 >
                   <Stack fontSize="20px">나가기</Stack>
