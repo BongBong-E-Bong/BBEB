@@ -30,35 +30,18 @@ function Write() {
   const [thumbnail, setThumbnail] = useState(null);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
-
+  const [decodedToken, setDecodedToken] = useState({});
+  const userId = decodedToken ? decodedToken.sub : "";
   const navigate = useNavigate();
+  const [content, setContent] = useState([]);
+
   const handleFailModalClose = () => {
     setFailModalOpen(false);
   };
+
   const handleTagInputChange = (event) => {
     setTagInput(event.target.value);
   };
-
-  const handleTagInputKeyPress = (event) => {
-    if (event.key === "Enter" && tagInput.trim() !== "") {
-      setTags([...tags, tagInput.trim()]);
-      setTagInput("");
-    }
-  };
-
-  const handleTagClick = (tagToRemove) => {
-    const updatedTags = tags.filter((tag) => tag !== tagToRemove);
-    setTags(updatedTags);
-  };
-
-  const handleAlignmentChange = (alignment) => {
-    setTextAlignment(alignment);
-  };
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
-  const [imageData, setImageData] = useState("");
-
   const handleImageUpload = (event) => {
     const selectedFiles = event.target.files;
 
@@ -75,33 +58,56 @@ function Write() {
       fileReader.readAsDataURL(selectedFiles[0]);
     }
   };
-  
+  const handleTagInputKeyPress = (event) => {
+    if (event.key === "Enter" && tagInput.trim() !== "") {
+      setTags([...tags, tagInput.trim()]);
+      setTagInput("");
+    }
+  };
+
+  const handleTagClick = (tagToRemove) => {
+    const updatedTags = tags.filter((tag) => tag !== tagToRemove);
+    setTags(updatedTags);
+  };
+
+  const handleAlignmentChange = (alignment) => {
+    setTextAlignment(alignment);
+  };
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
 
   const handleCreatePost = () => {
     if (isLogin) {
+      const contentData = content.map((contentItem, index) => ({
+        contentType: "TEXT", 
+        value: contentItem,
+        contentOrder: index,
+      }));
+
       const postDataToSend = {
         title: title,
         thumbnail: thumbnail ? thumbnail.name : "",
         isPinned: checked ? 1 : 0,
-        content: [
-          {
-            contentType: "TEXT",
-            value: "하하!",
-            contentOrder: 0,
-          },
-        ],
-        postTag: [{ postTags, }],
+        content: contentData,
+        postTag: postTags,
       };
 
       axios
         .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
           headers: {
-            "Content-Type": "application/json",
             Authorization: accessToken,
           },
         })
         .then((response) => {
-          // 글쓰기 성공한 뒤에 코드 이후 추가
+          console.log("isAdmin:", isAdmin);
+          console.log(decodedToken);
+          console.log("Write 아이디:", userId);
+          console.log("제목:", title);
+          console.log("썸네일:", thumbnail);
+          console.log("고정:", checked);
+          console.log("내용:", contentData)
         })
         .catch((error) => {
           setAuthModalFailOpen(true);
@@ -118,8 +124,6 @@ function Write() {
     }
   }, [textAlignment]);
 
-  const [decodedToken, setDecodedToken] = useState(null);
-
   useEffect(() => {
     if (accessToken) {
       const decoded = jwt_decode(accessToken);
@@ -128,9 +132,7 @@ function Write() {
   }, [accessToken]);
 
   const isAdmin = decodedToken && decodedToken.isAdmin;
-  console.log("isAdmin:", isAdmin);
-  console.log(decodedToken);
-
+  
   return (
     <>
       <Header />
@@ -348,17 +350,6 @@ function Write() {
           </Stack>
         </Stack>
       </Stack>
-      {/* {stepContentClasses.map((content) => {
-        if (content.contentType === "TEXT") {
-          return <div key={content.id}>{content.value}</div>;
-        } else {
-          return (
-            <duv key={content.id}>
-              <imge src={content.value} alt="" />
-            </duv>
-          );
-        }
-      })} */}
     </>
   );
 }
