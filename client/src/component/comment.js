@@ -15,104 +15,67 @@ import axios from "axios";
 function Comment() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
-  // const [commentData, setCommentData] = React.useState(0);
+  const [commentData, setCommentData] = React.useState();
 
-  // React.useEffect(() => {
-  //   axios
-  //     .get(
-  //       "http://13.125.105.202:8080/api/comment/221?page=0&size=1&sort=string",
-  //       {
-  //         headers: {
-  //           Authorization: accessToken,
-  //         },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       setCommentData(response.data.commentData);
-  //     })
-  //     .catch((error) => {
-  //       console.error("conmment data error:", error);
-  //     });
-  // }, []);
-
-  const commentData = {
-    content: [
-      {
-        value: "이봉이",
-        writer: "string",
-        profileUrl:
-          "https://s3.ap-northeast-2.amazonaws.com/bbeb-image/profile/default.jpg",
-        createDate: "2023-09-10T11:09:49.949564",
-        commentId: 225,
-        type: "EMOTICON",
-        emoticonUrl:
-          "https://s3.ap-northeast-2.amazonaws.com/bbeb-image/emoticon/%EC%9D%B4%EB%B4%89%EC%9D%B4",
-        isUpdate: true,
-      },
-    ],
-    pageable: {
-      sort: {
-        empty: false,
-        sorted: true,
-        unsorted: false,
-      },
-      offset: 0,
-      pageNumber: 0,
-      pageSize: 1,
-      paged: true,
-      unpaged: false,
-    },
-    totalPages: 1,
-    totalElements: 1,
-    last: true,
-    number: 0,
-    sort: {
-      empty: false,
-      sorted: true,
-      unsorted: false,
-    },
-    size: 1,
-    numberOfElements: 1,
-    first: true,
-    empty: false,
-  };
+  React.useEffect(() => {
+    axios
+      .get(
+        "http://13.125.105.202:8080/api/comment/221?page=0&size=2&sort=string",
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTQ4NzUzNTZ9.7DVNZ_9wAYZ8kfNKe-fFsJbsVLIUfrV1dPmA25y_Gio",
+          },
+        }
+      )
+      .then((response) => {
+        setCommentData(response.data); //.commentData
+      })
+      .catch((error) => {
+        console.error("comment data error:", error);
+      });
+  }, []);
 
   // const commentData = {
-  //   totalPages: 0,
-  //   totalElements: 0,
-  //   number: 0,
-  //   sort: {
-  //     empty: true,
-  //     sorted: true,
-  //     unsorted: true,
-  //   },
-  //   size: 0,
   //   content: [
   //     {
-  //       value: "string",
+  //       value: "이봉이",
   //       writer: "string",
-  //       profileUrl: "string",
-  //       createDate: "2023-08-24T12:59:28.062Z",
-  //       type: "string",
-  //       emoticonUrl: "string",
+  //       profileUrl:
+  //         "https://s3.ap-northeast-2.amazonaws.com/bbeb-image/profile/default.jpg",
+  //       createDate: "2023-09-10T11:09:49.949564",
+  //       commentId: 225,
+  //       type: "EMOTICON",
+  //       emoticonUrl:
+  //         "https://s3.ap-northeast-2.amazonaws.com/bbeb-image/emoticon/%EC%9D%B4%EB%B4%89%EC%9D%B4",
+  //       isUpdate: true,
   //     },
   //   ],
-  //   numberOfElements: 0,
   //   pageable: {
   //     sort: {
-  //       empty: true,
+  //       empty: false,
   //       sorted: true,
-  //       unsorted: true,
+  //       unsorted: false,
   //     },
   //     offset: 0,
   //     pageNumber: 0,
-  //     pageSize: 0,
+  //     pageSize: 1,
   //     paged: true,
-  //     unpaged: true,
+  //     unpaged: false,
   //   },
-  //   first: true,
+  //   totalPages: 1,
+  //   totalElements: 1,
   //   last: true,
-  //   empty: true,
+  //   number: 0,
+  //   sort: {
+  //     empty: false,
+  //     sorted: true,
+  //     unsorted: false,
+  //   },
+  //   size: 1,
+  //   numberOfElements: 1,
+  //   first: true,
+  //   empty: false,
   // };
 
   const emoticons = [
@@ -200,7 +163,7 @@ function Comment() {
             color="primary"
             sx={{ fontSize: "18px", height: "60%" }}
           >
-            댓글쓰기({commentData.content.length})
+            댓글쓰기({commentData?.content?.length})
           </Button>
         </Stack>
       </Stack>
@@ -244,7 +207,26 @@ function Comment() {
       </Menu>
       <Stack bgcolor="#FAF3F0" width="70%" height="fit-content">
         <Stack width="100%" height="fit-content" alignItems="center">
-          {commentData.content.map((comment, i) => {
+          {commentData?.content.map((comment, i) => {
+            const originalDateTimeString = commentData?.content[i].createDate;
+            const originalDateTime = new Date(originalDateTimeString);
+
+            const year = originalDateTime.getFullYear();
+            const month = (originalDateTime.getMonth() + 1)
+              .toString()
+              .padStart(2, "0");
+            const day = originalDateTime.getDate().toString().padStart(2, "0");
+            const hours = originalDateTime
+              .getHours()
+              .toString()
+              .padStart(2, "0");
+            const minutes = originalDateTime
+              .getMinutes()
+              .toString()
+              .padStart(2, "0");
+
+            const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
             return (
               <Stack
                 direction="row"
@@ -289,7 +271,8 @@ function Comment() {
                       </Stack>
                       <Stack fontSize="12px">
                         {" "}
-                        {commentData.content[i].createDate}
+                        {formattedDateTime}
+                        {/* {commentData.content[i].createDate} */}
                       </Stack>
                     </Stack>
                     <Stack fontSize="16px" flexWrap="wrap">
@@ -312,7 +295,7 @@ function Comment() {
             );
           })}
         </Stack>
-        {commentData.totalElements > commentData.content.length && (
+        {commentData?.totalElements > commentData?.content.length && (
           <Stack
             alignItems="center"
             justifyContent="Center"
