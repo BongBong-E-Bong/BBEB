@@ -39,6 +39,24 @@ function Comment() {
       });
   };
 
+  const [imageUrl, setImageUrl] = React.useState("");
+
+  React.useEffect(() => {
+    axios
+      .get("http://13.125.105.202:8080/api/members/profile", {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTQ4ODAwNjh9.gEptXmD3hmvxp9TLmMNSrEqsmPGFxh3qxtbcmrPry7Y",
+        },
+      })
+      .then((response) => {
+        setImageUrl(response.data.url);
+      })
+      .catch((error) => {
+        console.error("comment profile img error", error);
+      });
+  });
+
   React.useEffect(() => {
     fetchCommentData(size);
   }, [size]);
@@ -87,7 +105,7 @@ function Comment() {
         >
           <img
             alt="basicProfile"
-            src={basicProfile}
+            src={imageUrl}
             width="5.5%"
             height="66%"
             style={{ borderRadius: "50%", margin: "0.5%" }}
