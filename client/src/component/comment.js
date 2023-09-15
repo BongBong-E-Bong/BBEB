@@ -16,67 +16,36 @@ function Comment() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
   const [commentData, setCommentData] = React.useState();
+  const [size, setSize] = React.useState(5);
+  const page = 0;
 
-  React.useEffect(() => {
+  const fetchCommentData = (newSize) => {
     axios
       .get(
-        "http://13.125.105.202:8080/api/comment/221?page=0&size=2&sort=string",
+        `http://13.125.105.202:8080/api/comment/221?page=${page}&size=${newSize}&sort=string`,
+
         {
           headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTQ4NzUzNTZ9.7DVNZ_9wAYZ8kfNKe-fFsJbsVLIUfrV1dPmA25y_Gio",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTQ4ODAwNjh9.gEptXmD3hmvxp9TLmMNSrEqsmPGFxh3qxtbcmrPry7Y",
           },
         }
       )
       .then((response) => {
-        setCommentData(response.data); //.commentData
+        setCommentData(response.data);
       })
       .catch((error) => {
         console.error("comment data error:", error);
       });
-  }, []);
+  };
 
-  // const commentData = {
-  //   content: [
-  //     {
-  //       value: "이봉이",
-  //       writer: "string",
-  //       profileUrl:
-  //         "https://s3.ap-northeast-2.amazonaws.com/bbeb-image/profile/default.jpg",
-  //       createDate: "2023-09-10T11:09:49.949564",
-  //       commentId: 225,
-  //       type: "EMOTICON",
-  //       emoticonUrl:
-  //         "https://s3.ap-northeast-2.amazonaws.com/bbeb-image/emoticon/%EC%9D%B4%EB%B4%89%EC%9D%B4",
-  //       isUpdate: true,
-  //     },
-  //   ],
-  //   pageable: {
-  //     sort: {
-  //       empty: false,
-  //       sorted: true,
-  //       unsorted: false,
-  //     },
-  //     offset: 0,
-  //     pageNumber: 0,
-  //     pageSize: 1,
-  //     paged: true,
-  //     unpaged: false,
-  //   },
-  //   totalPages: 1,
-  //   totalElements: 1,
-  //   last: true,
-  //   number: 0,
-  //   sort: {
-  //     empty: false,
-  //     sorted: true,
-  //     unsorted: false,
-  //   },
-  //   size: 1,
-  //   numberOfElements: 1,
-  //   first: true,
-  //   empty: false,
-  // };
+  React.useEffect(() => {
+    fetchCommentData(size);
+  }, [size]);
+
+  const handleButtonClick = () => {
+    setSize((prevSize) => prevSize + 5);
+  };
 
   const emoticons = [
     emoticon0,
@@ -207,8 +176,8 @@ function Comment() {
       </Menu>
       <Stack bgcolor="#FAF3F0" width="70%" height="fit-content">
         <Stack width="100%" height="fit-content" alignItems="center">
-          {commentData?.content.map((comment, i) => {
-            const originalDateTimeString = commentData?.content[i].createDate;
+          {commentData?.content?.map((comment, i) => {
+            const originalDateTimeString = commentData?.content[i]?.createDate;
             const originalDateTime = new Date(originalDateTimeString);
 
             const year = originalDateTime.getFullYear();
@@ -252,7 +221,7 @@ function Comment() {
                   >
                     <img
                       alt="basicProfile"
-                      src={commentData.content[i].profileUrl}
+                      src={commentData?.content[i]?.profileUrl}
                       width="50px"
                       height="50px"
                       style={{ borderRadius: "50%" }}
@@ -267,20 +236,16 @@ function Comment() {
                       height="!00%"
                     >
                       <Stack fontSize="19px" style={{ fontWeight: "bold" }}>
-                        {commentData.content[i].writer}
+                        {commentData?.content[i]?.writer}
                       </Stack>
-                      <Stack fontSize="12px">
-                        {" "}
-                        {formattedDateTime}
-                        {/* {commentData.content[i].createDate} */}
-                      </Stack>
+                      <Stack fontSize="12px"> {formattedDateTime}</Stack>
                     </Stack>
                     <Stack fontSize="16px" flexWrap="wrap">
-                      {commentData.content[i].value}
+                      {commentData?.content[i]?.value}
                     </Stack>
                   </Stack>
                 </Stack>
-                {commentData.content[i].isUpdate ? (
+                {commentData?.content[i]?.isUpdate ? (
                   <Stack direction="row" gap="9%" width="11%">
                     <Stack fontSize="17px" style={{ cursor: "pointer" }}>
                       수정
@@ -295,17 +260,18 @@ function Comment() {
             );
           })}
         </Stack>
-        {commentData?.totalElements > commentData?.content.length && (
-          <Stack
-            alignItems="center"
-            justifyContent="Center"
-            width="100%"
-            height="5vh"
-            style={{ cursor: "pointer" }}
-          >
-            댓글 더보기
-          </Stack>
-        )}
+        {/* {commentData?.totalElements > commentData?.content.length && ( */}
+        <Stack
+          alignItems="center"
+          justifyContent="Center"
+          width="100%"
+          height="5vh"
+          style={{ cursor: "pointer" }}
+          onClick={handleButtonClick}
+        >
+          댓글 더보기
+        </Stack>
+        {/* )} */}
       </Stack>
     </Stack>
   );
