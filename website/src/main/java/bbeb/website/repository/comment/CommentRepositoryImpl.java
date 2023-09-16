@@ -3,6 +3,7 @@ package bbeb.website.repository.comment;
 import bbeb.website.dto.CommentDTO;
 import bbeb.website.dto.QCommentDTO_CommentResponseDTO;
 import com.amazonaws.services.s3.AmazonS3;
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
     @Override
     public Page<CommentDTO.CommentResponseDTO> search(Long postId, Pageable pageable) {
-        List<CommentDTO.CommentResponseDTO> result = queryFactory
+        QueryResults<CommentDTO.CommentResponseDTO> results = queryFactory
                     .select(new QCommentDTO_CommentResponseDTO(
                             comment.value,
                             member.nickname,
@@ -49,14 +50,16 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize())
                     .orderBy(comment.createDate.desc())
-                    .fetch();
+                    .fetchResults();
 
-        result.forEach(object -> object.setProfileUrl(s3Client.getUrl(profileBucketName, object.getProfileUrl() == null ? "default.jpg" : object.getProfileUrl()).toString()));
-        result.forEach(object ->{
+        List<CommentDTO.CommentResponseDTO> content = results.getResults();
+
+        content.forEach(object -> object.setProfileUrl(s3Client.getUrl(profileBucketName, object.getProfileUrl() == null ? "default.jpg" : object.getProfileUrl()).toString()));
+        content.forEach(object ->{
             if (Objects.equals(object.getType(), "EMOTICON") || Objects.equals(object.getType(), "EMOTICON_TEXT"))
                 object.setEmoticonUrl(s3Client.getUrl(emoticonBucketName, object.getValue()).toString());
         });
 
-        return new PageImpl<>(result, pageable, result.size());
+        return new PageImpl<>(content, pageable, results.getTotal());
     }
 }
