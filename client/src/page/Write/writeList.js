@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../component/header";
 import {
   Stack,
@@ -7,7 +7,7 @@ import {
   TextField,
   Paper,
   Pagination,
-} from "@mui/material"; // TextField와 Autocomplete 불러오기
+} from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import obong from "../../image/obong.png";
@@ -19,22 +19,6 @@ import { useNavigate } from "react-router-dom";
 
 function WriteList() {
   const itemsPerPage = 8; // 페이지당 표시할 게시글 수
-  const totalItems = 100; // 전체 게시글 수 (예시로 8개)
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handlePageChange = (event, newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  const titleOptions = ["글 제목", "태그", "작성자", "글 내용"];
-
-  const [selectedTitle, setSelectedTitle] = useState("글 제목");
-  const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
 
   const posts = [
     {
@@ -125,13 +109,55 @@ function WriteList() {
       hitCount: 5,
       commentCount: 5,
     },
-
+    {
+      id: 1,
+      thumbnail: thumnail,
+      obongImage: obong,
+      title: "안녕 난 오봉이야",
+      date: "2001-08-23",
+      author: "🐷오봉이",
+      likeCount: 5,
+      hitCount: 5,
+      commentCount: 5,
+    },
+    {
+      id: 1,
+      thumbnail: thumnail,
+      obongImage: obong,
+      title: "안녕 난 오봉이야",
+      date: "2001-08-23",
+      author: "🐷오봉이",
+      likeCount: 5,
+      hitCount: 5,
+      commentCount: 5,
+    },
   ];
 
-  const groupedPosts = [];
-  for (let i = 0; i < posts.length; i += 4) {
-    groupedPosts.push(posts.slice(i, i + 4));
-  }
+  const totalItems = posts.length;
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [groupedPosts, setGroupedPosts] = useState([]);
+
+  // 페이지 변경 시 해당 페이지에 맞는 게시글 그룹 설정
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentGroupedPosts = posts.slice(startIndex, endIndex);
+    setGroupedPosts(currentGroupedPosts);
+  }, [currentPage]);
+
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const titleOptions = ["글 제목", "태그", "작성자", "글 내용"];
+  const [selectedTitle, setSelectedTitle] = useState("글 제목");
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   return (
     <>
@@ -158,7 +184,7 @@ function WriteList() {
             >
               오봉이의 게시판
             </Stack>
-            <img src={obong} alt="obong" width="25%" height="600%"></img>
+            <img src={obong} alt="obong" width="25%" height="600%" />
           </Stack>
         </Stack>
         <Stack width="70%" marginTop="2%">
@@ -221,87 +247,87 @@ function WriteList() {
           </Stack>
           <Stack>'오봉이' 검색 결과(8)</Stack>
           <Stack spacing={10} marginTop="2%" height="100%" width="100%">
-            {groupedPosts.map((group, index) => (
-              <Stack key={index} direction="row" justifyContent="space-between">
-                {group.map((post) => (
-                  <Paper
-                    key={post.id}
-                    elevation={0}
-                    sx={{
-                      borderRadius: "20px",
-                      backgroundColor: "#D9D9D9",
-                      width: "24%",
-                      cursor: "pointer",
-                      // position: "relative",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <img
-                      src={thumnail}
-                      alt="thumnail"
-                      style={{
-                        width: "100%",
-                        // height: "70%",
-                        // objectFit: "cover",
-                        // position: "absolute",
-                        // top: 0,
-                        // left: 0,
-                      }}
-                    />
-                    <Stack
-                      direction="row"
-                      bgcolor="#FAF3F0"
-                      spacing={1}
-                      sx={{
-                        // position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        borderBottomLeftRadius: "20px",
-                        borderBottomRightRadius: "20px",
-                        // width: "100%",
-                        alignItems: "center",
-                      }}
-                    >
-                      <img
-                        src={obong}
-                        alt="obong"
-                        style={{
-                          width: "13%",
-                          borderRadius: "50px",
-                          padding: "3%",
-                          marginLeft: "5%",
+            {Array.from({ length: Math.ceil(totalItems / 8) }).map(
+              (_, rowIndex) => (
+                <Stack
+                  key={rowIndex}
+                  direction="row"
+                  justifyContent="space-between"
+                  spacing={1}
+                >
+                  {groupedPosts
+                    .slice(rowIndex * 4, (rowIndex + 1) * 4)
+                    .map((post) => (
+                      <Paper
+                        key={post.id}
+                        elevation={0}
+                        sx={{
+                          borderRadius: "20px",
+                          backgroundColor: "#D9D9D9",
+                          width: "25%", // 고정된 크기를 지정
+                          cursor: "pointer",
                         }}
-                      />
-                      <Stack>
-                        <Stack fontSize="14px">안녕 난 오봉이야</Stack>
-                        <Stack fontSize="12px">2001-08-23</Stack>
-                        <Stack fontSize="12px">🐷오봉이</Stack>
-                      </Stack>
-                      <Stack direction="row" spacing={1}>
-                        <Stack direction="row" spacing={0.5}>
+                      >
+                        <img
+                          src={thumnail}
+                          alt="thumnail"
+                          style={{
+                            width: "100%",
+                          }}
+                        />
+                        <Stack
+                          direction="row"
+                          bgcolor="#FAF3F0"
+                          spacing={1}
+                          sx={{
+                            bottom: 0,
+                            left: 0,
+                            borderBottomLeftRadius: "20px",
+                            borderBottomRightRadius: "20px",
+                            alignItems: "center",
+                          }}
+                        >
+                          <img
+                            src={obong}
+                            alt="obong"
+                            style={{
+                              width: "13%",
+                              borderRadius: "50px",
+                              padding: "3%",
+                              marginLeft: "5%",
+                            }}
+                          />
                           <Stack>
-                            <img src={like} alt="like" />
+                            <Stack fontSize="14px">{post.title}</Stack>
+                            <Stack fontSize="12px">{post.date}</Stack>
+                            <Stack fontSize="12px">{post.author}</Stack>
                           </Stack>
-                          <Stack>5</Stack>
-                        </Stack>
-                        <Stack direction="row" spacing={0.5}>
-                          <Stack>
-                            <img src={hit} alt="hit" />
+                          <Stack direction="row" spacing={1}>
+                            <Stack direction="row" spacing={0.5}>
+                              <Stack>
+                                <img src={like} alt="like" />
+                              </Stack>
+                              <Stack>{post.likeCount}</Stack>
+                            </Stack>
+                            <Stack direction="row" spacing={0.5}>
+                              <Stack>
+                                <img src={hit} alt="hit" />
+                              </Stack>
+                              <Stack>{post.hitCount}</Stack>
+                            </Stack>
+                            <Stack direction="row" spacing={0.5}>
+                              <Stack>
+                                <img src={comment} alt="comment" />
+                              </Stack>
+                              <Stack>{post.commentCount}</Stack>
+                            </Stack>
                           </Stack>
-                          <Stack>5</Stack>
                         </Stack>
-                        <Stack direction="row" spacing={0.5}>
-                          <Stack>
-                            <img src={comment} alt="comment" />
-                          </Stack>
-                          <Stack>5</Stack>
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  </Paper>
-                ))}
-              </Stack>
-            ))}
+                      </Paper>
+                    ))}
+                </Stack>
+              )
+            )}
           </Stack>
           {/* 페이지네이션 부분 */}
           <Stack alignItems="center" marginTop="5%">
