@@ -42,6 +42,7 @@ function Write() {
   const handleTagInputChange = (event) => {
     setTagInput(event.target.value);
   };
+
   const handleImageUpload = (event) => {
     const selectedFiles = event.target.files;
 
@@ -58,6 +59,7 @@ function Write() {
       fileReader.readAsDataURL(selectedFiles[0]);
     }
   };
+
   const handleTagInputKeyPress = (event) => {
     if (event.key === "Enter" && tagInput.trim() !== "") {
       setTags([...tags, tagInput.trim()]);
@@ -81,7 +83,7 @@ function Write() {
   const handleCreatePost = () => {
     if (isLogin) {
       const contentData = content.map((contentItem, index) => ({
-        contentType: "TEXT", 
+        contentType: "TEXT",
         value: contentItem,
         contentOrder: index,
       }));
@@ -107,7 +109,7 @@ function Write() {
           console.log("제목:", title);
           console.log("썸네일:", thumbnail);
           console.log("고정:", checked);
-          console.log("내용:", contentData)
+          console.log("내용:", contentData);
         })
         .catch((error) => {
           setAuthModalFailOpen(true);
@@ -132,7 +134,7 @@ function Write() {
   }, [accessToken]);
 
   const isAdmin = decodedToken && decodedToken.isAdmin;
-  
+
   return (
     <>
       <Header />
@@ -296,6 +298,7 @@ function Write() {
                     justifyContent: "center",
                     border: "1px solid #FF8181",
                     width: "6%",
+                    height: "35px",
                   }}
                   onClick={() => {
                     // 이후 추가
