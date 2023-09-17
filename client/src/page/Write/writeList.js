@@ -246,28 +246,29 @@ function WriteList() {
             </Stack>
           </Stack>
           <Stack>'오봉이' 검색 결과(8)</Stack>
-          <Stack spacing={10} marginTop="2%" height="100%" width="100%">
-            {Array.from({ length: Math.ceil(totalItems / 8) }).map(
-              (_, rowIndex) => (
-                <Stack
-                  key={rowIndex}
-                  direction="row"
-                  justifyContent="space-between"
-                  spacing={1}
-                >
-                  {groupedPosts
-                    .slice(rowIndex * 4, (rowIndex + 1) * 4)
-                    .map((post) => (
-                      <Paper
-                        key={post.id}
-                        elevation={0}
-                        sx={{
-                          borderRadius: "20px",
-                          backgroundColor: "#D9D9D9",
-                          width: "25%", // 고정된 크기를 지정
-                          cursor: "pointer",
-                        }}
-                      >
+          <Stack spacing={2} marginTop="2%" height="100%" width="100%">
+  {Array.from({ length: Math.ceil(totalItems / 4) }).map((_, rowIndex) => (
+    <Stack
+      key={rowIndex}
+      direction="row"
+      justifyContent="center"
+      spacing={2} // Paper 간의 간격 조정
+    >
+      {groupedPosts
+        .slice(rowIndex * 4, (rowIndex + 1) * 4)
+        .map((post) => (
+          <Paper
+            key={post.id}
+            elevation={0}
+            sx={{
+              borderRadius: "20px",
+              backgroundColor: "#D9D9D9",
+              flex: "1", // 균등한 너비를 가지도록 설정
+              cursor: "pointer",
+              width: "30%", // 더 작은 크기로 조정
+              height: "80%", // 더 작은 크기로 조정
+            }}
+          >
                         <img
                           src={thumnail}
                           alt="thumnail"
