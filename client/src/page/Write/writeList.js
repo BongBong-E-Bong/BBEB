@@ -15,111 +15,13 @@ import thumnail from "../../image/thumnail.png";
 import hit from "../../image/hit.png";
 import like from "../../image/like.png";
 import comment from "../../image/comment.png";
+import SearchIcon from "../../image/Search.png";
 import { useNavigate } from "react-router-dom";
 
 function WriteList() {
-  const itemsPerPage = 8; // 페이지당 표시할 게시글 수
+  const itemsPerPage = 8;
 
   const posts = [
-    {
-      id: 1,
-      thumbnail: thumnail,
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 5,
-      hitCount: 5,
-      commentCount: 5,
-    },
-    {
-      id: 1,
-      thumbnail: thumnail,
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 5,
-      hitCount: 5,
-      commentCount: 5,
-    },
-    {
-      id: 1,
-      thumbnail: thumnail,
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 5,
-      hitCount: 5,
-      commentCount: 5,
-    },
-    {
-      id: 1,
-      thumbnail: thumnail,
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 5,
-      hitCount: 5,
-      commentCount: 5,
-    },
-    {
-      id: 1,
-      thumbnail: thumnail,
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 5,
-      hitCount: 5,
-      commentCount: 5,
-    },
-    {
-      id: 1,
-      thumbnail: thumnail,
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 5,
-      hitCount: 5,
-      commentCount: 5,
-    },
-    {
-      id: 1,
-      thumbnail: thumnail,
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 5,
-      hitCount: 5,
-      commentCount: 5,
-    },
-    {
-      id: 1,
-      thumbnail: thumnail,
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 5,
-      hitCount: 5,
-      commentCount: 5,
-    },
-    {
-      id: 1,
-      thumbnail: thumnail,
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 5,
-      hitCount: 5,
-      commentCount: 5,
-    },
     {
       id: 1,
       thumbnail: thumnail,
@@ -138,7 +40,6 @@ function WriteList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [groupedPosts, setGroupedPosts] = useState([]);
 
-  // 페이지 변경 시 해당 페이지에 맞는 게시글 그룹 설정
   useEffect(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -155,8 +56,14 @@ function WriteList() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
+
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
+  };
+
+  const handleSearchClick = () => {
+    console.log("검색 버튼 또는 아이콘이 클릭되었습니다.");
+    // 검색 로직을 실행할 수 있음
   };
 
   return (
@@ -227,6 +134,7 @@ function WriteList() {
                   onChange={handleSearchChange}
                 />
               </Stack>
+              
               <Stack
                 bgcolor="#FF8181"
                 sx={{
@@ -246,34 +154,38 @@ function WriteList() {
             </Stack>
           </Stack>
           <Stack>'오봉이' 검색 결과(8)</Stack>
-          <Stack spacing={2} marginTop="2%" height="100%" width="100%">
-  {Array.from({ length: Math.ceil(totalItems / 4) }).map((_, rowIndex) => (
-    <Stack
-      key={rowIndex}
-      direction="row"
-      justifyContent="center"
-      spacing={2} // Paper 간의 간격 조정
-    >
-      {groupedPosts
-        .slice(rowIndex * 4, (rowIndex + 1) * 4)
-        .map((post) => (
-          <Paper
-            key={post.id}
-            elevation={0}
-            sx={{
-              borderRadius: "20px",
-              backgroundColor: "#D9D9D9",
-              flex: "1", // 균등한 너비를 가지도록 설정
-              cursor: "pointer",
-              width: "30%", // 더 작은 크기로 조정
-              height: "80%", // 더 작은 크기로 조정
-            }}
-          >
+          <Stack spacing={8} marginTop="2%" height="100%" width="100%">
+            {Array.from({ length: Math.ceil(totalItems / 4) }).map(
+              (_, rowIndex) => (
+                <Stack
+                  key={rowIndex}
+                  direction="row"
+                  justifyContent="center"
+                  spacing={2}
+                >
+                  {groupedPosts
+                    .slice(rowIndex * 4, (rowIndex + 1) * 4)
+                    .map((post) => (
+                      <Paper
+                        key={post.id}
+                        elevation={0}
+                        sx={{
+                          borderRadius: "20px",
+                          // backgroundColor: "#D9D9D9",
+                          flex: "1", 
+                          cursor: "pointer",
+                          width: "30%",
+                          height: "80%",
+
+                        }}
+                      >
                         <img
                           src={thumnail}
                           alt="thumnail"
                           style={{
                             width: "100%",
+                            borderTopLeftRadius: "20px",
+                            borderTopRightRadius: "20px",
                           }}
                         />
                         <Stack
@@ -330,8 +242,7 @@ function WriteList() {
               )
             )}
           </Stack>
-          {/* 페이지네이션 부분 */}
-          <Stack alignItems="center" marginTop="5%">
+          <Stack alignItems="center">
             <Pagination
               count={Math.ceil(totalItems / itemsPerPage)}
               page={currentPage}
