@@ -93,6 +93,7 @@ function Comment() {
       })
       .then((response) => {
         console.log("success");
+        window.location.reload();
       })
       .catch((error) => {
         console.error("delete error", error);
