@@ -7,9 +7,10 @@ import {
   TextField,
   Paper,
   Pagination,
+  InputAdornment,
 } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider, DateRangePicker } from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns"; // Date Adapter에 맞는 패키지를 import 해야 합니다.
 import obong from "../../image/obong.png";
 import thumnail from "../../image/thumnail.png";
 import hit from "../../image/hit.png";
@@ -20,7 +21,8 @@ import { useNavigate } from "react-router-dom";
 
 function WriteList() {
   const itemsPerPage = 8;
-
+  const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
+  const [sortByDate, setSortByDate] = useState(false); // 스위치 상태 추가
   const posts = [
     {
       id: 1,
@@ -29,11 +31,47 @@ function WriteList() {
       title: "안녕 난 오봉이야",
       date: "2001-08-23",
       author: "🐷오봉이",
-      likeCount: 5,
+      likeCount: 1,
+      hitCount: 1,
+      commentCount: 5,
+    },
+    {
+      id: 1,
+      thumbnail: thumnail,
+      obongImage: obong,
+      title: "저 졸려요",
+      date: "2001-03-02",
+      author: "🐷오봉이",
+      likeCount: 2,
+      hitCount: 1,
+      commentCount: 5,
+    },
+    {
+      id: 1,
+      thumbnail: thumnail,
+      obongImage: obong,
+      title: "실례합니다",
+      date: "2001-06-16",
+      author: "🐷오봉이",
+      likeCount: 3,
       hitCount: 5,
       commentCount: 5,
     },
   ];
+
+  const handleSwitchChange = () => {
+    setSortByDate(!sortByDate);
+  };
+
+  const filteredPosts = posts.filter((post) => {
+    const postDate = new Date(post.date);
+    const startDate = selectedDateRange[0];
+    const endDate = selectedDateRange[1];
+
+    return (
+      (!startDate || postDate >= startDate) && (!endDate || postDate <= endDate)
+    );
+  });
 
   const totalItems = posts.length;
 
@@ -41,11 +79,25 @@ function WriteList() {
   const [groupedPosts, setGroupedPosts] = useState([]);
 
   useEffect(() => {
+    // 스위치 상태에 따라 게시물을 날짜별 또는 좋아요 순으로 정렬
+    const sortedPosts = filteredPosts.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+
+      if (sortByDate) {
+        // 스위치가 켜진 경우, 좋아요 수를 비교해서 정렬
+        return b.likeCount - a.likeCount;
+      } else {
+        // 스위치가 꺼진 경우, 날짜를 기준으로 최신 순으로 정렬
+        return dateB - dateA;
+      }
+    });
+
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentGroupedPosts = posts.slice(startIndex, endIndex);
+    const currentGroupedPosts = sortedPosts.slice(startIndex, endIndex);
     setGroupedPosts(currentGroupedPosts);
-  }, [currentPage]);
+  }, [currentPage, filteredPosts, sortByDate]);
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
@@ -56,11 +108,9 @@ function WriteList() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
-
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
-
   const handleSearchClick = () => {
     console.log("검색 버튼 또는 아이콘이 클릭되었습니다.");
     // 검색 로직을 실행할 수 있음
@@ -103,18 +153,36 @@ function WriteList() {
           >
             <Stack direction="row" spacing={2} justifyContent="">
               <Stack>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DateRangePicker
+                    startText="시작 날짜"
+                    endText="종료 날짜"
+                    value={selectedDateRange}
+                    onChange={(newDateRange) =>
+                      setSelectedDateRange(newDateRange)
+                    }
+                    renderInput={(startProps, endProps) => (
+                      <>
+                        <TextField {...startProps} />
+                        <span style={{ margin: "0 8px" }}>~</span>
+                        <TextField {...endProps} />
+                      </>
+                    )}
+                  />
                 </LocalizationProvider>
               </Stack>
+
               <Stack
                 direction="row"
                 alignItems="center"
                 justifyContent="center"
               >
-                <Stack fontSize="12px">좋아요 순</Stack>
-                <Switch></Switch>
                 <Stack fontSize="12px">최신순</Stack>
+                <Switch
+                  checked={sortByDate}
+                  onChange={handleSwitchChange}
+                ></Switch>
+                <Stack fontSize="12px">좋아요 순</Stack>
               </Stack>
             </Stack>
             <Stack direction="row" spacing={1}>
@@ -132,9 +200,21 @@ function WriteList() {
                   label="검색"
                   value={searchQuery}
                   onChange={handleSearchChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <img
+                          src={SearchIcon}
+                          alt="search"
+                          onClick={handleSearchClick}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Stack>
-              
+
               <Stack
                 bgcolor="#FF8181"
                 sx={{
@@ -172,11 +252,10 @@ function WriteList() {
                         sx={{
                           borderRadius: "20px",
                           // backgroundColor: "#D9D9D9",
-                          flex: "1", 
+                          flex: "1",
                           cursor: "pointer",
                           width: "30%",
                           height: "80%",
-
                         }}
                       >
                         <img
@@ -234,6 +313,36 @@ function WriteList() {
                               </Stack>
                               <Stack>{post.commentCount}</Stack>
                             </Stack>
+                          </Stack>
+                        </Stack>
+                        <Stack direction="row">
+                          <Stack
+                            sx={{
+                              margin: "4px",
+                              color: "#FF8181",
+                              border: "1px solid #FF8181",
+                              cursor: "pointer",
+                              borderRadius: "20px",
+                              width: "fit-content",
+                              height: "25px",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Stack alignItems="center">태그 1</Stack>
+                          </Stack>
+                          <Stack
+                            sx={{
+                              margin: "4px",
+                              color: "#FF8181",
+                              border: "1px solid #FF8181",
+                              cursor: "pointer",
+                              borderRadius: "20px",
+                              width: "fit-content",
+                              height: "25px",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <div>태그 2</div>
                           </Stack>
                         </Stack>
                       </Paper>
