@@ -45,18 +45,14 @@ function Write() {
 
   const handleImageUpload = (event) => {
     const selectedFiles = event.target.files;
-
     if (selectedFiles.length > 0) {
-      const fileReader = new FileReader();
-
-      fileReader.onload = (e) => {
-        const imageFile = selectedFiles[0];
-        const newImageTag = `![${imageFile.name}](${e.target.result})`;
-        const newText = `${text}\n${newImageTag}`;
-        setText(newText);
-      };
-
-      fileReader.readAsDataURL(selectedFiles[0]);
+      const imageFile = selectedFiles[0];
+      const imageTag = `![${imageFile.name}]`; // 이미지 태그 생성
+      const textField = document.getElementById("content-textfield"); // textField 정의
+      const start = textField.selectionStart; // 커서 시작 위치
+      const end = textField.selectionEnd; // 커서 끝 위치
+      const newText = text.slice(0, start) + imageTag + text.slice(end); // 텍스트에 이미지 태그 삽입
+      setText(newText);
     }
   };
 
