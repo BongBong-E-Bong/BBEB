@@ -9,6 +9,7 @@ function WriteModal({
   onCreatePost,
   setAuthModalFailOpen,
   thumbnail,
+  setThumbnail,
 }) {
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
@@ -19,6 +20,11 @@ function WriteModal({
   const handleThumbnailChange = (event) => {
     const file = event.target.files[0];
     setSelectedThumbnail(file);
+    if (setThumbnail) {
+      // 파일 객체에서 파일 이름만 추출하여 출력
+      console.log("썸네일 파일 이름:", file.name);
+      setThumbnail(file);
+    }
   };
 
   const [isChecked, setIsChecked] = useState(false);

@@ -33,7 +33,13 @@ function Write() {
   const [decodedToken, setDecodedToken] = useState({});
   const userId = decodedToken ? decodedToken.sub : "";
   const navigate = useNavigate();
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState([
+    {
+      contentType: "TEXT",
+      value: "", // 여기에 텍스트 내용이 들어갈 것입니다.
+      contentOrder: 0, // 문단 순서를 나타내는 값
+    },
+  ]);
 
   const handleFailModalClose = () => {
     setFailModalOpen(false);
@@ -47,18 +53,27 @@ function Write() {
     const selectedFiles = event.target.files;
     if (selectedFiles.length > 0) {
       const imageFile = selectedFiles[0];
-      const imageTag = `![${imageFile.name}]`; // 이미지 태그 생성
-      const textField = document.getElementById("content-textfield"); // textField 정의
-      const start = textField.selectionStart; // 커서 시작 위치
-      const end = textField.selectionEnd; // 커서 끝 위치
-      const newText = text.slice(0, start) + imageTag + text.slice(end); // 텍스트에 이미지 태그 삽입
+      const imageTag = `![${imageFile.name}]`;
+      const newText = `${text}\n${imageTag}`;
+
+      // content state를 업데이트합니다. 이미지를 추가할 때는 contentType을 "IMAGE"로 설정합니다.
+      const newContent = [...content];
+      newContent.push({
+        contentType: "IMAGE",
+        value: imageTag,
+        contentOrder: newContent.length, // 이미지는 기존 내용 뒤에 추가됩니다.
+      });
+
+      setContent(newContent);
       setText(newText);
     }
   };
 
   const handleTagInputKeyPress = (event) => {
     if (event.key === "Enter" && tagInput.trim() !== "") {
-      setTags([...tags, tagInput.trim()]);
+      const newTag = tagInput.trim();
+      setTags([...tags, newTag]);
+      setPostTags([...postTags, { value: newTag }]); // postTags 배열에 태그를 추가합니다.
       setTagInput("");
     }
   };
@@ -66,6 +81,11 @@ function Write() {
   const handleTagClick = (tagToRemove) => {
     const updatedTags = tags.filter((tag) => tag !== tagToRemove);
     setTags(updatedTags);
+
+    const updatedPostTags = postTags.filter(
+      (tagObj) => tagObj.value !== tagToRemove
+    );
+    setPostTags(updatedPostTags);
   };
 
   const handleAlignmentChange = (alignment) => {
@@ -78,17 +98,23 @@ function Write() {
 
   const handleCreatePost = () => {
     if (isLogin) {
-      const contentData = content.map((contentItem, index) => ({
-        contentType: "TEXT",
-        value: contentItem,
-        contentOrder: index,
-      }));
+      const textContent = [];
+      const imageContent = [];
+
+      content.forEach((contentItem) => {
+        if (contentItem.contentType === "TEXT") {
+          textContent.push(contentItem.value);
+        } else if (contentItem.contentType === "IMAGE") {
+          imageContent.push(contentItem.value);
+        }
+      });
 
       const postDataToSend = {
         title: title,
         thumbnail: thumbnail ? thumbnail.name : "",
         isPinned: checked ? 1 : 0,
-        content: contentData,
+        content: textContent, // 텍스트 내용만 사용
+        images: imageContent, // 이미지 파일명 목록
         postTag: postTags,
       };
 
@@ -99,16 +125,20 @@ function Write() {
           },
         })
         .then((response) => {
-          console.log("isAdmin:", isAdmin);
-          console.log(decodedToken);
-          console.log("Write 아이디:", userId);
+          console.log("포스트가 성공적으로 생성되었습니다.");
           console.log("제목:", title);
-          console.log("썸네일:", thumbnail);
+          console.log("태그:", postTags);
+          console.log(
+            "썸네일:",
+            thumbnail ? thumbnail.name : "파일이 선택되지 않았습니다."
+          );
           console.log("고정:", checked);
-          console.log("내용:", contentData);
+          console.log("내용:", textContent); // 텍스트 내용 출력
+          console.log("이미지:", imageContent); // 이미지 목록 출력
         })
         .catch((error) => {
           setAuthModalFailOpen(true);
+          console.error("Error creating post:", error.response);
         });
     } else {
       setAuthModalFailOpen(true);
@@ -273,8 +303,12 @@ function Write() {
                   width: "80%",
                   backgroundColor: "#FFF",
                 }}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
+                value={content[0].value} // content의 첫 번째 항목에 텍스트 내용이 들어갑니다.
+                onChange={(e) => {
+                  const updatedContent = [...content];
+                  updatedContent[0].value = e.target.value;
+                  setContent(updatedContent);
+                }}
               />
 
               <Stack
@@ -329,7 +363,8 @@ function Write() {
                     setOpen={setModalOpen}
                     onCreatePost={handleCreatePost}
                     setAuthModalFailOpen={setAuthModalFailOpen}
-                    thumbnail={thumbnail} // 수정된 부분
+                    thumbnail={thumbnail}
+                    setThumbnail={(file) => setThumbnail(file)} // setThumbnail 함수를 전달
                   />
                 )}
               </Stack>
