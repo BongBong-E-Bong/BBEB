@@ -26,7 +26,7 @@ function Comment() {
         {
           headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMjg0ODV9.j-1MPKu0s8mWYMBXB1ae9F3R1n9S5ARY6MQzvJ-9REA",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMzE5MjB9.skZ1n-AcXulaTnLPzbtdguzMXGLoxFdJjaJ0UkfP5EU",
           },
         }
       )
@@ -45,7 +45,7 @@ function Comment() {
       .get("http://13.125.105.202:8080/api/members/profile", {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMjg0ODV9.j-1MPKu0s8mWYMBXB1ae9F3R1n9S5ARY6MQzvJ-9REA",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMzE5MjB9.skZ1n-AcXulaTnLPzbtdguzMXGLoxFdJjaJ0UkfP5EU",
         },
       })
       .then((response) => {
@@ -62,6 +62,41 @@ function Comment() {
 
   const handleButtonClick = () => {
     setSize((prevSize) => prevSize + 5);
+  };
+
+  // const handleDelete = (commentId) => {
+  //   const deleteEndpoint = `http://13.125.105.202:8080/api/comment/${commentId}`;
+
+  //   axios
+  //     .delete(deleteEndpoint, {
+  //       headers: {
+  //         Authorization:
+  //           "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMzE5MjB9.skZ1n-AcXulaTnLPzbtdguzMXGLoxFdJjaJ0UkfP5EU",
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log("comment delete");
+  //     })
+  //     .catch((error) => {
+  //       console.error("comment delete error", error);
+  //     });
+  // };
+
+  const handleDelete = (commentId) => {
+    console.log(commentId);
+    axios
+      .delete(`http://13.125.105.202:8080/api/comment/${commentId}`, {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMzE5MjB9.skZ1n-AcXulaTnLPzbtdguzMXGLoxFdJjaJ0UkfP5EU",
+        },
+      })
+      .then((response) => {
+        console.log("success");
+      })
+      .catch((error) => {
+        console.error("delete error", error);
+      });
   };
 
   const emoticons = [
@@ -212,6 +247,7 @@ function Comment() {
               .padStart(2, "0");
 
             const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+            const commentId = commentData?.content[i]?.commentId;
 
             return (
               <Stack
@@ -274,7 +310,11 @@ function Comment() {
                       수정
                     </Stack>
                     <Stack fontSize="17px">|</Stack>
-                    <Stack fontSize="17px" style={{ cursor: "pointer" }}>
+                    <Stack
+                      fontSize="17px"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleDelete(commentId)}
+                    >
                       삭제
                     </Stack>
                   </Stack>
