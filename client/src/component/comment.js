@@ -257,6 +257,12 @@ function Comment() {
                       </Stack>
                       <Stack fontSize="12px"> {formattedDateTime}</Stack>
                     </Stack>
+                    <img
+                      alt="imoticon"
+                      src={commentData?.content[i]?.emoticonUrl}
+                      width="50px"
+                      height="50px"
+                    ></img>
                     <Stack fontSize="16px" flexWrap="wrap">
                       {commentData?.content[i]?.value}
                     </Stack>
