@@ -8,7 +8,6 @@ import {
   Menu,
 } from "@mui/material";
 import MoodIcon from "@mui/icons-material/Mood";
-import basicProfile from "../image/profilephoto.png";
 import emoticon0 from "../emoticon/...emoticon.png";
 import axios from "axios";
 
@@ -27,7 +26,7 @@ function Comment() {
         {
           headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTQ4ODAwNjh9.gEptXmD3hmvxp9TLmMNSrEqsmPGFxh3qxtbcmrPry7Y",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMjg0ODV9.j-1MPKu0s8mWYMBXB1ae9F3R1n9S5ARY6MQzvJ-9REA",
           },
         }
       )
@@ -46,7 +45,7 @@ function Comment() {
       .get("http://13.125.105.202:8080/api/members/profile", {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTQ4ODAwNjh9.gEptXmD3hmvxp9TLmMNSrEqsmPGFxh3qxtbcmrPry7Y",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMjg0ODV9.j-1MPKu0s8mWYMBXB1ae9F3R1n9S5ARY6MQzvJ-9REA",
         },
       })
       .then((response) => {
@@ -263,7 +262,7 @@ function Comment() {
                     </Stack>
                   </Stack>
                 </Stack>
-                {commentData?.content[i]?.isUpdate ? (
+                {commentData?.totalElements > page ? (
                   <Stack direction="row" gap="9%" width="11%">
                     <Stack fontSize="17px" style={{ cursor: "pointer" }}>
                       수정
@@ -278,18 +277,18 @@ function Comment() {
             );
           })}
         </Stack>
-        {/* {commentData?.totalElements > commentData?.content.length && ( */}
-        <Stack
-          alignItems="center"
-          justifyContent="Center"
-          width="100%"
-          height="5vh"
-          style={{ cursor: "pointer" }}
-          onClick={handleButtonClick}
-        >
-          댓글 더보기
-        </Stack>
-        {/* )} */}
+        {commentData?.totalElements > size ? (
+          <Stack
+            alignItems="center"
+            justifyContent="Center"
+            width="100%"
+            height="5vh"
+            style={{ cursor: "pointer" }}
+            onClick={handleButtonClick}
+          >
+            댓글 더보기
+          </Stack>
+        ) : null}
       </Stack>
     </Stack>
   );
