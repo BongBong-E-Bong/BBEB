@@ -37,8 +37,8 @@ function Write() {
   const [content, setContent] = useState([
     {
       contentType: "TEXT",
-      value: "", // 여기에 텍스트 내용이 들어갈 것입니다.
-      contentOrder: 0, // 문단 순서를 나타내는 값
+      value: "",
+      contentOrder: 0,
     },
   ]);
 
