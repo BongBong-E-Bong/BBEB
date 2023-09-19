@@ -1,2 +1,5 @@
-package bbeb.website.domain.post;public enum Sort {
+package bbeb.website.domain.post;
+
+public enum Sort {
+    BASIC, LEFT, CENTER, RIGHT
 }
