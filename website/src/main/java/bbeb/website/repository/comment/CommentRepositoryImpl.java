@@ -7,6 +7,7 @@ import bbeb.website.dto.CommentDTO;
 import bbeb.website.dto.QCommentDTO_CommentResponseDTO;
 import bbeb.website.repository.member.MemberRepository;
 import com.amazonaws.services.s3.AmazonS3;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     public Page<CommentDTO.CommentResponseDTO> search(Long postId, Pageable pageable, String loginId) {
         Member checkMember = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        List<CommentDTO.CommentResponseDTO> result = queryFactory
+        QueryResults<CommentDTO.CommentResponseDTO> results = queryFactory
                     .select(new QCommentDTO_CommentResponseDTO(
                             comment.value,
                             member.nickname,
@@ -58,16 +59,18 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize())
                     .orderBy(comment.createDate.desc())
-                    .fetch();
+                    .fetchResults();
 
-        result.forEach(object -> object.setProfileUrl(s3Client.getUrl(profileBucketName, object.getProfileUrl() == null ? "default.jpg" : object.getProfileUrl()).toString()));
-        result.forEach(object ->{
+        List<CommentDTO.CommentResponseDTO> content = results.getResults();
+
+        content.forEach(object -> object.setProfileUrl(s3Client.getUrl(profileBucketName, object.getProfileUrl() == null ? "default.jpg" : object.getProfileUrl()).toString()));
+        content.forEach(object ->{
             if (Objects.equals(object.getType(), "EMOTICON") || Objects.equals(object.getType(), "EMOTICON_TEXT"))
                 object.setEmoticonUrl(s3Client.getUrl(emoticonBucketName, object.getValue()).toString());
         });
 
-        result.forEach(object -> object.setIsUpdate(object.getWriter().equals(checkMember.getNickname())));
+        content.forEach(object -> object.setIsUpdate(object.getWriter().equals(checkMember.getNickname())));
 
-        return new PageImpl<>(result, pageable, result.size());
+        return new PageImpl<>(content, pageable, results.getTotal());
     }
 }
