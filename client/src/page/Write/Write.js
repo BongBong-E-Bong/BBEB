@@ -142,6 +142,25 @@ function Write() {
 
   const isAdmin = decodedToken && decodedToken.isAdmin;
 
+  const handleImageUpload = (event) => {
+    const selectedImage = event.target.files[0];
+    if (selectedImage) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageDataUrl = e.target.result;
+        const newContentItem = {
+          contentType: "IMAGE",
+          value: imageDataUrl,
+          contentOrder: content.length,
+        };
+        setContent([...content, newContentItem]);
+
+        setText((prevText) => prevText + `\n![Image](${selectedImage.name})\n`);
+      };
+      reader.readAsDataURL(selectedImage);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -261,11 +280,16 @@ function Write() {
                     </Stack>
                   </Stack>
                 ))}
-                <label htmlFor="image-upload" style={{ cursor: "pointer" }}>
+                <label style={{ cursor: "pointer" }}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handleImageUpload}
+                  />
                   <img src={AddPhotoAlternate} alt="AddPhotoAlternate" />
                 </label>
               </Stack>
-
               <TextField
                 id="content-textfield"
                 placeholder="내용을 입력하세요."
@@ -276,6 +300,8 @@ function Write() {
                   width: "80%",
                   backgroundColor: "#FFF",
                 }}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
               />
 
               <Stack
@@ -331,7 +357,7 @@ function Write() {
                     onCreatePost={handleCreatePost}
                     setAuthModalFailOpen={setAuthModalFailOpen}
                     thumbnail={thumbnail}
-                    setThumbnail={(file) => setThumbnail(file)} // setThumbnail 함수를 전달
+                    setThumbnail={(file) => setThumbnail(file)}
                   />
                 )}
               </Stack>
