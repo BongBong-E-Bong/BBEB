@@ -39,9 +39,6 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     public Page<CommentDTO.CommentResponseDTO> search(Long postId, Pageable pageable, String loginId) {
         Member checkMember = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-
-
         List<CommentDTO.CommentResponseDTO> result = queryFactory
                     .select(new QCommentDTO_CommentResponseDTO(
                             comment.value,

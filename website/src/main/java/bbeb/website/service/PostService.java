@@ -123,7 +123,6 @@ public class PostService {
             postViewRepository.save(postView);
         }
 
-
         PostDTO.PostResponseDTO dto = postRepository.findOneRequestDTOByMemberAndPost(postId);
 
         dto.setIsUpdate(dto.getWriter().equals(member.getNickname()));
@@ -171,10 +170,6 @@ public class PostService {
 
     }
 
-    private void deletePostView(List<PostView> postViews) {
-        postViewRepository.deleteAll(postViews);
-    }
-
     public void createContent(List<PostDTO.Content> contents, Post post){
         for (PostDTO.Content contentDTO: contents) {
             Content content = contentDTO.toEntity(post);
@@ -199,6 +194,10 @@ public class PostService {
     public void deleteComment(List<Comment> comments){
         commentRepository.deleteAll(comments);
     }
+    private void deletePostView(List<PostView> postViews) {
+        postViewRepository.deleteAll(postViews);
+    }
+
 
     public void createTag(List<PostDTO.PostTag> tags, Post post){
         for (PostDTO.PostTag tagDTO : tags) {

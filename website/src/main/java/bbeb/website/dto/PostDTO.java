@@ -26,7 +26,6 @@ public class PostDTO {
         private Long isPinned;
         @Schema(description = "정렬 타입(기본: 0, 왼쪽: 1, 중앙: 2, 오른쪽: 3", example = "1")
         private Long sortType;
-
         private List<Content> content;
         private List<PostTag> postTag;
     }
@@ -109,10 +108,8 @@ public class PostDTO {
         private Long view;
         @Schema(description = "고정 여부(고정O: 1, 고정X: 0)", example = "1")
         private Long isPinned;
-
         @Schema(description = "정렬 타입", example = "BASIC")
         private String sortType;
-
         private List<Content> contents;
         private List<PostTag> tags;
         @Schema(description = "수정/삭제 여부", example = "true, false")

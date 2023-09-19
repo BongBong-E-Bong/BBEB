@@ -100,7 +100,7 @@ public class CommentController {
     @GetMapping("/api/comment/{postId}")
     public Page<CommentDTO.CommentResponseDTO> findComment(@PathVariable Long postId,
                                                            Pageable pageable,
-                                                           Authentication authentication){
+                                                           Authentication authentication) {
         return commentService.find(postId, pageable, authentication.getName());
     }
 }

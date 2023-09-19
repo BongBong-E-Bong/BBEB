@@ -51,7 +51,6 @@ public class CommentDTO {
         private String type;
         @Schema(description = "이모티콘 url", example = "https://bbeb-image.s3.ap-northeast-2.amazonaws.com/emoticon/%ED%98%B8%EB%91%90.jpg")
         private String emoticonUrl;
-
         @Schema(description = "수정/삭제 여부", example = "true, false")
         private Boolean isUpdate;
 
