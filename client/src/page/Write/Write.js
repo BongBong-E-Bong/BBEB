@@ -33,6 +33,7 @@ function Write() {
   const [decodedToken, setDecodedToken] = useState({});
   const userId = decodedToken ? decodedToken.sub : "";
   const navigate = useNavigate();
+
   const [content, setContent] = useState([
     {
       contentType: "TEXT",
@@ -47,26 +48,6 @@ function Write() {
 
   const handleTagInputChange = (event) => {
     setTagInput(event.target.value);
-  };
-
-  const handleImageUpload = (event) => {
-    const selectedFiles = event.target.files;
-    if (selectedFiles.length > 0) {
-      const imageFile = selectedFiles[0];
-      const imageTag = `![${imageFile.name}]`;
-      const newText = `${text}\n${imageTag}`;
-
-      // content state를 업데이트합니다. 이미지를 추가할 때는 contentType을 "IMAGE"로 설정합니다.
-      const newContent = [...content];
-      newContent.push({
-        contentType: "IMAGE",
-        value: imageTag,
-        contentOrder: newContent.length, // 이미지는 기존 내용 뒤에 추가됩니다.
-      });
-
-      setContent(newContent);
-      setText(newText);
-    }
   };
 
   const handleTagInputKeyPress = (event) => {
@@ -113,8 +94,8 @@ function Write() {
         title: title,
         thumbnail: thumbnail ? thumbnail.name : "",
         isPinned: checked ? 1 : 0,
-        content: textContent, // 텍스트 내용만 사용
-        images: imageContent, // 이미지 파일명 목록
+        content: textContent,
+        images: imageContent,
         postTag: postTags,
       };
 
@@ -133,8 +114,8 @@ function Write() {
             thumbnail ? thumbnail.name : "파일이 선택되지 않았습니다."
           );
           console.log("고정:", checked);
-          console.log("내용:", textContent); // 텍스트 내용 출력
-          console.log("이미지:", imageContent); // 이미지 목록 출력
+          console.log("내용:", textContent);
+          console.log("이미지:", imageContent);
         })
         .catch((error) => {
           setAuthModalFailOpen(true);
@@ -283,14 +264,6 @@ function Write() {
                 <label htmlFor="image-upload" style={{ cursor: "pointer" }}>
                   <img src={AddPhotoAlternate} alt="AddPhotoAlternate" />
                 </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="image-upload"
-                  style={{ display: "none" }}
-                  onChange={handleImageUpload}
-                  multiple
-                />
               </Stack>
 
               <TextField
@@ -302,12 +275,6 @@ function Write() {
                 style={{
                   width: "80%",
                   backgroundColor: "#FFF",
-                }}
-                value={content[0].value} // content의 첫 번째 항목에 텍스트 내용이 들어갑니다.
-                onChange={(e) => {
-                  const updatedContent = [...content];
-                  updatedContent[0].value = e.target.value;
-                  setContent(updatedContent);
                 }}
               />
 
