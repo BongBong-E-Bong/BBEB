@@ -6,6 +6,7 @@ import bbeb.website.dto.QPostDTO_Content;
 import bbeb.website.dto.QPostDTO_PostTag;
 import bbeb.website.repository.post.postlike.PostLikeRepository;
 import com.amazonaws.services.s3.AmazonS3;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -45,8 +46,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.createdDate,
                         member.nickname,
                         post.view,
-                        post.isPinned,
-                        post.sortType)
+                        post.isPinned)
                 .from(post)
                 .leftJoin(post.member, member)
                 .leftJoin(post.contents, content)
@@ -93,7 +93,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public Page<PostDTO.PostAllResponseDTO> searchAll(PostDTO.PostAllRequestDTO dto) {
-        List<Tuple> tuples = queryFactory
+        QueryResults<Tuple> results = queryFactory
                     .select(post.id,
                             post.thumbnail,
                             post.title,
@@ -114,15 +114,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                     .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                     .offset(dto.getPageable().getOffset())
                     .limit(dto.getPageable().getPageSize())
-                    .fetch();
+                    .fetchResults();
 
 
-        return getPostAllResponseDTOS(dto, tuples);
+        return getPostAllResponseDTOS(dto, results);
     }
 
     @Override
     public Page<PostDTO.PostAllResponseDTO> searchAllByTitle(PostDTO.PostAllRequestDTO dto) {
-        List<Tuple> tuples = queryFactory
+        QueryResults<Tuple> results = queryFactory
                 .select(post.id,
                         post.thumbnail,
                         post.title,
@@ -144,14 +144,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                 .offset(dto.getPageable().getOffset())
                 .limit(dto.getPageable().getPageSize())
-                .fetch();
+                .fetchResults();
 
-        return getPostAllResponseDTOS(dto, tuples);
+        return getPostAllResponseDTOS(dto, results);
     }
 
     @Override
     public Page<PostDTO.PostAllResponseDTO> searchAllByNickname(PostDTO.PostAllRequestDTO dto) {
-        List<Tuple> tuples = queryFactory
+        QueryResults<Tuple> results = queryFactory
                 .select(post.id,
                         post.thumbnail,
                         post.title,
@@ -173,14 +173,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                 .offset(dto.getPageable().getOffset())
                 .limit(dto.getPageable().getPageSize())
-                .fetch();
+                .fetchResults();
 
-        return getPostAllResponseDTOS(dto, tuples);
+        return getPostAllResponseDTOS(dto, results);
     }
 
     @Override
     public Page<PostDTO.PostAllResponseDTO> searchAllByContent(PostDTO.PostAllRequestDTO dto) {
-        List<Tuple> tuples = queryFactory
+        QueryResults<Tuple> results = queryFactory
                 .select(post.id,
                         post.thumbnail,
                         post.title,
@@ -203,14 +203,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                 .offset(dto.getPageable().getOffset())
                 .limit(dto.getPageable().getPageSize())
-                .fetch();
+                .fetchResults();
 
-        return getPostAllResponseDTOS(dto, tuples);
+        return getPostAllResponseDTOS(dto, results);
     }
 
     @Override
     public Page<PostDTO.PostAllResponseDTO> searchAllByTag(PostDTO.PostAllRequestDTO dto) {
-        List<Tuple> tuples = queryFactory
+        QueryResults<Tuple> results = queryFactory
                 .select(post.id,
                         post.thumbnail,
                         post.title,
@@ -234,16 +234,16 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                 .offset(dto.getPageable().getOffset())
                 .limit(dto.getPageable().getPageSize())
-                .fetch();
+                .fetchResults();
 
-        return getPostAllResponseDTOS(dto, tuples);
+        return getPostAllResponseDTOS(dto, results);
     }
 
 
-    private Page<PostDTO.PostAllResponseDTO> getPostAllResponseDTOS(PostDTO.PostAllRequestDTO dto, List<Tuple> tuples) {
+    private Page<PostDTO.PostAllResponseDTO> getPostAllResponseDTOS(PostDTO.PostAllRequestDTO dto, QueryResults<Tuple> results) {
         List<PostDTO.PostAllResponseDTO> content = new ArrayList<>();
 
-        for (Tuple tuple : tuples) {
+        for (Tuple tuple : results.getResults()) {
             List<PostDTO.PostTag> tags = queryFactory
                     .select(new QPostDTO_PostTag(
                             tag.value
@@ -268,6 +268,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             ));
         }
 
-        return new PageImpl<>(content, dto.getPageable(), content.size());
+        return new PageImpl<>(content, dto.getPageable(), results.getTotal());
     }
 }
