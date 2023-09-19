@@ -19,8 +19,8 @@ public class CommentDTO {
         private String type;
         @Schema(description = "글 번호", example = "1")
         private Long postId;
-        @Schema(description = "이모티콘 이름", example = "호두.jpg")
-        private String url;
+        @Schema(description = "이모티콘 번호", example = "1")
+        private String emoticonNumber;
     }
 
     @Data
@@ -30,8 +30,8 @@ public class CommentDTO {
         private String value;
         @Schema(description = "댓글 타입(TEXT, EMOTICON, EMOTICON_TEXT)", example = "EMOTICON_TEXT")
         private String type;
-        @Schema(description = "이모티콘 이름", example = "호두.jpg")
-        private String url;
+        @Schema(description = "이모티콘 번호", example = "1")
+        private String emoticonNumber;
     }
 
     @Data
@@ -49,19 +49,19 @@ public class CommentDTO {
         private Long commentId;
         @Schema(description = "댓글 타입(TEXT, EMOTICON, EMOTICON_TEXT)", example = "EMOTICON_TEXT")
         private String type;
-        @Schema(description = "이모티콘 url", example = "https://bbeb-image.s3.ap-northeast-2.amazonaws.com/emoticon/%ED%98%B8%EB%91%90.jpg")
-        private String emoticonUrl;
+        @Schema(description = "이모티콘 번호", example = "1")
+        private String emoticonNumber;
         @Schema(description = "수정/삭제 여부", example = "true, false")
         private Boolean isUpdate;
 
         @QueryProjection
-        public CommentResponseDTO(String value, String writer, String profileUrl, LocalDateTime createDate, String type, String emoticonUrl, Long commentId, Boolean isUpdate) {
+        public CommentResponseDTO(String value, String writer, String profileUrl, LocalDateTime createDate, String type, String emoticonNumber, Long commentId, Boolean isUpdate) {
             this.value = value;
             this.writer = writer;
             this.profileUrl = profileUrl;
             this.createDate = createDate;
             this.type = type;
-            this.emoticonUrl = emoticonUrl;
+            this.emoticonNumber = emoticonNumber;
             this.commentId = commentId;
             this.isUpdate = isUpdate;
         }
