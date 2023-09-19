@@ -33,8 +33,6 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     private final AmazonS3 s3Client;
     @Value("${cloud.aws.s3.bucket.profile}")
     private String profileBucketName;
-    @Value("${cloud.aws.s3.bucket.emoticon}")
-    private String emoticonBucketName;
 
     @Override
     public Page<CommentDTO.CommentResponseDTO> search(Long postId, Pageable pageable, String loginId) {
@@ -47,7 +45,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                             profile.url,
                             comment.createDate,
                             comment.commentType.stringValue(),
-                            comment.url,
+                            comment.emoticonNumber,
                             comment.id,
                             Expressions.asBoolean(false)
                     ))
@@ -64,10 +62,6 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
         List<CommentDTO.CommentResponseDTO> content = results.getResults();
 
         content.forEach(object -> object.setProfileUrl(s3Client.getUrl(profileBucketName, object.getProfileUrl() == null ? "default.jpg" : object.getProfileUrl()).toString()));
-        content.forEach(object ->{
-            if (Objects.equals(object.getType(), "EMOTICON") || Objects.equals(object.getType(), "EMOTICON_TEXT"))
-                object.setEmoticonUrl(s3Client.getUrl(emoticonBucketName, object.getValue()).toString());
-        });
 
         content.forEach(object -> object.setIsUpdate(object.getWriter().equals(checkMember.getNickname())));
 

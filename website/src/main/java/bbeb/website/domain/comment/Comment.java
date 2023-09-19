@@ -25,7 +25,7 @@ public class Comment {
     private CommentType commentType;
 
     private String value;
-    private String url;
+    private String emoticonNumber;
 
     private LocalDateTime createDate;
 
