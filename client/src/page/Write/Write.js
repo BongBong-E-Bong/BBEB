@@ -36,8 +36,8 @@ function Write() {
   const [content, setContent] = useState([
     {
       contentType: "TEXT",
-      value: "", // 여기에 텍스트 내용이 들어갈 것입니다.
-      contentOrder: 0, // 문단 순서를 나타내는 값
+      value: "",
+      contentOrder: 0,
     },
   ]);
 
@@ -53,20 +53,31 @@ function Write() {
     const selectedFiles = event.target.files;
     if (selectedFiles.length > 0) {
       const imageFile = selectedFiles[0];
-      const imageTag = `![${imageFile.name}]`;
-      const newText = `${text}\n${imageTag}`;
 
-      // content state를 업데이트합니다. 이미지를 추가할 때는 contentType을 "IMAGE"로 설정합니다.
-      const newContent = [...content];
-      newContent.push({
-        contentType: "IMAGE",
-        value: imageTag,
-        contentOrder: newContent.length, // 이미지는 기존 내용 뒤에 추가됩니다.
-      });
+      // URL.createObjectURL을 사용하여 이미지 파일의 URL 생성
+      const imageUrl = URL.createObjectURL(imageFile);
 
-      setContent(newContent);
-      setText(newText);
+      // 이미지를 내용 textfield에 추가
+      addImageToContent(imageUrl);
     }
+  };
+
+  const addImageToContent = (imageUrl) => {
+    // URL.createObjectURL을 사용하여 이미지 파일의 URL 생성
+    const imageTag = `![이미지](${imageUrl})`;
+
+    // content state를 업데이트합니다. 이미지를 추가할 때는 contentType을 "IMAGE"로 설정합니다.
+    const newContent = [...content];
+    newContent.push({
+      contentType: "IMAGE",
+      value: imageTag, // 이미지 태그를 value로 설정합니다.
+      contentOrder: newContent.length, // 이미지는 기존 내용 뒤에 추가됩니다.
+    });
+
+    // 이미지를 TextField에 추가하기 위해 현재 내용을 업데이트합니다.
+    const newText = `${text}\n${imageTag}`;
+    setContent(newContent);
+    setText(newText);
   };
 
   const handleTagInputKeyPress = (event) => {
@@ -292,24 +303,31 @@ function Write() {
                   multiple
                 />
               </Stack>
-
-              <TextField
-                id="content-textfield"
-                placeholder="내용을 입력하세요."
-                variant="outlined"
-                multiline
-                rows={15}
-                style={{
-                  width: "80%",
-                  backgroundColor: "#FFF",
-                }}
-                value={content[0].value} // content의 첫 번째 항목에 텍스트 내용이 들어갑니다.
-                onChange={(e) => {
-                  const updatedContent = [...content];
-                  updatedContent[0].value = e.target.value;
-                  setContent(updatedContent);
-                }}
-              />
+              {content.map((item, index) => {
+                if (item.contentType === "TEXT") {
+                  return (
+                    <TextField
+                      key={index}
+                      id="content-textfield"
+                      placeholder="내용을 입력하세요."
+                      variant="outlined"
+                      multiline
+                      rows={15}
+                      style={{
+                        width: "80%",
+                        backgroundColor: "#FFF",
+                      }}
+                      value={item.value}
+                      onChange={(e) => {
+                        const updatedContent = [...content];
+                        updatedContent[index].value = e.target.value;
+                        setContent(updatedContent);
+                      }}
+                    />
+                  );
+                }
+                return null; // 텍스트가 아닌 경우 null 반환 (이미지는 별도로 처리)
+              })}
 
               <Stack
                 width="100%"
