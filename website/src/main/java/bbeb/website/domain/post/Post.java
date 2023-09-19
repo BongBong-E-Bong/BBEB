@@ -30,9 +30,6 @@ public class Post {
 
     private Long view;
 
-    @Enumerated(value = EnumType.STRING)
-    private Sort sortType;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
