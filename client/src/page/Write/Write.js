@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import FormatAlignCenter from "../../image/FormatAlignCenter.png";
 import FormatAlignLeft from "../../image/FormatAlignLeft.png";
 import FormatAlignRight from "../../image/FormatAlignRight.png";
+import FormatAlignJustify from "../../image/FormatAlignJustify.png";
 import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
 import AuthModalFail from "../../component/authModal_fail";
 import Modal from "../../component/Modal";
@@ -18,21 +19,23 @@ function Write() {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [alignment, setAlignment] = useState("left");
-  const alignments = ["left", "center", "right"];
+  const alignments = ["LEFT", "CENTER", "RIGHT", "BASIC"];
   const [authModalFailOpen, setAuthModalFailOpen] = useState(false);
-  const [selectedImages, setSelectedImages] = useState([]);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [postTags, setPostTags] = useState([]);
   const [failModalOpen, setFailModalOpen] = useState(false);
-  const [textAlignment, setTextAlignment] = useState("left");
+  const [textAlignment, setTextAlignment] = useState("BASIC");
   const [thumbnail, setThumbnail] = useState(null);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
   const [decodedToken, setDecodedToken] = useState({});
   const userId = decodedToken ? decodedToken.sub : "";
   const navigate = useNavigate();
+
+  const handleAlignmentChange = (alignment) => {
+    setTextAlignment(alignment);
+  };
 
   const [content, setContent] = useState([
     {
@@ -54,7 +57,7 @@ function Write() {
     if (event.key === "Enter" && tagInput.trim() !== "") {
       const newTag = tagInput.trim();
       setTags([...tags, newTag]);
-      setPostTags([...postTags, { value: newTag }]); // postTags 배열에 태그를 추가합니다.
+      setPostTags([...postTags, { value: newTag }]);
       setTagInput("");
     }
   };
@@ -69,33 +72,48 @@ function Write() {
     setPostTags(updatedPostTags);
   };
 
-  const handleAlignmentChange = (alignment) => {
-    setTextAlignment(alignment);
-  };
-
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
-
   const handleCreatePost = () => {
     if (isLogin) {
       const textContent = [];
       const imageContent = [];
 
-      content.forEach((contentItem) => {
+      content.forEach((contentItem, index) => {
         if (contentItem.contentType === "TEXT") {
-          textContent.push(contentItem.value);
+          textContent.push({
+            contentType: "TEXT",
+            value: contentItem.value,
+            contentOrder: index,
+          });
         } else if (contentItem.contentType === "IMAGE") {
-          imageContent.push(contentItem.value);
+          imageContent.push({
+            contentType: "IMAGE",
+            value: contentItem.value,
+            contentOrder: index,
+          });
         }
       });
 
+      // 기존 텍스트 항목을 모두 지우고, 새로운 TEXT 항목을 추가합니다.
+      textContent.length = 0; // textContent 배열 비우기
+
+      // 새로운 TEXT 항목을 추가합니다.
+      if (text.trim() !== "") {
+        textContent.push({
+          contentType: "TEXT",
+          value: text,
+          contentOrder: textContent.length, // 텍스트 항목을 마지막으로 추가합니다.
+        });
+      }
+
       const postDataToSend = {
+        // content: textContent,
+        // images: imageContent,
+        // postTag: postTags,
         title: title,
         thumbnail: thumbnail ? thumbnail.name : "",
         isPinned: checked ? 1 : 0,
-        content: textContent,
-        images: imageContent,
+        // sortType: 2,
+        content: textContent.concat(imageContent),
         postTag: postTags,
       };
 
@@ -106,14 +124,11 @@ function Write() {
           },
         })
         .then((response) => {
-          console.log("포스트가 성공적으로 생성되었습니다.");
           console.log("제목:", title);
+          console.log("썸네일:", thumbnail ? thumbnail.name : "");
+          console.log("고정:", checked ? 1 : 0);
+          // console.log("정렬:", sortType);
           console.log("태그:", postTags);
-          console.log(
-            "썸네일:",
-            thumbnail ? thumbnail.name : "파일이 선택되지 않았습니다."
-          );
-          console.log("고정:", checked);
           console.log("내용:", textContent);
           console.log("이미지:", imageContent);
         })
@@ -199,9 +214,7 @@ function Write() {
           <Stack spacing={1}>
             <Stack spacing={2}>
               <Stack justifyContent="flex-end" alignItems="center">
-                {isAdmin && (
-                  <Checkbox checked={checked} onChange={handleChange} />
-                )}
+                {isAdmin && <Checkbox checked={checked} />}
               </Stack>
               <Stack alignItems="center">
                 <TextField
@@ -270,12 +283,17 @@ function Write() {
                     }}
                   >
                     <Stack>
-                      {align === "left" ? (
+                      {align === "LEFT" ? (
                         <img src={FormatAlignLeft} alt="FormatAlignLeft" />
-                      ) : align === "center" ? (
+                      ) : align === "CENTER" ? (
                         <img src={FormatAlignCenter} alt="FormatAlignCenter" />
-                      ) : align === "right" ? (
+                      ) : align === "RIGHT" ? (
                         <img src={FormatAlignRight} alt="FormatAlignRight" />
+                      ) : align === "BASIC" ? (
+                        <img
+                          src={FormatAlignJustify}
+                          alt="FormatAlignJustify"
+                        />
                       ) : null}
                     </Stack>
                   </Stack>
