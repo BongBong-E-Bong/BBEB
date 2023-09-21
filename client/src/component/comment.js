@@ -32,8 +32,7 @@ function Comment() {
 
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUzNjIzMjV9.bdonK90s6yXZYJaexkbOXxysFTVD31rZyLSIPzs5WAQ",
+            Authorization: accessToken,
           },
         }
       )
@@ -51,8 +50,7 @@ function Comment() {
     axios
       .get("http://13.125.105.202:8080/api/members/profile", {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUzNjIzMjV9.bdonK90s6yXZYJaexkbOXxysFTVD31rZyLSIPzs5WAQ",
+          Authorization: accessToken,
         },
       })
       .then((response) => {
@@ -76,8 +74,7 @@ function Comment() {
     axios
       .delete(`http://13.125.105.202:8080/api/comment/${commentId}`, {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUzNjIzMjV9.bdonK90s6yXZYJaexkbOXxysFTVD31rZyLSIPzs5WAQ",
+          Authorization: accessToken,
         },
       })
       .then((response) => {
@@ -108,6 +105,32 @@ function Comment() {
   const handleClick = (event) => {
     setAnchorEl(emoticonRef.current);
   };
+
+  const [emoticonState, setEmoticonState] = React.useState(0);
+
+  const emoticonCancel = () => {
+    setEmoticonState(0);
+  };
+
+  function emoticonNumber(emoticonState) {
+    if (emoticonState === 1) {
+      return ebongticon1;
+    } else if (emoticonState === 2) {
+      return ebongticon2;
+    } else if (emoticonState === 3) {
+      return ebongticon3;
+    } else if (emoticonState === 4) {
+      return ebongticon4;
+    } else if (emoticonState === 5) {
+      return ebongticon5;
+    } else if (emoticonState === 6) {
+      return ebongticon6;
+    } else if (emoticonState === 7) {
+      return ebongticon7;
+    } else if (emoticonState === 8) {
+      return ebongticon8;
+    }
+  }
 
   return (
     <Stack
@@ -177,34 +200,38 @@ function Comment() {
             댓글쓰기({commentData?.content?.length})
           </Button>
         </Stack>
-        <Stack
-          position="absolute"
-          bottom="80%"
-          right="19%"
-          width="65%"
-          height="160px"
-          justifyContent="center"
-          alignItems="center"
-          bgcolor="rgba(0, 0, 0, 0.2)"
-          style={{ borderRadius: "15px 15px 0 0" }}
-        >
+        {emoticonState !== 0 && (
           <Stack
             position="absolute"
-            right="3%"
-            top="5%"
-            style={{ fontSize: "20px", cursor: "pointer" }}
-            color="white"
+            bottom="80%"
+            right="19%"
+            width="65%"
+            height="160px"
+            justifyContent="center"
+            alignItems="center"
+            bgcolor="rgba(0, 0, 0, 0.2)"
+            style={{ borderRadius: "15px 15px 0 0" }}
           >
-            X
+            <Stack
+              position="absolute"
+              right="3%"
+              top="5%"
+              style={{ fontSize: "20px", cursor: "pointer" }}
+              color="white"
+              onClick={emoticonCancel}
+            >
+              X
+            </Stack>
+            <img
+              alt={emoticonNumber(emoticonState)}
+              src={emoticonNumber(emoticonState)}
+              width="110px"
+              height="120px"
+              style={{ opacity: 1 }}
+              onClick
+            />
           </Stack>
-          <img
-            alt="emoticon0"
-            src={ebongticon1}
-            width="110px"
-            height="120px"
-            style={{ opacity: 1 }}
-          />
-        </Stack>
+        )}
       </Stack>
 
       <Menu
@@ -230,6 +257,10 @@ function Comment() {
       >
         <Stack direction="row" flexWrap="wrap" justifyContent="center">
           {emoticons.map((emoticon, i) => {
+            const emoticonClick = () => {
+              setEmoticonState(i + 1);
+            };
+
             return (
               <Stack width="110px" height="120px" margin="20px 20px 20px 20px">
                 <img
@@ -238,7 +269,7 @@ function Comment() {
                   width="100%"
                   height="100%"
                   style={{ cursor: "pointer" }}
-                  onClick={handleClose}
+                  onClick={emoticonClick}
                 />
               </Stack>
             );
@@ -325,10 +356,6 @@ function Comment() {
                 </Stack>
                 {commentData?.totalElements > page ? (
                   <Stack direction="row" gap="9%" width="11%">
-                    <Stack fontSize="17px" style={{ cursor: "pointer" }}>
-                      수정
-                    </Stack>
-                    <Stack fontSize="17px">|</Stack>
                     <Stack
                       fontSize="17px"
                       style={{ cursor: "pointer" }}
