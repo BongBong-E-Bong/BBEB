@@ -9,6 +9,14 @@ import {
 } from "@mui/material";
 import MoodIcon from "@mui/icons-material/Mood";
 import emoticon0 from "../emoticon/...emoticon.png";
+import ebongticon1 from "../emoticon/ebongticon1.png";
+import ebongticon2 from "../emoticon/ebongticon2.png";
+import ebongticon3 from "../emoticon/ebongticon3.png";
+import ebongticon4 from "../emoticon/ebongticon4.png";
+import ebongticon5 from "../emoticon/ebongticon5.png";
+import ebongticon6 from "../emoticon/ebongticon6.png";
+import ebongticon7 from "../emoticon/ebongticon7.png";
+import ebongticon8 from "../emoticon/ebongticon8.png";
 import axios from "axios";
 
 function Comment() {
@@ -26,7 +34,7 @@ function Comment() {
         {
           headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMzE5MjB9.skZ1n-AcXulaTnLPzbtdguzMXGLoxFdJjaJ0UkfP5EU",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUzNjIzMjV9.bdonK90s6yXZYJaexkbOXxysFTVD31rZyLSIPzs5WAQ",
           },
         }
       )
@@ -45,7 +53,7 @@ function Comment() {
       .get("http://13.125.105.202:8080/api/members/profile", {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMzE5MjB9.skZ1n-AcXulaTnLPzbtdguzMXGLoxFdJjaJ0UkfP5EU",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUzNjIzMjV9.bdonK90s6yXZYJaexkbOXxysFTVD31rZyLSIPzs5WAQ",
         },
       })
       .then((response) => {
@@ -88,7 +96,7 @@ function Comment() {
       .delete(`http://13.125.105.202:8080/api/comment/${commentId}`, {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMzE5MjB9.skZ1n-AcXulaTnLPzbtdguzMXGLoxFdJjaJ0UkfP5EU",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUzNjIzMjV9.bdonK90s6yXZYJaexkbOXxysFTVD31rZyLSIPzs5WAQ",
         },
       })
       .then((response) => {
@@ -101,16 +109,14 @@ function Comment() {
   };
 
   const emoticons = [
-    emoticon0,
-    emoticon0,
-    emoticon0,
-    emoticon0,
-    emoticon0,
-    emoticon0,
-    emoticon0,
-    emoticon0,
-    emoticon0,
-    emoticon0,
+    ebongticon1,
+    ebongticon2,
+    ebongticon3,
+    ebongticon4,
+    ebongticon5,
+    ebongticon6,
+    ebongticon7,
+    ebongticon8,
   ];
 
   const [anchorEl, setAnchorEl] = React.useState(null);
