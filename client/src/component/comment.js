@@ -8,7 +8,6 @@ import {
   Menu,
 } from "@mui/material";
 import MoodIcon from "@mui/icons-material/Mood";
-import emoticon0 from "../emoticon/...emoticon.png";
 import ebongticon1 from "../emoticon/ebongticon1.png";
 import ebongticon2 from "../emoticon/ebongticon2.png";
 import ebongticon3 from "../emoticon/ebongticon3.png";
@@ -72,24 +71,6 @@ function Comment() {
     setSize((prevSize) => prevSize + 5);
   };
 
-  // const handleDelete = (commentId) => {
-  //   const deleteEndpoint = `http://13.125.105.202:8080/api/comment/${commentId}`;
-
-  //   axios
-  //     .delete(deleteEndpoint, {
-  //       headers: {
-  //         Authorization:
-  //           "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2OTUxMzE5MjB9.skZ1n-AcXulaTnLPzbtdguzMXGLoxFdJjaJ0UkfP5EU",
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log("comment delete");
-  //     })
-  //     .catch((error) => {
-  //       console.error("comment delete error", error);
-  //     });
-  // };
-
   const handleDelete = (commentId) => {
     console.log(commentId);
     axios
@@ -136,7 +117,7 @@ function Comment() {
       bgcolor="white"
       alignItems="center"
     >
-      <Stack bgcolor="#FAF3F0" width="70%" height="12vh">
+      <Stack bgcolor="#FAF3F0" width="70%" height="12vh" position="relative">
         <Stack
           width="100%"
           height="100%"
@@ -151,6 +132,7 @@ function Comment() {
             height="66%"
             style={{ borderRadius: "50%", margin: "0.5%" }}
           />
+
           <TextField
             id="outlined-basic"
             variant="outlined"
@@ -185,7 +167,8 @@ function Comment() {
               },
             }}
             placeholder="댓글을 입력하세요."
-          />
+          ></TextField>
+
           <Button
             variant="contained"
             color="primary"
@@ -194,7 +177,36 @@ function Comment() {
             댓글쓰기({commentData?.content?.length})
           </Button>
         </Stack>
+        <Stack
+          position="absolute"
+          bottom="80%"
+          right="19%"
+          width="65%"
+          height="160px"
+          justifyContent="center"
+          alignItems="center"
+          bgcolor="rgba(0, 0, 0, 0.2)"
+          style={{ borderRadius: "15px 15px 0 0" }}
+        >
+          <Stack
+            position="absolute"
+            right="3%"
+            top="5%"
+            style={{ fontSize: "20px", cursor: "pointer" }}
+            color="white"
+          >
+            X
+          </Stack>
+          <img
+            alt="emoticon0"
+            src={ebongticon1}
+            width="110px"
+            height="120px"
+            style={{ opacity: 1 }}
+          />
+        </Stack>
       </Stack>
+
       <Menu
         aria-labelledby="composition-button"
         anchorEl={anchorEl}
@@ -219,7 +231,7 @@ function Comment() {
         <Stack direction="row" flexWrap="wrap" justifyContent="center">
           {emoticons.map((emoticon, i) => {
             return (
-              <Stack width="80px" height="90px" margin="20px 20px 20px 20px">
+              <Stack width="110px" height="120px" margin="20px 20px 20px 20px">
                 <img
                   alt="emoticon0"
                   src={emoticon}
