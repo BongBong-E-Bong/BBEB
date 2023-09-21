@@ -28,7 +28,7 @@ function Comment() {
   const fetchCommentData = (newSize) => {
     axios
       .get(
-        `http://13.125.105.202:8080/api/comment/221?page=${page}&size=${newSize}&sort=string`,
+        `http://13.125.105.202:8080/api/comment/221?page&size=${newSize}&sort=string`,
 
         {
           headers: {
@@ -197,7 +197,7 @@ function Comment() {
             color="primary"
             sx={{ fontSize: "18px", height: "60%" }}
           >
-            댓글쓰기({commentData?.content?.length})
+            댓글쓰기({commentData?.totalElements})
           </Button>
         </Stack>
         {emoticonState !== 0 && (
