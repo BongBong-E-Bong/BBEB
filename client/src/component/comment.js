@@ -227,7 +227,6 @@ function Comment() {
               src={emoticonNumber(emoticonState)}
               width="110px"
               height="120px"
-              style={{ opacity: 1 }}
             />
           </Stack>
         )}
@@ -345,18 +344,18 @@ function Comment() {
                       </Stack>
                       <Stack fontSize="12px"> {formattedDateTime}</Stack>
                     </Stack>
-                    <img
+                    {/* <img
                       alt="imoticon"
                       src={commentData?.content[i]?.emoticonUrl}
                       width="50px"
                       height="50px"
-                    ></img>
+                    ></img> */}
                     <Stack fontSize="16px" flexWrap="wrap">
                       {commentData?.content[i]?.value}
                     </Stack>
                   </Stack>
                 </Stack>
-                {commentData?.totalElements > page ? (
+                {commentData?.content[i]?.isUpdate ? (
                   <Stack direction="row" gap="9%" width="11%">
                     <Stack
                       fontSize="17px"
