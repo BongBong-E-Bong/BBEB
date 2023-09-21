@@ -228,7 +228,6 @@ function Comment() {
               width="110px"
               height="120px"
               style={{ opacity: 1 }}
-              onClick
             />
           </Stack>
         )}
@@ -269,7 +268,10 @@ function Comment() {
                   width="100%"
                   height="100%"
                   style={{ cursor: "pointer" }}
-                  onClick={emoticonClick}
+                  onClick={() => {
+                    emoticonClick();
+                    handleClose();
+                  }}
                 />
               </Stack>
             );
