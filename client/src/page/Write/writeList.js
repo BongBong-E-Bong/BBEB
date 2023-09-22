@@ -9,8 +9,8 @@ import {
   Pagination,
   InputAdornment,
 } from "@mui/material";
-import { LocalizationProvider, DateRangePicker } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
+// import { LocalizationProvider, DateRangePicker } from "@mui/lab";
+// import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import obong from "../../image/obong.png";
 import thumnail from "../../image/thumnail.png";
 import hit from "../../image/hit.png";
@@ -66,36 +66,20 @@ function WriteList() {
     },
   ];
 
-  const handleSwitchChange = () => {
-    if (!searchQuery) {
-      // 검색을 하고 있지 않을 때는 filteredUniquePosts를 기준으로 정렬
-      setSortByDate((prevSortByDate) => !prevSortByDate);
-    } else {
-      // 검색을 하고 있을 때는 검색 결과를 기준으로 정렬
-      setSortByDate((prevSortByDate) => !prevSortByDate);
-    }
-  };
-
-  const filteredPosts = posts.filter((post) => {
-    const postDate = new Date(post.date);
-    const startDate = selectedDateRange[0];
-    const endDate = selectedDateRange[1];
-
-    return (
-      (!startDate || postDate >= startDate) && (!endDate || postDate <= endDate)
-    );
-  });
-
-  const filteredUniquePosts = Array.from(
-    new Set(filteredPosts.map((post) => post.id))
-  ).map((id) => filteredPosts.find((post) => post.id === id));
-
-  const totalItems = filteredUniquePosts.length;
-
-  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const sortedPosts = filteredUniquePosts.sort((a, b) => {
+    const filteredPosts = posts.filter((post) => {
+      const postDate = new Date(post.date);
+      const startDate = selectedDateRange[0];
+      const endDate = selectedDateRange[1];
+
+      return (
+        (!startDate || postDate >= startDate) && (!endDate || postDate <= endDate)
+      );
+    });
+
+    const sortedPosts = filteredPosts.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
 
@@ -106,70 +90,48 @@ function WriteList() {
       }
     });
 
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentGroupedPosts = sortedPosts.slice(startIndex, endIndex);
-    setGroupedPosts(currentGroupedPosts);
-  }, [currentPage, filteredUniquePosts, sortByDate]);
-
-  const handlePageChange = (event, newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  const titleOptions = ["글 제목", "태그", "작성자", "글 내용"];
-  const navigate = useNavigate();
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const filterPostsBySearch = () => {
-    return posts.filter((post) => {
+    const filteredAndSortedPosts = sortedPosts.filter((post) => {
       let showPost = true;
       const query = searchQuery.toLowerCase().trim();
 
-      // 선택한 제목에 따라 검색 조건을 변경
       if (selectedTitle === "글 제목") {
         const title = post.title.toLowerCase().trim();
         showPost = title.includes(query);
       } else if (selectedTitle === "태그") {
-        // 태그 검색 기능 추가 (태그에 따라 검색)
         const tags = post.tags.map((tag) => tag.toLowerCase().trim());
         showPost = tags.includes(query);
       } else if (selectedTitle === "작성자") {
         const author = post.author.toLowerCase().trim();
         showPost = author.includes(query);
       } else if (selectedTitle === "글 내용") {
-        // 글 내용 검색 기능 추가 (글 내용에 따라 검색)
         const content = post.content.toLowerCase().trim();
         showPost = content.includes(query);
       }
 
       return showPost;
     });
+
+    setGroupedPosts(filteredAndSortedPosts);
+  }, [selectedDateRange, sortByDate, selectedTitle, searchQuery]);
+
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
   };
 
-  useEffect(() => {
-    const filteredAndSortedPosts = filterPostsBySearch().sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
+  const titleOptions = ["글 제목", "태그", "작성자", "글 내용"];
 
-      if (sortByDate) {
-        return b.likeCount - a.likeCount;
-      } else {
-        return dateB - dateA;
-      }
-    });
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentGroupedPosts = filteredAndSortedPosts.slice(
-      startIndex,
-      endIndex
-    );
-    setGroupedPosts(currentGroupedPosts);
-  }, [currentPage, sortByDate, searchQuery, selectedTitle]);
+  const handleSwitchChange = () => {
+    setSortByDate((prevSortByDate) => !prevSortByDate);
+  };
 
+  const totalItems = groupedPosts.length;
+
+  const [currentPage, setCurrentPage] = useState(1);
+   
   return (
     <>
       <Header />
