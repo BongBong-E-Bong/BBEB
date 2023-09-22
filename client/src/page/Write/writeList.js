@@ -9,8 +9,6 @@ import {
   Pagination,
   InputAdornment,
 } from "@mui/material";
-// import { LocalizationProvider, DateRangePicker } from "@mui/lab";
-// import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import obong from "../../image/obong.png";
 import thumnail from "../../image/thumnail.png";
 import hit from "../../image/hit.png";
@@ -18,6 +16,8 @@ import like from "../../image/like.png";
 import comment from "../../image/comment.png";
 import SearchIcon from "../../image/Search.png";
 import { useNavigate } from "react-router-dom";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 function WriteList() {
   const itemsPerPage = 8;
@@ -51,18 +51,6 @@ function WriteList() {
       hitCount: 1,
       commentCount: 5,
       tags: ["야", "호"],
-    },
-    {
-      id: 3,
-      thumbnail: thumnail,
-      obongImage: obong,
-      title: "실례합니다",
-      date: "2001-06-16",
-      author: "정태규",
-      likeCount: 3,
-      hitCount: 5,
-      commentCount: 5,
-      tags: ["밥", "줘"],
     },
   ];
 
@@ -169,26 +157,11 @@ function WriteList() {
             height="100%"
           >
             <Stack direction="row" spacing={2} justifyContent="">
-              {/* <Stack>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DateRangePicker
-                    startText="시작 날짜"
-                    endText="종료 날짜"
-                    value={selectedDateRange}
-                    onChange={(newDateRange) =>
-                      setSelectedDateRange(newDateRange)
-                    }
-                    renderInput={(startProps, endProps) => (
-                      <>
-                        <TextField {...startProps} />
-                        <span style={{ margin: "0 8px" }}>~</span>
-                        <TextField {...endProps} />
-                      </>
-                    )}
-                  />
+              <Stack>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker />
                 </LocalizationProvider>
-              </Stack> */}
-
+              </Stack>
               <Stack
                 direction="row"
                 alignItems="center"
@@ -248,7 +221,9 @@ function WriteList() {
               </Stack>
             </Stack>
           </Stack>
-          <Stack>'오봉이' 검색 결과({totalItems})</Stack>
+          <Stack>
+            {searchQuery && `'${searchQuery}' 검색 결과 (${totalItems})`}
+          </Stack>
           <Stack spacing={8} marginTop="2%" height="100%" width="100%">
             {Array.from({ length: Math.ceil(totalItems / itemsPerPage) }).map(
               (_, rowIndex) => (
