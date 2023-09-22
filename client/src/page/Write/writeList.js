@@ -14,6 +14,7 @@ import thumnail from "../../image/thumnail.png";
 import hit from "../../image/hit.png";
 import like from "../../image/like.png";
 import comment from "../../image/comment.png";
+import PushPin from "../../image/PushPin.png";
 import SearchIcon from "../../image/Search.png";
 import { useNavigate } from "react-router-dom";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -39,6 +40,7 @@ function WriteList() {
       hitCount: 1,
       commentCount: 5,
       tags: ["하이", "나야"],
+      isPinned: 1,
     },
     {
       id: 2,
@@ -51,6 +53,7 @@ function WriteList() {
       hitCount: 1,
       commentCount: 5,
       tags: ["야", "호"],
+      isPinned: 0,
     },
   ];
 
@@ -157,11 +160,33 @@ function WriteList() {
             height="100%"
           >
             <Stack direction="row" spacing={2} justifyContent="">
-              <Stack>
+              <Stack
+                direction="row"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+              >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker />
+                  <DatePicker
+                    label="시작 날짜"
+                    value={selectedDateRange[0]}
+                    onChange={(newDate) =>
+                      setSelectedDateRange([newDate, selectedDateRange[1]])
+                    }
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                  <Stack>~</Stack>
+                  <DatePicker
+                    label="종료 날짜"
+                    value={selectedDateRange[1]}
+                    onChange={(newDate) =>
+                      setSelectedDateRange([selectedDateRange[0], newDate])
+                    }
+                    renderInput={(params) => <TextField {...params} />}
+                  />
                 </LocalizationProvider>
               </Stack>
+
               <Stack
                 direction="row"
                 alignItems="center"
@@ -270,8 +295,20 @@ function WriteList() {
                               cursor: "pointer",
                               width: "30%",
                               height: "80%",
+                              position: "relative", // Position 추가
                             }}
                           >
+                            {post.isPinned === 1 && ( // isPinned 값이 1일 때 PushPin 아이콘 렌더링
+                              <img
+                                src={PushPin}
+                                alt="push-pin"
+                                style={{
+                                  position: "absolute",
+                                  top: "-4%",
+                                  left: "0%",
+                                }}
+                              />
+                            )}
                             <img
                               src={thumnail}
                               alt="thumnail"
