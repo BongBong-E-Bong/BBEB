@@ -44,7 +44,7 @@ function WriteList() {
       id: 2,
       thumbnail: thumnail,
       obongImage: obong,
-      title: "저 졸려요",
+      title: "안녕",
       date: "2001-03-02",
       author: "박소정",
       likeCount: 2,
@@ -75,7 +75,8 @@ function WriteList() {
       const endDate = selectedDateRange[1];
 
       return (
-        (!startDate || postDate >= startDate) && (!endDate || postDate <= endDate)
+        (!startDate || postDate >= startDate) &&
+        (!endDate || postDate <= endDate)
       );
     });
 
@@ -131,7 +132,7 @@ function WriteList() {
   const totalItems = groupedPosts.length;
 
   const [currentPage, setCurrentPage] = useState(1);
-   
+
   return (
     <>
       <Header />
@@ -257,7 +258,7 @@ function WriteList() {
                   justifyContent="center"
                   spacing={2}
                 >
-                  {filteredUniquePosts
+                  {groupedPosts
                     .slice(
                       (currentPage - 1) * itemsPerPage,
                       currentPage * itemsPerPage
