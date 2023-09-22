@@ -10,7 +10,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { LocalizationProvider, DateRangePicker } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns"; // Date Adapter에 맞는 패키지를 import 해야 합니다.
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import obong from "../../image/obong.png";
 import thumnail from "../../image/thumnail.png";
 import hit from "../../image/hit.png";
@@ -25,6 +25,8 @@ function WriteList() {
   const [sortByDate, setSortByDate] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState("글 제목");
   const [searchQuery, setSearchQuery] = useState("");
+  const [groupedPosts, setGroupedPosts] = useState([]);
+
   const posts = [
     {
       id: 1,
@@ -36,6 +38,7 @@ function WriteList() {
       likeCount: 1,
       hitCount: 1,
       commentCount: 5,
+      tags: ["하이", "나야"],
     },
     {
       id: 2,
@@ -47,6 +50,7 @@ function WriteList() {
       likeCount: 2,
       hitCount: 1,
       commentCount: 5,
+      tags: ["야", "호"],
     },
     {
       id: 3,
@@ -58,11 +62,18 @@ function WriteList() {
       likeCount: 3,
       hitCount: 5,
       commentCount: 5,
+      tags: ["밥", "줘"],
     },
   ];
 
   const handleSwitchChange = () => {
-    setSortByDate((prevSortByDate) => !prevSortByDate); // 스위치 상태를 토글하여 정렬 방식 변경
+    if (!searchQuery) {
+      // 검색을 하고 있지 않을 때는 filteredUniquePosts를 기준으로 정렬
+      setSortByDate((prevSortByDate) => !prevSortByDate);
+    } else {
+      // 검색을 하고 있을 때는 검색 결과를 기준으로 정렬
+      setSortByDate((prevSortByDate) => !prevSortByDate);
+    }
   };
 
   const filteredPosts = posts.filter((post) => {
@@ -75,17 +86,15 @@ function WriteList() {
     );
   });
 
-  // 중복된 게시물을 제거합니다.
   const filteredUniquePosts = Array.from(
     new Set(filteredPosts.map((post) => post.id))
   ).map((id) => filteredPosts.find((post) => post.id === id));
 
-  const totalItems = filteredUniquePosts.length; // 중복 제거된 게시물 수로 변경
+  const totalItems = filteredUniquePosts.length;
 
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    // 스위치 상태에 따라 게시물을 날짜별 또는 좋아요 순으로 정렬
     const sortedPosts = filteredUniquePosts.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
@@ -109,14 +118,11 @@ function WriteList() {
 
   const titleOptions = ["글 제목", "태그", "작성자", "글 내용"];
   const navigate = useNavigate();
-  const [groupedPosts, setGroupedPosts] = useState([]);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
-  // ...
 
-  // 검색 기능을 추가한 함수
   const filterPostsBySearch = () => {
     return posts.filter((post) => {
       let showPost = true;
@@ -143,10 +149,7 @@ function WriteList() {
     });
   };
 
-  // ...
-
   useEffect(() => {
-    // 검색 기능을 먼저 적용한 후 정렬을 수행
     const filteredAndSortedPosts = filterPostsBySearch().sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
@@ -166,8 +169,6 @@ function WriteList() {
     );
     setGroupedPosts(currentGroupedPosts);
   }, [currentPage, sortByDate, searchQuery, selectedTitle]);
-
-  // ...
 
   return (
     <>
@@ -306,19 +307,16 @@ function WriteList() {
                         const title = post.title.toLowerCase().trim();
                         showPost = title.includes(query);
                       } else if (selectedTitle === "태그") {
-                        // 태그를 기준으로 검색 로직을 추가 (예: post.tags 배열을 순회하며 일치하는 태그가 있는지 확인)
                         const query = searchQuery.toLowerCase().trim();
                         const hasMatchingTag = post.tags.some((tag) =>
                           tag.toLowerCase().includes(query)
                         );
                         showPost = hasMatchingTag;
                       } else if (selectedTitle === "작성자") {
-                        // 작성자를 기준으로 검색 로직을 추가 (예: post.author와 searchQuery를 비교)
                         const query = searchQuery.toLowerCase().trim();
                         const author = post.author.toLowerCase().trim();
                         showPost = author.includes(query);
                       } else if (selectedTitle === "글 내용") {
-                        // 글 내용을 기준으로 검색 로직을 추가 (예: post.content와 searchQuery를 비교)
                         const query = searchQuery.toLowerCase().trim();
                         const content = post.content.toLowerCase().trim();
                         showPost = content.includes(query);
@@ -394,44 +392,28 @@ function WriteList() {
                               </Stack>
                             </Stack>
                             <Stack direction="row">
-                              <Stack
-                                sx={{
-                                  margin: "5px",
-                                  color: "#FF8181",
-                                  border: "1px solid #FF8181",
-                                  borderRadius: "15px",
-                                  width: "fit-content",
-                                  height: "25px",
-                                  justifyContent: "center",
-                                }}
-                              >
+                              {post.tags.map((tag, index) => (
                                 <Stack
-                                  alignItems="center"
-                                  fontSize="13px"
-                                  margin="10px"
+                                  key={index}
+                                  sx={{
+                                    margin: "5px",
+                                    color: "#FF8181",
+                                    border: "1px solid #FF8181",
+                                    borderRadius: "15px",
+                                    width: "fit-content",
+                                    height: "25px",
+                                    justifyContent: "center",
+                                  }}
                                 >
-                                  태그 1
+                                  <Stack
+                                    alignItems="center"
+                                    fontSize="13px"
+                                    margin="10px"
+                                  >
+                                    {tag}
+                                  </Stack>
                                 </Stack>
-                              </Stack>
-                              <Stack
-                                sx={{
-                                  margin: "5px",
-                                  color: "#FF8181",
-                                  border: "1px solid #FF8181",
-                                  borderRadius: "15px",
-                                  width: "fit-content",
-                                  height: "25px",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <Stack
-                                  alignItems="center"
-                                  fontSize="13px"
-                                  margin="10px"
-                                >
-                                  태그 2
-                                </Stack>
-                              </Stack>
+                              ))}
                             </Stack>
                           </Paper>
                         );
