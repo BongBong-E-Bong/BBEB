@@ -133,16 +133,20 @@ function WriteList() {
   }
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
+  const [post, setPost] = React.useState(null);
+
   React.useEffect(() => {
     axios
-      .get("http://13.125.105.202:8080/api/posts/126/1", {
+      .get("http://13.125.105.202:8080/api/posts/126", {
         headers: {
           Authorization: accessToken,
         },
       })
-      .then((response) => {})
+      .then((response) => {
+        setPost(response.data);
+      })
       .catch((error) => {
-        console.log("오류야오류");
+        console.log("error 내용", error);
       });
   }, []);
 
