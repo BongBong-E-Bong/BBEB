@@ -32,26 +32,10 @@ function WriteList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [groupedPosts, setGroupedPosts] = useState([]);
 
-  const posts = [
-    // {
-    //   id: 1,
-    //   thumbnail: thumbnail,
-    //   obongImage: obong,
-    //   title: "안녕 난 오봉이야",
-    //   date: "2001-08-23",
-    //   author: "🐷오봉이",
-    //   likeCount: 1,
-    //   hitCount: 1,
-    //   commentCount: 5,
-    //   tags: ["하이", "나야"],
-    //   isPinned: 1,
-    // },
-  ];
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    const filteredPosts = posts.filter((post) => {
+    const filteredPosts = post.filter((post) => {
       const postDate = new Date(post.date);
       const startDate = selectedDateRange[0];
       const endDate = selectedDateRange[1];
@@ -133,7 +117,7 @@ function WriteList() {
   }
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
-  const [post, setPost] = React.useState(null);
+  const [post, setPost] = React.useState([]);
 
   React.useEffect(() => {
     axios
@@ -150,6 +134,21 @@ function WriteList() {
       });
   }, []);
 
+  const [likeTotal, setLikeTotal] = React.useState(0);
+  const likeClick = () => {
+    axios
+      .get("http://13.125.105.202:8080/api/posts/likes/126", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setLikeTotal(response.data.total);
+      })
+      .catch((error) => {
+        console.error("like error:", error);
+      });
+  };
   return (
     <>
       <Header />
@@ -298,8 +297,8 @@ function WriteList() {
                       showPost = title.includes(query);
                     } else if (selectedTitle === "태그") {
                       const query = searchQuery.toLowerCase().trim();
-                      const hasMatchingTag = post.tags.some((tag) =>
-                        tag.toLowerCase().includes(query)
+                      const hasMatchingTag = post.tags.some((postTag) =>
+                        postTag.toLowerCase().includes(query)
                       );
                       showPost = hasMatchingTag;
                     } else if (selectedTitle === "작성자") {
@@ -376,33 +375,33 @@ function WriteList() {
                               }}
                             />
                             <Stack>
-                              <Stack fontSize="14px">{post.title}</Stack>
-                              <Stack fontSize="12px">{post.date}</Stack>
-                              <Stack fontSize="12px">{post.author}</Stack>
+                              <Stack fontSize="14px">{post?.title}</Stack>
+                              <Stack fontSize="12px">{post?.date}</Stack>
+                              <Stack fontSize="12px">{post?.writer}</Stack>
                             </Stack>
                             <Stack direction="row" spacing={1}>
                               <Stack direction="row" spacing={0.5}>
                                 <Stack>
                                   <img src={like} alt="like" />
                                 </Stack>
-                                <Stack>{post.likeCount}</Stack>
+                                <Stack>{likeTotal}</Stack>
                               </Stack>
                               <Stack direction="row" spacing={0.5}>
                                 <Stack>
                                   <img src={hit} alt="hit" />
                                 </Stack>
-                                <Stack>{post.hitCount}</Stack>
+                                <Stack>{post?.view}</Stack>
                               </Stack>
                               <Stack direction="row" spacing={0.5}>
                                 <Stack>
                                   <img src={comment} alt="comment" />
                                 </Stack>
-                                <Stack>{post.commentCount}</Stack>
+                                <Stack>{post?.commentCount}</Stack>
                               </Stack>
                             </Stack>
                           </Stack>
                           <Stack direction="row">
-                            {post.tags.map((tag, index) => (
+                            {post.tags.map((postTag, index) => (
                               <Stack
                                 key={index}
                                 sx={{
@@ -420,7 +419,7 @@ function WriteList() {
                                   fontSize="13px"
                                   margin="10px"
                                 >
-                                  {tag}
+                                  {post?.postTag}
                                 </Stack>
                               </Stack>
                             ))}
