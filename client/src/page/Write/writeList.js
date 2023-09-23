@@ -20,6 +20,7 @@ import notThumbnail from "../../image/notThumbnail.png";
 import { useNavigate } from "react-router-dom";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import axios from "axios";
 
 function WriteList() {
   const itemsPerRow = 4;
@@ -32,123 +33,19 @@ function WriteList() {
   const [groupedPosts, setGroupedPosts] = useState([]);
 
   const posts = [
-    {
-      id: 1,
-      thumbnail: thumbnail,
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 1,
-      hitCount: 1,
-      commentCount: 5,
-      tags: ["하이", "나야"],
-      isPinned: 1,
-    },
-    {
-      id: 1,
-      thumbnail: "",
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 1,
-      hitCount: 1,
-      commentCount: 5,
-      tags: ["하이", "나야"],
-      isPinned: 1,
-    },
-    {
-      id: 1,
-      thumbnail: "",
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 1,
-      hitCount: 1,
-      commentCount: 5,
-      tags: ["하이", "나야"],
-      isPinned: 1,
-    },
-    {
-      id: 1,
-      thumbnail: "",
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 1,
-      hitCount: 1,
-      commentCount: 5,
-      tags: ["하이", "나야"],
-      isPinned: 1,
-    },
-    {
-      id: 1,
-      thumbnail: "",
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 1,
-      hitCount: 1,
-      commentCount: 5,
-      tags: ["하이", "나야"],
-      isPinned: 1,
-    },
-    {
-      id: 1,
-      thumbnail: "",
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 1,
-      hitCount: 1,
-      commentCount: 5,
-      tags: ["하이", "나야"],
-      isPinned: 1,
-    },
-    {
-      id: 1,
-      thumbnail: "",
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 1,
-      hitCount: 1,
-      commentCount: 5,
-      tags: ["하이", "나야"],
-      isPinned: 1,
-    },
-    {
-      id: 1,
-      thumbnail: "",
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 1,
-      hitCount: 1,
-      commentCount: 5,
-      tags: ["하이", "나야"],
-      isPinned: 1,
-    },
-    {
-      id: 1,
-      thumbnail: "",
-      obongImage: obong,
-      title: "안녕 난 오봉이야",
-      date: "2001-08-23",
-      author: "🐷오봉이",
-      likeCount: 1,
-      hitCount: 1,
-      commentCount: 5,
-      tags: ["하이", "나야"],
-      isPinned: 1,
-    },
+    // {
+    //   id: 1,
+    //   thumbnail: thumbnail,
+    //   obongImage: obong,
+    //   title: "안녕 난 오봉이야",
+    //   date: "2001-08-23",
+    //   author: "🐷오봉이",
+    //   likeCount: 1,
+    //   hitCount: 1,
+    //   commentCount: 5,
+    //   tags: ["하이", "나야"],
+    //   isPinned: 1,
+    // },
   ];
 
   const navigate = useNavigate();
@@ -214,26 +111,6 @@ function WriteList() {
     setSortByDate((prevSortByDate) => !prevSortByDate);
   };
 
-  // const postRequest = () => {
-  //   axios
-  //     .post("http://13.125.105.202:8080/api/posts/{postId}", {
-  //       loginId: userId,
-  //       password: userPassword,
-  //     })
-  //     .then((response) => {
-  //       setSuccessMessage("어서오세용!!");
-  //       setSuccessModalOpen(true);
-  //       localStorage.setItem("accessDoraTokenDora", response.data.accessToken);
-  //       localStorage.setItem(
-  //         "refreshDoraTokenDora",
-  //         response.data.refreshToken
-  //       );
-  //       console.log("login 아이디:", userId);
-  //     })
-  //     .catch((error) => {
-  //     });
-  // };
-
   const [totalItems, setTotalItems] = useState(groupedPosts.length);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -242,11 +119,33 @@ function WriteList() {
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
   const currentItems = groupedPosts.slice(startIndex, endIndex);
 
-  // 행과 아이템을 생성합니다.
   const rows = [];
-  for (let i = 0; i < currentItems.length; i += itemsPerRow) {
-    rows.push(currentItems.slice(i, i + itemsPerRow));
+  for (let i = 0; i < Math.ceil(currentItems.length / itemsPerRow); i++) {
+    const startIndex = i * itemsPerRow;
+    const endIndex = startIndex + itemsPerRow;
+    const rowItems = currentItems.slice(startIndex, endIndex);
+
+    while (rowItems.length < itemsPerRow) {
+      rowItems.push(null);
+    }
+
+    rows.push(rowItems);
   }
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  //api 연동부분
+  useEffect(() => {
+    axios
+      .post("http://13.125.105.202:8080/api/posts/{postId}", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {})
+      .catch((error) => {
+        console.error("API 호출 중 오류 발생:", error.response);
+      });
+  }, []);
 
   return (
     <>
@@ -388,7 +287,7 @@ function WriteList() {
                     rowIndex * itemsPerRow,
                     Math.min((rowIndex + 1) * itemsPerRow, currentItems.length)
                   )
-                  .map((post) => {
+                  .map((post, index) => {
                     let showPost = true;
                     if (selectedTitle === "글 제목") {
                       const query = searchQuery.toLowerCase().trim();
@@ -419,9 +318,10 @@ function WriteList() {
                             borderRadius: "20px",
                             flex: "1",
                             cursor: "pointer",
-                            width: "calc(50% - 16px)",
-                            height: "50%",
+                            width: "calc(100% / 4)", // 4개를 한 줄에 표시
+                            minHeight: "50%", // 두 줄로 표시
                             position: "relative",
+                            marginBottom: index < 4 ? "16px" : "0", // 두 번째 줄의 Paper는 아래 여백을 추가
                           }}
                         >
                           {post.isPinned === 1 && (
