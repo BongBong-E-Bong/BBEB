@@ -133,17 +133,16 @@ function WriteList() {
   }
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
-  //api 연동부분
-  useEffect(() => {
+  React.useEffect(() => {
     axios
-      .post("http://13.125.105.202:8080/api/posts/{postId}", {
+      .get("http://13.125.105.202:8080/api/posts/126/1", {
         headers: {
           Authorization: accessToken,
         },
       })
       .then((response) => {})
       .catch((error) => {
-        console.error("API 호출 중 오류 발생:", error.response);
+        console.log("오류야오류");
       });
   }, []);
 
@@ -318,10 +317,10 @@ function WriteList() {
                             borderRadius: "20px",
                             flex: "1",
                             cursor: "pointer",
-                            width: "calc(100% / 4)", // 4개를 한 줄에 표시
-                            minHeight: "50%", // 두 줄로 표시
+                            width: "calc(100% / 4)",
+                            minHeight: "50%",
                             position: "relative",
-                            marginBottom: index < 4 ? "16px" : "0", // 두 번째 줄의 Paper는 아래 여백을 추가
+                            marginBottom: index < 4 ? "16px" : "0",
                           }}
                         >
                           {post.isPinned === 1 && (
@@ -340,17 +339,16 @@ function WriteList() {
                               post.thumbnail === ""
                                 ? notThumbnail
                                 : post.thumbnail
-                            } // 수정된 부분
+                            }
                             alt="thumbnail"
                             style={{
                               width: "100%",
-                              height: "160px", // 이미지 높이를 원하는 값으로 설정하세요.
-                              objectFit: "cover", // 이미지가 찌그러지지 않고 비율을 유지하면서 크기를 조절합니다.
+                              height: "160px",
+                              objectFit: "cover",
                               borderTopLeftRadius: "20px",
                               borderTopRightRadius: "20px",
                             }}
                           />
-
                           <Stack
                             direction="row"
                             bgcolor="#FAF3F0"
