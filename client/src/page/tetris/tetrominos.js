@@ -1,6 +1,4 @@
-import "./Tetris.css";
-
-const TETROMINOS = {
+export const TETROMINOS = {
   I: [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
@@ -33,5 +31,9 @@ const TETROMINOS = {
   ],
 };
 
-export default TETROMINOS;
-
+export const randomTetromino = () => {
+  const tetrominos = "IJLOSTZ";
+  const randomTetromino =
+    tetrominos[Math.floor(Math.random() * tetrominos.length)];
+  return TETROMINOS[randomTetromino] || TETROMINOS["I"]; // Default to a known tetromino if undefined
+};

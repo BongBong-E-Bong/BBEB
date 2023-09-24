@@ -1,11 +1,10 @@
-
 .tetris {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 68%;
   height: 73%;
-  background-color: #FAF3F0;
+  background-color: #faf3f0;
   color: #fff;
   font-family: Arial, sans-serif;
   position: absolute;
@@ -24,6 +23,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .game-over {
   position: absolute;
   top: 50%;
@@ -37,7 +37,8 @@
   justify-content: center;
   align-items: center;
   color: #111;
-}  
+}
+
 .row {
   display: flex;
 }
@@ -45,25 +46,10 @@
 .cell {
   width: 25px; /* 더 작은 크기로 조정 */
   height: 25px; /* 더 작은 크기로 조정 */
-  border: 1px solid #CCCCCC;
+  border: 1px solid #cccccc;
   background-color: #ffffff; /* 이 스타일 유지 */
 }
 
-.I{
-  background: #67c23a;
-}
-.J{
-  background: salmon;
-}
-.T{
-  background: #3a43c2;
-}
-.O{
-  background: #e6a23c;
-}
-.S{
-  background: #8e44ad;
-}
-.Z{
-  background: #16a085;
+.tetromino {
+  background-color: #ddd;
 }
