@@ -34,6 +34,7 @@ const RPS = () => {
   const [drawCount, setDrawCount] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [ComputerSelect, setComputerSelect] = useState();
+  
 
   const play = (userChoice) => {
     if (gameOver) return;
@@ -119,7 +120,9 @@ const RPS = () => {
   const getRequest = () => {
     axios
       .post("http://13.125.105.202:8080/api/tetris", {
-        score: winCount,
+        headers: {
+          Authorization: accessToken,
+        },
       })
       .then((response) => {
         console.log("됐어");
@@ -128,6 +131,8 @@ const RPS = () => {
         console.log("안됐어");
       });
   };
+
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
   return (
     <Stack>
