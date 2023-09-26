@@ -300,6 +300,28 @@ function Comment() {
             const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
             const commentId = commentData?.content[i]?.commentId;
 
+            let emoticonNum = commentData?.content[i]?.emoticonNumber;
+
+            function emoticon(emoticonNum) {
+              if (emoticonNum === "1") {
+                return ebongticon1;
+              } else if (emoticonNum === "2") {
+                return ebongticon2;
+              } else if (emoticonNum === "3") {
+                return ebongticon3;
+              } else if (emoticonNum === "4") {
+                return ebongticon4;
+              } else if (emoticonNum === "5") {
+                return ebongticon5;
+              } else if (emoticonNum === "6") {
+                return ebongticon6;
+              } else if (emoticonNum === "7") {
+                return ebongticon7;
+              } else if (emoticonNum === "8") {
+                return ebongticon8;
+              }
+            }
+
             return (
               <Stack
                 direction="row"
@@ -344,12 +366,15 @@ function Comment() {
                       </Stack>
                       <Stack fontSize="12px"> {formattedDateTime}</Stack>
                     </Stack>
-                    {/* <img
-                      alt="imoticon"
-                      src={commentData?.content[i]?.emoticonUrl}
-                      width="50px"
-                      height="50px"
-                    ></img> */}
+                    {commentData?.content[i]?.emoticonNumber !== null && (
+                      <img
+                        alt={emoticon(emoticonNum)}
+                        src={emoticon(emoticonNum)}
+                        width="110px"
+                        height="120px"
+                        style={{ marginTop: "10px", marginBottom: "10px" }}
+                      ></img>
+                    )}
                     <Stack fontSize="16px" flexWrap="wrap">
                       {commentData?.content[i]?.value}
                     </Stack>
