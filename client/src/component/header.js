@@ -1,110 +1,231 @@
-import React, { useState } from "react";
-import { Stack, TextField } from "@mui/material";
-import login from "../image/login.png";
-import kakaologo from "../image/kakaologo.png";
-import Modal from "@mui/material/Modal"
+import React, { useState, useEffect } from "react";
+import { Stack } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import bbeblogo from "../image/bbeblogo.png";
+import basicProfile from "../image/profilephoto.png";
+import { useNavigate } from "react-router-dom";
+import Login from "./login";
+import Modal from "./Modal";
+import Register from "./register";
+import axios from "axios";
 
 function Header() {
+  const navigate = useNavigate();
+
+  const [profileImage, setprofileImage] = React.useState(basicProfile);
+
+  const fileInput = React.useRef(null);
+  const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
+
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const onChange = (e) => {
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setprofileImage(reader.result);
+        const formData = new FormData();
+
+        formData.append("profile", e.target.files[0]);
+
+        const sendPostRequest = async () => {
+          try {
+            const response = axios.post(
+              "http://13.125.105.202:8080/api/members/profile",
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  Authorization: accessToken,
+                },
+              }
+            );
+            console.log(response.data);
+            getRequest();
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        };
+
+        sendPostRequest();
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [registerOpen, setRegisterOpen] = useState(false);
+
+  const [profileImg, setProfileImg] = useState("");
+
+  useEffect(() => {
+    getRequest();
+  }, []);
+
+  const getRequest = () => {
+    axios
+      .get("http://13.125.105.202:8080/api/members/profile", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setProfileImg(response.data);
+      })
+      .catch((error) => {
+        console.error("profile img error", error);
+      });
+  };
+
   return (
     <>
-        <Stack height="100%" alignItems="center" justifyContent="center">
-          <Stack position="fixed" width="1230px" height="617px" display="flex" direction="row" alignItems="center" justifyContent="space-around" bgcolor="#F88C8C">
-            <Stack width="753px" height="598px" justifyContent="center">
+      <Stack
+        bgcolor="white"
+        width="100%"
+        height="10%"
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        position="fixed"
+        boxShadow="0px 10px 20px -10px #EAEAEA"
+        style={{ zIndex: "100" }}
+      >
+        <img
+          src={bbeblogo}
+          alt="logo"
+          width="130px"
+          height="35px"
+          style={{ cursor: "pointer", marginLeft: "5%" }}
+          onClick={() => {
+            navigate("/");
+          }}
+        />
+        <Stack
+          width="30%"
+          height="100%"
+          style={{ marginRight: "5%" }}
+          justifyContent="center"
+          alignItems="flex-end"
+        >
+          {isLogin ? (
+            <Stack width="12%" height="70%" justifyContent="center">
               <img
-                src={login} alt="login icon"
-                width="700px" height="598px" />
+                alt="profileImage"
+                src={profileImage}
+                width="50px"
+                height="50px"
+                style={{ cursor: "pointer", borderRadius: "50%" }}
+                onClick={handleClick}
+              />
             </Stack>
-            <Stack width="440px" height="598px" alignItems="center" justifyContent="center" gap="3.5%">
-              <Stack fontSize="36px">login</Stack>
-              <Stack>
-                <Stack marginBottom="8px">ID</Stack>
-                <TextField
-                  placeholder={"id를 입력하세요"}
-                  multiline
-                  maxRows={4}
-                  InputProps={{
-                    style: {
-                      backgroundColor: "white",
-                      borderRadius: "8px",
-                      width: "271px",
-                      height: "40px",
-                      
-                    },
-                  }}
-                />
-              </Stack>
-              <Stack>
-                <Stack marginBottom="8px">Password</Stack>
-                <TextField
-                  placeholder={"비밀번호를 입력하세요"}
-                  multiline
-                  maxRows={4}
-                  InputProps={{
-                    style: {
-                      backgroundColor: "white",
-                      borderRadius: "8px",
-                      width: "271px",
-                      height: "40px",
-                    },
-                  }}
-                />
-              </Stack>
+          ) : (
+            <Stack
+              width="100%"
+              height="10%"
+              alignItem="center"
+              justifyContent="flex-end"
+              direction="row"
+              gap="4%"
+            >
               <Stack
-                bgcolor="#D76464"
-                style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "271px", height: "33px", alignItems: "center", justifyContent: "center", boxShadow: "0px 3px 2px rgba(0, 0, 0, 0.3)" }}
-                onClick={() => {
-                  // 클릭 이벤트 처리 코드를 여기에 추가
-                }}>SIGN IN</Stack>
+                style={{ cursor: "pointer", fontSize: "20px" }}
+                onClick={() => setLoginOpen(true)}
+              >
+                로그인
+              </Stack>
+              <Stack style={{ fontSize: "20px" }}>|</Stack>
               <Stack
-                style={{ cursor: "pointer", width: "271px", height: "33px", alignItems: "center", justifyContent: "center" }}
-                onClick={() => {
-                  // 클릭 이벤트 처리 코드를 여기에 추가
-                }}> <img src={kakaologo} alt="kakaologo icon" /></Stack>
+                style={{ cursor: "pointer", fontSize: "20px" }}
+                onClick={() => setRegisterOpen(true)}
+              >
+                회원 가입
+              </Stack>
             </Stack>
-          </Stack>
+          )}
         </Stack>
-      {/* <Stack height="100%" alignItems="center" justifyContent="center">
-        <Stack position="fixed" width="926px" height="573px"
-          display="flex" alignItems="center"
-          justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)">
-          <Stack width="906px" height="553px" bgcolor="white" justifyContent="center" alignItems="center" gap="20px" >
-            <Stack fontSize="55px">로그인 성공~!</Stack>
-            <img
-              src={register} alt="register icon"
-              width="266px" height="232px"
-            />
-            <Stack fontSize="32px">어서오세용!!</Stack>
-            <Stack
-              bgcolor="#FF8181"
-              style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
-              onClick={() => {
-                // 클릭 이벤트 처리 코드를 여기에 추가
-              }}
-            >확 인</Stack>
-          </Stack>
+      </Stack>
+
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+        style={{ width: "80%" }}
+      >
+        <Stack alignItems="center">
+          <img
+            alt="profileImage"
+            src={profileImage}
+            width="110px"
+            height="110px"
+            style={{ borderRadius: "50%" }}
+          />
         </Stack>
-      </Stack> */}
-      {/* <Stack height="100%" alignItems="center" justifyContent="center">
-        <Stack position="fixed" width="926px" height="573px"
-          display="flex" alignItems="center"
-          justifyContent="space-around" bgcolor="#F88C8C" boxShadow="0px 15px 30px rgba(0, 0, 0, 0.5)" >
-          <Stack width="906px" height="553px" bgcolor="#FFC7C7" justifyContent="center" alignItems="center" gap="20px" >
-            <Stack fontSize="55px">로그인 실패ㅠㅠㅋ</Stack>
-            <img
-              src={register} alt="register icon"
-              width="266px" height="232px"
-            />
-            <Stack fontSize="32px">아이디/비밀번호가 틀렸어요!!</Stack>
-            <Stack
-              bgcolor="#FF8181"
-              style={{ cursor: "pointer", color: "white", borderRadius: "20px", width: "199px", height: "75px", alignItems: "center", justifyContent: "center", fontSize: "32px", boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.3)" }}
-              onClick={() => {
-                // 클릭 이벤트 처리 코드를 여기에 추가
-              }}
-            >확 인</Stack>
-          </Stack>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          marginTop="7%"
+          marginBottom="3%"
+        >
+          <Stack style={{ fontSize: "130%", fontWeight: "bold" }}>일봉이</Stack>
+          {/* 닉네임 */}
+          <Stack style={{ fontSize: "130%" }}>님</Stack>
         </Stack>
-      </Stack> */}
+        <MenuItem
+          onClick={() => {
+            fileInput.current.click();
+          }}
+        >
+          프로필 사진 바꾸기
+        </MenuItem>
+        <input
+          type="file"
+          style={{ display: "none" }}
+          accept="image/*,.jpg,.png,.jpeg"
+          name="profile_img"
+          onChange={onChange}
+          ref={fileInput}
+        />
+        <MenuItem>내가 작성한 글</MenuItem>
+        <MenuItem
+          onClick={() => {
+            localStorage.clear();
+            setAnchorEl(null);
+          }}
+        >
+          로그아웃
+        </MenuItem>
+      </Menu>
+      <Modal
+        width="750px"
+        height="430px"
+        open={loginOpen}
+        onClose={() => setLoginOpen(false)}
+      >
+        <Login setOpen={setLoginOpen} />
+      </Modal>
+      <Modal
+        width="850px"
+        height="500px"
+        open={registerOpen}
+        onClose={() => setRegisterOpen(false)}
+      >
+        <Register setOpen={setRegisterOpen} />
+      </Modal>
     </>
   );
 }
