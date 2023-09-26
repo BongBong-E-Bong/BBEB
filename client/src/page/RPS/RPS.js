@@ -7,6 +7,7 @@ import Scissors from "../../image/Scissors.png";
 import register from "../../image/register.png";
 import Box from "./Box.js";
 import RPS_sample from "../../image/RPS_sample.png";
+import axios from "axios";
 
 const choice = {
   rock: {
@@ -48,6 +49,7 @@ const RPS = () => {
       setWinCount(winCount + 1);
     } else if (userResult === "lose") {
       setGameOver(true);
+      getRequest(winCount);
     } else {
       setDrawCount(drawCount + 1);
     }
@@ -113,6 +115,19 @@ const RPS = () => {
       score: 93483948,
     },
   ];
+
+  const getRequest = () => {
+    axios
+      .post("http://13.125.105.202:8080/api/auth/tetris", {
+        score: winCount,
+      })
+      .then((response) => {
+        console.log("됐어");
+      })
+      .catch((error) => {
+        console.log("안됐어");
+      });
+  };
 
   return (
     <Stack>
