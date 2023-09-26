@@ -12,7 +12,7 @@ import Eightbong from "../src/page/Profile/Eightbong.js";
 import Ranking from "../src/page/Ranking/Ranking.js";
 import Vote from "../src/page/Vote/Vote.js";
 import Post from "../src/page/Board/post.js";
-import Tetris from "../src/page/tetris/Tetris.js";
+import RPS from "../src/page/RPS/RPS.js";
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/vote" element={<Vote />} />
         <Route path="/post" element={<Post />} />
-        <Route path="/tetris" element={<Tetris />} />
+        <Route path="/RPS" element={<RPS />} />
       </Routes>
     </Router>
   );
