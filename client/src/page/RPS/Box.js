@@ -18,7 +18,7 @@ const Box = (props) => {
             style={{ width: "100%", height: "200px" }}
           />
         </Stack>
-        <Stack>{props.result}</Stack>
+        {/* <Stack>{props.result}</Stack> */}
       </Stack>
     );
   };

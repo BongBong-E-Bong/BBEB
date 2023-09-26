@@ -49,7 +49,7 @@ const RPS = () => {
       setWinCount(winCount + 1);
     } else if (userResult === "lose") {
       setGameOver(true);
-      getRequest(winCount);
+      postRequest(winCount);
     } else {
       setDrawCount(drawCount + 1);
     }
@@ -99,34 +99,58 @@ const RPS = () => {
   };
 
   const data = [
-    {
-      number: 1,
-      name: "이봉이 엉덩이",
-      score: 93483948,
-    },
-    {
-      number: 2,
-      name: "이봉이 엉덩이",
-      score: 93483948,
-    },
-    {
-      number: 3,
-      name: "이봉이 엉덩이",
-      score: 93483948,
-    },
+
   ];
 
-  const getRequest = () => {
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const sortedData = [...data].reverse();
+  const topThreeData = sortedData.slice(0, 3);
+
+  console.log("엑세스 토큰:", accessToken);
+
+  const postRequest = () => {
     axios
-      .post("http://13.125.105.202:8080/api/auth/tetris", {
-        score: winCount,
-      })
+      .post(
+        "http://13.125.105.202:8080/api/tetris",
+        {
+          score: winCount,
+        },
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      )
       .then((response) => {
-        console.log("됐어");
+        console.log("성공");
       })
       .catch((error) => {
-        console.log("안됐어");
+        console.error(error);
       });
+  };
+
+  const [gameData, setGameData] = React.useState(null);
+
+  React.useEffect(() => {
+    axios
+      .get("http://13.125.105.202:8080/api/tetris", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {})
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const renderRank = (index) => {
+    if (index === 0) {
+      return "1";
+    } else if (index === 1) {
+      return "2";
+    }
+    return "3";
   };
 
   return (
@@ -168,24 +192,18 @@ const RPS = () => {
             display="flex"
           >
             <Stack justifyContent="center" spacing={5}>
-              {data.map((item) => (
+              {topThreeData.map((item, index) => (
                 <Stack key={item.number} direction="row" spacing={4}>
                   <Stack color="black" fontSize="48px">
-                    {item.number}
+                    {renderRank(index)}
                   </Stack>
-                  <Stack>
-                    <img
-                      src={RPS_sample}
-                      alt="RPS_sample"
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  </Stack>
+                  <Stack>{gameData?.url}</Stack>
                   <Stack spacing={2.5}>
                     <Stack color="black" fontSize="13px">
-                      {item.name}
+                      {gameData?.nickname}
                     </Stack>
                     <Stack color="black" fontSize="13px">
-                      score: {item.score}
+                      score: {gameData?.score}
                     </Stack>
                   </Stack>
                 </Stack>
