@@ -15,6 +15,7 @@ import Post from "../src/page/Board/post.js";
 import Choice from "../src/page/Choice/Choice.js";
 import Write from "../src/page/Write/Write.js";
 import WriteList from "../src/page/Write/writeList";
+import RPS from "../src/page/RPS/RPS";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/Choice" element={<Choice />} />
         <Route path="/Write" element={<Write />} />
         <Route path="/writeList" element={<WriteList />} />
+        <Route path="/RPS" element={<RPS />} />
       </Routes>
     </Router>
   );
