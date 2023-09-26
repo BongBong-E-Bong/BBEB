@@ -8,7 +8,6 @@ import register from "../../image/register.png";
 import Box from "./Box.js";
 import RPS_sample from "../../image/RPS_sample.png";
 
-
 const choice = {
   rock: {
     name: "Rock",
@@ -45,16 +44,14 @@ const RPS = () => {
     setResult(userResult);
     setComResult(comJudgement(userResult));
 
-    // 게임 결과를 판단한 후, 승패 여부에 따라 게임 오버 처리
     if (userResult === "win") {
       setWinCount(winCount + 1);
     } else if (userResult === "lose") {
-      setGameOver(true); // 게임에서 지면 게임 오버 처리
+      setGameOver(true);
     } else {
       setDrawCount(drawCount + 1);
     }
 
-    // 게임 횟수를 감소시키고, 남은 횟수가 0이 되면 게임 오버 처리
     if (gameCount > 0) {
       setGameCount(gameCount - 1);
     } else {
@@ -99,7 +96,24 @@ const RPS = () => {
     setGameOver(false);
   };
 
-  
+  const data = [
+    {
+      number: 1,
+      name: "이봉이 엉덩이",
+      score: 93483948,
+    },
+    {
+      number: 2,
+      name: "이봉이 엉덩이",
+      score: 93483948,
+    },
+    {
+      number: 3,
+      name: "이봉이 엉덩이",
+      score: 93483948,
+    },
+  ];
+
   return (
     <Stack>
       <Stack>
@@ -139,66 +153,28 @@ const RPS = () => {
             display="flex"
           >
             <Stack justifyContent="center" spacing={5}>
-              <Stack direction="row" spacing={4}>
-                <Stack color="black" fontSize="48px">
-                  1
-                </Stack>
-                <Stack>
-                  <img
-                    src={RPS_sample}
-                    alt="RPS_sample"
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                </Stack>
-                <Stack spacing={2.5}>
-                  <Stack color="black" fontSize="13px">
-                    이봉이 엉덩이
+              {data.map((item) => (
+                <Stack key={item.number} direction="row" spacing={4}>
+                  <Stack color="black" fontSize="48px">
+                    {item.number}
                   </Stack>
-                  <Stack color="black" fontSize="13px">
-                    score: 93483948
+                  <Stack>
+                    <img
+                      src={RPS_sample}
+                      alt="RPS_sample"
+                      style={{ width: "100%", height: "100%" }}
+                    />
                   </Stack>
-                </Stack>
-              </Stack>
-              <Stack direction="row" spacing={4}>
-                <Stack color="black" fontSize="48px">
-                  2
-                </Stack>
-                <Stack>
-                  <img
-                    src={RPS_sample}
-                    alt="RPS_sample"
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                </Stack>
-                <Stack spacing={2.5}>
-                  <Stack color="black" fontSize="13px">
-                    이봉이 엉덩이
-                  </Stack>
-                  <Stack color="black" fontSize="13px">
-                    score: 93483948
+                  <Stack spacing={2.5}>
+                    <Stack color="black" fontSize="13px">
+                      {item.name}
+                    </Stack>
+                    <Stack color="black" fontSize="13px">
+                      score: {item.score}
+                    </Stack>
                   </Stack>
                 </Stack>
-              </Stack>
-              <Stack direction="row" spacing={4}>
-                <Stack color="black" fontSize="48px">
-                  3
-                </Stack>
-                <Stack>
-                  <img
-                    src={RPS_sample}
-                    alt="RPS_sample"
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                </Stack>
-                <Stack spacing={2.5}>
-                  <Stack color="black" fontSize="13px">
-                    이봉이 엉덩이
-                  </Stack>
-                  <Stack color="black" fontSize="13px">
-                    score: 93483948
-                  </Stack>
-                </Stack>
-              </Stack>
+              ))}
             </Stack>
             <Stack spacing={10}>
               <Stack direction="row" spacing={10} fontSize="30px">
@@ -207,7 +183,6 @@ const RPS = () => {
                   className={result}
                   img={choice.scissors.img}
                   item={userSelect}
-
                 />
                 <Box
                   title="컴퓨터인데!"
@@ -231,7 +206,7 @@ const RPS = () => {
                       fontSize: "20px",
                     }}
                     onClick={() => {
-                      restartGame(); // "Replay" 버튼 클릭 시 게임 다시 시작
+                      restartGame();
                     }}
                   >
                     Replay
@@ -293,7 +268,7 @@ const RPS = () => {
                 </Stack>
               )}
             </Stack>
-            <Stack sx={{marginTop:"4%",}} spacing={2}>
+            <Stack sx={{ marginTop: "4%" }} spacing={2}>
               <Stack>이긴횟수 : {winCount}</Stack>
               <Stack>비긴횟수 : {drawCount}</Stack>
             </Stack>
