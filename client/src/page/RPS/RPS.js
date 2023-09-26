@@ -6,6 +6,8 @@ import Rock from "../../image/Rock.png";
 import Scissors from "../../image/Scissors.png";
 import register from "../../image/register.png";
 import Box from "./Box.js";
+import RPS_sample from "../../image/RPS_sample.png";
+
 
 const choice = {
   rock: {
@@ -23,15 +25,15 @@ const choice = {
 };
 
 const RPS = () => {
-  const [userSelect, setUserSelect] = useState(null);
-  const [ComputerSelect, setComputerSelect] = useState(null);
+  const [userSelect, setUserSelect] = useState();
   const [result, setResult] = useState(" ");
   const [comResult, setComResult] = useState(" ");
-  const [gameCount, setGameCount] = useState(20);
+  const [gameCount, setGameCount] = useState(1000000);
   const [winCount, setWinCount] = useState(0);
   const [loseCount, setLoseCount] = useState(0);
   const [drawCount, setDrawCount] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [ComputerSelect, setComputerSelect] = useState();
 
   const play = (userChoice) => {
     if (gameOver) return;
@@ -42,20 +44,21 @@ const RPS = () => {
     let userResult = judgement(choice[userChoice], computerChoice);
     setResult(userResult);
     setComResult(comJudgement(userResult));
+
+    // 게임 결과를 판단한 후, 승패 여부에 따라 게임 오버 처리
+    if (userResult === "win") {
+      setWinCount(winCount + 1);
+    } else if (userResult === "lose") {
+      setGameOver(true); // 게임에서 지면 게임 오버 처리
+    } else {
+      setDrawCount(drawCount + 1);
+    }
+
+    // 게임 횟수를 감소시키고, 남은 횟수가 0이 되면 게임 오버 처리
     if (gameCount > 0) {
       setGameCount(gameCount - 1);
     } else {
       setGameOver(true);
-      alert("게임 종료");
-    }
-    if (userResult === "win") {
-      setWinCount(winCount + 1);
-    }
-    if (userResult === "lose") {
-      setLoseCount(loseCount + 1);
-    }
-    if (userResult === "tie") {
-      setDrawCount(drawCount + 1);
     }
   };
 
@@ -89,13 +92,14 @@ const RPS = () => {
     setComputerSelect(null);
     setResult(" ");
     setComResult(" ");
-    setGameCount(20);
+    setGameCount(10);
     setWinCount(0);
     setLoseCount(0);
     setDrawCount(0);
-    setGameOver(false); // 게임 종료 상태 초기화
+    setGameOver(false);
   };
 
+  
   return (
     <Stack>
       <Stack>
@@ -134,21 +138,81 @@ const RPS = () => {
             justifyContent="space-around"
             display="flex"
           >
-            <Stack>랭킹 부분</Stack>
-            <Stack spacing={20}>
+            <Stack justifyContent="center" spacing={5}>
+              <Stack direction="row" spacing={4}>
+                <Stack color="black" fontSize="48px">
+                  1
+                </Stack>
+                <Stack>
+                  <img
+                    src={RPS_sample}
+                    alt="RPS_sample"
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </Stack>
+                <Stack spacing={2.5}>
+                  <Stack color="black" fontSize="13px">
+                    이봉이 엉덩이
+                  </Stack>
+                  <Stack color="black" fontSize="13px">
+                    score: 93483948
+                  </Stack>
+                </Stack>
+              </Stack>
+              <Stack direction="row" spacing={4}>
+                <Stack color="black" fontSize="48px">
+                  2
+                </Stack>
+                <Stack>
+                  <img
+                    src={RPS_sample}
+                    alt="RPS_sample"
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </Stack>
+                <Stack spacing={2.5}>
+                  <Stack color="black" fontSize="13px">
+                    이봉이 엉덩이
+                  </Stack>
+                  <Stack color="black" fontSize="13px">
+                    score: 93483948
+                  </Stack>
+                </Stack>
+              </Stack>
+              <Stack direction="row" spacing={4}>
+                <Stack color="black" fontSize="48px">
+                  3
+                </Stack>
+                <Stack>
+                  <img
+                    src={RPS_sample}
+                    alt="RPS_sample"
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </Stack>
+                <Stack spacing={2.5}>
+                  <Stack color="black" fontSize="13px">
+                    이봉이 엉덩이
+                  </Stack>
+                  <Stack color="black" fontSize="13px">
+                    score: 93483948
+                  </Stack>
+                </Stack>
+              </Stack>
+            </Stack>
+            <Stack spacing={10}>
               <Stack direction="row" spacing={10} fontSize="30px">
                 <Box
-                  title="You"
+                  title="나인데!"
                   className={result}
                   img={choice.scissors.img}
                   item={userSelect}
-                  result={result}
+
                 />
                 <Box
-                  title="Computer"
+                  title="컴퓨터인데!"
                   className={comResult}
                   item={ComputerSelect}
-                  result={comResult}
                 />
               </Stack>
               {gameOver ? (
@@ -229,10 +293,8 @@ const RPS = () => {
                 </Stack>
               )}
             </Stack>
-            <Stack>
-              <Stack>게임횟수 : {gameCount}</Stack>
+            <Stack sx={{marginTop:"4%",}} spacing={2}>
               <Stack>이긴횟수 : {winCount}</Stack>
-              <Stack>진횟수 : {loseCount}</Stack>
               <Stack>비긴횟수 : {drawCount}</Stack>
             </Stack>
           </Stack>
