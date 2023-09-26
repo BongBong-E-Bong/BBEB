@@ -99,14 +99,12 @@ const RPS = () => {
   };
 
   const data = [
-    {
-      number: 1,
-      name: "이봉이 엉덩이",
-      score: winCount,
-    },
+
   ];
 
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const sortedData = [...data].reverse();
+  const topThreeData = sortedData.slice(0, 3);
 
   console.log("엑세스 토큰:", accessToken);
 
@@ -123,13 +121,15 @@ const RPS = () => {
           },
         }
       )
-      .then((response) => {})
+      .then((response) => {
+        console.log("성공");
+      })
       .catch((error) => {
         console.error(error);
       });
   };
 
-  const [postData, setPostData] = React.useState(null);
+  const [gameData, setGameData] = React.useState(null);
 
   React.useEffect(() => {
     axios
@@ -143,6 +143,15 @@ const RPS = () => {
         console.error(error);
       });
   }, []);
+
+  const renderRank = (index) => {
+    if (index === 0) {
+      return "1";
+    } else if (index === 1) {
+      return "2";
+    }
+    return "3";
+  };
 
   return (
     <Stack>
@@ -183,20 +192,18 @@ const RPS = () => {
             display="flex"
           >
             <Stack justifyContent="center" spacing={5}>
-              {data.map((item) => (
+              {topThreeData.map((item, index) => (
                 <Stack key={item.number} direction="row" spacing={4}>
                   <Stack color="black" fontSize="48px">
-                    {item.number}
+                    {renderRank(index)}
                   </Stack>
-                  <Stack style={{ width: "100%", height: "100%" }}>
-                    <img src={RPS_sample} alt="RPS_sample" />
-                  </Stack>
+                  <Stack>{gameData?.url}</Stack>
                   <Stack spacing={2.5}>
                     <Stack color="black" fontSize="13px">
-                      {item.name}
+                      {gameData?.nickname}
                     </Stack>
                     <Stack color="black" fontSize="13px">
-                      score: {item.score}
+                      score: {gameData?.score}
                     </Stack>
                   </Stack>
                 </Stack>
