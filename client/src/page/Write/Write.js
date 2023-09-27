@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../../component/header";
 import { Stack, Checkbox, TextField, Chip } from "@mui/material";
 import obong from "../../image/obong.png";
@@ -34,6 +34,11 @@ function Write() {
   const [decodedToken, setDecodedToken] = useState({});
   const userId = decodedToken ? decodedToken.sub : "";
   const navigate = useNavigate();
+  const [editorContent, setEditorContent] = useState("");
+  // 에디터 내용 변경 시 호출되는 콜백 함수
+  const handleEditorChange = (e) => {
+    setEditorContent(e); // 에디터 내용 업데이트
+  };
 
   const handleAlignmentChange = (alignment) => {
     setTextAlignment(alignment);
@@ -73,52 +78,23 @@ function Write() {
     );
     setPostTags(updatedPostTags);
   };
+  const editorRef = useRef(null);
 
   const handleCreatePost = () => {
     if (isLogin) {
-      const textContent = [];
-      const imageContent = [];
-
-      content.forEach((contentItem, index) => {
-        if (contentItem.contentType === "TEXT") {
-          textContent.push({
-            contentType: "TEXT",
-            value: contentItem.value,
-            contentOrder: index,
-          });
-        } else if (contentItem.contentType === "IMAGE") {
-          imageContent.push({
-            contentType: "IMAGE",
-            value: contentItem.value,
-            contentOrder: index,
-          });
-        }
-      });
-
-      // 기존 텍스트 항목을 모두 지우고, 새로운 TEXT 항목을 추가합니다.
-      textContent.length = 0; // textContent 배열 비우기
-
-      // 새로운 TEXT 항목을 추가합니다.
-      if (text.trim() !== "") {
-        textContent.push({
-          contentType: "TEXT",
-          value: text,
-          contentOrder: textContent.length, // 텍스트 항목을 마지막으로 추가합니다.
-        });
-      }
-
+      const textContent = {
+        contentType: "TEXT",
+        value: editorContent,
+        contentOrder: content.length,
+      };
       const postDataToSend = {
-        // content: textContent,
-        // images: imageContent,
-        // postTag: postTags,
         title: title,
         thumbnail: thumbnail ? thumbnail.name : "",
         isPinned: checked ? 1 : 0,
-        // sortType: 2,
-        content: textContent.concat(imageContent),
+        content: [...content, textContent],
         postTag: postTags,
       };
-
+  
       axios
         .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
           headers: {
@@ -129,10 +105,9 @@ function Write() {
           console.log("제목:", title);
           console.log("썸네일:", thumbnail ? thumbnail.name : "");
           console.log("고정:", checked ? 1 : 0);
-          // console.log("정렬:", sortType);
           console.log("태그:", postTags);
           console.log("내용:", textContent);
-          console.log("이미지:", imageContent);
+          console.log("아이디:", userId);
         })
         .catch((error) => {
           setAuthModalFailOpen(true);
@@ -142,6 +117,7 @@ function Write() {
       setAuthModalFailOpen(true);
     }
   };
+  
 
   useEffect(() => {
     const textField = document.getElementById("content-textfield");
@@ -158,25 +134,6 @@ function Write() {
   }, [accessToken]);
 
   const isAdmin = decodedToken && decodedToken.isAdmin;
-
-  const handleImageUpload = (event) => {
-    const selectedImage = event.target.files[0];
-    if (selectedImage) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageDataUrl = e.target.result;
-        const newContentItem = {
-          contentType: "IMAGE",
-          value: imageDataUrl,
-          contentOrder: content.length,
-        };
-        setContent([...content, newContentItem]);
-
-        setText((prevText) => prevText + `\n![Image](${selectedImage.name})\n`);
-      };
-      reader.readAsDataURL(selectedImage);
-    }
-  };
 
   return (
     <>
@@ -273,49 +230,14 @@ function Write() {
                 direction="row"
                 justifyContent="center"
                 spacing={3}
-              >
-                {alignments.map((align) => (
-                  <Stack
-                    key={align}
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      handleAlignmentChange(align);
-                    }}
-                  >
-                    <Stack>
-                      {align === "LEFT" ? (
-                        <img src={FormatAlignLeft} alt="FormatAlignLeft" />
-                      ) : align === "CENTER" ? (
-                        <img src={FormatAlignCenter} alt="FormatAlignCenter" />
-                      ) : align === "RIGHT" ? (
-                        <img src={FormatAlignRight} alt="FormatAlignRight" />
-                      ) : align === "BASIC" ? (
-                        <img
-                          src={FormatAlignJustify}
-                          alt="FormatAlignJustify"
-                        />
-                      ) : null}
-                    </Stack>
-                  </Stack>
-                ))}
-                <label style={{ cursor: "pointer" }}>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    onChange={handleImageUpload}
-                  />
-                  <img src={AddPhotoAlternate} alt="AddPhotoAlternate" />
-                </label>
-              </Stack>
+              ></Stack>
               <Editor
-                initialValue="hello react editor world!"
+                initialValue="내용을 입력하세요."
                 previewStyle="vertical"
                 height="450px"
                 initialEditType="wysiwyg"
                 useCommandShortcut={false}
+                onChange={(e) => setEditorContent(e)}
               />
 
               <Stack
@@ -372,6 +294,7 @@ function Write() {
                     setAuthModalFailOpen={setAuthModalFailOpen}
                     thumbnail={thumbnail}
                     setThumbnail={(file) => setThumbnail(file)}
+                    editorContent={editorContent} // 이렇게 editorContent를 프롭으로 전달합니다.
                   />
                 )}
               </Stack>

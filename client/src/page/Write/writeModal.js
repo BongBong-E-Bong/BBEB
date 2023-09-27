@@ -10,6 +10,7 @@ function WriteModal({
   setAuthModalFailOpen,
   thumbnail,
   setThumbnail,
+  editorContent
 }) {
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
@@ -21,7 +22,6 @@ function WriteModal({
     const file = event.target.files[0];
     setSelectedThumbnail(file);
     if (setThumbnail) {
-      // 파일 객체에서 파일 이름만 추출하여 출력
       console.log("썸네일 파일 이름:", file.name);
       setThumbnail(file);
     }
@@ -32,11 +32,10 @@ function WriteModal({
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
   };
-
   const handleWriteClick = () => {
     if (isLogin) {
       if (isChecked) {
-        onCreatePost();
+        onCreatePost(editorContent); 
         setOpen(false);
       } else {
         setAuthModalFailOpen(true);
@@ -45,7 +44,8 @@ function WriteModal({
       setAuthModalFailOpen(true);
     }
   };
-
+  
+  
   return (
     <Modal
       width={"fit-content"}
@@ -199,7 +199,7 @@ function WriteModal({
                 onChange={handleCheckboxChange}
               />
             </Stack>
-            <Stack
+            <Stack 
               bgcolor="#7AAAA7"
               sx={{
                 cursor: isChecked ? "pointer" : "default",
