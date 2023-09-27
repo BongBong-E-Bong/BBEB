@@ -10,15 +10,18 @@ import {
   InputAdornment,
 } from "@mui/material";
 import obong from "../../image/obong.png";
+import thumbnail from "../../image/thumbnail.png";
 import hit from "../../image/hit.png";
 import like from "../../image/like.png";
 import comment from "../../image/comment.png";
 import PushPin from "../../image/PushPin.png";
 import SearchIcon from "../../image/Search.png";
+import notThumbnail from "../../image/notThumbnail.png";
 import { useNavigate } from "react-router-dom";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
+import dayjs, { Dayjs } from 'dayjs';
 
 function WriteList() {
   const itemsPerRow = 4;
@@ -29,6 +32,8 @@ function WriteList() {
   const [selectedTitle, setSelectedTitle] = useState("글 제목");
   const [searchQuery, setSearchQuery] = useState("");
   const [groupedPosts, setGroupedPosts] = useState([]);
+  const [value, setValue] = useState([]);
+
 
   const navigate = useNavigate();
 
@@ -69,11 +74,15 @@ function WriteList() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
   const [post, setPost] = React.useState([]);
+  const [page, setPage] = useState(0);
+  const [startDate, setStartDate] = useState(dayjs('2022-04-17'));
+  const [endDate, setEndDate] = useState(dayjs('2023-08-20'));
+  const [order, setOrder] = useState(0);
 
   React.useEffect(() => {
     axios
       .get(
-        `http://13.125.105.202:8080/api/posts?page=0&size=8&sort=string&startDate=2001-05-05&endDate=2023-08-23&order=0`,
+        `http://13.125.105.202:8080/api/posts?page=${page}&size=8&sort=string&startDate=${startDate}&endDate=${endDate}&order=${order}`,
         {
           headers: {
             Authorization: accessToken,
@@ -103,8 +112,8 @@ function WriteList() {
         console.error("like error:", error);
       });
   };
-
-  console.log(post);
+console.log(endDate)
+console.log(startDate)
   return (
     <>
       <Header />
@@ -150,20 +159,18 @@ function WriteList() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="시작 날짜"
-                    value={selectedDateRange[0]}
-                    onChange={(newDate) =>
-                      setSelectedDateRange([newDate, selectedDateRange[1]])
+                    value={startDate}
+                    onChange={(newValue) =>
+                      setStartDate(newValue)
                     }
-                    renderInput={(params) => <TextField {...params} />}
                   />
                   <Stack>~</Stack>
                   <DatePicker
                     label="종료 날짜"
-                    value={selectedDateRange[1]}
-                    onChange={(newDate) =>
-                      setSelectedDateRange([selectedDateRange[0], newDate])
+                    value={endDate}
+                    onChange={(newValue) =>
+                      setEndDate(newValue)
                     }
-                    renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
               </Stack>
@@ -235,8 +242,6 @@ function WriteList() {
               {post.content?.slice(0, 4).map((content, i) => {
                 return (
                   <Stack width="24%" height="350px" position="relative">
-                    {" "}
-                    {/* position: relative 추가 */}
                     <Stack
                       height="50%"
                       style={{
