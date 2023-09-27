@@ -10,13 +10,11 @@ import {
   InputAdornment,
 } from "@mui/material";
 import obong from "../../image/obong.png";
-import thumbnail from "../../image/thumbnail.png";
 import hit from "../../image/hit.png";
 import like from "../../image/like.png";
 import comment from "../../image/comment.png";
 import PushPin from "../../image/PushPin.png";
 import SearchIcon from "../../image/Search.png";
-import notThumbnail from "../../image/notThumbnail.png";
 import { useNavigate } from "react-router-dom";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -71,15 +69,11 @@ function WriteList() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
   const [post, setPost] = React.useState([]);
-  const [page, setPage] = useState(0);
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [order, setOrder] = useState(0);
 
   React.useEffect(() => {
     axios
       .get(
-        `http://13.125.105.202:8080/api/posts?page=${page}&size=8&sort=string&startDate=${startDate}&endDate=${endDate}&order=${order}`,
+        `http://13.125.105.202:8080/api/posts?page=0&size=8&sort=string&startDate=2001-05-05&endDate=2023-08-23&order=0`,
         {
           headers: {
             Authorization: accessToken,
@@ -110,6 +104,7 @@ function WriteList() {
       });
   };
 
+  console.log(post);
   return (
     <>
       <Header />
@@ -239,8 +234,29 @@ function WriteList() {
             <Stack spacing={2} width="100%" direction="row" marginTop="2%">
               {post.content?.slice(0, 4).map((content, i) => {
                 return (
-                  <Stack width="24%" height="350px">
-                    <Stack height="50%">
+                  <Stack width="24%" height="350px" position="relative">
+                    {" "}
+                    {/* position: relative 추가 */}
+                    <Stack
+                      height="50%"
+                      style={{
+                        borderTopLeftRadius: "20px",
+                        borderTopRightRadius: "20px",
+                        position: "relative", // 자식 요소에 대해 상대적인 위치 설정
+                      }}
+                    >
+                      {content.isPinned === 1 && (
+                        <img
+                          src={PushPin}
+                          alt="PushPin"
+                          style={{
+                            position: "absolute",
+                            top: "-10%", // 원하는 위치로 조정
+                            left: "10px", // 원하는 위치로 조정
+                            zIndex: 2, // 다른 요소 위에 표시
+                          }}
+                        />
+                      )}
                       <img
                         src={content.thumbnail}
                         width="100%"
@@ -253,18 +269,19 @@ function WriteList() {
                       />
                     </Stack>
                     <Stack
-                      width="100%"
+                      width="fit-content"
                       height="20%"
                       bgcolor="#FAF3F0"
                       borderRadius="0px 0px 20px 20px"
                       alignItems={"center"}
                       direction={"row"}
-                      gap="10%"
+                      // gap="3%"
+                      justifyContent={"space-between"}
                     >
-                      <Stack width="7%" marginLeft="10%">
+                      <Stack width="13%" marginLeft="5%">
                         <img src={content.memberProfile} alt="" width="100%" />
                       </Stack>
-                      <Stack>
+                      <Stack width="40%">
                         <Stack
                           style={{
                             width: "100%",
@@ -282,7 +299,7 @@ function WriteList() {
                         <Stack>{content.date.slice(0, 10)} </Stack>
                         <Stack>{content.writer} </Stack>
                       </Stack>
-                      <Stack direction="row" gap="30%">
+                      <Stack width="30%" gap="8%" direction="row">
                         <Stack>
                           <img src={like} /> {content.like}{" "}
                         </Stack>
@@ -360,18 +377,19 @@ function WriteList() {
                       />
                     </Stack>
                     <Stack
-                      width="100%"
+                      width="fit-content"
                       height="20%"
                       bgcolor="#FAF3F0"
                       borderRadius="0px 0px 20px 20px"
                       alignItems={"center"}
                       direction={"row"}
-                      gap="15%"
+                      // gap="3%"
+                      justifyContent={"space-between"}
                     >
-                      <Stack width="7%" marginLeft="5%">
+                      <Stack width="13%" marginLeft="5%">
                         <img src={content.memberProfile} alt="" width="100%" />
                       </Stack>
-                      <Stack>
+                      <Stack width="50%">
                         <Stack
                           style={{
                             width: "100%",
@@ -389,7 +407,7 @@ function WriteList() {
                         <Stack>{content.date.slice(0, 10)} </Stack>
                         <Stack>{content.writer} </Stack>
                       </Stack>
-                      <Stack direction="row" gap="30%">
+                      <Stack width="30%" gap="8%" direction="row">
                         <Stack>
                           <img src={like} /> {content.like}{" "}
                         </Stack>
