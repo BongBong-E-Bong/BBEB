@@ -71,11 +71,15 @@ function WriteList() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
   const [post, setPost] = React.useState([]);
+  const [page, setPage] = useState(0);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [order, setOrder] = useState(0);
 
   React.useEffect(() => {
     axios
       .get(
-        `http://13.125.105.202:8080/api/posts?page=0&size=8&sort=string&startDate=2001-05-05&endDate=2023-08-23&order=0`,
+        `http://13.125.105.202:8080/api/posts?page=${page}&size=8&sort=string&startDate=${startDate}&endDate=${endDate}&order=${order}`,
         {
           headers: {
             Authorization: accessToken,
@@ -106,7 +110,6 @@ function WriteList() {
       });
   };
 
-  console.log(post);
   return (
     <>
       <Header />
