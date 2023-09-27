@@ -256,9 +256,9 @@ function WriteList() {
                       borderRadius="0px 0px 20px 20px"
                       alignItems={"center"}
                       direction={"row"}
-                      gap="15%"
+                      gap="10%"
                     >
-                      <Stack width="7%" marginLeft="5%">
+                      <Stack width="7%" marginLeft="10%">
                         <img src={content.memberProfile} alt="" width="100%" />
                       </Stack>
                       <Stack>
