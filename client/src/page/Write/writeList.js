@@ -169,7 +169,6 @@ function WriteList() {
                   />
                 </LocalizationProvider>
               </Stack>
-
               <Stack
                 direction="row"
                 alignItems="center"
@@ -233,75 +232,223 @@ function WriteList() {
             {searchQuery && `'${searchQuery}' 검색 결과 (${totalItems})`}
           </Stack>
           {/* 이제 우리가 적어야 하는 곳 */}
-          <Stack spacing={2} width="100%" direction="row">
-            {post.content?.slice(0, 4).map((content, i) => {
-              return (
-                <Stack height="200px" width="24%">
-                  <img
-                    src={content.thumbnail}
-                    width="100%"
-                    height="50%"
-                    alt=""
-                  />
-                  <Stack
-                    width="100%"
-                    height="10%"
-                    bgcolor="#FAF3F0"
-                    borderRadius="0px 0px 5px 5px"
-                    alignItems={"center"}
-                    direction={"row"}
-                  >
-                    <Stack width="7%">
-                      <img src={content.memberProfile} alt="" width="100%" />
+          <Stack marginBottom="-11%">
+            <Stack spacing={2} width="100%" direction="row" marginTop="2%">
+              {post.content?.slice(0, 4).map((content, i) => {
+                return (
+                  <Stack width="24%" height="350px">
+                    <Stack height="50%">
+                      <img
+                        src={content.thumbnail}
+                        width="100%"
+                        height="100%"
+                        alt=""
+                        style={{
+                          borderTopLeftRadius: "20px",
+                          borderTopRightRadius: "20px",
+                        }}
+                      />
                     </Stack>
-                    <Stack>
-                      <Stack>{content.title}</Stack>
-                      <Stack>{content.date.slice(0, 10)} </Stack>
-                      <Stack>{content.writer} </Stack>
+                    <Stack
+                      width="100%"
+                      height="20%"
+                      bgcolor="#FAF3F0"
+                      borderRadius="0px 0px 20px 20px"
+                      alignItems={"center"}
+                      direction={"row"}
+                      gap="15%"
+                    >
+                      <Stack width="7%" marginLeft="5%">
+                        <img src={content.memberProfile} alt="" width="100%" />
+                      </Stack>
+                      <Stack>
+                        <Stack
+                          style={{
+                            width: "100%",
+                            whiteSpace:
+                              "nowrap" /* 글 내용이 한 줄로 표시되도록 설정 */,
+                            overflow: "hidden",
+                            textOverflow:
+                              "ellipsis" /* 일정 길이 이상의 텍스트일 때 "..." 표시 */,
+                          }}
+                        >
+                          {content.title.length > 7
+                            ? `${content.title.slice(0, 7)}...`
+                            : content.title}
+                        </Stack>
+                        <Stack>{content.date.slice(0, 10)} </Stack>
+                        <Stack>{content.writer} </Stack>
+                      </Stack>
+                      <Stack direction="row" gap="30%">
+                        <Stack>
+                          <img src={like} /> {content.like}{" "}
+                        </Stack>
+                        <Stack>
+                          <img src={hit} /> {content.view}{" "}
+                        </Stack>
+                        <Stack>
+                          <img src={comment} /> {content.commentCount}{" "}
+                        </Stack>
+                      </Stack>
                     </Stack>
-                    <Stack>좋아요 {content.like} </Stack>
-                    <Stack>조회수 {content.view} </Stack>
-                    <Stack>댓글 {content.commentCount} </Stack>
+                    <Stack direction="row">
+                      {content.postTag.slice(0, 2).map((postTag, i) => (
+                        <Stack
+                          key={i}
+                          sx={{
+                            margin: "5px",
+                            color: "#FF8181",
+                            border: "1px solid #FF8181",
+                            borderRadius: "15px",
+                            width: "fit-content",
+                            height: "25px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Stack
+                            alignItems="center"
+                            fontSize="13px"
+                            margin="10px"
+                          >
+                            {postTag.value}
+                          </Stack>
+                        </Stack>
+                      ))}
+                      {content.postTag.length > 2 && (
+                        <Stack
+                          sx={{
+                            margin: "5px",
+                            color: "#FF8181",
+                            border: "1px solid #FF8181",
+                            borderRadius: "15px",
+                            width: "fit-content",
+                            height: "25px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Stack
+                            alignItems="center"
+                            fontSize="13px"
+                            margin="10px"
+                          >
+                            ...
+                          </Stack>
+                        </Stack>
+                      )}
+                    </Stack>
                   </Stack>
-                </Stack>
-              );
-            })}
-          </Stack>
-          <Stack spacing={2} width="100%" direction="row">
-            {post.content?.slice(4, 8).map((content, i) => {
-              return (
-                <Stack height="200px" width="24%">
-                  <img
-                    src={content.thumbnail}
-                    width="100%"
-                    height="50%"
-                    alt=""
-                  />
-                  <Stack
-                    width="100%"
-                    height="10%"
-                    bgcolor="#FAF3F0"
-                    borderRadius="0px 0px 5px 5px"
-                    alignItems={"center"}
-                    direction={"row"}
-                  >
-                    <Stack width="7%">
-                      <img src={content.memberProfile} alt="" width="100%" />
+                );
+              })}
+            </Stack>
+            <Stack spacing={2} width="100%" direction="row" marginTop="-3%">
+              {post.content?.slice(4, 8).map((content, i) => {
+                return (
+                  <Stack width="24%" height="350px">
+                    <Stack height="50%">
+                      <img
+                        src={content.thumbnail}
+                        width="100%"
+                        height="100%"
+                        alt=""
+                        style={{
+                          borderTopLeftRadius: "20px",
+                          borderTopRightRadius: "20px",
+                        }}
+                      />
                     </Stack>
-                    <Stack>
-                      <Stack>{content.title}</Stack>
-                      <Stack>{content.date.slice(0, 10)} </Stack>
-                      <Stack>{content.writer} </Stack>
+                    <Stack
+                      width="100%"
+                      height="20%"
+                      bgcolor="#FAF3F0"
+                      borderRadius="0px 0px 20px 20px"
+                      alignItems={"center"}
+                      direction={"row"}
+                      gap="15%"
+                    >
+                      <Stack width="7%" marginLeft="5%">
+                        <img src={content.memberProfile} alt="" width="100%" />
+                      </Stack>
+                      <Stack>
+                        <Stack
+                          style={{
+                            width: "100%",
+                            whiteSpace:
+                              "nowrap" /* 글 내용이 한 줄로 표시되도록 설정 */,
+                            overflow: "hidden",
+                            textOverflow:
+                              "ellipsis" /* 일정 길이 이상의 텍스트일 때 "..." 표시 */,
+                          }}
+                        >
+                          {content.title.length > 7
+                            ? `${content.title.slice(0, 7)}...`
+                            : content.title}
+                        </Stack>
+                        <Stack>{content.date.slice(0, 10)} </Stack>
+                        <Stack>{content.writer} </Stack>
+                      </Stack>
+                      <Stack direction="row" gap="30%">
+                        <Stack>
+                          <img src={like} /> {content.like}{" "}
+                        </Stack>
+                        <Stack>
+                          <img src={hit} /> {content.view}{" "}
+                        </Stack>
+                        <Stack>
+                          <img src={comment} /> {content.commentCount}{" "}
+                        </Stack>
+                      </Stack>
                     </Stack>
-                    <Stack>좋아요 {content.like} </Stack>
-                    <Stack>조회수 {content.view} </Stack>
-                    <Stack>댓글 {content.commentCount} </Stack>
+                    <Stack direction="row">
+                      {content.postTag.slice(0, 2).map((postTag, i) => (
+                        <Stack
+                          key={i}
+                          sx={{
+                            margin: "5px",
+                            color: "#FF8181",
+                            border: "1px solid #FF8181",
+                            borderRadius: "15px",
+                            width: "fit-content",
+                            height: "25px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Stack
+                            alignItems="center"
+                            fontSize="13px"
+                            margin="10px"
+                          >
+                            {postTag.value}
+                          </Stack>
+                        </Stack>
+                      ))}
+                      {content.postTag.length > 2 && (
+                        <Stack
+                          sx={{
+                            margin: "5px",
+                            color: "#FF8181",
+                            border: "1px solid #FF8181",
+                            borderRadius: "15px",
+                            width: "fit-content",
+                            height: "25px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Stack
+                            alignItems="center"
+                            fontSize="13px"
+                            margin="10px"
+                          >
+                            ...
+                          </Stack>
+                        </Stack>
+                      )}
+                    </Stack>
                   </Stack>
-                </Stack>
-              );
-            })}
+                );
+              })}
+            </Stack>
           </Stack>
-          <Stack alignItems="center">
+          <Stack alignItems="center" marginTop="7%">
             <Pagination
               count={Math.ceil(totalItems / itemsPerPage)}
               page={currentPage}
