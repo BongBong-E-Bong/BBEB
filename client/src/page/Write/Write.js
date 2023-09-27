@@ -13,6 +13,8 @@ import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
 import AuthModalFail from "../../component/authModal_fail";
 import Modal from "../../component/Modal";
 import jwt_decode from "jwt-decode";
+import { Editor } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
 
 function Write() {
   const [checked, setChecked] = useState(false);
@@ -308,18 +310,12 @@ function Write() {
                   <img src={AddPhotoAlternate} alt="AddPhotoAlternate" />
                 </label>
               </Stack>
-              <TextField
-                id="content-textfield"
-                placeholder="내용을 입력하세요."
-                variant="outlined"
-                multiline
-                rows={15}
-                style={{
-                  width: "80%",
-                  backgroundColor: "#FFF",
-                }}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
+              <Editor
+                initialValue="hello react editor world!"
+                previewStyle="vertical"
+                height="450px"
+                initialEditType="wysiwyg"
+                useCommandShortcut={false}
               />
 
               <Stack
