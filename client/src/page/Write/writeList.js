@@ -34,53 +34,6 @@ function WriteList() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const filteredPosts = post.filter((post) => {
-      const postDate = new Date(post.date);
-      const startDate = selectedDateRange[0];
-      const endDate = selectedDateRange[1];
-
-      return (
-        (!startDate || postDate >= startDate) &&
-        (!endDate || postDate <= endDate)
-      );
-    });
-
-    const sortedPosts = filteredPosts.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-
-      if (sortByDate) {
-        return b.likeCount - a.likeCount;
-      } else {
-        return dateB - dateA;
-      }
-    });
-
-    const filteredAndSortedPosts = sortedPosts.filter((post) => {
-      let showPost = true;
-      const query = searchQuery.toLowerCase().trim();
-
-      if (selectedTitle === "글 제목") {
-        const title = post.title.toLowerCase().trim();
-        showPost = title.includes(query);
-      } else if (selectedTitle === "태그") {
-        const tags = post.tags.map((tag) => tag.toLowerCase().trim());
-        showPost = tags.includes(query);
-      } else if (selectedTitle === "작성자") {
-        const author = post.author.toLowerCase().trim();
-        showPost = author.includes(query);
-      } else if (selectedTitle === "글 내용") {
-        const content = post.content.toLowerCase().trim();
-        showPost = content.includes(query);
-      }
-
-      return showPost;
-    });
-    setTotalItems(filteredAndSortedPosts.length);
-    setGroupedPosts(filteredAndSortedPosts);
-  }, [selectedDateRange, sortByDate, selectedTitle, searchQuery]);
-
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
   };
@@ -121,11 +74,14 @@ function WriteList() {
 
   React.useEffect(() => {
     axios
-      .get("http://13.125.105.202:8080/api/posts/126", {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
+      .get(
+        `http://13.125.105.202:8080/api/posts?page=0&size=8&sort=string&startDate=2001-05-05&endDate=2023-08-23&order=0`,
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      )
       .then((response) => {
         setPost(response.data);
       })
@@ -149,6 +105,8 @@ function WriteList() {
         console.error("like error:", error);
       });
   };
+
+  console.log(post);
   return (
     <>
       <Header />
@@ -274,163 +232,74 @@ function WriteList() {
           <Stack>
             {searchQuery && `'${searchQuery}' 검색 결과 (${totalItems})`}
           </Stack>
-          <Stack spacing={4} marginTop="2%" height="100%" width="100%">
-            {Array.from({
-              length: Math.ceil(totalItems / itemsPerRow),
-            }).map((_, rowIndex) => (
-              <Stack
-                key={rowIndex}
-                direction="row"
-                justifyContent="space-between"
-                spacing={2}
-              >
-                {currentItems
-                  .slice(
-                    rowIndex * itemsPerRow,
-                    Math.min((rowIndex + 1) * itemsPerRow, currentItems.length)
-                  )
-                  .map((post, index) => {
-                    let showPost = true;
-                    if (selectedTitle === "글 제목") {
-                      const query = searchQuery.toLowerCase().trim();
-                      const title = post.title.toLowerCase().trim();
-                      showPost = title.includes(query);
-                    } else if (selectedTitle === "태그") {
-                      const query = searchQuery.toLowerCase().trim();
-                      const hasMatchingTag = post.tags.some((postTag) =>
-                        postTag.toLowerCase().includes(query)
-                      );
-                      showPost = hasMatchingTag;
-                    } else if (selectedTitle === "작성자") {
-                      const query = searchQuery.toLowerCase().trim();
-                      const author = post.author.toLowerCase().trim();
-                      showPost = author.includes(query);
-                    } else if (selectedTitle === "글 내용") {
-                      const query = searchQuery.toLowerCase().trim();
-                      const content = post.content.toLowerCase().trim();
-                      showPost = content.includes(query);
-                    }
-
-                    if (showPost) {
-                      return (
-                        <Paper
-                          key={post.id}
-                          elevation={0}
-                          sx={{
-                            borderRadius: "20px",
-                            flex: "1",
-                            cursor: "pointer",
-                            width: "calc(100% / 4)",
-                            minHeight: "50%",
-                            position: "relative",
-                            marginBottom: index < 4 ? "16px" : "0",
-                          }}
-                        >
-                          {post.isPinned === 1 && (
-                            <img
-                              src={PushPin}
-                              alt="push-pin"
-                              style={{
-                                position: "absolute",
-                                top: "-4%",
-                                left: "0%",
-                              }}
-                            />
-                          )}
-                          <img
-                            src={
-                              post.thumbnail === ""
-                                ? notThumbnail
-                                : post.thumbnail
-                            }
-                            alt="thumbnail"
-                            style={{
-                              width: "100%",
-                              height: "160px",
-                              objectFit: "cover",
-                              borderTopLeftRadius: "20px",
-                              borderTopRightRadius: "20px",
-                            }}
-                          />
-                          <Stack
-                            direction="row"
-                            bgcolor="#FAF3F0"
-                            spacing={1}
-                            sx={{
-                              bottom: 0,
-                              left: 0,
-                              borderBottomLeftRadius: "20px",
-                              borderBottomRightRadius: "20px",
-                              alignItems: "center",
-                            }}
-                          >
-                            <img
-                              src={obong}
-                              alt="obong"
-                              style={{
-                                width: "13%",
-                                borderRadius: "50px",
-                                padding: "3%",
-                                marginLeft: "5%",
-                              }}
-                            />
-                            <Stack>
-                              <Stack fontSize="14px">{post?.title}</Stack>
-                              <Stack fontSize="12px">{post?.date}</Stack>
-                              <Stack fontSize="12px">{post?.writer}</Stack>
-                            </Stack>
-                            <Stack direction="row" spacing={1}>
-                              <Stack direction="row" spacing={0.5}>
-                                <Stack>
-                                  <img src={like} alt="like" />
-                                </Stack>
-                                <Stack>{likeTotal}</Stack>
-                              </Stack>
-                              <Stack direction="row" spacing={0.5}>
-                                <Stack>
-                                  <img src={hit} alt="hit" />
-                                </Stack>
-                                <Stack>{post?.view}</Stack>
-                              </Stack>
-                              <Stack direction="row" spacing={0.5}>
-                                <Stack>
-                                  <img src={comment} alt="comment" />
-                                </Stack>
-                                <Stack>{post?.commentCount}</Stack>
-                              </Stack>
-                            </Stack>
-                          </Stack>
-                          <Stack direction="row">
-                            {post.tags.map((postTag, index) => (
-                              <Stack
-                                key={index}
-                                sx={{
-                                  margin: "5px",
-                                  color: "#FF8181",
-                                  border: "1px solid #FF8181",
-                                  borderRadius: "15px",
-                                  width: "fit-content",
-                                  height: "25px",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <Stack
-                                  alignItems="center"
-                                  fontSize="13px"
-                                  margin="10px"
-                                >
-                                  {post?.postTag}
-                                </Stack>
-                              </Stack>
-                            ))}
-                          </Stack>
-                        </Paper>
-                      );
-                    }
-                    return null;
-                  })}
-              </Stack>
-            ))}
+          {/* 이제 우리가 적어야 하는 곳 */}
+          <Stack spacing={2} width="100%" direction="row">
+            {post.content?.slice(0, 4).map((content, i) => {
+              return (
+                <Stack height="200px" width="24%">
+                  <img
+                    src={content.thumbnail}
+                    width="100%"
+                    height="50%"
+                    alt=""
+                  />
+                  <Stack
+                    width="100%"
+                    height="10%"
+                    bgcolor="#FAF3F0"
+                    borderRadius="0px 0px 5px 5px"
+                    alignItems={"center"}
+                    direction={"row"}
+                  >
+                    <Stack width="7%">
+                      <img src={content.memberProfile} alt="" width="100%" />
+                    </Stack>
+                    <Stack>
+                      <Stack>{content.title}</Stack>
+                      <Stack>{content.date.slice(0, 10)} </Stack>
+                      <Stack>{content.writer} </Stack>
+                    </Stack>
+                    <Stack>좋아요 {content.like} </Stack>
+                    <Stack>조회수 {content.view} </Stack>
+                    <Stack>댓글 {content.commentCount} </Stack>
+                  </Stack>
+                </Stack>
+              );
+            })}
+          </Stack>
+          <Stack spacing={2} width="100%" direction="row">
+            {post.content?.slice(4, 8).map((content, i) => {
+              return (
+                <Stack height="200px" width="24%">
+                  <img
+                    src={content.thumbnail}
+                    width="100%"
+                    height="50%"
+                    alt=""
+                  />
+                  <Stack
+                    width="100%"
+                    height="10%"
+                    bgcolor="#FAF3F0"
+                    borderRadius="0px 0px 5px 5px"
+                    alignItems={"center"}
+                    direction={"row"}
+                  >
+                    <Stack width="7%">
+                      <img src={content.memberProfile} alt="" width="100%" />
+                    </Stack>
+                    <Stack>
+                      <Stack>{content.title}</Stack>
+                      <Stack>{content.date.slice(0, 10)} </Stack>
+                      <Stack>{content.writer} </Stack>
+                    </Stack>
+                    <Stack>좋아요 {content.like} </Stack>
+                    <Stack>조회수 {content.view} </Stack>
+                    <Stack>댓글 {content.commentCount} </Stack>
+                  </Stack>
+                </Stack>
+              );
+            })}
           </Stack>
           <Stack alignItems="center">
             <Pagination
