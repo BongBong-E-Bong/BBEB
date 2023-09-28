@@ -82,41 +82,73 @@ function Write() {
 
   const handleCreatePost = () => {
     if (isLogin) {
-      const textContent = {
-        contentType: "TEXT",
-        value: editorContent,
-        contentOrder: content.length,
-      };
-      const postDataToSend = {
-        title: title,
-        thumbnail: thumbnail ? thumbnail.name : "",
-        isPinned: checked ? 1 : 0,
-        content: [...content, textContent],
-        postTag: postTags,
-      };
+      const editorInstance = editorRef.current && editorRef.current.getInstance();
   
-      axios
-        .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
-          headers: {
-            Authorization: accessToken,
-          },
-        })
-        .then((response) => {
-          console.log("제목:", title);
-          console.log("썸네일:", thumbnail ? thumbnail.name : "");
-          console.log("고정:", checked ? 1 : 0);
-          console.log("태그:", postTags);
-          console.log("내용:", textContent);
-          console.log("아이디:", userId);
-        })
-        .catch((error) => {
-          setAuthModalFailOpen(true);
-          console.error("Error creating post:", error.response);
+      if (editorInstance) {
+        const markdownContent = editorInstance.getMarkdown();
+        const textContents = markdownContent.split('\n');
+  
+        let contentOrderCounter = 0; // contentOrder를 관리하기 위한 카운터
+  
+        const textContentObjects = textContents.map((textContent) => {
+          const trimmedTextContent = textContent.trim();
+          const isBlankLine = !trimmedTextContent; // 빈 라인 여부 확인
+          if (isBlankLine) {
+            return {
+              contentType: "TEXT",
+              value: "<br>",
+              contentOrder: contentOrderCounter,
+            };
+          }
+  
+          const contentObject = {
+            contentType: "TEXT",
+            value: trimmedTextContent,
+            contentOrder: contentOrderCounter, // contentOrder를 카운터로 설정
+          };
+  
+          contentOrderCounter++; // 다음 콘텐츠의 contentOrder 증가
+          return contentObject;
         });
+  
+        const postDataToSend = {
+          title: title,
+          thumbnail: thumbnail ? thumbnail.name : "",
+          isPinned: checked ? 1 : 0,
+          contents: [...content, ...textContentObjects], // 기존 content 배열과 합침
+          postTag: postTags,
+        };
+    
+        axios
+          .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
+            headers: {
+              Authorization: accessToken,
+            },
+          })
+          .then((response) => {
+            console.log("제목:", title);
+            console.log("썸네일:", thumbnail ? thumbnail.name : "");
+            console.log("고정:", checked ? 1 : 0);
+            console.log("태그:", postTags);
+            console.log("내용:", [...content, ...textContentObjects]);
+            console.log("아이디:", userId);
+          })
+          .catch((error) => {
+            setAuthModalFailOpen(true);
+            console.error("Error creating post:", error.response);
+          });
+      } else {
+        // editorRef가 아직 생성되지 않았을 때 예외 처리
+        console.error("Editor instance is not available.");
+      }
     } else {
       setAuthModalFailOpen(true);
     }
   };
+  
+  
+  
+  
   
 
   useEffect(() => {
@@ -231,14 +263,16 @@ function Write() {
                 justifyContent="center"
                 spacing={3}
               ></Stack>
-              <Editor
-                initialValue="내용을 입력하세요."
-                previewStyle="vertical"
-                height="450px"
-                initialEditType="wysiwyg"
-                useCommandShortcut={false}
-                onChange={(e) => setEditorContent(e)}
-              />
+<Editor
+  ref={editorRef} // ref 속성 추가
+  initialValue="내용을 입력하세요."
+  previewStyle="vertical"
+  height="450px"
+  initialEditType="wysiwyg"
+  useCommandShortcut={false}
+  onChange={(e) => setEditorContent(e)}
+/>
+
 
               <Stack
                 width="100%"
