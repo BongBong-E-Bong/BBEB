@@ -12,9 +12,9 @@ import FormatAlignJustify from "../../image/FormatAlignJustify.png";
 import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
 import AuthModalFail from "../../component/authModal_fail";
 import Modal from "../../component/Modal";
-import jwt_decode from "jwt-decode";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import jwt_decode from "jwt-decode"; // jwt-decode 라이브러리 추가
 
 function Write() {
   const [checked, setChecked] = useState(false);
@@ -35,9 +35,10 @@ function Write() {
   const userId = decodedToken ? decodedToken.sub : "";
   const navigate = useNavigate();
   const [editorContent, setEditorContent] = useState("");
-  // 에디터 내용 변경 시 호출되는 콜백 함수
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const handleEditorChange = (e) => {
-    setEditorContent(e); // 에디터 내용 업데이트
+    setEditorContent(e); 
   };
 
   const handleAlignmentChange = (alignment) => {
@@ -82,14 +83,15 @@ function Write() {
 
   const handleCreatePost = () => {
     if (isLogin) {
-      const editorInstance = editorRef.current && editorRef.current.getInstance();
-  
+      const editorInstance =
+        editorRef.current && editorRef.current.getInstance();
+
       if (editorInstance) {
         const markdownContent = editorInstance.getMarkdown();
-        const textContents = markdownContent.split('\n');
-  
+        const textContents = markdownContent.split("\n");
+
         let contentOrderCounter = 0; // contentOrder를 관리하기 위한 카운터
-  
+
         const textContentObjects = textContents.map((textContent) => {
           const trimmedTextContent = textContent.trim();
           const isBlankLine = !trimmedTextContent; // 빈 라인 여부 확인
@@ -100,17 +102,17 @@ function Write() {
               contentOrder: contentOrderCounter,
             };
           }
-  
+
           const contentObject = {
             contentType: "TEXT",
             value: trimmedTextContent,
             contentOrder: contentOrderCounter, // contentOrder를 카운터로 설정
           };
-  
+
           contentOrderCounter++; // 다음 콘텐츠의 contentOrder 증가
           return contentObject;
         });
-  
+
         const postDataToSend = {
           title: title,
           thumbnail: thumbnail ? thumbnail.name : "",
@@ -118,7 +120,7 @@ function Write() {
           contents: [...content, ...textContentObjects], // 기존 content 배열과 합침
           postTag: postTags,
         };
-    
+
         axios
           .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
             headers: {
@@ -131,25 +133,19 @@ function Write() {
             console.log("고정:", checked ? 1 : 0);
             console.log("태그:", postTags);
             console.log("내용:", [...content, ...textContentObjects]);
-            console.log("아이디:", userId);
+            // console.log("아이디:", userId);
           })
           .catch((error) => {
             setAuthModalFailOpen(true);
             console.error("Error creating post:", error.response);
           });
       } else {
-        // editorRef가 아직 생성되지 않았을 때 예외 처리
         console.error("Editor instance is not available.");
       }
     } else {
       setAuthModalFailOpen(true);
     }
   };
-  
-  
-  
-  
-  
 
   useEffect(() => {
     const textField = document.getElementById("content-textfield");
@@ -158,14 +154,21 @@ function Write() {
     }
   }, [textAlignment]);
 
+  
+  //관리자 권한시 체크박스 보이게 해주는 코드
   useEffect(() => {
     if (accessToken) {
       const decoded = jwt_decode(accessToken);
       setDecodedToken(decoded);
+      console.log(accessToken);
+      if (decoded && decoded.auth === "ROLE_ADMIN") {
+        setIsAdmin(true);
+      }
+  
+      console.log(decoded);
     }
   }, [accessToken]);
 
-  const isAdmin = decodedToken && decodedToken.isAdmin;
 
   return (
     <>
@@ -204,9 +207,11 @@ function Write() {
         >
           <Stack spacing={1}>
             <Stack spacing={2}>
-              <Stack justifyContent="flex-end" alignItems="center">
-                {isAdmin && <Checkbox checked={checked} />}
-              </Stack>
+              {isAdmin && (
+                <Stack justifyContent="flex-end" alignItems="center">
+                  <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
+                </Stack>
+              )}
               <Stack alignItems="center">
                 <TextField
                   label="제목"
@@ -263,16 +268,15 @@ function Write() {
                 justifyContent="center"
                 spacing={3}
               ></Stack>
-<Editor
-  ref={editorRef} // ref 속성 추가
-  initialValue="내용을 입력하세요."
-  previewStyle="vertical"
-  height="450px"
-  initialEditType="wysiwyg"
-  useCommandShortcut={false}
-  onChange={(e) => setEditorContent(e)}
-/>
-
+              <Editor
+                ref={editorRef} // ref 속성 추가
+                initialValue="내용을 입력하세요."
+                previewStyle="vertical"
+                height="450px"
+                initialEditType="wysiwyg"
+                useCommandShortcut={false}
+                onChange={(e) => setEditorContent(e)}
+              />
 
               <Stack
                 width="100%"
