@@ -5,29 +5,22 @@ import obong from "../../image/obong.png";
 import axios from "axios";
 import WriteModal from "./writeModal";
 import { useNavigate } from "react-router-dom";
-import FormatAlignCenter from "../../image/FormatAlignCenter.png";
-import FormatAlignLeft from "../../image/FormatAlignLeft.png";
-import FormatAlignRight from "../../image/FormatAlignRight.png";
-import FormatAlignJustify from "../../image/FormatAlignJustify.png";
-import AddPhotoAlternate from "../../image/AddPhotoAlternate.png";
 import AuthModalFail from "../../component/authModal_fail";
 import Modal from "../../component/Modal";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import jwt_decode from "jwt-decode"; // jwt-decode 라이브러리 추가
+import jwt_decode from "jwt-decode";
 
 function Write() {
   const [checked, setChecked] = useState(false);
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const alignments = ["LEFT", "CENTER", "RIGHT", "BASIC"];
   const [authModalFailOpen, setAuthModalFailOpen] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [postTags, setPostTags] = useState([]);
   const [failModalOpen, setFailModalOpen] = useState(false);
-  const [textAlignment, setTextAlignment] = useState("BASIC");
   const [thumbnail, setThumbnail] = useState(null);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
@@ -38,20 +31,10 @@ function Write() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const handleEditorChange = (e) => {
-    setEditorContent(e); 
+    setEditorContent(e);
   };
 
-  const handleAlignmentChange = (alignment) => {
-    setTextAlignment(alignment);
-  };
-
-  const [content, setContent] = useState([
-    {
-      contentType: "TEXT",
-      value: "",
-      contentOrder: 0,
-    },
-  ]);
+  const [content, setContent] = useState([]);
 
   const handleFailModalClose = () => {
     setFailModalOpen(false);
@@ -90,26 +73,25 @@ function Write() {
         const markdownContent = editorInstance.getMarkdown();
         const textContents = markdownContent.split("\n");
 
-        let contentOrderCounter = 0; // contentOrder를 관리하기 위한 카운터
+        let contentOrderCounter = 0;
 
         const textContentObjects = textContents.map((textContent) => {
           const trimmedTextContent = textContent.trim();
-          const isBlankLine = !trimmedTextContent; // 빈 라인 여부 확인
+          const isBlankLine = !trimmedTextContent;
           if (isBlankLine) {
             return {
               contentType: "TEXT",
               value: "<br>",
-              contentOrder: contentOrderCounter,
+              contentOrder: contentOrderCounter++,
             };
           }
 
           const contentObject = {
             contentType: "TEXT",
             value: trimmedTextContent,
-            contentOrder: contentOrderCounter, // contentOrder를 카운터로 설정
+            contentOrder: contentOrderCounter++,
           };
 
-          contentOrderCounter++; // 다음 콘텐츠의 contentOrder 증가
           return contentObject;
         });
 
@@ -117,7 +99,7 @@ function Write() {
           title: title,
           thumbnail: thumbnail ? thumbnail.name : "",
           isPinned: checked ? 1 : 0,
-          contents: [...content, ...textContentObjects], // 기존 content 배열과 합침
+          contents: [...content, ...textContentObjects],
           postTag: postTags,
         };
 
@@ -133,7 +115,7 @@ function Write() {
             console.log("고정:", checked ? 1 : 0);
             console.log("태그:", postTags);
             console.log("내용:", [...content, ...textContentObjects]);
-            // console.log("아이디:", userId);
+            console.log("아이디:", userId);
           })
           .catch((error) => {
             setAuthModalFailOpen(true);
@@ -147,14 +129,6 @@ function Write() {
     }
   };
 
-  useEffect(() => {
-    const textField = document.getElementById("content-textfield");
-    if (textField) {
-      textField.style.textAlign = textAlignment;
-    }
-  }, [textAlignment]);
-
-  
   //관리자 권한시 체크박스 보이게 해주는 코드
   useEffect(() => {
     if (accessToken) {
@@ -164,11 +138,10 @@ function Write() {
       if (decoded && decoded.auth === "ROLE_ADMIN") {
         setIsAdmin(true);
       }
-  
+
       console.log(decoded);
     }
   }, [accessToken]);
-
 
   return (
     <>
@@ -209,7 +182,10 @@ function Write() {
             <Stack spacing={2}>
               {isAdmin && (
                 <Stack justifyContent="flex-end" alignItems="center">
-                  <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
+                  <Checkbox
+                    checked={checked}
+                    onChange={() => setChecked(!checked)}
+                  />
                 </Stack>
               )}
               <Stack alignItems="center">
