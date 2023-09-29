@@ -193,7 +193,7 @@ function Write() {
                   label="제목"
                   placeholder="제목을 입력하세요."
                   variant="outlined"
-                  style={{ width: "72%", backgroundColor: "#FFF" }}
+                  style={{ width: "71%", backgroundColor: "#FFF" }}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
@@ -206,14 +206,14 @@ function Write() {
                   value={tagInput}
                   onChange={handleTagInputChange}
                   onKeyPress={handleTagInputKeyPress}
-                  style={{ width: "72%", backgroundColor: "#FFF" }}
+                  style={{ width: "71%", backgroundColor: "#FFF" }}
                 />
                 <Stack
                   direction="row"
                   flexWrap="wrap"
                   justifyContent="flex-start"
                   alignItems="center"
-                  style={{ width: "72%" }}
+                  style={{ width: "71%" }}
                 >
                   {tags.map((tag, index) => (
                     <Chip
