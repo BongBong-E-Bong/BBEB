@@ -63,7 +63,6 @@ function Write() {
     setPostTags(updatedPostTags);
   };
   const editorRef = useRef(null);
-
   const handleCreatePost = () => {
     if (isLogin) {
       const editorInstance =
@@ -86,6 +85,22 @@ function Write() {
             };
           }
 
+          // 이미지 확인
+          if (trimmedTextContent.startsWith("![")) {
+            // 이미지 경로 추출, 혹은 처리할 방법 찾기
+            const imageValue = trimmedTextContent; // 이미지 경로를 어떻게 추출할지 정의하세요.
+
+            // 이미지 객체 생성
+            const imageObject = {
+              contentType: "IMAGE",
+              value: imageValue,
+              contentOrder: contentOrderCounter++,
+            };
+
+            return imageObject;
+          }
+
+          // 일반 텍스트
           const contentObject = {
             contentType: "TEXT",
             value: trimmedTextContent,
