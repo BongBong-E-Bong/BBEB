@@ -17,7 +17,6 @@ function Write() {
   const [tagInput, setTagInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [authModalFailOpen, setAuthModalFailOpen] = useState(false);
-  const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [postTags, setPostTags] = useState([]);
   const [failModalOpen, setFailModalOpen] = useState(false);
@@ -29,10 +28,6 @@ function Write() {
   const navigate = useNavigate();
   const [editorContent, setEditorContent] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
-
-  const handleEditorChange = (e) => {
-    setEditorContent(e);
-  };
 
   const [content, setContent] = useState([]);
 
@@ -85,12 +80,9 @@ function Write() {
             };
           }
 
-          // 이미지 확인
           if (trimmedTextContent.startsWith("![")) {
-            // 이미지 경로 추출, 혹은 처리할 방법 찾기
-            const imageValue = trimmedTextContent; // 이미지 경로를 어떻게 추출할지 정의하세요.
+            const imageValue = trimmedTextContent;
 
-            // 이미지 객체 생성
             const imageObject = {
               contentType: "IMAGE",
               value: imageValue,
@@ -100,7 +92,6 @@ function Write() {
             return imageObject;
           }
 
-          // 일반 텍스트
           const contentObject = {
             contentType: "TEXT",
             value: trimmedTextContent,
@@ -114,7 +105,7 @@ function Write() {
           title: title,
           thumbnail: thumbnail ? thumbnail.name : "",
           isPinned: checked ? 1 : 0,
-          contents: [...content, ...textContentObjects],
+          content: [...content, ...textContentObjects],
           postTag: postTags,
         };
 
@@ -128,9 +119,8 @@ function Write() {
             console.log("제목:", title);
             console.log("썸네일:", thumbnail ? thumbnail.name : "");
             console.log("고정:", checked ? 1 : 0);
-            console.log("태그:", postTags);
             console.log("내용:", [...content, ...textContentObjects]);
-            console.log("아이디:", userId);
+            console.log("태그:", postTags);
           })
           .catch((error) => {
             setAuthModalFailOpen(true);
@@ -153,7 +143,6 @@ function Write() {
       if (decoded && decoded.auth === "ROLE_ADMIN") {
         setIsAdmin(true);
       }
-
       console.log(decoded);
     }
   }, [accessToken]);
@@ -260,7 +249,7 @@ function Write() {
                 spacing={3}
               ></Stack>
               <Editor
-                ref={editorRef} // ref 속성 추가
+                ref={editorRef}
                 initialValue="내용을 입력하세요."
                 previewStyle="vertical"
                 height="450px"
@@ -323,7 +312,7 @@ function Write() {
                     setAuthModalFailOpen={setAuthModalFailOpen}
                     thumbnail={thumbnail}
                     setThumbnail={(file) => setThumbnail(file)}
-                    editorContent={editorContent} // 이렇게 editorContent를 프롭으로 전달합니다.
+                    editorContent={editorContent}
                   />
                 )}
               </Stack>
