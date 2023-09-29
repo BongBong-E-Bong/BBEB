@@ -178,7 +178,7 @@ function Write() {
           height="fit-content"
           bgcolor="#FAF3F0"
         >
-          <Stack spacing={1}>
+          <Stack spacing={1} marginTop="2%">
             <Stack spacing={2}>
               {isAdmin && (
                 <Stack justifyContent="flex-end" alignItems="center">
@@ -193,7 +193,7 @@ function Write() {
                   label="제목"
                   placeholder="제목을 입력하세요."
                   variant="outlined"
-                  style={{ width: "80%", backgroundColor: "#FFF" }}
+                  style={{ width: "72%", backgroundColor: "#FFF" }}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
@@ -206,14 +206,14 @@ function Write() {
                   value={tagInput}
                   onChange={handleTagInputChange}
                   onKeyPress={handleTagInputKeyPress}
-                  style={{ width: "80%", backgroundColor: "#FFF" }}
+                  style={{ width: "72%", backgroundColor: "#FFF" }}
                 />
                 <Stack
                   direction="row"
                   flexWrap="wrap"
                   justifyContent="flex-start"
                   alignItems="center"
-                  style={{ width: "80%" }}
+                  style={{ width: "72%" }}
                 >
                   {tags.map((tag, index) => (
                     <Chip
