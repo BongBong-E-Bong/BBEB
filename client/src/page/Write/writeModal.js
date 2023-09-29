@@ -10,7 +10,7 @@ function WriteModal({
   setAuthModalFailOpen,
   thumbnail,
   setThumbnail,
-  editorContent
+  editorContent,
 }) {
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
@@ -35,7 +35,7 @@ function WriteModal({
   const handleWriteClick = () => {
     if (isLogin) {
       if (isChecked) {
-        onCreatePost(editorContent); 
+        onCreatePost(editorContent);
         setOpen(false);
       } else {
         setAuthModalFailOpen(true);
@@ -44,8 +44,7 @@ function WriteModal({
       setAuthModalFailOpen(true);
     }
   };
-  
-  
+
   return (
     <Modal
       width={"fit-content"}
@@ -199,7 +198,7 @@ function WriteModal({
                 onChange={handleCheckboxChange}
               />
             </Stack>
-            <Stack 
+            <Stack
               bgcolor="#7AAAA7"
               sx={{
                 cursor: isChecked ? "pointer" : "default",
