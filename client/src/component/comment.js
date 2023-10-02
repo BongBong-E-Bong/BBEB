@@ -134,7 +134,6 @@ function Comment() {
 
   const [response, setResponse] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
-  console.log(inputValue);
 
   const postRequest = async () => {
     try {
@@ -142,7 +141,7 @@ function Comment() {
         value: inputValue,
         type: "EMOTICON_TEXT",
         postId: 221,
-        emoticonNumber: "1",
+        emoticonNumber: emoticonState,
       };
 
       const response = await axios.post(
@@ -231,7 +230,10 @@ function Comment() {
             variant="contained"
             color="primary"
             sx={{ fontSize: "18px", height: "60%" }}
-            onClick={postRequest}
+            onClick={() => {
+              postRequest();
+              emoticonCancel();
+            }}
           >
             댓글쓰기({commentData?.totalElements})
           </Button>
