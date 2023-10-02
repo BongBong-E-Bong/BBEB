@@ -75,21 +75,24 @@ function WriteList() {
 
   const [post, setPost] = React.useState([]);
   const [page, setPage] = useState(0);
-  const [startDate, setStartDate] = useState(dayjs('2022-04-17'));
-  const [endDate, setEndDate] = useState(dayjs('2023-08-20'));
+const [selectedStartDate, setSelectedStartDate] = useState(null);
+const [selectedEndDate, setSelectedEndDate] = useState(null);
+
   const [order, setOrder] = useState(0);
 
   React.useEffect(() => {
-    // 이 부분에서 데이터를 가져와서 setPost 및 setTotalItems를 업데이트합니다.
+    const startDateString = selectedStartDate ? selectedStartDate.format('YYYY-MM-DD') : '';
+    const endDateString = selectedEndDate ? selectedEndDate.format('YYYY-MM-DD') : '';
+  
+    // API 요청 URL을 동적으로 생성
+    const apiUrl = `http://13.125.105.202:8080/api/posts?page=${currentPage-1}&size=${itemsPerPage}&sort=string&startDate=${startDateString}&endDate=${endDateString}&order=0`;
+  
     axios
-      .get(
-        `http://13.125.105.202:8080/api/posts?page=${currentPage - 1}&size=${itemsPerPage}&sort=string&startDate=2001-05-05&endDate=2023-10-23&order=0`,
-        {
-          headers: {
-            Authorization: accessToken,
-          },
-        }
-      )
+      .get(apiUrl, {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
       .then((response) => {
         setPost(response.data);
         setTotalItems(response.data.total);
@@ -97,8 +100,8 @@ function WriteList() {
       .catch((error) => {
         console.log("error 내용", error);
       });
-  }, [currentPage]); // currentPage가 변경될 때마다 호출
-
+  }, [currentPage, selectedStartDate, selectedEndDate]);
+  
   // const [likeTotal, setLikeTotal] = React.useState(0);
   // const likeClick = () => {
   //   axios
@@ -158,21 +161,18 @@ function WriteList() {
                 alignItems="center"
               >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="시작 날짜"
-                    value={startDate}
-                    onChange={(newValue) =>
-                      setStartDate(newValue)
-                    }
-                  />
-                  <Stack>~</Stack>
-                  <DatePicker
-                    label="종료 날짜"
-                    value={endDate}
-                    onChange={(newValue) =>
-                      setEndDate(newValue)
-                    }
-                  />
+                <DatePicker
+  label="시작 날짜"
+  value={selectedStartDate}
+  onChange={(newValue) => setSelectedStartDate(newValue)}
+/>
+<Stack>~</Stack>
+<DatePicker
+  label="종료 날짜"
+  value={selectedEndDate}
+  onChange={(newValue) => setSelectedEndDate(newValue)}
+/>
+
                 </LocalizationProvider>
               </Stack>
               <Stack
