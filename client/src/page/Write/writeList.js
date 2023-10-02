@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from "dayjs";
 
 function WriteList() {
   const itemsPerRow = 4;
@@ -33,7 +33,6 @@ function WriteList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [groupedPosts, setGroupedPosts] = useState([]);
   const [value, setValue] = useState([]);
-
 
   const navigate = useNavigate();
 
@@ -75,21 +74,27 @@ function WriteList() {
 
   const [post, setPost] = React.useState([]);
   const [page, setPage] = useState(0);
-const [selectedStartDate, setSelectedStartDate] = useState(null);
-const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
 
   const [order, setOrder] = useState(0);
 
   React.useEffect(() => {
-    const startDateString = selectedStartDate ? selectedStartDate.format('YYYY-MM-DD') : '';
-    const endDateString = selectedEndDate ? selectedEndDate.format('YYYY-MM-DD') : '';
-    
+    const startDateString = selectedStartDate
+      ? selectedStartDate.format("YYYY-MM-DD")
+      : "";
+    const endDateString = selectedEndDate
+      ? selectedEndDate.format("YYYY-MM-DD")
+      : "";
+
     // Conditionally set the order parameter based on the sortByDate state
     const orderParam = sortByDate ? 1 : 0;
-  
+
     // API 요청 URL을 동적으로 생성
-    const apiUrl = `http://13.125.105.202:8080/api/posts?page=${currentPage - 1}&size=${itemsPerPage}&sort=string&startDate=${startDateString}&endDate=${endDateString}&order=${orderParam}`;
-    
+    const apiUrl = `http://13.125.105.202:8080/api/posts?page=${
+      currentPage - 1
+    }&size=${itemsPerPage}&sort=string&startDate=${startDateString}&endDate=${endDateString}&order=${orderParam}&writer=string&title=string&tag=string&content=string`;
+
     axios
       .get(apiUrl, {
         headers: {
@@ -104,8 +109,7 @@ const [selectedEndDate, setSelectedEndDate] = useState(null);
         console.log("error 내용", error);
       });
   }, [currentPage, selectedStartDate, selectedEndDate, sortByDate]);
-  
-  
+
   // const [likeTotal, setLikeTotal] = React.useState(0);
   // const likeClick = () => {
   //   axios
@@ -165,18 +169,17 @@ const [selectedEndDate, setSelectedEndDate] = useState(null);
                 alignItems="center"
               >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-  label="시작 날짜"
-  value={selectedStartDate}
-  onChange={(newValue) => setSelectedStartDate(newValue)}
-/>
-<Stack>~</Stack>
-<DatePicker
-  label="종료 날짜"
-  value={selectedEndDate}
-  onChange={(newValue) => setSelectedEndDate(newValue)}
-/>
-
+                  <DatePicker
+                    label="시작 날짜"
+                    value={selectedStartDate}
+                    onChange={(newValue) => setSelectedStartDate(newValue)}
+                  />
+                  <Stack>~</Stack>
+                  <DatePicker
+                    label="종료 날짜"
+                    value={selectedEndDate}
+                    onChange={(newValue) => setSelectedEndDate(newValue)}
+                  />
                 </LocalizationProvider>
               </Stack>
               <Stack
@@ -480,11 +483,11 @@ const [selectedEndDate, setSelectedEndDate] = useState(null);
             </Stack>
           </Stack>
           <Stack alignItems="center" marginTop="7%">
-          <Pagination
-          count={Math.ceil(totalItems / itemsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-        />
+            <Pagination
+              count={Math.ceil(totalItems / itemsPerPage)}
+              page={currentPage}
+              onChange={handlePageChange}
+            />
           </Stack>
         </Stack>
       </Stack>
