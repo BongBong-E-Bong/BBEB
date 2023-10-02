@@ -2,11 +2,22 @@ import React from "react";
 import Header from "../../component/header";
 import { Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import spotlight from "../../image/spotlight.png";
-import ebongsad from "../../image/ebongsad.png";
 import Bounce from "react-reveal/Bounce";
 import Fade from "react-reveal/Fade";
 import Slide from "react-reveal/Slide";
+import onebongHover from "../../image/body/onebongHover.png";
+import onebongCry from "../../image/body/onebongCry.png";
+import twobongHover from "../../image/body/twobongHover.png";
+import twobongCry from "../../image/body/twobongCry.png";
+import threebongHover from "../../image/body/threebongHover.png";
+import threebongCry from "../../image/body/threebongCry.png";
+import fivebong from "../../image/body/fivebong.png";
+import sixbong from "../../image/body/sixbong.png";
+import sixbongCry from "../../image/body/sixbongCry.png";
+import sevenbongHover from "../../image/body/sevenbongHover.png";
+import sevenbongCry from "../../image/body/sevenbongCry.png";
+import eightbongHover from "../../image/body/eightbongHover.png";
+import eightbongCry from "../../image/body/eightbongCry.png";
 
 function Ranking() {
   const navigate = useNavigate();
@@ -24,13 +35,13 @@ function Ranking() {
   ];
 
   let ebongranking = [
-    [back[0]["bongId"], back[0]["voteScore"], spotlight, ebongsad],
-    [back[1]["bongId"], back[1]["voteScore"], spotlight, ebongsad],
-    [back[2]["bongId"], back[2]["voteScore"], spotlight, ebongsad],
-    [back[3]["bongId"], back[3]["voteScore"], spotlight, ebongsad],
-    [back[4]["bongId"], back[4]["voteScore"], spotlight, ebongsad],
-    [back[5]["bongId"], back[5]["voteScore"], spotlight, ebongsad],
-    [back[6]["bongId"], back[6]["voteScore"], spotlight, ebongsad],
+    [back[0]["bongId"], back[0]["voteScore"], onebongHover, onebongCry],
+    [back[1]["bongId"], back[1]["voteScore"], twobongHover, twobongCry],
+    [back[2]["bongId"], back[2]["voteScore"], threebongHover, threebongCry],
+    [back[3]["bongId"], back[3]["voteScore"], fivebong, fivebong],
+    [back[4]["bongId"], back[4]["voteScore"], sixbong, sixbongCry],
+    [back[5]["bongId"], back[5]["voteScore"], sevenbongHover, sevenbongCry],
+    [back[6]["bongId"], back[6]["voteScore"], eightbongHover, eightbongCry],
   ];
 
   ebongranking.sort((a, b) => b[1] - a[1]);
@@ -130,8 +141,8 @@ function Ranking() {
                   <img
                     src={i < 3 ? ebongranking[2] : ebongranking[3]}
                     alt="spotlight"
-                    width="200px"
-                    height="300px"
+                    width="350px"
+                    height="400px"
                   />
                 </Slide>
               </Stack>

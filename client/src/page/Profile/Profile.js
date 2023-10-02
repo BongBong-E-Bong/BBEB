@@ -1,8 +1,6 @@
 import React from "react";
 import Header from "../../component/header";
 import { Stack } from "@mui/material";
-import ebongbody from "../../image/ebongbody.png";
-import ebongbodyhover from "../../image/ebongbodyhover.png";
 import { useNavigate } from "react-router-dom";
 import onebong from "../../image/body/onebong.png";
 import onebongHover from "../../image/body/onebongHover.png";
@@ -178,6 +176,9 @@ function Profile() {
                   height="350px"
                   onMouseOut={handleMouseOut}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/onebong");
+                  }}
                 />
               </Stack>
             ) : (
@@ -201,6 +202,9 @@ function Profile() {
                   height="350px"
                   onMouseOver={handleMouseOver}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/onebong");
+                  }}
                 />
               </Stack>
             )}
@@ -230,6 +234,9 @@ function Profile() {
                   height="350px"
                   onMouseOut={handleMouseOut2}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/twobong");
+                  }}
                 />
               </Stack>
             ) : (
@@ -253,6 +260,9 @@ function Profile() {
                   height="350px"
                   onMouseOver={handleMouseOver2}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/twobong");
+                  }}
                 />
               </Stack>
             )}
@@ -282,6 +292,9 @@ function Profile() {
                   height="350px"
                   onMouseOut={handleMouseOut3}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/threebong");
+                  }}
                 />
               </Stack>
             ) : (
@@ -305,6 +318,9 @@ function Profile() {
                   height="350px"
                   onMouseOver={handleMouseOver3}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/threebong");
+                  }}
                 />
               </Stack>
             )}
@@ -333,6 +349,9 @@ function Profile() {
                   height="350px"
                   onMouseOut={handleMouseOut5}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/fivebong");
+                  }}
                 />
               </Stack>
             ) : (
@@ -356,6 +375,9 @@ function Profile() {
                   height="350px"
                   onMouseOver={handleMouseOver5}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/fivebong");
+                  }}
                 />
               </Stack>
             )}
@@ -384,6 +406,9 @@ function Profile() {
                   height="350px"
                   onMouseOut={handleMouseOut6}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/sixbong");
+                  }}
                 />
               </Stack>
             ) : (
@@ -407,6 +432,9 @@ function Profile() {
                   height="350px"
                   onMouseOver={handleMouseOver6}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/sixbong");
+                  }}
                 />
               </Stack>
             )}
@@ -435,6 +463,9 @@ function Profile() {
                   height="350px"
                   onMouseOut={handleMouseOut7}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/sevenbong");
+                  }}
                 />
               </Stack>
             ) : (
@@ -458,6 +489,9 @@ function Profile() {
                   height="350px"
                   onMouseOver={handleMouseOver7}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/sevenbong");
+                  }}
                 />
               </Stack>
             )}
@@ -486,6 +520,9 @@ function Profile() {
                   height="350px"
                   onMouseOut={handleMouseOut8}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/eightbong");
+                  }}
                 />
               </Stack>
             ) : (
@@ -509,6 +546,9 @@ function Profile() {
                   height="350px"
                   onMouseOver={handleMouseOver8}
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/eightbong");
+                  }}
                 />
               </Stack>
             )}
