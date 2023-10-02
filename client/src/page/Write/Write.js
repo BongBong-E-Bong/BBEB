@@ -105,7 +105,7 @@ function Write() {
           title: title,
           thumbnail: thumbnail ? thumbnail.name : "",
           isPinned: checked ? 1 : 0,
-          sortType:1,
+          sortType: 1,
           content: [...content, ...textContentObjects],
           postTag: postTags,
         };
@@ -185,7 +185,7 @@ function Write() {
         >
           <Stack spacing={1} marginTop="2%">
             <Stack spacing={2}>
-              {isAdmin && (
+              {isAdmin && isLogin && (
                 <Stack justifyContent="flex-end" alignItems="center">
                   <Checkbox
                     checked={checked}
