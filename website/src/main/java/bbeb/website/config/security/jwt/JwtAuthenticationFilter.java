@@ -1,7 +1,6 @@
 package bbeb.website.config.security.jwt;
 
 import bbeb.website.dto.TokenDTO;
-import bbeb.website.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

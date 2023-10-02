@@ -1,4 +1,4 @@
-package bbeb.website.repository;
+package bbeb.website.repository.member;
 
 import java.util.Optional;
 

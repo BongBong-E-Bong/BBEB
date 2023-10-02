@@ -6,18 +6,73 @@ import obong from "../../image/obong.png";
 import basicProfile from "../../image/profilephoto.png";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Post() {
-  const tags = [
-    "이봉이 좋아",
-    "이봉이 싫어",
-    "메롱",
-    "메롱롱",
-    "메롱롱롱롱롱롱롱",
-    "메롱롱롱롱롱롱롱",
-    "메롱롱롱롱롱롱롱",
-    "메롱롱롱롱롱롱롱",
-  ];
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const navigate = useNavigate();
+
+  const [likeTotal, setLikeTotal] = React.useState(0);
+
+  const likeClick = () => {
+    axios
+      .get("http://13.125.105.202:8080/api/posts/likes/213", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setLikeTotal(response.data.total);
+      })
+      .catch((error) => {
+        console.error("like error:", error);
+      });
+  };
+
+  const [postData, setPostData] = React.useState(null);
+
+  React.useEffect(() => {
+    axios
+      .get("http://13.125.105.202:8080/api/posts/213", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setPostData(response.data);
+      })
+      .catch((error) => {
+        console.error("post data error", error);
+      });
+  }, []);
+
+  const handleDelete = () => {
+    axios
+      .delete("http://13.125.105.202:8080/api/posts/213", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("delete error", error);
+      });
+  };
+
+  const originalDateTimeString = postData?.date;
+  const originalDateTime = new Date(originalDateTimeString);
+
+  const year = originalDateTime.getFullYear();
+  const month = (originalDateTime.getMonth() + 1).toString().padStart(2, "0");
+  const day = originalDateTime.getDate().toString().padStart(2, "0");
+  const hours = originalDateTime.getHours().toString().padStart(2, "0");
+  const minutes = originalDateTime.getMinutes().toString().padStart(2, "0");
+
+  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
 
   return (
     <>
@@ -56,15 +111,15 @@ function Post() {
         <Stack
           width="70%"
           marginTop="2%"
-          minHeight="22vh" //72-
+          minHeight="22vh"
           height="fit-content"
           bgcolor="#FAF3F0"
         >
-          <Stack //제목
+          <Stack
             margin="6% 10% 0.6% 10%"
             style={{ fontSize: "40px", fontWeight: "bold" }}
           >
-            title
+            {postData?.title}
           </Stack>
           <Stack
             direction="row"
@@ -73,34 +128,38 @@ function Post() {
             alignItems="center"
           >
             <Stack direction="row" gap="10px">
-              <img //프사
+              <img
                 src={basicProfile}
                 alt="basicProfile"
                 width="8%"
                 height="8%"
               ></img>
-              <Stack gap="2px" justifyContent="center" alignItems="center">
-                {/* 닉네임  */}
-                <Stack style={{ fontSize: "17px" }}>nickname</Stack>
-                {/* 날짜 */}
-                <Stack style={{ fontSize: "14px" }}>2001.08.23</Stack>
+              <Stack gap="2px" justifyContent="center" alignItems="flex-start">
+                <Stack style={{ fontSize: "17px" }}>{postData?.writer}</Stack>
+                <Stack style={{ fontSize: "14px" }}>{formattedDateTime}</Stack>
               </Stack>
             </Stack>
             <Stack direction="row" gap="15px" minWidth="fit-content">
-              {/* 수정 삭제 버튼 글쓴이가 아닐 경우 */}
-              <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
-                수정
-              </Stack>
-              <Stack style={{ fontSize: "17px" }}>|</Stack>
-              <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
-                삭제
-              </Stack>
+              {postData?.isUpdate ? (
+                <>
+                  <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
+                    수정
+                  </Stack>
+                  <Stack style={{ fontSize: "17px" }}>|</Stack>
+                  <Stack
+                    style={{ fontSize: "17px", cursor: "pointer" }}
+                    onClick={handleDelete}
+                  >
+                    삭제
+                  </Stack>
+                </>
+              ) : null}
               <Stack direction="row" gap="10px">
                 <VisibilityIcon
                   style={{ color: "#767676" }}
                   sx={{ fontSize: "17px" }}
                 />
-                <Stack style={{ fontSize: "17px" }}>8</Stack>
+                <Stack style={{ fontSize: "17px" }}>{postData?.view}</Stack>
               </Stack>
             </Stack>
           </Stack>
@@ -113,11 +172,10 @@ function Post() {
             height="fit-content"
             flexWrap="wrap"
           >
-            {/* 태그 */}
-            {tags.map((tag, i) => {
+            {postData?.tags.map((tag, i) => {
               return (
                 <Chip
-                  label={tag}
+                  label={tag.value}
                   variant="outlined"
                   color="primary"
                   style={{ cursor: "pointer", fontSize: "15px" }}
@@ -151,8 +209,9 @@ function Post() {
               alignItems="center"
               bgcolor="white"
             >
-              hihihihi
-              {/* content */}
+              {postData?.contents.map((content, i) => {
+                return <Stack>{content.value}</Stack>;
+              })}
             </Stack>
             <Stack
               direction="row"
@@ -166,13 +225,14 @@ function Post() {
               <ThumbUpIcon
                 fontSize="large"
                 style={{ cursor: "pointer", color: "#767676" }}
+                onClick={likeClick}
               ></ThumbUpIcon>
-              {/* 따봉수 */}
-              <Stack style={{ fontSize: "30px" }}>2</Stack>
+              <Stack style={{ fontSize: "30px" }}>{likeTotal}</Stack>
             </Stack>
           </Stack>
         </Stack>
       </Stack>
+
       <Comment />
     </>
   );
