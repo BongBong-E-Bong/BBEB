@@ -29,8 +29,6 @@ function Write() {
   const [editorContent, setEditorContent] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const [content, setContent] = useState([]);
-
   const handleFailModalClose = () => {
     setFailModalOpen(false);
   };
@@ -58,6 +56,9 @@ function Write() {
     setPostTags(updatedPostTags);
   };
   const editorRef = useRef(null);
+
+  const [content, setContent] = useState([]);
+
   const handleCreatePost = () => {
     if (isLogin) {
       const editorInstance =
@@ -65,48 +66,18 @@ function Write() {
 
       if (editorInstance) {
         const markdownContent = editorInstance.getMarkdown();
-        const textContents = markdownContent.split("\n");
-
-        let contentOrderCounter = 0;
-
-        const textContentObjects = textContents.map((textContent) => {
-          const trimmedTextContent = textContent.trim();
-          const isBlankLine = !trimmedTextContent;
-          if (isBlankLine) {
-            return {
-              contentType: "TEXT",
-              value: "<br>",
-              contentOrder: contentOrderCounter++,
-            };
-          }
-
-          if (trimmedTextContent.startsWith("![")) {
-            const imageValue = trimmedTextContent;
-
-            const imageObject = {
-              contentType: "IMAGE",
-              value: imageValue,
-              contentOrder: contentOrderCounter++,
-            };
-
-            return imageObject;
-          }
-
-          const contentObject = {
-            contentType: "TEXT",
-            value: trimmedTextContent,
-            contentOrder: contentOrderCounter++,
-          };
-
-          return contentObject;
-        });
-
+        const newContent = {
+          contentType: "TEXT",
+          value: markdownContent,
+          contentOrder: 0,
+        };
+        setContent([newContent]);
         const postDataToSend = {
           title: title,
           thumbnail: thumbnail ? thumbnail.name : "",
           isPinned: checked ? 1 : 0,
-          sortType:1,
-          content: [...content, ...textContentObjects],
+          sortType: 1,
+          content: content,
           postTag: postTags,
         };
 
@@ -120,7 +91,7 @@ function Write() {
             console.log("제목:", title);
             console.log("썸네일:", thumbnail ? thumbnail.name : "");
             console.log("고정:", checked ? 1 : 0);
-            console.log("내용:", [...content, ...textContentObjects]);
+            console.log("내용:", content);
             console.log("태그:", postTags);
           })
           .catch((error) => {
@@ -242,20 +213,23 @@ function Write() {
               </Stack>
             </Stack>
             <Stack width="100%" height="100%" alignItems="center" spacing={2}>
-              <Stack
+              {/* <Stack
                 width="100%"
                 height="100%"
+                z
                 direction="row"
                 justifyContent="center"
                 spacing={3}
-              ></Stack>
+              ></Stack> */}
               <Editor
                 ref={editorRef}
                 initialValue="내용을 입력하세요."
+                value={editorContent}
                 previewStyle="vertical"
                 height="450px"
-                initialEditType="wysiwyg"
+                initialEditType="markdown"
                 useCommandShortcut={false}
+                hideModeSwitch={true} // "Write" 및 "Preview" 버튼 숨기기
                 onChange={(e) => setEditorContent(e)}
               />
 
