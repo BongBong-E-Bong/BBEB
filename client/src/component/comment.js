@@ -164,6 +164,10 @@ function Comment() {
     setInputValue(event.target.value);
   };
 
+  const valueClear = (event) => {
+    setInputValue("");
+  };
+
   return (
     <Stack
       minHeight="12vh"
@@ -233,6 +237,7 @@ function Comment() {
             onClick={() => {
               postRequest();
               emoticonCancel();
+              valueClear();
             }}
           >
             댓글쓰기({commentData?.totalElements})
