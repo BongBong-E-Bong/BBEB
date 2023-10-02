@@ -98,13 +98,11 @@ const RPS = () => {
     setGameOver(false);
   };
 
-  const data = [
-
-  ];
+  const data = [];
 
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
   const sortedData = [...data].reverse();
-  const topThreeData = sortedData.slice(0, 3);
+  // const topThreeData = sortedData.slice(0, 3);
 
   console.log("엑세스 토큰:", accessToken);
 
@@ -128,17 +126,22 @@ const RPS = () => {
         console.error(error);
       });
   };
-
-  const [gameData, setGameData] = React.useState(null);
+  const [topThreeData, setTopThreeData] = useState([]);
 
   React.useEffect(() => {
     axios
-      .get("http://13.125.105.202:8080/api/tetris", {
-        headers: {
-          Authorization: accessToken,
-        },
+      .get(
+        "http://13.125.105.202:8080/api/tetris?page=0&size=256&sort=string",
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      )
+      .then((response) => {
+        const sortedData = response.data.content.slice(0, 3); // 상위 3개 데이터만 가져옵니다.
+        setTopThreeData(sortedData);
       })
-      .then((response) => {})
       .catch((error) => {
         console.error(error);
       });
@@ -192,22 +195,28 @@ const RPS = () => {
             display="flex"
           >
             <Stack justifyContent="center" spacing={5}>
-              {topThreeData.map((item, index) => (
-                <Stack key={item.number} direction="row" spacing={4}>
-                  <Stack color="black" fontSize="48px">
-                    {renderRank(index)}
-                  </Stack>
-                  <Stack>{gameData?.url}</Stack>
-                  <Stack spacing={2.5}>
-                    <Stack color="black" fontSize="13px">
-                      {gameData?.nickname}
+              {topThreeData.length > 0 ? (
+                topThreeData.map((content, i) => (
+                  <Stack key={content.nickname} direction="row" spacing={4}>
+                    <Stack color="black" fontSize="48px">
+                      {renderRank(i)}
                     </Stack>
-                    <Stack color="black" fontSize="13px">
-                      score: {gameData?.score}
+                    <Stack>
+                      <img src={content.url} alt={content.nickname} style={{height:'50px', width:'50px'}}/>
+                    </Stack>
+                    <Stack spacing={2.5}>
+                      <Stack color="black" fontSize="13px">
+                        {content.nickname}
+                      </Stack>
+                      <Stack color="black" fontSize="13px">
+                        score: {content.score}
+                      </Stack>
                     </Stack>
                   </Stack>
-                </Stack>
-              ))}
+                ))
+              ) : (
+                <p>No data available</p>
+              )}
             </Stack>
             <Stack spacing={10}>
               <Stack direction="row" spacing={10} fontSize="30px">
