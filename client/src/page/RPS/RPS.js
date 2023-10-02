@@ -121,6 +121,8 @@ const RPS = () => {
       )
       .then((response) => {
         console.log("성공");
+        console.log(winCount);
+
       })
       .catch((error) => {
         console.error(error);
@@ -139,7 +141,7 @@ const RPS = () => {
         }
       )
       .then((response) => {
-        const sortedData = response.data.content.slice(0, 3); // 상위 3개 데이터만 가져옵니다.
+        const sortedData = response.data.content.slice(0, 3); 
         setTopThreeData(sortedData);
       })
       .catch((error) => {
