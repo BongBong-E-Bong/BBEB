@@ -105,6 +105,7 @@ function Write() {
           title: title,
           thumbnail: thumbnail ? thumbnail.name : "",
           isPinned: checked ? 1 : 0,
+          sortType:1,
           content: [...content, ...textContentObjects],
           postTag: postTags,
         };
