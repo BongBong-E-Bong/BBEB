@@ -132,6 +132,33 @@ function Comment() {
     }
   }
 
+  const [response, setResponse] = React.useState(null);
+
+  const postRequest = async () => {
+    try {
+      const sendData = {
+        value: "코딩 좋아!",
+        type: "EMOTICON_TEXT",
+        postId: 221,
+        emoticonNumber: "1",
+      };
+
+      const response = await axios.post(
+        "http://13.125.105.202:8080/api/comment",
+        sendData,
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      );
+
+      setResponse(response.data);
+    } catch (error) {
+      console.error("Error sending data to the backend:", error);
+    }
+  };
+
   return (
     <Stack
       minHeight="12vh"
@@ -196,6 +223,7 @@ function Comment() {
             variant="contained"
             color="primary"
             sx={{ fontSize: "18px", height: "60%" }}
+            onClick={postRequest}
           >
             댓글쓰기({commentData?.totalElements})
           </Button>
