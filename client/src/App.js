@@ -13,6 +13,7 @@ import Ranking from "../src/page/Ranking/Ranking.js";
 import Vote from "../src/page/Vote/Vote.js";
 import Post from "../src/page/Board/post.js";
 import RPS from "../src/page/RPS/RPS.js";
+import Choice from "../src/page/Choice/Choice.js";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/vote" element={<Vote />} />
         <Route path="/post" element={<Post />} />
         <Route path="/RPS" element={<RPS />} />
+        <Route path="/Choice" element={<Choice />} />
       </Routes>
     </Router>
   );

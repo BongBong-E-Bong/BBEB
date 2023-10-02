@@ -7,90 +7,97 @@ import ebongsad from "../../image/ebongsad.png";
 import Bounce from "react-reveal/Bounce";
 import Fade from "react-reveal/Fade";
 import Slide from "react-reveal/Slide";
+import axios from "axios";
 
 function Ranking() {
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const [voteTotal, setVoteTotal] = React.useState([]);
+
+  React.useEffect(() => {
+    axios
+      .get("http://13.125.105.202:8080/api/vote", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setVoteTotal(response.data);
+      })
+      .catch((error) => {
+        console.error("vote error:", error);
+      });
+  }, []);
+
   const navigate = useNavigate();
 
-  const bong = [, "일봉", "이봉", "삼봉", , "오봉", "육봉", "칠봉", "팔봉"];
-
-  const back = [
-    { bongId: 1, voteScore: 11 },
-    { bongId: 2, voteScore: 23 },
-    { bongId: 3, voteScore: 555 },
-    { bongId: 5, voteScore: 78 },
-    { bongId: 6, voteScore: 99 },
-    { bongId: 7, voteScore: 115 },
-    { bongId: 8, voteScore: 9 },
+  const bong = [
+    [],
+    ["일봉", spotlight, ebongsad],
+    ["이봉", spotlight, ebongsad],
+    ["삼봉", spotlight, ebongsad],
+    [],
+    ["오봉", spotlight, ebongsad],
+    ["육봉", spotlight, ebongsad],
+    ["칠봉", spotlight, ebongsad],
+    ["팔봉", spotlight, ebongsad],
   ];
 
-  let ebongranking = [
-    [back[0]["bongId"], back[0]["voteScore"], spotlight, ebongsad],
-    [back[1]["bongId"], back[1]["voteScore"], spotlight, ebongsad],
-    [back[2]["bongId"], back[2]["voteScore"], spotlight, ebongsad],
-    [back[3]["bongId"], back[3]["voteScore"], spotlight, ebongsad],
-    [back[4]["bongId"], back[4]["voteScore"], spotlight, ebongsad],
-    [back[5]["bongId"], back[5]["voteScore"], spotlight, ebongsad],
-    [back[6]["bongId"], back[6]["voteScore"], spotlight, ebongsad],
-  ];
-
-  ebongranking.sort((a, b) => b[1] - a[1]);
-
-  {
-    return (
-      <>
-        <Header />
+  return (
+    <>
+      <Header />
+      <Stack
+        minHeight="100vh"
+        height="fit-content"
+        width="100%"
+        bgcolor="#293424"
+        alignItems="center"
+      >
         <Stack
-          minHeight="100vh"
-          height="fit-content"
-          width="100%"
-          bgcolor="#293424"
-          alignItems="center"
+          margin="11% 0 4% 0"
+          color="white"
+          fontFamily="blackboard"
+          style={{ fontSize: "55px" }}
         >
+          <Bounce top cascade>
+            이봉이 형제 인기투표 순위
+          </Bounce>
+        </Stack>
+        <Stack width="70%" justifyContent="flex-end" direction="row">
           <Stack
-            margin="11% 0 4% 0"
-            color="white"
-            fontFamily="blackboard"
-            style={{ fontSize: "55px" }}
+            direction="row"
+            height="100px"
+            alignItems="center"
+            gap="20px"
+            justifyContent="center"
           >
-            <Bounce top cascade>
-              이봉이 형제 인기투표 순위
-            </Bounce>
+            <Fade right>
+              <Button
+                variant="outlined"
+                color="secondary"
+                style={{
+                  fontSize: "20px",
+                  fontFamily: "blackboard",
+                }}
+                onClick={() => {
+                  navigate("/Profile");
+                }}
+              >
+                이봉이 형제 소개
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                style={{ fontSize: "20px", fontFamily: "blackboard" }}
+              >
+                투표하러 가기
+              </Button>
+            </Fade>
           </Stack>
-          <Stack width="70%" justifyContent="flex-end" direction="row">
-            <Stack
-              direction="row"
-              height="100px"
-              alignItems="center"
-              gap="20px"
-              justifyContent="center"
-            >
-              <Fade right>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  style={{
-                    fontSize: "20px",
-                    fontFamily: "blackboard",
-                  }}
-                  onClick={() => {
-                    navigate("/Profile");
-                  }}
-                >
-                  이봉이 형제 소개
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  style={{ fontSize: "20px", fontFamily: "blackboard" }}
-                >
-                  투표하러 가기
-                </Button>
-              </Fade>
-            </Stack>
-          </Stack>
-
-          {ebongranking.map((ebongranking, i) => {
-            return (
+        </Stack>
+        {voteTotal.map((vote, i) => {
+          return (
+            bong[vote.order].length > 0 && (
               <Stack
                 direction="row"
                 justifyContent="center"
@@ -123,47 +130,49 @@ function Ranking() {
                       >
                         {i + 1}등
                       </Stack>
-                      <Stack> {bong[ebongranking[0]]}</Stack>
+                      <Stack>{bong[vote?.order]?.[0]}</Stack>
                     </Stack>
-                    <Stack>{ebongranking[1]}표</Stack>
+                    <Stack>{vote.likeCount}표</Stack>
                   </Stack>
                   <img
-                    src={i < 3 ? ebongranking[2] : ebongranking[3]}
+                    src={
+                      i < 3 ? bong[vote?.order]?.[1] : bong[vote?.order]?.[2]
+                    }
                     alt="spotlight"
                     width="200px"
                     height="300px"
                   />
                 </Slide>
               </Stack>
-            );
-          })}
+            )
+          );
+        })}
 
+        <Stack
+          width="100%"
+          height="50vh"
+          alignItems="center"
+          justifyContent="center"
+        >
           <Stack
-            width="100%"
-            height="50vh"
-            alignItems="center"
-            justifyContent="center"
+            color="white"
+            fontFamily="blackboard"
+            style={{ fontSize: "17px" }}
           >
-            <Stack
-              color="white"
-              fontFamily="blackboard"
-              style={{ fontSize: "17px" }}
-            >
-              떠든 사람
-              <br />
-              김수돌
-              <br />
-              신채연
-              <br />
-              박소정
-              <br />
-              장희권
-            </Stack>
+            떠든 사람
+            <br />
+            김수돌
+            <br />
+            신채연
+            <br />
+            박소정
+            <br />
+            장희권
           </Stack>
         </Stack>
-      </>
-    );
-  }
+      </Stack>
+    </>
+  );
 }
 
 export default Ranking;
