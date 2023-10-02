@@ -83,10 +83,13 @@ const [selectedEndDate, setSelectedEndDate] = useState(null);
   React.useEffect(() => {
     const startDateString = selectedStartDate ? selectedStartDate.format('YYYY-MM-DD') : '';
     const endDateString = selectedEndDate ? selectedEndDate.format('YYYY-MM-DD') : '';
+    
+    // Conditionally set the order parameter based on the sortByDate state
+    const orderParam = sortByDate ? 1 : 0;
   
     // API 요청 URL을 동적으로 생성
-    const apiUrl = `http://13.125.105.202:8080/api/posts?page=${currentPage-1}&size=${itemsPerPage}&sort=string&startDate=${startDateString}&endDate=${endDateString}&order=0`;
-  
+    const apiUrl = `http://13.125.105.202:8080/api/posts?page=${currentPage - 1}&size=${itemsPerPage}&sort=string&startDate=${startDateString}&endDate=${endDateString}&order=${orderParam}`;
+    
     axios
       .get(apiUrl, {
         headers: {
@@ -100,7 +103,8 @@ const [selectedEndDate, setSelectedEndDate] = useState(null);
       .catch((error) => {
         console.log("error 내용", error);
       });
-  }, [currentPage, selectedStartDate, selectedEndDate]);
+  }, [currentPage, selectedStartDate, selectedEndDate, sortByDate]);
+  
   
   // const [likeTotal, setLikeTotal] = React.useState(0);
   // const likeClick = () => {
