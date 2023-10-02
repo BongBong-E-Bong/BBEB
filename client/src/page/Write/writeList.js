@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 function WriteList() {
   const itemsPerRow = 4;
@@ -56,7 +56,7 @@ function WriteList() {
   const [totalItems, setTotalItems] = useState(groupedPosts.length);
 
   const [currentPage, setCurrentPage] = useState(1);
-
+  const today = dayjs(); // 현재 날짜와 시간을 얻습니다.
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
   const currentItems = groupedPosts.slice(startIndex, endIndex);
@@ -73,11 +73,13 @@ function WriteList() {
 
     rows.push(rowItems);
   }
+
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
   const [post, setPost] = React.useState([]);
   const [page, setPage] = useState(0);
-  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedStartDate, setSelectedStartDate] = useState(dayjs("2001-03-02")); // 시작 날짜를 "2001-03-02"로 설정
+
   const [selectedEndDate, setSelectedEndDate] = useState(null);
 
   const [order, setOrder] = useState(0);
@@ -129,21 +131,6 @@ function WriteList() {
     searchContent, // Include searchContent in the dependencies array
   ]);
 
-  // const [likeTotal, setLikeTotal] = React.useState(0);
-  // const likeClick = () => {
-  //   axios
-  //     .get("http://13.125.105.202:8080/api/posts/likes/126", {
-  //       headers: {
-  //         Authorization: accessToken,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       setLikeTotal(response.data.total);
-  //     })
-  //     .catch((error) => {
-  //       console.error("like error:", error);
-  //     });
-  // };
   return (
     <>
       <Header />
@@ -195,7 +182,7 @@ function WriteList() {
                   <Stack>~</Stack>
                   <DatePicker
                     label="종료 날짜"
-                    value={selectedEndDate}
+                    value={selectedEndDate || today} // 만약 selectedEndDate가 없으면 오늘 날짜를 사용합니다.
                     onChange={(newValue) => setSelectedEndDate(newValue)}
                   />
                 </LocalizationProvider>
@@ -262,7 +249,6 @@ function WriteList() {
           <Stack>
             {searchQuery && `'${searchQuery}' 검색 결과 (${totalItems})`}
           </Stack>
-          {/* 이제 우리가 적어야 하는 곳 */}
           <Stack marginBottom="-11%">
             <Stack spacing={2} width="100%" direction="row" marginTop="2%">
               {post.content?.slice(0, 4).map((content, i) => {
