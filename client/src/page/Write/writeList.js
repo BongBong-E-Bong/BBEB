@@ -48,7 +48,6 @@ function WriteList() {
     setSearchQuery(event.target.value);
     setSearchContent(event.target.value); // Update the searchContent state
   };
-  
 
   const handleSwitchChange = () => {
     setSortByDate((prevSortByDate) => !prevSortByDate);
@@ -90,9 +89,9 @@ function WriteList() {
     const endDateString = selectedEndDate
       ? selectedEndDate.format("YYYY-MM-DD")
       : "";
-  
+
     const orderParam = sortByDate ? 1 : 0;
-  
+
     if (selectedTitle === "글 제목") {
       setType("title");
     } else if (selectedTitle === "글 내용") {
@@ -102,11 +101,11 @@ function WriteList() {
     } else if (selectedTitle === "태그") {
       setType("tag");
     }
-    
+
     const apiUrl = `http://13.125.105.202:8080/api/posts?page=${
       currentPage - 1
     }&size=${itemsPerPage}&sort=string&startDate=${startDateString}&endDate=${endDateString}&order=${orderParam}&${type}=${searchContent}`;
-  
+
     axios
       .get(apiUrl, {
         headers: {
@@ -116,7 +115,7 @@ function WriteList() {
       .then((response) => {
         setPost(response.data);
         setTotalItems(response.data.totalElements);
-        console.log(totalItems)
+        console.log(totalItems);
       })
       .catch((error) => {
         console.log("error 내용", error);
@@ -129,7 +128,6 @@ function WriteList() {
     selectedTitle,
     searchContent, // Include searchContent in the dependencies array
   ]);
-  
 
   // const [likeTotal, setLikeTotal] = React.useState(0);
   // const likeClick = () => {
@@ -146,7 +144,6 @@ function WriteList() {
   //       console.error("like error:", error);
   //     });
   // };
-
   return (
     <>
       <Header />
@@ -309,8 +306,13 @@ function WriteList() {
                       borderRadius="0px 0px 20px 20px"
                       alignItems={"center"}
                       direction={"row"}
-                      // gap="3%"
                       justifyContent={"space-between"}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        navigate("/posts/" + content.postId);
+                      }}
                     >
                       <Stack width="13%" marginLeft="5%">
                         <img src={content.memberProfile} alt="" width="100%" />
@@ -417,8 +419,13 @@ function WriteList() {
                       borderRadius="0px 0px 20px 20px"
                       alignItems={"center"}
                       direction={"row"}
-                      // gap="3%"
                       justifyContent={"space-between"}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        navigate("/posts/" + content.postId);
+                      }}
                     >
                       <Stack width="13%" marginLeft="5%">
                         <img src={content.memberProfile} alt="" width="100%" />
