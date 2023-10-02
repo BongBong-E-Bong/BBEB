@@ -409,7 +409,7 @@ function Comment() {
                       </Stack>
                       <Stack fontSize="12px"> {formattedDateTime}</Stack>
                     </Stack>
-                    {commentData?.content[i]?.emoticonNumber !== null && (
+                    {commentData?.content[i]?.emoticonNumber !== "0" && (
                       <img
                         alt={emoticon(emoticonNum)}
                         src={emoticon(emoticonNum)}
