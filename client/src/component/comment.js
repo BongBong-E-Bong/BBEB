@@ -133,11 +133,13 @@ function Comment() {
   }
 
   const [response, setResponse] = React.useState(null);
+  const [inputValue, setInputValue] = React.useState("");
+  console.log(inputValue);
 
   const postRequest = async () => {
     try {
       const sendData = {
-        value: "코딩 좋아!",
+        value: inputValue,
         type: "EMOTICON_TEXT",
         postId: 221,
         emoticonNumber: "1",
@@ -157,6 +159,10 @@ function Comment() {
     } catch (error) {
       console.error("Error sending data to the backend:", error);
     }
+  };
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
   };
 
   return (
@@ -217,6 +223,8 @@ function Comment() {
               },
             }}
             placeholder="댓글을 입력하세요."
+            value={inputValue}
+            onChange={handleChange}
           ></TextField>
 
           <Button
