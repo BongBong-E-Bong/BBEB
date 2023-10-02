@@ -116,6 +116,7 @@ function WriteList() {
       .then((response) => {
         setPost(response.data);
         setTotalItems(response.data.total);
+        console.log(totalItems)
       })
       .catch((error) => {
         console.log("error 내용", error);
@@ -504,7 +505,7 @@ function WriteList() {
           </Stack>
           <Stack alignItems="center" marginTop="7%">
             <Pagination
-              count={Math.ceil(totalItems / itemsPerPage)}
+              count={totalItems / 8}
               page={currentPage}
               onChange={handlePageChange}
             />
