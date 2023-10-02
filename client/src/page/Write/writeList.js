@@ -80,9 +80,10 @@ function WriteList() {
   const [order, setOrder] = useState(0);
 
   React.useEffect(() => {
+    // 이 부분에서 데이터를 가져와서 setPost 및 setTotalItems를 업데이트합니다.
     axios
       .get(
-        `http://13.125.105.202:8080/api/posts?page=0&size=256&sort=string&startDate=2001-05-05&endDate=2023-10-23&order=0`,
+        `http://13.125.105.202:8080/api/posts?page=${currentPage - 1}&size=${itemsPerPage}&sort=string&startDate=2001-05-05&endDate=2023-10-23&order=0`,
         {
           headers: {
             Authorization: accessToken,
@@ -91,29 +92,29 @@ function WriteList() {
       )
       .then((response) => {
         setPost(response.data);
+        setTotalItems(response.data.total);
       })
       .catch((error) => {
         console.log("error 내용", error);
       });
-  }, []);
+  }, [currentPage]); // currentPage가 변경될 때마다 호출
 
-  const [likeTotal, setLikeTotal] = React.useState(0);
-  const likeClick = () => {
-    axios
-      .get("http://13.125.105.202:8080/api/posts/likes/126", {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((response) => {
-        setLikeTotal(response.data.total);
-      })
-      .catch((error) => {
-        console.error("like error:", error);
-      });
-  };
-console.log(endDate)
-console.log(startDate)
+  // const [likeTotal, setLikeTotal] = React.useState(0);
+  // const likeClick = () => {
+  //   axios
+  //     .get("http://13.125.105.202:8080/api/posts/likes/126", {
+  //       headers: {
+  //         Authorization: accessToken,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setLikeTotal(response.data.total);
+  //     })
+  //     .catch((error) => {
+  //       console.error("like error:", error);
+  //     });
+  // };
+
   return (
     <>
       <Header />
@@ -475,11 +476,11 @@ console.log(startDate)
             </Stack>
           </Stack>
           <Stack alignItems="center" marginTop="7%">
-            <Pagination
-              count={Math.ceil(totalItems / itemsPerPage)}
-              page={currentPage}
-              onChange={handlePageChange}
-            />
+          <Pagination
+          count={Math.ceil(totalItems / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+        />
           </Stack>
         </Stack>
       </Stack>
