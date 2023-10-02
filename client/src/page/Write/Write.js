@@ -57,8 +57,6 @@ function Write() {
   };
   const editorRef = useRef(null);
 
-  const [content, setContent] = useState([]);
-
   const handleCreatePost = () => {
     if (isLogin) {
       const editorInstance =
@@ -71,13 +69,13 @@ function Write() {
           value: markdownContent,
           contentOrder: 0,
         };
-        setContent([newContent]);
+        
         const postDataToSend = {
           title: title,
           thumbnail: thumbnail ? thumbnail.name : "",
           isPinned: checked ? 1 : 0,
           sortType: 1,
-          content: content,
+          contents: newContent,
           postTag: postTags,
         };
 
@@ -91,7 +89,7 @@ function Write() {
             console.log("제목:", title);
             console.log("썸네일:", thumbnail ? thumbnail.name : "");
             console.log("고정:", checked ? 1 : 0);
-            console.log("내용:", content);
+            console.log("내용:", newContent);
             console.log("태그:", postTags);
           })
           .catch((error) => {
