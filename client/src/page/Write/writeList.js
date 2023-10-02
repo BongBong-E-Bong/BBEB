@@ -33,6 +33,8 @@ function WriteList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [groupedPosts, setGroupedPosts] = useState([]);
   const [value, setValue] = useState([]);
+  const [type, setType] = useState("");
+  const [searchContent, setSearchContent] = useState("");
 
   const navigate = useNavigate();
 
@@ -44,7 +46,9 @@ function WriteList() {
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
+    setSearchContent(event.target.value); // Update the searchContent state
   };
+  
 
   const handleSwitchChange = () => {
     setSortByDate((prevSortByDate) => !prevSortByDate);
@@ -86,15 +90,23 @@ function WriteList() {
     const endDateString = selectedEndDate
       ? selectedEndDate.format("YYYY-MM-DD")
       : "";
-
-    // Conditionally set the order parameter based on the sortByDate state
+  
     const orderParam = sortByDate ? 1 : 0;
-
-    // API 요청 URL을 동적으로 생성
+  
+    if (selectedTitle === "글 제목") {
+      setType("title");
+    } else if (selectedTitle === "글 내용") {
+      setType("content");
+    } else if (selectedTitle === "작성자") {
+      setType("writer");
+    } else if (selectedTitle === "태그") {
+      setType("tag");
+    }
+    
     const apiUrl = `http://13.125.105.202:8080/api/posts?page=${
       currentPage - 1
-    }&size=${itemsPerPage}&sort=string&startDate=${startDateString}&endDate=${endDateString}&order=${orderParam}&writer=string&title=string&tag=string&content=string`;
-
+    }&size=${itemsPerPage}&sort=string&startDate=${startDateString}&endDate=${endDateString}&order=${orderParam}&${type}=${searchContent}`;
+  
     axios
       .get(apiUrl, {
         headers: {
@@ -108,7 +120,15 @@ function WriteList() {
       .catch((error) => {
         console.log("error 내용", error);
       });
-  }, [currentPage, selectedStartDate, selectedEndDate, sortByDate]);
+  }, [
+    currentPage,
+    selectedStartDate,
+    selectedEndDate,
+    sortByDate,
+    selectedTitle,
+    searchContent, // Include searchContent in the dependencies array
+  ]);
+  
 
   // const [likeTotal, setLikeTotal] = React.useState(0);
   // const likeClick = () => {
