@@ -82,7 +82,7 @@ function WriteList() {
   React.useEffect(() => {
     axios
       .get(
-        `http://13.125.105.202:8080/api/posts?page=${page}&size=8&sort=string&startDate=${startDate}&endDate=${endDate}&order=${order}`,
+        `http://13.125.105.202:8080/api/posts?page=0&size=256&sort=string&startDate=2001-05-05&endDate=2023-10-23&order=0`,
         {
           headers: {
             Authorization: accessToken,
