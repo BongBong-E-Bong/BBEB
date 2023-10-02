@@ -143,6 +143,7 @@ function Comment() {
         postId: 221,
         emoticonNumber: emoticonState,
       };
+      window.location.reload();
 
       const response = await axios.post(
         "http://13.125.105.202:8080/api/comment",
