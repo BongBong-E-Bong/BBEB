@@ -101,7 +101,7 @@ public class PostService {
 
         if (dto.getPostTag() != null)
             createTag(dto.getPostTag(), post);
-        createContent(dto.getContent(), post);
+        createContent(dto.getContents(), post);
 
         return PostDTO.CreatePostResponseDTO.builder()
                 .postId(post.getId())
@@ -249,9 +249,9 @@ public class PostService {
             if (dto.getTitle() != null)
                 post.setTitle(dto.getTitle());
 
-            if (dto.getContent() != null) {
+            if (dto.getContents() != null) {
                 deleteContent(contentRepository.findByPost(post));
-                createContent(dto.getContent(), post);
+                createContent(dto.getContents(), post);
             }
 
             if (dto.getTags() != null) {
