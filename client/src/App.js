@@ -14,6 +14,7 @@ import Vote from "../src/page/Vote/Vote.js";
 import Post from "../src/page/Board/post.js";
 import Choice from "../src/page/Choice/Choice.js";
 import Write from "../src/page/Write/Write.js";
+import WriteUpdate from "../src/page/Write/writeUpdate";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/post" element={<Post />} />
         <Route path="/Choice" element={<Choice />} />
         <Route path="/Write" element={<Write />} />
+        <Route path="/Write/:id" element={<WriteUpdate />} />
       </Routes>
     </Router>
   );
