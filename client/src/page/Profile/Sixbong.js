@@ -85,12 +85,11 @@ function Sixbong() {
         <Stack width="80%" height="fit-content" margin="20vh 10% 0 10%">
           <Stack ref={storyRef} />
           <Stack style={{ fontSize: "27px" }} marginBottom="10vh">
-            🔎이봉이가 이상한 말투를 쓰는 이유
+            🧪과학 천재 육봉이의 발명품
           </Stack>
-
           <Stack ref={tmiRef} />
           <Stack style={{ fontSize: "27px" }} margin="20vh 0 3vh 0">
-            ✨이봉이 tmi
+            ✨육봉이 tmi
           </Stack>
           <Stack style={{ fontSize: "20px" }} margin="0 5% 20vh 5%">
             꿈 : 개발자
@@ -126,11 +125,10 @@ function Sixbong() {
         <Stack onClick={profileClick}>소개</Stack>
 
         <Stack onClick={storyClick}>
-          🔎이봉이가 이상한 말투를 <br />
-          쓰는 이유
+          🧪과학 천재 육봉이의
+          <br /> 발명품
         </Stack>
-
-        <Stack onClick={tmiClick}>✨이봉이 tmi</Stack>
+        <Stack onClick={tmiClick}>✨육봉이 tmi</Stack>
         <Stack onClick={commentClick}>댓글</Stack>
       </Stack>
     </>

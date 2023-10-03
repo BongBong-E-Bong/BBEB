@@ -3,7 +3,7 @@ import { Stack, Button } from "@mui/material";
 import Header from "../../component/header";
 import ProfileForm from "../../component/ProfileForm";
 import Comment from "../../component/comment";
-import sixbong from "../../image/body/sixbong.png";
+import fivebong from "../../image/body/fivebong.png";
 import { useNavigate } from "react-router-dom";
 
 function Fivebong() {
@@ -41,7 +41,7 @@ function Fivebong() {
           gap="7%"
         >
           <img
-            src={sixbong}
+            src={fivebong}
             alt="ebongbody"
             width="300px"
             height="350px"
@@ -57,17 +57,15 @@ function Fivebong() {
                   WebkitTextStroke: "0.1px black",
                 }}
               >
-                육봉이
+                오봉이
               </Stack>
-              <Stack style={{ fontSize: "25px" }}>(중2)</Stack>
+              <Stack style={{ fontSize: "25px" }}>(중3)</Stack>
             </Stack>
 
-            <Stack style={{ fontSize: "21px" }}>과학 천재</Stack>
+            <Stack style={{ fontSize: "21px" }}>전교 1등 야구 소년</Stack>
             <Stack>
               <Stack fontFamily="blackboard" style={{ fontSize: "23px" }}>
-                "이봉이 형의 엉덩이는 연구 가치가 있어
-                <br />
-                정말 흥미로워!"
+                "안타는 우리가 더 많이 쳤는데 하 ಠ_ಠ"
               </Stack>
             </Stack>
             <Button
@@ -77,7 +75,7 @@ function Fivebong() {
                 navigate("/choice");
               }}
             >
-              육봉이 투표하러 가기
+              오봉이 투표하러 가기
             </Button>
           </Stack>
         </Stack>
@@ -85,27 +83,23 @@ function Fivebong() {
         <Stack width="80%" height="fit-content" margin="20vh 10% 0 10%">
           <Stack ref={storyRef} />
           <Stack style={{ fontSize: "27px" }} marginBottom="10vh">
-            🔎이봉이가 이상한 말투를 쓰는 이유
+            ⚾오봉이의 야구 응원 댄스
           </Stack>
-
           <Stack ref={tmiRef} />
           <Stack style={{ fontSize: "27px" }} margin="20vh 0 3vh 0">
-            ✨이봉이 tmi
+            ✨오봉이 tmi
           </Stack>
           <Stack style={{ fontSize: "20px" }} margin="0 5% 20vh 5%">
-            꿈 : 개발자
+            이상형 : 평소엔 참하지만 야구장에선 누구보다 크게 응원가 부르는 여자
             <br />
-            싫어하는 것 : 알파벳 B, 숫자 3 (눕히면 엉덩이 모양이라서)
+            성격 : 야구 볼 때를 제외하고는 감정 기복이 없는 편. 펭귄즈가 진 날은
+            극도로 예민해진다.
             <br />
-            좋아하는 것 : 식물
+            보물 1호 : 펭귄즈 마스코트 인형
             <br />
-            교우관계 : 원만(중학교~)
+            스트레스 해소법 : 야구로 받은 스트레스를 공부로 해소한다.
             <br />
-            성격 : 예의바르고 배려심이 깊으며 소심하지만 할 말은 하는 똑부러진
-            성격이다. (다만 말한 뒤 눈치를 보는 편)
-            <br />
-            종교 : 무교 (어릴 적 엉덩이가 작아지게 해달라고 간절히 빌었지만
-            이루어지지 않아 신을 매우 불신한다.)
+            취미 : 야구 경기 관람
           </Stack>
         </Stack>
         <Stack ref={commentRef}></Stack>
@@ -124,13 +118,8 @@ function Fivebong() {
         gap="10px"
       >
         <Stack onClick={profileClick}>소개</Stack>
-
-        <Stack onClick={storyClick}>
-          🔎이봉이가 이상한 말투를 <br />
-          쓰는 이유
-        </Stack>
-
-        <Stack onClick={tmiClick}>✨이봉이 tmi</Stack>
+        <Stack onClick={storyClick}>⚾오봉이 표정 모음집</Stack>
+        <Stack onClick={tmiClick}>✨오봉이 tmi</Stack>
         <Stack onClick={commentClick}>댓글</Stack>
       </Stack>
     </>

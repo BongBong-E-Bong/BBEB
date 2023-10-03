@@ -3,7 +3,7 @@ import { Stack, Button } from "@mui/material";
 import Header from "../../component/header";
 import ProfileForm from "../../component/ProfileForm";
 import Comment from "../../component/comment";
-import sixbong from "../../image/body/sixbong.png";
+import onebong from "../../image/body/onebong.png";
 import { useNavigate } from "react-router-dom";
 
 function Onebong() {
@@ -41,7 +41,7 @@ function Onebong() {
           gap="7%"
         >
           <img
-            src={sixbong}
+            src={onebong}
             alt="ebongbody"
             width="300px"
             height="350px"
@@ -57,15 +57,15 @@ function Onebong() {
                   WebkitTextStroke: "0.1px black",
                 }}
               >
-                육봉이
+                일봉이
               </Stack>
-              <Stack style={{ fontSize: "25px" }}>(중2)</Stack>
+              <Stack style={{ fontSize: "25px" }}>(21)</Stack>
             </Stack>
 
             <Stack style={{ fontSize: "21px" }}>과학 천재</Stack>
             <Stack>
               <Stack fontFamily="blackboard" style={{ fontSize: "23px" }}>
-                "이봉이 형의 엉덩이는 연구 가치가 있어
+                "일봉이 형의 엉덩이는 연구 가치가 있어
                 <br />
                 정말 흥미로워!"
               </Stack>
@@ -77,7 +77,7 @@ function Onebong() {
                 navigate("/choice");
               }}
             >
-              육봉이 투표하러 가기
+              일봉이 투표하러 가기
             </Button>
           </Stack>
         </Stack>
@@ -85,12 +85,12 @@ function Onebong() {
         <Stack width="80%" height="fit-content" margin="20vh 10% 0 10%">
           <Stack ref={storyRef} />
           <Stack style={{ fontSize: "27px" }} marginBottom="10vh">
-            🔎이봉이가 이상한 말투를 쓰는 이유
+            🔎일봉이가 이상한 말투를 쓰는 이유
           </Stack>
 
           <Stack ref={tmiRef} />
           <Stack style={{ fontSize: "27px" }} margin="20vh 0 3vh 0">
-            ✨이봉이 tmi
+            ✨일봉이 tmi
           </Stack>
           <Stack style={{ fontSize: "20px" }} margin="0 5% 20vh 5%">
             꿈 : 개발자
@@ -126,11 +126,11 @@ function Onebong() {
         <Stack onClick={profileClick}>소개</Stack>
 
         <Stack onClick={storyClick}>
-          🔎이봉이가 이상한 말투를 <br />
+          🔎일봉이가 이상한 말투를 <br />
           쓰는 이유
         </Stack>
 
-        <Stack onClick={tmiClick}>✨이봉이 tmi</Stack>
+        <Stack onClick={tmiClick}>✨일봉이 tmi</Stack>
         <Stack onClick={commentClick}>댓글</Stack>
       </Stack>
     </>
