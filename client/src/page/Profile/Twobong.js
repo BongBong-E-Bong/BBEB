@@ -18,6 +18,7 @@ import story11 from "../../image/story2/story2b11.png";
 import story12 from "../../image/story2/story2b12.png";
 import Fade from "react-reveal/Fade";
 import Zoom from "react-reveal/Zoom";
+import { useNavigate } from "react-router-dom";
 
 function Twobong() {
   const commentRef = React.useRef(null);
@@ -37,6 +38,8 @@ function Twobong() {
   const tmiClick = () => {
     tmiRef.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -87,6 +90,9 @@ function Twobong() {
               variant="contained"
               sx={{ color: "white", fontSize: "20px" }}
               ref={storyRef}
+              onClick={() => {
+                navigate("/choice");
+              }}
             >
               이봉이 투표하러 가기
             </Button>
