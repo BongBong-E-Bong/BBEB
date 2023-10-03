@@ -139,10 +139,13 @@ function Post() {
                 <Stack style={{ fontSize: "14px" }}>{formattedDateTime}</Stack>
               </Stack>
             </Stack>
+
+            {/* 여기 수정 부분 수정함 */}
             <Stack direction="row" gap="15px" minWidth="fit-content">
               {postData?.isUpdate ? (
                 <>
-                  <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
+                  <Stack style={{ fontSize: "17px", cursor: "pointer" }}
+                  onClick={navigate=("/write")}>
                     수정
                   </Stack>
                   <Stack style={{ fontSize: "17px" }}>|</Stack>
