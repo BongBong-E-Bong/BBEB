@@ -8,6 +8,7 @@ import bbeb.website.repository.post.postlike.PostLikeRepository;
 import com.amazonaws.services.s3.AmazonS3;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -112,7 +113,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                     .leftJoin(member.profile, profile)
                     .leftJoin(post.comments, comment)
                     .groupBy(post.id)
-                    .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
+                    .orderBy(post.isPinned.desc(),
+                            dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                     .offset(dto.getPageable().getOffset())
                     .limit(dto.getPageable().getPageSize())
                     .fetchResults();
@@ -142,7 +144,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .leftJoin(post.comments, comment)
                 .groupBy(post.id)
                 .distinct()
-                .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
+                .orderBy(post.isPinned.desc(),
+                        dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                 .offset(dto.getPageable().getOffset())
                 .limit(dto.getPageable().getPageSize())
                 .fetchResults();
@@ -171,7 +174,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .leftJoin(post.comments, comment)
                 .groupBy(post.id)
                 .distinct()
-                .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
+                .orderBy(post.isPinned.desc(),
+                        dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                 .offset(dto.getPageable().getOffset())
                 .limit(dto.getPageable().getPageSize())
                 .fetchResults();
@@ -201,7 +205,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .leftJoin(post.comments, comment)
                 .groupBy(post.id)
                 .distinct()
-                .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
+                .orderBy(post.isPinned.desc(),
+                        dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                 .offset(dto.getPageable().getOffset())
                 .limit(dto.getPageable().getPageSize())
                 .fetchResults();
@@ -232,7 +237,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .leftJoin(post.comments, comment)
                 .groupBy(post.id)
                 .distinct()
-                .orderBy(dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
+                .orderBy(post.isPinned.desc(),
+                        dto.getOrder() == 0 ? post.createdDate.desc() : postLike.count().desc())
                 .offset(dto.getPageable().getOffset())
                 .limit(dto.getPageable().getPageSize())
                 .fetchResults();
