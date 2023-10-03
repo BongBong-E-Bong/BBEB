@@ -18,33 +18,41 @@ import sevenbongHover from "../../image/body/sevenbongHover.png";
 import sevenbongCry from "../../image/body/sevenbongCry.png";
 import eightbongHover from "../../image/body/eightbongHover.png";
 import eightbongCry from "../../image/body/eightbongCry.png";
+import axios from "axios";
 
 function Ranking() {
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const [voteTotal, setVoteTotal] = React.useState([]);
+
+  React.useEffect(() => {
+    axios
+      .get("http://13.125.105.202:8080/api/vote", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setVoteTotal(response.data);
+      })
+      .catch((error) => {
+        console.error("vote error:", error);
+      });
+  }, []);
+
   const navigate = useNavigate();
 
-  const bong = [, "일봉", "이봉", "삼봉", , "오봉", "육봉", "칠봉", "팔봉"];
-
-  const back = [
-    { bongId: 1, voteScore: 11 },
-    { bongId: 2, voteScore: 23 },
-    { bongId: 3, voteScore: 555 },
-    { bongId: 5, voteScore: 78 },
-    { bongId: 6, voteScore: 99 },
-    { bongId: 7, voteScore: 115 },
-    { bongId: 8, voteScore: 9 },
+  const bong = [
+    [],
+    ["일봉", onebongHover, onebongCry],
+    ["이봉", twobongHover, twobongCry],
+    ["삼봉", threebongHover, threebongCry],
+    [],
+    ["오봉", fivebong, fivebong],
+    ["육봉", sixbong, sixbongCry],
+    ["칠봉", sevenbongHover, sevenbongCry],
+    ["팔봉", eightbongHover, eightbongCry],
   ];
-
-  let ebongranking = [
-    [back[0]["bongId"], back[0]["voteScore"], onebongHover, onebongCry],
-    [back[1]["bongId"], back[1]["voteScore"], twobongHover, twobongCry],
-    [back[2]["bongId"], back[2]["voteScore"], threebongHover, threebongCry],
-    [back[3]["bongId"], back[3]["voteScore"], fivebong, fivebong],
-    [back[4]["bongId"], back[4]["voteScore"], sixbong, sixbongCry],
-    [back[5]["bongId"], back[5]["voteScore"], sevenbongHover, sevenbongCry],
-    [back[6]["bongId"], back[6]["voteScore"], eightbongHover, eightbongCry],
-  ];
-
-  ebongranking.sort((a, b) => b[1] - a[1]);
 
   {
     return (
@@ -99,53 +107,56 @@ function Ranking() {
               </Fade>
             </Stack>
           </Stack>
-
-          {ebongranking.map((ebongranking, i) => {
+          {voteTotal.map((vote, i) => {
             return (
-              <Stack
-                direction="row"
-                justifyContent="center"
-                gap="25%"
-                width="50%"
-                height="40vh"
-                margin="50px 0 50px 0"
-                alignItems="center"
-              >
-                <Slide left>
-                  <Stack
-                    alignItems="center"
-                    color="white"
-                    style={{ fontSize: "40px", fontFamily: "blackboard" }}
-                  >
-                    <Stack direction="row" gap="20px">
-                      <Stack
-                        style={{
-                          color:
-                            i === 0
-                              ? "#FFD700"
-                              : i === 1
-                              ? "#B6B6B6"
-                              : i === 2
-                              ? "#B48C89"
-                              : "white",
-                          WebkitTextStroke: i < 3 ? "1px white" : "none",
-                          fontFamily: "blackboardbold",
-                        }}
-                      >
-                        {i + 1}등
+              bong[vote.order].length > 0 && (
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  gap="25%"
+                  width="50%"
+                  height="40vh"
+                  margin="50px 0 50px 0"
+                  alignItems="center"
+                >
+                  <Slide left>
+                    <Stack
+                      alignItems="center"
+                      color="white"
+                      style={{ fontSize: "40px", fontFamily: "blackboard" }}
+                    >
+                      <Stack direction="row" gap="20px">
+                        <Stack
+                          style={{
+                            color:
+                              i === 0
+                                ? "#FFD700"
+                                : i === 1
+                                ? "#B6B6B6"
+                                : i === 2
+                                ? "#B48C89"
+                                : "white",
+                            WebkitTextStroke: i < 3 ? "1px white" : "none",
+                            fontFamily: "blackboardbold",
+                          }}
+                        >
+                          {i + 1}등
+                        </Stack>
+                        <Stack>{bong[vote?.order]?.[0]}</Stack>
                       </Stack>
-                      <Stack> {bong[ebongranking[0]]}</Stack>
+                      <Stack>{vote.likeCount}표</Stack>
                     </Stack>
-                    <Stack>{ebongranking[1]}표</Stack>
-                  </Stack>
-                  <img
-                    src={i < 3 ? ebongranking[2] : ebongranking[3]}
-                    alt="spotlight"
-                    width="350px"
-                    height="400px"
-                  />
-                </Slide>
-              </Stack>
+                    <img
+                      src={
+                        i < 3 ? bong[vote?.order]?.[1] : bong[vote?.order]?.[2]
+                      }
+                      alt="spotlight"
+                      width="300px"
+                      height="350px"
+                    />
+                  </Slide>
+                </Stack>
+              )
             );
           })}
 
