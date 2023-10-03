@@ -61,7 +61,7 @@ function Write() {
     if (isLogin) {
       const editorInstance =
         editorRef.current && editorRef.current.getInstance();
-
+  
       if (editorInstance) {
         const markdownContent = editorInstance.getMarkdown();
         const newContent = {
@@ -70,15 +70,18 @@ function Write() {
           contentOrder: 0,
         };
         
+        // Create an array of tag objects with the desired structure
+        const postTagArray = tags.map((tag) => ({ value: tag }));
+  
         const postDataToSend = {
           title: title,
           thumbnail: thumbnail ? thumbnail.name : "",
           isPinned: checked ? 1 : 0,
           sortType: 1,
-          contents: newContent,
-          postTag: postTags,
+          contents: [newContent],
+          postTag: postTagArray, 
         };
-
+  
         axios
           .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
             headers: {
@@ -90,7 +93,7 @@ function Write() {
             console.log("썸네일:", thumbnail ? thumbnail.name : "");
             console.log("고정:", checked ? 1 : 0);
             console.log("내용:", newContent);
-            console.log("태그:", postTags);
+            console.log("태그:", postTagArray);
           })
           .catch((error) => {
             setAuthModalFailOpen(true);
@@ -103,6 +106,7 @@ function Write() {
       setAuthModalFailOpen(true);
     }
   };
+  
 
   //관리자 권한시 체크박스 보이게 해주는 코드
   useEffect(() => {
