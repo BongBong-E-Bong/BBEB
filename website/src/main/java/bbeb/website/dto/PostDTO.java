@@ -26,7 +26,7 @@ public class PostDTO {
         private Long isPinned;
         @Schema(description = "정렬 타입(기본: 0, 왼쪽: 1, 중앙: 2, 오른쪽: 3", example = "1")
         private Long sortType;
-        private List<Content> content;
+        private List<Content> contents;
         private List<PostTag> postTag;
     }
 
@@ -149,7 +149,7 @@ public class PostDTO {
         private Long isPinned;
         @Schema(description = "정렬 타입(기본: 0, 왼쪽: 1, 중앙: 2, 오른쪽: 3", example = "1")
         private Long sortType;
-        private List<Content> content;
+        private List<Content> contents;
         private List<PostTag> tags;
     }
 
