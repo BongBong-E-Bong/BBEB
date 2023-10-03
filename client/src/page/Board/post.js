@@ -104,6 +104,9 @@ function Post() {
               style={{ fontSize: "40px" }}
               alignItems="center"
               justifyContent="center"
+              onClick={() => {
+                navigate("/writelist");
+              }}
             >
               오봉이의 게시판
             </Stack>
