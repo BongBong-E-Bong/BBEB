@@ -67,11 +67,13 @@ function WriteUpdate() {
 
       if (editorInstance) {
         const markdownContent = editorInstance.getMarkdown();
-        const newContent = {
-          contentType: "TEXT",
-          value: markdownContent,
-          contentOrder: 0,
-        };
+        const newContent = [
+          {
+            contentType: "TEXT",
+            value: markdownContent,
+            contentOrder: 0,
+          },
+        ];
 
         const postDataToSend = {
           title: title,

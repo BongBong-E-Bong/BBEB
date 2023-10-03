@@ -64,13 +64,13 @@ function Write() {
 
       if (editorInstance) {
         const markdownContent = editorInstance.getMarkdown();
+
         const newContent = {
           contentType: "TEXT",
           value: markdownContent,
           contentOrder: 0,
         };
 
-        // Create an array of tag objects with the desired structure
         const postTagArray = tags.map((tag) => ({ value: tag }));
 
         const postDataToSend = {
@@ -79,7 +79,7 @@ function Write() {
           isPinned: checked ? 1 : 0,
           sortType: 1,
           contents: [newContent],
-          postTag: postTagArray,
+          // postTag: postTagArray,
         };
 
         axios
@@ -89,11 +89,12 @@ function Write() {
             },
           })
           .then((response) => {
-            console.log("제목:", title);
-            console.log("썸네일:", thumbnail ? thumbnail.name : "");
-            console.log("고정:", checked ? 1 : 0);
-            console.log("내용:", newContent);
-            console.log("태그:", postTagArray);
+            // console.log("제목:", title);
+            // console.log("썸네일:", thumbnail ? thumbnail.name : "");
+            // console.log("고정:", checked ? 1 : 0);
+            // console.log("내용:", newContent);
+            // console.log("태그:", postTagArray);
+            console.log(postDataToSend);
           })
           .catch((error) => {
             setAuthModalFailOpen(true);
