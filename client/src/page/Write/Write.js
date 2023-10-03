@@ -64,48 +64,22 @@ function Write() {
 
       if (editorInstance) {
         const markdownContent = editorInstance.getMarkdown();
-        const textContents = markdownContent.split("\n");
+        const newContent = {
+          contentType: "TEXT",
+          value: markdownContent,
+          contentOrder: 0,
+        };
 
-        let contentOrderCounter = 0;
-
-        const textContentObjects = textContents.map((textContent) => {
-          const trimmedTextContent = textContent.trim();
-          const isBlankLine = !trimmedTextContent;
-          if (isBlankLine) {
-            return {
-              contentType: "TEXT",
-              value: "<br>",
-              contentOrder: contentOrderCounter++,
-            };
-          }
-
-          if (trimmedTextContent.startsWith("![")) {
-            const imageValue = trimmedTextContent;
-
-            const imageObject = {
-              contentType: "IMAGE",
-              value: imageValue,
-              contentOrder: contentOrderCounter++,
-            };
-
-            return imageObject;
-          }
-
-          const contentObject = {
-            contentType: "TEXT",
-            value: trimmedTextContent,
-            contentOrder: contentOrderCounter++,
-          };
-
-          return contentObject;
-        });
+        // Create an array of tag objects with the desired structure
+        const postTagArray = tags.map((tag) => ({ value: tag }));
 
         const postDataToSend = {
           title: title,
           thumbnail: thumbnail ? thumbnail.name : "",
           isPinned: checked ? 1 : 0,
-          content: [...content, ...textContentObjects],
-          postTag: postTags,
+          sortType: 1,
+          contents: [newContent],
+          postTag: postTagArray,
         };
 
         axios
