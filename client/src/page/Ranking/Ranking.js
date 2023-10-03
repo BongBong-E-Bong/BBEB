@@ -101,6 +101,9 @@ function Ranking() {
                   variant="outlined"
                   color="secondary"
                   style={{ fontSize: "20px", fontFamily: "blackboard" }}
+                  onClick={() => {
+                    navigate("/choice");
+                  }}
                 >
                   투표하러 가기
                 </Button>

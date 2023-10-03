@@ -121,7 +121,7 @@ function Profile() {
               },
             }}
             onClick={() => {
-              navigate("/Rangking");
+              navigate("/Ranking");
             }}
             style={buttonStyles}
           >
@@ -142,7 +142,7 @@ function Profile() {
               },
             }}
             onClick={() => {
-              navigate("/Vote");
+              navigate("/choice");
             }}
             style={buttonStyles}
           >
