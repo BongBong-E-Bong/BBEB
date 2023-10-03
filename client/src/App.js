@@ -30,7 +30,7 @@ function App() {
         <Route path="/eightbong" element={<Eightbong />} />
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/vote" element={<Vote />} />
-        <Route path="/post" element={<Post />} />
+        <Route path="/post/:postId" element={<Post />} />
         <Route path="/RPS" element={<RPS />} />
         <Route path="/Choice" element={<Choice />} />
       </Routes>
