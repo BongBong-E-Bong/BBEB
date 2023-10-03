@@ -7,15 +7,18 @@ import basicProfile from "../../image/profilephoto.png";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Post() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const navigate = useNavigate();
 
   const [likeTotal, setLikeTotal] = React.useState(0);
 
   const likeClick = () => {
     axios
-      .get("http://13.125.105.202:8080/api/posts/likes/126", {
+      .get("http://13.125.105.202:8080/api/posts/likes/213", {
         headers: {
           Authorization: accessToken,
         },
@@ -32,7 +35,7 @@ function Post() {
 
   React.useEffect(() => {
     axios
-      .get("http://13.125.105.202:8080/api/posts/126", {
+      .get("http://13.125.105.202:8080/api/posts/213", {
         headers: {
           Authorization: accessToken,
         },
@@ -44,6 +47,32 @@ function Post() {
         console.error("post data error", error);
       });
   }, []);
+
+  const handleDelete = () => {
+    axios
+      .delete("http://13.125.105.202:8080/api/posts/213", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("delete error", error);
+      });
+  };
+
+  const originalDateTimeString = postData?.date;
+  const originalDateTime = new Date(originalDateTimeString);
+
+  const year = originalDateTime.getFullYear();
+  const month = (originalDateTime.getMonth() + 1).toString().padStart(2, "0");
+  const day = originalDateTime.getDate().toString().padStart(2, "0");
+  const hours = originalDateTime.getHours().toString().padStart(2, "0");
+  const minutes = originalDateTime.getMinutes().toString().padStart(2, "0");
+
+  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
 
   return (
     <>
@@ -99,7 +128,7 @@ function Post() {
             alignItems="center"
           >
             <Stack direction="row" gap="10px">
-              <img //프사
+              <img
                 src={basicProfile}
                 alt="basicProfile"
                 width="8%"
@@ -107,18 +136,27 @@ function Post() {
               ></img>
               <Stack gap="2px" justifyContent="center" alignItems="flex-start">
                 <Stack style={{ fontSize: "17px" }}>{postData?.writer}</Stack>
-                <Stack style={{ fontSize: "14px" }}>{postData?.date}</Stack>
+                <Stack style={{ fontSize: "14px" }}>{formattedDateTime}</Stack>
               </Stack>
             </Stack>
+
+            {/* 여기 수정 부분 수정함 */}
             <Stack direction="row" gap="15px" minWidth="fit-content">
-              {/* 수정 삭제 버튼 글쓴이가 아닐 경우 */}
-              <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
-                수정
-              </Stack>
-              <Stack style={{ fontSize: "17px" }}>|</Stack>
-              <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
-                삭제
-              </Stack>
+              {postData?.isUpdate ? (
+                <>
+                  <Stack style={{ fontSize: "17px", cursor: "pointer" }}
+                  onClick={navigate=("/write/746")}>
+                    수정
+                  </Stack>
+                  <Stack style={{ fontSize: "17px" }}>|</Stack>
+                  <Stack
+                    style={{ fontSize: "17px", cursor: "pointer" }}
+                    onClick={handleDelete}
+                  >
+                    삭제
+                  </Stack>
+                </>
+              ) : null}
               <Stack direction="row" gap="10px">
                 <VisibilityIcon
                   style={{ color: "#767676" }}
@@ -197,6 +235,7 @@ function Post() {
           </Stack>
         </Stack>
       </Stack>
+
       <Comment />
     </>
   );
