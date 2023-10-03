@@ -79,8 +79,7 @@ function WriteList() {
   const [post, setPost] = React.useState([]);
   const [page, setPage] = useState(0);
   const [selectedStartDate, setSelectedStartDate] = useState(dayjs("2001-03-02")); // 시작 날짜를 "2001-03-02"로 설정
-
-  const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(dayjs("2023-10-02"));
 
   const [order, setOrder] = useState(0);
 
@@ -174,13 +173,15 @@ function WriteList() {
                 alignItems="center"
               >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
+                <DatePicker
+                    format="YYYY/MM/DD"
                     label="시작 날짜"
                     value={selectedStartDate}
                     onChange={(newValue) => setSelectedStartDate(newValue)}
                   />
                   <Stack>~</Stack>
                   <DatePicker
+                    format="YYYY/MM/DD"
                     label="종료 날짜"
                     value={selectedEndDate || today} // 만약 selectedEndDate가 없으면 오늘 날짜를 사용합니다.
                     onChange={(newValue) => setSelectedEndDate(newValue)}
