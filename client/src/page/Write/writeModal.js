@@ -32,6 +32,7 @@ function WriteModal({
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
   };
+
   const handleWriteClick = () => {
     if (isLogin) {
       if (isChecked) {

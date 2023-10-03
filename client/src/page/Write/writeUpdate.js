@@ -10,8 +10,9 @@ import Modal from "../../component/Modal";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import jwt_decode from "jwt-decode";
+import { useParams } from "react-router-dom";
 
-function Write() {
+function WriteUpdate() {
   const [checked, setChecked] = useState(false);
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
@@ -28,6 +29,8 @@ function Write() {
   const navigate = useNavigate();
   const [editorContent, setEditorContent] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const { postId } = useParams();
+  // const postId = "746";
 
   const handleFailModalClose = () => {
     setFailModalOpen(false);
@@ -70,16 +73,13 @@ function Write() {
           contentOrder: 0,
         };
 
-        // Create an array of tag objects with the desired structure
-        const postTagArray = tags.map((tag) => ({ value: tag }));
-
         const postDataToSend = {
           title: title,
           thumbnail: thumbnail ? thumbnail.name : "",
           isPinned: checked ? 1 : 0,
           sortType: 1,
-          contents: [newContent],
-          postTag: postTagArray,
+          contents: newContent,
+          postTag: postTags,
         };
 
         axios
@@ -93,7 +93,7 @@ function Write() {
             console.log("썸네일:", thumbnail ? thumbnail.name : "");
             console.log("고정:", checked ? 1 : 0);
             console.log("내용:", newContent);
-            console.log("태그:", postTagArray);
+            console.log("태그:", postTags);
           })
           .catch((error) => {
             setAuthModalFailOpen(true);
@@ -119,6 +119,37 @@ function Write() {
       console.log(decoded);
     }
   }, [accessToken]);
+
+  //수정 기능
+  const handleUpdate = () => {
+    axios
+      .put("http://13.125.105.202:8080/api/posts/123", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        console.log("수정 제대로 작동");
+      })
+      .catch((error) => {
+        setAuthModalFailOpen(true);
+        console.error("Error creating post:", error.response);
+      });
+  };
+
+  // postId를 사용하여 해당 데이터를 가져오는 axios 요청을 작성
+  React.useEffect(() => {
+    axios
+      .get(`http://13.125.105.202:8080/api/posts/746`, {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {})
+      .catch((error) => {
+        console.error("post data error", error);
+      });
+  });
 
   return (
     <>
@@ -311,4 +342,4 @@ function Write() {
     </>
   );
 }
-export default Write;
+export default WriteUpdate;
