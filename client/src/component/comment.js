@@ -17,9 +17,12 @@ import ebongticon6 from "../emoticon/ebongticon6.png";
 import ebongticon7 from "../emoticon/ebongticon7.png";
 import ebongticon8 from "../emoticon/ebongticon8.png";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function Comment() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const { postId } = useParams();
 
   const [commentData, setCommentData] = React.useState();
   const [size, setSize] = React.useState(5);
@@ -28,8 +31,7 @@ function Comment() {
   const fetchCommentData = (newSize) => {
     axios
       .get(
-        `http://13.125.105.202:8080/api/comment/221?page&size=${newSize}&sort=string`,
-
+        `http://13.125.105.202:8080/api/comment/${postId}?page&size=${newSize}&sort=string`,
         {
           headers: {
             Authorization: accessToken,
