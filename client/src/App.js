@@ -10,8 +10,8 @@ import Sixbong from "../src/page/Profile/Sixbong.js";
 import Sevenbong from "../src/page/Profile/Sevenbong.js";
 import Eightbong from "../src/page/Profile/Eightbong.js";
 import Ranking from "../src/page/Ranking/Ranking.js";
-import Vote from "../src/page/Vote/Vote.js";
 import Post from "../src/page/Board/post.js";
+import RPS from "../src/page/RPS/RPS.js";
 import Choice from "../src/page/Choice/Choice.js";
 import Write from "../src/page/Write/Write.js";
 
@@ -29,8 +29,8 @@ function App() {
         <Route path="/sevenbong" element={<Sevenbong />} />
         <Route path="/eightbong" element={<Eightbong />} />
         <Route path="/ranking" element={<Ranking />} />
-        <Route path="/vote" element={<Vote />} />
-        <Route path="/post" element={<Post />} />
+        <Route path="/post/:postId" element={<Post />} />
+        <Route path="/RPS" element={<RPS />} />
         <Route path="/Choice" element={<Choice />} />
         <Route path="/Write" element={<Write />} />
       </Routes>
