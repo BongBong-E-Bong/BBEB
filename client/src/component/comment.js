@@ -20,7 +20,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 function Comment() {
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem("accessDoraTokenDora");
 
   const { postId } = useParams();
 
@@ -34,7 +34,7 @@ function Comment() {
         `http://13.125.105.202:8080/api/comment/${postId}?page&size=${newSize}&sort=string`,
         {
           headers: {
-            Authorization: accessToken,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       )
@@ -52,7 +52,7 @@ function Comment() {
     axios
       .get("http://13.125.105.202:8080/api/members/profile", {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
@@ -76,7 +76,7 @@ function Comment() {
     axios
       .delete(`http://13.125.105.202:8080/api/comment/${commentId}`, {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
@@ -152,7 +152,7 @@ function Comment() {
         sendData,
         {
           headers: {
-            Authorization: accessToken,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );

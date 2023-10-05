@@ -18,7 +18,7 @@ function Header() {
   const fileInput = React.useRef(null);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
 
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem("accessDoraTokenDora");
 
   const onChange = (e) => {
     if (e.target.files[0]) {
@@ -37,7 +37,8 @@ function Header() {
               {
                 headers: {
                   "Content-Type": "multipart/form-data",
-                  Authorization: accessToken,
+
+                  Authorization: `Bearer ${accessToken}`,
                 },
               }
             );
@@ -76,7 +77,7 @@ function Header() {
     axios
       .get("http://13.125.105.202:8080/api/members/profile", {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
@@ -205,6 +206,7 @@ function Header() {
           onClick={() => {
             localStorage.clear();
             setAnchorEl(null);
+            window.location.reload();
           }}
         >
           로그아웃
