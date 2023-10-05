@@ -13,7 +13,7 @@ import axios from "axios";
 function Header() {
   const navigate = useNavigate();
 
-  const [profileImage, setprofileImage] = React.useState(basicProfile);
+  const [profileImage, setProfileImage] = React.useState(basicProfile);
 
   const fileInput = React.useRef(null);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
@@ -24,7 +24,7 @@ function Header() {
     if (e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = () => {
-        setprofileImage(reader.result);
+        setProfileImage(reader.result);
         const formData = new FormData();
 
         formData.append("profile", e.target.files[0]);
@@ -43,6 +43,7 @@ function Header() {
             );
             console.log(response.data);
             getRequest();
+            window.location.reload();
           } catch (error) {
             console.error("Error:", error);
           }
@@ -66,7 +67,7 @@ function Header() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
 
-  const [profileImg, setProfileImg] = useState("");
+  // const [profileImg, setProfileImg] = useState("");
 
   useEffect(() => {
     getRequest();
@@ -80,7 +81,7 @@ function Header() {
         },
       })
       .then((response) => {
-        setProfileImg(response.data);
+        setProfileImage(response.data);
       })
       .catch((error) => {
         console.error("profile img error", error);
@@ -121,7 +122,7 @@ function Header() {
             <Stack width="12%" height="70%" justifyContent="center">
               <img
                 alt="profileImage"
-                src={profileImage}
+                src={profileImage.url}
                 width="50px"
                 height="50px"
                 style={{ cursor: "pointer", borderRadius: "50%" }}
@@ -168,7 +169,7 @@ function Header() {
         <Stack alignItems="center">
           <img
             alt="profileImage"
-            src={profileImage}
+            src={profileImage.url}
             width="110px"
             height="110px"
             style={{ borderRadius: "50%" }}
