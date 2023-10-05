@@ -9,7 +9,8 @@ import Login from "./login";
 import Modal from "./Modal";
 import Register from "./register";
 import axios from "axios";
- 
+import RPS from "../page/RPS/RPS.js";
+
 function Header() {
   const navigate = useNavigate();
 
@@ -226,6 +227,7 @@ function Header() {
       >
         <Register setOpen={setRegisterOpen} />
       </Modal>
+      <RPS profileImage={profileImage} />
     </>
   );
 }
