@@ -43,7 +43,6 @@ function Header() {
             );
             console.log(response.data);
             getRequest();
-            window.location.reload();
           } catch (error) {
             console.error("Error:", error);
           }
