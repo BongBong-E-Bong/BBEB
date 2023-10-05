@@ -6,7 +6,6 @@ import Rock from "../../image/Rock.png";
 import Scissors from "../../image/Scissors.png";
 import register from "../../image/register.png";
 import Box from "./Box.js";
-import RPS_sample from "../../image/RPS_sample.png";
 import axios from "axios";
 
 const choice = {

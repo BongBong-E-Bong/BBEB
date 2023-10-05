@@ -9,7 +9,7 @@ import Login from "./login";
 import Modal from "./Modal";
 import Register from "./register";
 import axios from "axios";
-
+ 
 function Header() {
   const navigate = useNavigate();
 
