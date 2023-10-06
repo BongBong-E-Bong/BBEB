@@ -10,6 +10,7 @@ import Modal from "../../component/Modal";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import jwt_decode from "jwt-decode";
+import { useParams } from "react-router-dom";
 
 function WriteUpdate() {
   const [checked, setChecked] = useState(false);
@@ -28,6 +29,7 @@ function WriteUpdate() {
   const navigate = useNavigate();
   const [editorContent, setEditorContent] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const { postId } = useParams();
 
   const handleFailModalClose = () => {
     setFailModalOpen(false);
@@ -58,7 +60,7 @@ function WriteUpdate() {
 
   const editorRef = useRef(null);
 
-  //수정 ap
+  //수정 api연동 연동
   const handleCreatePost = () => {
     if (isLogin) {
       const editorInstance =
@@ -117,6 +119,24 @@ function WriteUpdate() {
       console.log(decoded);
     }
   }, [accessToken]);
+
+  //값 가져오기 api
+  const [postData, setPostData] = React.useState(null);
+
+  React.useEffect(() => {
+    axios
+      .get(`http://13.125.105.202:8080/api/posts/${postId}`, {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setPostData(response.data);
+      })
+      .catch((error) => {
+        console.error("post data error", error);
+      });
+  }, []);
 
   return (
     <>
