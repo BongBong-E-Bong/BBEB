@@ -55,8 +55,10 @@ function WriteUpdate() {
     );
     setPostTags(updatedPostTags);
   };
+
   const editorRef = useRef(null);
 
+  //업데이트 api
   const handleCreatePost = () => {
     if (isLogin) {
       const editorInstance =
@@ -83,7 +85,7 @@ function WriteUpdate() {
         };
 
         axios
-          .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
+          .put("http://13.125.105.202:8080/api/posts/108", postDataToSend, {
             headers: {
               Authorization: accessToken,
             },
@@ -210,14 +212,6 @@ function WriteUpdate() {
               </Stack>
             </Stack>
             <Stack width="100%" height="100%" alignItems="center" spacing={2}>
-              {/* <Stack
-                width="100%"
-                height="100%"
-                z
-                direction="row"
-                justifyContent="center"
-                spacing={3}
-              ></Stack> */}
               <Editor
                 ref={editorRef}
                 initialValue="내용을 입력하세요."
@@ -226,10 +220,9 @@ function WriteUpdate() {
                 height="450px"
                 initialEditType="markdown"
                 useCommandShortcut={false}
-                hideModeSwitch={true} // "Write" 및 "Preview" 버튼 숨기기
+                hideModeSwitch={true}
                 onChange={(e) => setEditorContent(e)}
               />
-
               <Stack
                 width="100%"
                 height="100%"
