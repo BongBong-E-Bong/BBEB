@@ -42,9 +42,10 @@ function WriteUpdate() {
   const handleTagInputKeyPress = (event) => {
     if (event.key === "Enter" && tagInput.trim() !== "") {
       const newTag = tagInput.trim();
-      setTags([...tags, newTag]);
-      setPostTags([...postTags, { value: newTag }]);
-      setTagInput("");
+      // Update both tags and postTags states
+      setTags((prevTags) => [...prevTags, newTag]);
+      setPostTags((prevPostTags) => [...prevPostTags, { value: newTag }]);
+      setTagInput(""); // Clear the input field
     }
   };
 
@@ -83,11 +84,11 @@ function WriteUpdate() {
           isPinned: checked ? 1 : 0,
           sortType: 1,
           contents: [newContent],
-          postTag: postTagArray,
+          postTag: postTags, // Use postTags here
         };
 
         axios
-          .put("http://13.125.105.202:8080/api/posts/108", postDataToSend, {
+          .put(`http://13.125.105.202:8080/api/posts/108`, postDataToSend, {
             headers: {
               Authorization: accessToken,
             },
@@ -97,7 +98,7 @@ function WriteUpdate() {
           })
           .catch((error) => {
             setAuthModalFailOpen(true);
-            console.error("Error creating post:", error.response);
+            console.error("Error updating post:", error.response);
           });
       } else {
         console.error("Editor instance is not available.");
@@ -125,13 +126,17 @@ function WriteUpdate() {
 
   React.useEffect(() => {
     axios
-      .get(`http://13.125.105.202:8080/api/posts/${postId}`, {
+      .get(`http://13.125.105.202:8080/api/posts/108`, {
         headers: {
           Authorization: accessToken,
         },
       })
       .then((response) => {
+        console.log(response);
         setPostData(response.data);
+        setTitle(response.data.title);
+        const tagsArray = response.data.tags.map((tagObj) => tagObj.value);
+        setTags(tagsArray); // 이 부분을 수정합니다.
       })
       .catch((error) => {
         console.error("post data error", error);
@@ -203,6 +208,7 @@ function WriteUpdate() {
                   onKeyPress={handleTagInputKeyPress}
                   style={{ width: "71%", backgroundColor: "#FFF" }}
                 />
+
                 <Stack
                   direction="row"
                   flexWrap="wrap"
