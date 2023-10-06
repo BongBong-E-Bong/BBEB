@@ -58,7 +58,7 @@ function WriteUpdate() {
 
   const editorRef = useRef(null);
 
-  //수정 api
+  //수정 ap
   const handleCreatePost = () => {
     if (isLogin) {
       const editorInstance =
