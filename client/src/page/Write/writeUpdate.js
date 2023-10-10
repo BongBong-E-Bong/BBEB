@@ -44,13 +44,10 @@ useEffect(() => {
   setPostTags(tags.map((tag) => ({ value: tag })));
 }, [tags]);
 
-// ...
-
 const handleTagInputKeyPress = (event) => {
   if (event.key === "Enter" && tagInput.trim() !== "") {
     const newTag = tagInput.trim();
     if (!tags.includes(newTag)) {
-      // 새로운 태그만 추가
       const newTags = [...tags, newTag];
       setTags(newTags);
 
@@ -58,7 +55,6 @@ const handleTagInputKeyPress = (event) => {
     }
   }
 };
-
 
   const handleTagClick = (tagToRemove) => {
     const updatedTags = tags.filter((tag) => tag !== tagToRemove);
@@ -103,7 +99,7 @@ const handleTagInputKeyPress = (event) => {
         };
 
         axios
-          .put(`http://13.125.105.202:8080/api/posts/831`, postDataToSend, {
+          .put(`http://13.125.105.202:8080/api/posts/${postId}`, postDataToSend, {
             headers: {
               Authorization: accessToken,
             },
@@ -143,7 +139,7 @@ const handleTagInputKeyPress = (event) => {
 
     if (editorInstance) {
       axios
-        .get(`http://13.125.105.202:8080/api/posts/831`, {
+        .get(`http://13.125.105.202:8080/api/posts/${postId}`, {
           headers: {
             Authorization: accessToken,
           },
