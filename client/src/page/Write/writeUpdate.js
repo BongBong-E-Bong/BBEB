@@ -39,24 +39,39 @@ function WriteUpdate() {
     setTagInput(event.target.value);
   };
 
-  const handleTagInputKeyPress = (event) => {
-    if (event.key === "Enter" && tagInput.trim() !== "") {
-      const newTag = tagInput.trim();
-      // Update both tags and postTags states
-      setTags((prevTags) => [...prevTags, newTag]);
-      setPostTags((prevPostTags) => [...prevPostTags, { value: newTag }]);
-      setTagInput(""); // Clear the input field
+// useEffect를 사용하여 postTags 상태를 초기화
+useEffect(() => {
+  setPostTags(tags.map((tag) => ({ value: tag })));
+}, [tags]);
+
+// ...
+
+const handleTagInputKeyPress = (event) => {
+  if (event.key === "Enter" && tagInput.trim() !== "") {
+    const newTag = tagInput.trim();
+    if (!tags.includes(newTag)) {
+      // 새로운 태그만 추가
+      const newTags = [...tags, newTag];
+      setTags(newTags);
+
+      setTagInput("");
     }
-  };
+  }
+};
+
 
   const handleTagClick = (tagToRemove) => {
     const updatedTags = tags.filter((tag) => tag !== tagToRemove);
     setTags(updatedTags);
-
+  
     const updatedPostTags = postTags.filter(
       (tagObj) => tagObj.value !== tagToRemove
     );
     setPostTags(updatedPostTags);
+  };
+
+  const handleUpdatePostTags = (newTags) => {
+    setPostTags(newTags);
   };
 
   const editorRef = useRef(null);
@@ -84,7 +99,7 @@ function WriteUpdate() {
           isPinned: checked ? 1 : 0,
           sortType: 1,
           contents: [newContent],
-          postTag: postTags,
+          tags: postTags,
         };
 
         axios
@@ -95,6 +110,7 @@ function WriteUpdate() {
           })
           .then((response) => {
             console.log(postDataToSend);
+            console.log("태그 현 상황",postTags)
           })
           .catch((error) => {
             setAuthModalFailOpen(true);
@@ -122,38 +138,36 @@ function WriteUpdate() {
   }, [accessToken]);
 
   //값 가져오기 api
+  React.useEffect(() => {
+    const editorInstance = editorRef.current && editorRef.current.getInstance();
 
-React.useEffect(() => {
-  const editorInstance = editorRef.current && editorRef.current.getInstance();
+    if (editorInstance) {
+      axios
+        .get(`http://13.125.105.202:8080/api/posts/831`, {
+          headers: {
+            Authorization: accessToken,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setTitle(response.data.title);
+          const tagsArray = response.data.tags.map((tagObj) => tagObj.value);
+          setTags(tagsArray);
+          setChecked(response.data.isPinned);
 
-  if (editorInstance) {
-    axios
-      .get(`http://13.125.105.202:8080/api/posts/831`, {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        setTitle(response.data.title);
-        const tagsArray = response.data.tags.map((tagObj) => tagObj.value);
-        setTags(tagsArray);
-        setChecked(response.data.isPinned);
+          // 에디터 내용 설정
+          const newContent = response.data.contents[0].value;
+          setEditorContent(newContent); // 에디터 내용 업데이트
 
-        // 에디터 내용 설정
-        const newContent = response.data.contents[0].value;
-        setEditorContent(newContent); // 에디터 내용 업데이트
-
-        // initialValue를 업데이트하지 않고 내용을 설정하면 됩니다.
-        editorInstance.setMarkdown(newContent);
-        console.log("내용값->", newContent);
-      })
-      .catch((error) => {
-        console.error("post data error", error);
-      });
-  }
-}, [postId, accessToken]);
-  
+          // initialValue를 업데이트하지 않고 내용을 설정하면 됩니다.
+          editorInstance.setMarkdown(newContent);
+          console.log("내용값->", newContent);
+        })
+        .catch((error) => {
+          console.error("post data error", error);
+        });
+    }
+  }, [postId, accessToken]);
 
   return (
     <>
@@ -316,6 +330,8 @@ React.useEffect(() => {
                     thumbnail={thumbnail}
                     setThumbnail={(file) => setThumbnail(file)}
                     editorContent={editorContent}
+                    postTags={postTags} // 수정: postTags 상태 전달
+                    onUpdatePostTags={handleUpdatePostTags} // 수정: 업데이트 함수 전달
                   />
                 )}
               </Stack>
