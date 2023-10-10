@@ -8,6 +8,8 @@ import register from "../../image/register.png";
 import Box from "./Box.js";
 import RPS_sample from "../../image/RPS_sample.png";
 import axios from "axios";
+import basicProfile from "../../image/profilephoto.png";
+import RPS_comeputer from "../../image/RPS_comeputer.png";
 
 const choice = {
   rock: {
@@ -156,6 +158,28 @@ const RPS = () => {
     return "3";
   };
 
+  useEffect(() => {
+    getRequest();
+  }, []);
+
+  const [profileImage, setprofileImage] = React.useState(basicProfile);
+  const [profileImg, setProfileImg] = useState("");
+  const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
+  const getRequest = () => {
+    axios
+      .get("http://13.125.105.202:8080/api/members/profile", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setProfileImg(response.data);
+      })
+      .catch((error) => {
+        console.error("profile img error", error);
+      });
+  };
+
   return (
     <Stack>
       <Stack>
@@ -202,7 +226,11 @@ const RPS = () => {
                       {renderRank(i)}
                     </Stack>
                     <Stack>
-                      <img src={content.url} alt={content.nickname} style={{height:'50px', width:'50px'}}/>
+                      <img
+                        src={content.url}
+                        alt={content.nickname}
+                        style={{ height: "50px", width: "50px" }}
+                      />
                     </Stack>
                     <Stack spacing={2.5}>
                       <Stack color="black" fontSize="13px">
@@ -215,22 +243,53 @@ const RPS = () => {
                   </Stack>
                 ))
               ) : (
-                <p>No data available</p>
+                <Stack></Stack>
               )}
             </Stack>
-            <Stack spacing={10}>
+            <Stack spacing={10} marginTop="5%">
               <Stack direction="row" spacing={10} fontSize="30px">
-                <Box
-                  title="나인데!"
-                  className={result}
-                  img={choice.scissors.img}
-                  item={userSelect}
-                />
-                <Box
-                  title="컴퓨터인데!"
-                  className={comResult}
-                  item={ComputerSelect}
-                />
+                <Stack direction="row">
+                  {isLogin && (
+                    <Stack width="12%" height="70%" marginTop="100%">
+                      <img
+                        alt="profileImage"
+                        src={profileImage}
+                        width="50px"
+                        height="50px"
+                        style={{ borderRadius: "50%" }}
+                        border="1px solid #FF8181"
+                      />
+                    </Stack>
+                  )}
+<Box
+  title="나인데!"
+  className={result}
+  img={choice.scissors.img}
+  item={userSelect}
+  flipImage={true} // 모든 경우에 대해 이미지를 좌우 반전
+/>
+
+                </Stack>
+                <Stack justifyContent="center" fontSize="50px">
+                  VS
+                </Stack>
+                <Stack direction="row">
+                  <Box
+                    title="컴퓨터인데!"
+                    className={comResult}
+                    item={ComputerSelect}
+                  />
+                  <Stack width="12%" height="70%" marginTop="100%">
+                    <img
+                      alt="RPS_comeputer"
+                      src={RPS_comeputer}
+                      width="50px"
+                      height="50px"
+                      style={{ borderRadius: "50%" }}
+                      border="1px solid #FF8181"
+                    />
+                  </Stack>
+                </Stack>
               </Stack>
               {gameOver ? (
                 <Stack direction="row" justifyContent="center">
