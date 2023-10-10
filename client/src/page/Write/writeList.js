@@ -411,7 +411,7 @@ function WriteList() {
                         cursor: "pointer",
                       }}
                       onClick={() => {
-                        navigate("/posts/" + content.postId);
+                        navigate("/post/" + content.postId);
                       }}
                     >
                       <Stack width="13%" marginLeft="5%">
