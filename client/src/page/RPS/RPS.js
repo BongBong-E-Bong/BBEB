@@ -261,12 +261,14 @@ const RPS = () => {
                       />
                     </Stack>
                   )}
-                  <Box
-                    title="나인데!"
-                    className={result}
-                    img={choice.scissors.img}
-                    item={userSelect}
-                  />
+<Box
+  title="나인데!"
+  className={result}
+  img={choice.scissors.img}
+  item={userSelect}
+  flipImage={true} // 모든 경우에 대해 이미지를 좌우 반전
+/>
+
                 </Stack>
                 <Stack justifyContent="center" fontSize="50px">
                   VS
