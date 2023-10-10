@@ -84,11 +84,11 @@ function WriteUpdate() {
           isPinned: checked ? 1 : 0,
           sortType: 1,
           contents: [newContent],
-          postTag: postTags, // Use postTags here
+          postTag: postTags,
         };
 
         axios
-          .put(`http://13.125.105.202:8080/api/posts/108`, postDataToSend, {
+          .put(`http://13.125.105.202:8080/api/posts/831`, postDataToSend, {
             headers: {
               Authorization: accessToken,
             },
@@ -122,26 +122,38 @@ function WriteUpdate() {
   }, [accessToken]);
 
   //값 가져오기 api
-  const [postData, setPostData] = React.useState(null);
 
-  React.useEffect(() => {
+React.useEffect(() => {
+  const editorInstance = editorRef.current && editorRef.current.getInstance();
+
+  if (editorInstance) {
     axios
-      .get(`http://13.125.105.202:8080/api/posts/108`, {
+      .get(`http://13.125.105.202:8080/api/posts/831`, {
         headers: {
           Authorization: accessToken,
         },
       })
       .then((response) => {
         console.log(response);
-        setPostData(response.data);
         setTitle(response.data.title);
         const tagsArray = response.data.tags.map((tagObj) => tagObj.value);
-        setTags(tagsArray); // 이 부분을 수정합니다.
+        setTags(tagsArray);
+        setChecked(response.data.isPinned);
+
+        // 에디터 내용 설정
+        const newContent = response.data.contents[0].value;
+        setEditorContent(newContent); // 에디터 내용 업데이트
+
+        // initialValue를 업데이트하지 않고 내용을 설정하면 됩니다.
+        editorInstance.setMarkdown(newContent);
+        console.log("내용값->", newContent);
       })
       .catch((error) => {
         console.error("post data error", error);
       });
-  }, []);
+  }
+}, [postId, accessToken]);
+  
 
   return (
     <>
