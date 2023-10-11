@@ -9,6 +9,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 function Post() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
@@ -220,10 +221,11 @@ function Post() {
               alignItems="center"
               bgcolor="white"
             >
-              {postData?.contents.map((content, i) => {
-                return <Stack>{content.value}</Stack>;
-              })}
+              {postData?.contents.map((content, i) => (
+                <ReactMarkdown key={i} children={content.value} />
+              ))}
             </Stack>
+
             <Stack
               direction="row"
               justifyContent="center"
