@@ -15,6 +15,7 @@ import RPS from "../src/page/RPS/RPS.js";
 import Choice from "../src/page/Choice/Choice.js";
 import WriteList from "../src/page/Write/writeList";
 import Write from "../src/page/Write/Write.js";
+import WriteUpdate from "../src/page/Write/writeUpdate.js";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/Choice" element={<Choice />} />
         <Route path="/writeList" element={<WriteList />} />
         <Route path="/Write" element={<Write />} />
+        <Route path="/write/:postId" element={<WriteUpdate />} />
       </Routes>
     </Router>
   );
