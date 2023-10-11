@@ -382,8 +382,27 @@ function WriteList() {
             <Stack spacing={2} width="100%" direction="row" marginTop="-3%">
               {post.content?.slice(4, 8).map((content, i) => {
                 return (
-                  <Stack width="24%" height="350px">
-                    <Stack height="50%">
+                  <Stack width="24%" height="350px" position="relative">
+                    <Stack
+                      height="50%"
+                      style={{
+                        borderTopLeftRadius: "20px",
+                        borderTopRightRadius: "20px",
+                        position: "relative", // 자식 요소에 대해 상대적인 위치 설정
+                      }}
+                    >
+                      {content.isPinned === 1 && (
+                        <img
+                          src={PushPin}
+                          alt="PushPin"
+                          style={{
+                            position: "absolute",
+                            top: "-10%", // 원하는 위치로 조정
+                            left: "10px", // 원하는 위치로 조정
+                            zIndex: 2, // 다른 요소 위에 표시
+                          }}
+                        />
+                      )}
                       <img
                         src={content.thumbnail}
                         width="100%"
@@ -395,6 +414,7 @@ function WriteList() {
                         }}
                       />
                     </Stack>
+
                     <Stack
                       width="fit-content"
                       height="20%"
