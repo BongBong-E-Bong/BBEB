@@ -22,7 +22,7 @@ function Write() {
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [thumbnail, setThumbnail] = useState(null);
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem("accessDoraTokenDora");
   const [decodedToken, setDecodedToken] = useState({});
   const userId = decodedToken ? decodedToken.sub : "";
   const navigate = useNavigate();
@@ -85,7 +85,7 @@ function Write() {
         axios
           .post("http://13.125.105.202:8080/api/posts", postDataToSend, {
             headers: {
-              Authorization: accessToken,
+              Authorization: `Bearer ${accessToken}`,
             },
           })
           .then((response) => {

@@ -30,7 +30,7 @@ function Choice() {
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem("accessDoraTokenDora");
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
 
   const handleCheckboxChange = (checkboxName) => {
@@ -85,7 +85,7 @@ function Choice() {
     axios
       .post("http://13.125.105.202:8080/api/vote", selectedOrder, {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {

@@ -69,7 +69,7 @@ function WriteList() {
   }
   const pageCount = Math.ceil(totalItems / itemsPerPage);
 
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem("accessDoraTokenDora");
 
   const [post, setPost] = React.useState([]);
   const [page, setPage] = useState(0);
@@ -107,7 +107,7 @@ function WriteList() {
     axios
       .get(apiUrl, {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {

@@ -102,7 +102,7 @@ const RPS = () => {
 
   const data = [];
 
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem("accessDoraTokenDora");
   const sortedData = [...data].reverse();
   // const topThreeData = sortedData.slice(0, 3);
 
@@ -117,7 +117,7 @@ const RPS = () => {
         },
         {
           headers: {
-            Authorization: accessToken,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       )
@@ -133,7 +133,7 @@ const RPS = () => {
   React.useEffect(() => {
     axios
       .get(
-        "http://13.125.105.202:8080/api/tetris?page=0&size=256&sort=string",
+        "http://13.125.105.202:8080/api/tetris?page=0&size=3&sort=string",
         {
           headers: {
             Authorization: accessToken,
