@@ -123,6 +123,7 @@ const RPS = () => {
       )
       .then((response) => {
         console.log("성공");
+        console.log("점수",winCount)
       })
       .catch((error) => {
         console.error(error);
@@ -136,7 +137,7 @@ const RPS = () => {
         "http://13.125.105.202:8080/api/tetris?page=0&size=3&sort=string",
         {
           headers: {
-            Authorization: accessToken,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       )
