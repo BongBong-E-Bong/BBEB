@@ -34,7 +34,7 @@ function App() {
         <Route path="/RPS" element={<RPS />} />
         <Route path="/Choice" element={<Choice />} />
         <Route path="/Write" element={<Write />} />
-        <Route path="/Write/:id" element={<WriteUpdate />} />
+        <Route path="/write/:postId" element={<WriteUpdate />} />
       </Routes>
     </Router>
   );
