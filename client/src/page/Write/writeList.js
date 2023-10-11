@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
+import dayjs from "dayjs";
 
 function WriteList() {
   const itemsPerRow = 4;
@@ -31,55 +32,11 @@ function WriteList() {
   const [selectedTitle, setSelectedTitle] = useState("글 제목");
   const [searchQuery, setSearchQuery] = useState("");
   const [groupedPosts, setGroupedPosts] = useState([]);
+  const [value, setValue] = useState([]);
+  const [type, setType] = useState("");
+  const [searchContent, setSearchContent] = useState("");
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const filteredPosts = post.filter((post) => {
-      const postDate = new Date(post.date);
-      const startDate = selectedDateRange[0];
-      const endDate = selectedDateRange[1];
-
-      return (
-        (!startDate || postDate >= startDate) &&
-        (!endDate || postDate <= endDate)
-      );
-    });
-
-    const sortedPosts = filteredPosts.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-
-      if (sortByDate) {
-        return b.likeCount - a.likeCount;
-      } else {
-        return dateB - dateA;
-      }
-    });
-
-    const filteredAndSortedPosts = sortedPosts.filter((post) => {
-      let showPost = true;
-      const query = searchQuery.toLowerCase().trim();
-
-      if (selectedTitle === "글 제목") {
-        const title = post.title.toLowerCase().trim();
-        showPost = title.includes(query);
-      } else if (selectedTitle === "태그") {
-        const tags = post.tags.map((tag) => tag.toLowerCase().trim());
-        showPost = tags.includes(query);
-      } else if (selectedTitle === "작성자") {
-        const author = post.author.toLowerCase().trim();
-        showPost = author.includes(query);
-      } else if (selectedTitle === "글 내용") {
-        const content = post.content.toLowerCase().trim();
-        showPost = content.includes(query);
-      }
-
-      return showPost;
-    });
-    setTotalItems(filteredAndSortedPosts.length);
-    setGroupedPosts(filteredAndSortedPosts);
-  }, [selectedDateRange, sortByDate, selectedTitle, searchQuery]);
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
@@ -89,6 +46,7 @@ function WriteList() {
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
+    setSearchContent(event.target.value); // Update the searchContent state
   };
 
   const handleSwitchChange = () => {
@@ -98,57 +56,76 @@ function WriteList() {
   const [totalItems, setTotalItems] = useState(groupedPosts.length);
 
   const [currentPage, setCurrentPage] = useState(1);
-
+  const today = dayjs(); // 현재 날짜와 시간을 얻습니다.
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
   const currentItems = groupedPosts.slice(startIndex, endIndex);
+  const itemsPerColumn = 2;
 
   const rows = [];
-  for (let i = 0; i < Math.ceil(currentItems.length / itemsPerRow); i++) {
-    const startIndex = i * itemsPerRow;
-    const endIndex = startIndex + itemsPerRow;
-    const rowItems = currentItems.slice(startIndex, endIndex);
-
-    while (rowItems.length < itemsPerRow) {
-      rowItems.push(null);
-    }
-
+  for (let i = 0; i < itemsPerColumn; i++) {
+    const rowItems = currentItems.slice(i * itemsPerRow, (i + 1) * itemsPerRow);
     rows.push(rowItems);
   }
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const pageCount = Math.ceil(totalItems / itemsPerPage);
+
+  const accessToken = localStorage.getItem("accessDoraTokenDora");
 
   const [post, setPost] = React.useState([]);
+  const [page, setPage] = useState(0);
+  const [selectedStartDate, setSelectedStartDate] = useState(
+    dayjs("2001-03-02")
+  ); // 시작 날짜를 "2001-03-02"로 설정
+  const [selectedEndDate, setSelectedEndDate] = useState(dayjs());
+
+  const [order, setOrder] = useState(0);
 
   React.useEffect(() => {
+    const startDateString = selectedStartDate
+      ? selectedStartDate.format("YYYY-MM-DD")
+      : "";
+    const endDateString = selectedEndDate
+      ? selectedEndDate.format("YYYY-MM-DD")
+      : "";
+
+    const orderParam = sortByDate ? 1 : 0;
+
+    if (selectedTitle === "글 제목") {
+      setType("title");
+    } else if (selectedTitle === "글 내용") {
+      setType("content");
+    } else if (selectedTitle === "작성자") {
+      setType("writer");
+    } else if (selectedTitle === "태그") {
+      setType("tag");
+    }
+
+    const apiUrl = `http://13.125.105.202:8080/api/posts?page=${
+      currentPage - 1
+    }&size=${itemsPerPage}&sort=string&startDate=${startDateString}&endDate=${endDateString}&order=${orderParam}&${type}=${searchContent}`;
+
     axios
-      .get("http://13.125.105.202:8080/api/posts/126", {
+      .get(apiUrl, {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
         setPost(response.data);
+        setTotalItems(response.data.totalElements);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log("error 내용", error);
       });
-  }, []);
-
-  const [likeTotal, setLikeTotal] = React.useState(0);
-  const likeClick = () => {
-    axios
-      .get("http://13.125.105.202:8080/api/posts/likes/126", {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((response) => {
-        setLikeTotal(response.data.total);
-      })
-      .catch((error) => {
-        console.error("like error:", error);
-      });
-  };
+  }, [
+    currentPage,
+    selectedStartDate,
+    selectedEndDate,
+    sortByDate,
+    selectedTitle,
+    searchContent, // Include searchContent in the dependencies array
+  ]);
   return (
     <>
       <Header />
@@ -193,25 +170,20 @@ function WriteList() {
               >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    format="YYYY/MM/DD"
                     label="시작 날짜"
-                    value={selectedDateRange[0]}
-                    onChange={(newDate) =>
-                      setSelectedDateRange([newDate, selectedDateRange[1]])
-                    }
-                    renderInput={(params) => <TextField {...params} />}
+                    value={selectedStartDate}
+                    onChange={(newValue) => setSelectedStartDate(newValue)}
                   />
                   <Stack>~</Stack>
                   <DatePicker
+                    format="YYYY/MM/DD"
                     label="종료 날짜"
-                    value={selectedDateRange[1]}
-                    onChange={(newDate) =>
-                      setSelectedDateRange([selectedDateRange[0], newDate])
-                    }
-                    renderInput={(params) => <TextField {...params} />}
+                    value={selectedEndDate}
+                    onChange={(newValue) => setSelectedEndDate(newValue)}
                   />
                 </LocalizationProvider>
               </Stack>
-
               <Stack
                 direction="row"
                 alignItems="center"
@@ -274,167 +246,276 @@ function WriteList() {
           <Stack>
             {searchQuery && `'${searchQuery}' 검색 결과 (${totalItems})`}
           </Stack>
-          <Stack spacing={4} marginTop="2%" height="100%" width="100%">
-            {Array.from({
-              length: Math.ceil(totalItems / itemsPerRow),
-            }).map((_, rowIndex) => (
-              <Stack
-                key={rowIndex}
-                direction="row"
-                justifyContent="space-between"
-                spacing={2}
-              >
-                {currentItems
-                  .slice(
-                    rowIndex * itemsPerRow,
-                    Math.min((rowIndex + 1) * itemsPerRow, currentItems.length)
-                  )
-                  .map((post, index) => {
-                    let showPost = true;
-                    if (selectedTitle === "글 제목") {
-                      const query = searchQuery.toLowerCase().trim();
-                      const title = post.title.toLowerCase().trim();
-                      showPost = title.includes(query);
-                    } else if (selectedTitle === "태그") {
-                      const query = searchQuery.toLowerCase().trim();
-                      const hasMatchingTag = post.tags.some((postTag) =>
-                        postTag.toLowerCase().includes(query)
-                      );
-                      showPost = hasMatchingTag;
-                    } else if (selectedTitle === "작성자") {
-                      const query = searchQuery.toLowerCase().trim();
-                      const author = post.author.toLowerCase().trim();
-                      showPost = author.includes(query);
-                    } else if (selectedTitle === "글 내용") {
-                      const query = searchQuery.toLowerCase().trim();
-                      const content = post.content.toLowerCase().trim();
-                      showPost = content.includes(query);
-                    }
-
-                    if (showPost) {
-                      return (
-                        <Paper
-                          key={post.id}
-                          elevation={0}
-                          sx={{
-                            borderRadius: "20px",
-                            flex: "1",
-                            cursor: "pointer",
-                            width: "calc(100% / 4)",
-                            minHeight: "50%",
-                            position: "relative",
-                            marginBottom: index < 4 ? "16px" : "0",
+          <Stack marginBottom="-11%">
+            <Stack spacing={2} width="100%" direction="row" marginTop="2%">
+              {post.content?.slice(0, 4).map((content, i) => {
+                return (
+                  <Stack width="24%" height="350px" position="relative">
+                    <Stack
+                      height="50%"
+                      style={{
+                        borderTopLeftRadius: "20px",
+                        borderTopRightRadius: "20px",
+                        position: "relative", // 자식 요소에 대해 상대적인 위치 설정
+                      }}
+                    >
+                      {content.isPinned === 1 && (
+                        <img
+                          src={PushPin}
+                          alt="PushPin"
+                          style={{
+                            position: "absolute",
+                            top: "-10%", // 원하는 위치로 조정
+                            left: "10px", // 원하는 위치로 조정
+                            zIndex: 2, // 다른 요소 위에 표시
+                          }}
+                        />
+                      )}
+                      <img
+                        src={content.thumbnail}
+                        width="100%"
+                        height="100%"
+                        alt=""
+                        style={{
+                          borderTopLeftRadius: "20px",
+                          borderTopRightRadius: "20px",
+                        }}
+                      />
+                    </Stack>
+                    <Stack
+                      width="fit-content"
+                      height="20%"
+                      bgcolor="#FAF3F0"
+                      borderRadius="0px 0px 20px 20px"
+                      alignItems={"center"}
+                      direction={"row"}
+                      justifyContent={"space-between"}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        navigate("/post/" + content.postId);
+                      }}
+                    >
+                      <Stack width="13%" marginLeft="5%">
+                        <img src={content.memberProfile} alt="" width="100%" />
+                      </Stack>
+                      <Stack width="40%">
+                        <Stack
+                          style={{
+                            width: "100%",
+                            whiteSpace:
+                              "nowrap" /* 글 내용이 한 줄로 표시되도록 설정 */,
+                            overflow: "hidden",
+                            textOverflow:
+                              "ellipsis" /* 일정 길이 이상의 텍스트일 때 "..." 표시 */,
                           }}
                         >
-                          {post.isPinned === 1 && (
-                            <img
-                              src={PushPin}
-                              alt="push-pin"
-                              style={{
-                                position: "absolute",
-                                top: "-4%",
-                                left: "0%",
-                              }}
-                            />
-                          )}
-                          <img
-                            src={
-                              post.thumbnail === ""
-                                ? notThumbnail
-                                : post.thumbnail
-                            }
-                            alt="thumbnail"
-                            style={{
-                              width: "100%",
-                              height: "160px",
-                              objectFit: "cover",
-                              borderTopLeftRadius: "20px",
-                              borderTopRightRadius: "20px",
-                            }}
-                          />
+                          {content.title.length > 7
+                            ? `${content.title.slice(0, 7)}...`
+                            : content.title}
+                        </Stack>
+                        <Stack>{content.date.slice(0, 10)} </Stack>
+                        <Stack>{content.writer} </Stack>
+                      </Stack>
+                      <Stack width="30%" gap="8%" direction="row">
+                        <Stack>
+                          <img src={like} /> {content.like}{" "}
+                        </Stack>
+                        <Stack>
+                          <img src={hit} /> {content.view}{" "}
+                        </Stack>
+                        <Stack>
+                          <img src={comment} /> {content.commentCount}{" "}
+                        </Stack>
+                      </Stack>
+                    </Stack>
+                    <Stack direction="row">
+                      {content.postTag.slice(0, 2).map((postTag, i) => (
+                        <Stack
+                          key={i}
+                          sx={{
+                            margin: "5px",
+                            color: "#FF8181",
+                            border: "1px solid #FF8181",
+                            borderRadius: "15px",
+                            width: "fit-content",
+                            height: "25px",
+                            justifyContent: "center",
+                          }}
+                        >
                           <Stack
-                            direction="row"
-                            bgcolor="#FAF3F0"
-                            spacing={1}
-                            sx={{
-                              bottom: 0,
-                              left: 0,
-                              borderBottomLeftRadius: "20px",
-                              borderBottomRightRadius: "20px",
-                              alignItems: "center",
-                            }}
+                            alignItems="center"
+                            fontSize="13px"
+                            margin="10px"
                           >
-                            <img
-                              src={obong}
-                              alt="obong"
-                              style={{
-                                width: "13%",
-                                borderRadius: "50px",
-                                padding: "3%",
-                                marginLeft: "5%",
-                              }}
-                            />
-                            <Stack>
-                              <Stack fontSize="14px">{post?.title}</Stack>
-                              <Stack fontSize="12px">{post?.date}</Stack>
-                              <Stack fontSize="12px">{post?.writer}</Stack>
-                            </Stack>
-                            <Stack direction="row" spacing={1}>
-                              <Stack direction="row" spacing={0.5}>
-                                <Stack>
-                                  <img src={like} alt="like" />
-                                </Stack>
-                                <Stack>{likeTotal}</Stack>
-                              </Stack>
-                              <Stack direction="row" spacing={0.5}>
-                                <Stack>
-                                  <img src={hit} alt="hit" />
-                                </Stack>
-                                <Stack>{post?.view}</Stack>
-                              </Stack>
-                              <Stack direction="row" spacing={0.5}>
-                                <Stack>
-                                  <img src={comment} alt="comment" />
-                                </Stack>
-                                <Stack>{post?.commentCount}</Stack>
-                              </Stack>
-                            </Stack>
+                            {postTag.value}
                           </Stack>
-                          <Stack direction="row">
-                            {post.tags.map((postTag, index) => (
-                              <Stack
-                                key={index}
-                                sx={{
-                                  margin: "5px",
-                                  color: "#FF8181",
-                                  border: "1px solid #FF8181",
-                                  borderRadius: "15px",
-                                  width: "fit-content",
-                                  height: "25px",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <Stack
-                                  alignItems="center"
-                                  fontSize="13px"
-                                  margin="10px"
-                                >
-                                  {post?.postTag}
-                                </Stack>
-                              </Stack>
-                            ))}
+                        </Stack>
+                      ))}
+                      {content.postTag.length > 2 && (
+                        <Stack
+                          sx={{
+                            margin: "5px",
+                            color: "#FF8181",
+                            border: "1px solid #FF8181",
+                            borderRadius: "15px",
+                            width: "fit-content",
+                            height: "25px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Stack
+                            alignItems="center"
+                            fontSize="13px"
+                            margin="10px"
+                          >
+                            ...
                           </Stack>
-                        </Paper>
-                      );
-                    }
-                    return null;
-                  })}
-              </Stack>
-            ))}
+                        </Stack>
+                      )}
+                    </Stack>
+                  </Stack>
+                );
+              })}
+            </Stack>
+            <Stack spacing={2} width="100%" direction="row" marginTop="-3%">
+              {post.content?.slice(4, 8).map((content, i) => {
+                return (
+                  <Stack width="24%" height="350px" position="relative">
+                    <Stack
+                      height="50%"
+                      style={{
+                        borderTopLeftRadius: "20px",
+                        borderTopRightRadius: "20px",
+                        position: "relative", // 자식 요소에 대해 상대적인 위치 설정
+                      }}
+                    >
+                      {content.isPinned === 1 && (
+                        <img
+                          src={PushPin}
+                          alt="PushPin"
+                          style={{
+                            position: "absolute",
+                            top: "-10%", // 원하는 위치로 조정
+                            left: "10px", // 원하는 위치로 조정
+                            zIndex: 2, // 다른 요소 위에 표시
+                          }}
+                        />
+                      )}
+                      <img
+                        src={content.thumbnail}
+                        width="100%"
+                        height="100%"
+                        alt=""
+                        style={{
+                          borderTopLeftRadius: "20px",
+                          borderTopRightRadius: "20px",
+                        }}
+                      />
+                    </Stack>
+
+                    <Stack
+                      width="fit-content"
+                      height="20%"
+                      bgcolor="#FAF3F0"
+                      borderRadius="0px 0px 20px 20px"
+                      alignItems={"center"}
+                      direction={"row"}
+                      justifyContent={"space-between"}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        navigate("/post/" + content.postId);
+                      }}
+                    >
+                      <Stack width="13%" marginLeft="5%">
+                        <img src={content.memberProfile} alt="" width="100%" />
+                      </Stack>
+                      <Stack width="50%">
+                        <Stack
+                          style={{
+                            width: "100%",
+                            whiteSpace:
+                              "nowrap" /* 글 내용이 한 줄로 표시되도록 설정 */,
+                            overflow: "hidden",
+                            textOverflow:
+                              "ellipsis" /* 일정 길이 이상의 텍스트일 때 "..." 표시 */,
+                          }}
+                        >
+                          {content.title.length > 7
+                            ? `${content.title.slice(0, 7)}...`
+                            : content.title}
+                        </Stack>
+                        <Stack>{content.date.slice(0, 10)} </Stack>
+                        <Stack>{content.writer} </Stack>
+                      </Stack>
+                      <Stack width="30%" gap="8%" direction="row">
+                        <Stack>
+                          <img src={like} /> {content.like}{" "}
+                        </Stack>
+                        <Stack>
+                          <img src={hit} /> {content.view}{" "}
+                        </Stack>
+                        <Stack>
+                          <img src={comment} /> {content.commentCount}{" "}
+                        </Stack>
+                      </Stack>
+                    </Stack>
+                    <Stack direction="row">
+                      {content.postTag.slice(0, 2).map((postTag, i) => (
+                        <Stack
+                          key={i}
+                          sx={{
+                            margin: "5px",
+                            color: "#FF8181",
+                            border: "1px solid #FF8181",
+                            borderRadius: "15px",
+                            width: "fit-content",
+                            height: "25px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Stack
+                            alignItems="center"
+                            fontSize="13px"
+                            margin="10px"
+                          >
+                            {postTag.value}
+                          </Stack>
+                        </Stack>
+                      ))}
+                      {content.postTag.length > 2 && (
+                        <Stack
+                          sx={{
+                            margin: "5px",
+                            color: "#FF8181",
+                            border: "1px solid #FF8181",
+                            borderRadius: "15px",
+                            width: "fit-content",
+                            height: "25px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Stack
+                            alignItems="center"
+                            fontSize="13px"
+                            margin="10px"
+                          >
+                            ...
+                          </Stack>
+                        </Stack>
+                      )}
+                    </Stack>
+                  </Stack>
+                );
+              })}
+            </Stack>
           </Stack>
-          <Stack alignItems="center">
+          <Stack alignItems="center" marginTop="7%">
             <Pagination
-              count={Math.ceil(totalItems / itemsPerPage)}
+              count={pageCount}
               page={currentPage}
               onChange={handlePageChange}
             />

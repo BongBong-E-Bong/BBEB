@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Stack, Checkbox } from "@mui/material";
-import register from "../../image/register.png";
+import bong1 from "../../image/bong1.png";
+import bong2 from "../../image/bong2.png";
+import bong3 from "../../image/bong3.png";
+import bong5 from "../../image/bong5.png";
+import bong6 from "../../image/bong6.png";
+import bong7 from "../../image/bong7.png";
+import bong8 from "../../image/bong8.png";
 import Header from "../../component/header";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../component/Modal";
@@ -9,13 +15,13 @@ import AuthModalFail from "../../component/authModal_fail";
 import axios from "axios";
 
 const candidateItems = [
-  { name: "일봉이", image: register, id: 1 },
-  { name: "이봉이", image: register, id: 2 },
-  { name: "삼봉이", image: register, id: 3 },
-  { name: "오봉이", image: register, id: 5 },
-  { name: "육봉이", image: register, id: 6 },
-  { name: "칠봉이", image: register, id: 7 },
-  { name: "팔봉이", image: register, id: 8 },
+  { name: "일봉이", image: bong1, id: 1 },
+  { name: "이봉이", image: bong2, id: 2 },
+  { name: "삼봉이", image: bong3, id: 3 },
+  { name: "오봉이", image: bong5, id: 5 },
+  { name: "육봉이", image: bong6, id: 6 },
+  { name: "칠봉이", image: bong7, id: 7 },
+  { name: "팔봉이", image: bong8, id: 8 },
 ];
 
 function Choice() {
@@ -24,7 +30,7 @@ function Choice() {
   const [failModalOpen, setFailModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem("accessDoraTokenDora");
   const isLogin = Boolean(localStorage.getItem("accessDoraTokenDora"));
 
   const handleCheckboxChange = (checkboxName) => {
@@ -79,7 +85,7 @@ function Choice() {
     axios
       .post("http://13.125.105.202:8080/api/vote", selectedOrder, {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
@@ -114,14 +120,16 @@ function Choice() {
         >
           {candidateItems.map((candidate) => {
             return (
-              <Stack key={candidate.name} alignItems="center" spacing={2}>
+              <Stack key={candidate.name} alignItems="center" spacing={2} height="100%" width="100%">
                 <Stack fontSize="32px">{candidate.name}</Stack>
                 <img
                   src={candidate.image}
                   alt={`${candidate.name} 사진`}
                   width="60%"
                   height="100%"
+                  border= "1px solid #FF8181"
                 />
+
                 <Checkbox
                   checked={selectedCheckboxes.some(
                     (item) => item.name === candidate.name
