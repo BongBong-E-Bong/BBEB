@@ -60,26 +60,23 @@ function WriteList() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
   const currentItems = groupedPosts.slice(startIndex, endIndex);
+  const itemsPerColumn = 2;
 
   const rows = [];
-  for (let i = 0; i < Math.ceil(currentItems.length / itemsPerRow); i++) {
-    const startIndex = i * itemsPerRow;
-    const endIndex = startIndex + itemsPerRow;
-    const rowItems = currentItems.slice(startIndex, endIndex);
-
-    while (rowItems.length < itemsPerRow) {
-      rowItems.push(null);
-    }
-
+  for (let i = 0; i < itemsPerColumn; i++) {
+    const rowItems = currentItems.slice(i * itemsPerRow, (i + 1) * itemsPerRow);
     rows.push(rowItems);
   }
+  const pageCount = Math.ceil(totalItems / itemsPerPage);
 
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
   const [post, setPost] = React.useState([]);
   const [page, setPage] = useState(0);
-  const [selectedStartDate, setSelectedStartDate] = useState(dayjs("2001-03-02")); // 시작 날짜를 "2001-03-02"로 설정
-  const [selectedEndDate, setSelectedEndDate] = useState(dayjs("2023-10-02"));
+  const [selectedStartDate, setSelectedStartDate] = useState(
+    dayjs("2001-03-02")
+  ); // 시작 날짜를 "2001-03-02"로 설정
+  const [selectedEndDate, setSelectedEndDate] = useState(dayjs());
 
   const [order, setOrder] = useState(0);
 
@@ -116,7 +113,7 @@ function WriteList() {
       .then((response) => {
         setPost(response.data);
         setTotalItems(response.data.totalElements);
-        console.log(totalItems);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log("error 내용", error);
@@ -129,7 +126,6 @@ function WriteList() {
     selectedTitle,
     searchContent, // Include searchContent in the dependencies array
   ]);
-
   return (
     <>
       <Header />
@@ -173,7 +169,7 @@ function WriteList() {
                 alignItems="center"
               >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
+                  <DatePicker
                     format="YYYY/MM/DD"
                     label="시작 날짜"
                     value={selectedStartDate}
@@ -183,7 +179,7 @@ function WriteList() {
                   <DatePicker
                     format="YYYY/MM/DD"
                     label="종료 날짜"
-                    value={selectedEndDate || today} // 만약 selectedEndDate가 없으면 오늘 날짜를 사용합니다.
+                    value={selectedEndDate}
                     onChange={(newValue) => setSelectedEndDate(newValue)}
                   />
                 </LocalizationProvider>
@@ -499,7 +495,7 @@ function WriteList() {
           </Stack>
           <Stack alignItems="center" marginTop="7%">
             <Pagination
-              count={Math.floor(totalItems / 8)}
+              count={pageCount}
               page={currentPage}
               onChange={handlePageChange}
             />
