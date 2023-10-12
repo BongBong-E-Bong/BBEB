@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Page = () => {
+function Page() {
+  const navigate = useNavigate()
 
+  useEffect(() => {
+    navigate('/');
+  }, [])
+  return (
+    <></>
+  )
+}
 
-  return <div>일반 성공</div>;
-};
-
-export default Page;
+export default Page
