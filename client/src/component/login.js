@@ -47,6 +47,14 @@ function Login({ setOpen }) {
       });
   };
 
+  const REST_API_KEY='REST API KEY';
+  const REDIRECT_URI='http://localhost:3000/oauth2/redirect';
+  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+  const loginHandler = () => {
+    window.location.href = link;
+  };
+  
   return (
     <Stack
       position="fixed"
@@ -150,9 +158,7 @@ function Login({ setOpen }) {
             justifyContent: "center",
             marginTop: "10%",
           }}
-          onClick={() => {
-            // 카카오톡 나중에 백엔드와 같이 작업
-          }}
+          onClick={loginHandler}
         >
           <img src={kakaologo} alt="kakaologo icon" />
         </Stack>
