@@ -8,8 +8,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
 
 function Post() {
   const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
@@ -18,11 +16,9 @@ function Post() {
 
   const [likeTotal, setLikeTotal] = React.useState(0);
 
-  const { postId } = useParams();
-
   const likeClick = () => {
     axios
-      .get(`http://13.125.105.202:8080/api/posts/likes/${postId}`, {
+      .get("http://13.125.105.202:8080/api/posts/likes/213", {
         headers: {
           Authorization: accessToken,
         },
@@ -39,7 +35,7 @@ function Post() {
 
   React.useEffect(() => {
     axios
-      .get(`http://13.125.105.202:8080/api/posts/${postId}`, {
+      .get("http://13.125.105.202:8080/api/posts/213", {
         headers: {
           Authorization: accessToken,
         },
@@ -54,7 +50,7 @@ function Post() {
 
   const handleDelete = () => {
     axios
-      .delete(`http://13.125.105.202:8080/api/posts/${postId}`, {
+      .delete("http://13.125.105.202:8080/api/posts/213", {
         headers: {
           Authorization: accessToken,
         },
@@ -105,9 +101,6 @@ function Post() {
               style={{ fontSize: "40px" }}
               alignItems="center"
               justifyContent="center"
-              onClick={() => {
-                navigate("/writelist");
-              }}
             >
               오봉이의 게시판
             </Stack>
@@ -146,15 +139,10 @@ function Post() {
                 <Stack style={{ fontSize: "14px" }}>{formattedDateTime}</Stack>
               </Stack>
             </Stack>
-
-            {/* 여기 수정 부분 수정함 */}
             <Stack direction="row" gap="15px" minWidth="fit-content">
               {postData?.isUpdate ? (
                 <>
-                  <Stack
-                    style={{ fontSize: "17px", cursor: "pointer" }}
-                    onClick={navigate(`/write/${postId}`)}
-                  >
+                  <Stack style={{ fontSize: "17px", cursor: "pointer" }}>
                     수정
                   </Stack>
                   <Stack style={{ fontSize: "17px" }}>|</Stack>
@@ -221,11 +209,10 @@ function Post() {
               alignItems="center"
               bgcolor="white"
             >
-              {postData?.contents.map((content, i) => (
-                <ReactMarkdown key={i} children={content.value} />
-              ))}
+              {postData?.contents.map((content, i) => {
+                return <Stack>{content.value}</Stack>;
+              })}
             </Stack>
-
             <Stack
               direction="row"
               justifyContent="center"

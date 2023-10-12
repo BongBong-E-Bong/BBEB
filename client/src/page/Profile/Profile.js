@@ -1,74 +1,27 @@
 import React from "react";
 import Header from "../../component/header";
 import { Stack } from "@mui/material";
+import ebongbody from "../../image/ebongbody.png";
+import ebongbodyhover from "../../image/ebongbodyhover.png";
 import { useNavigate } from "react-router-dom";
-import onebong from "../../image/body/onebong.png";
-import onebongHover from "../../image/body/onebongHover.png";
-import twobong from "../../image/body/twobong.png";
-import twobongHover from "../../image/body/twobongHover.png";
-import threebong from "../../image/body/threebong.png";
-import threebongHover from "../../image/body/threebongHover.png";
-import fivebong from "../../image/body/fivebong.png";
-import fivebongHover from "../../image/body/fivebongHover.png";
-import sixbong from "../../image/body/sixbong.png";
-import sixbongHover from "../../image/body/sixbongHover.png";
-import sevenbong from "../../image/body/sevenbong.png";
-import sevenbongHover from "../../image/body/sevenbongHover.png";
-import eightbong from "../../image/body/eightbong.png";
-import eightbongHover from "../../image/body/eightbongHover.png";
 
 function Profile() {
   const navigate = useNavigate();
 
-  const [onebongHovered, setOnebongHovered] = React.useState(false);
   const [twobongHovered, setTwobongHovered] = React.useState(false);
-  const [threebongHovered, setThreebongHovered] = React.useState(false);
-  const [fivebongHovered, setFivebongHovered] = React.useState(false);
-  const [sixbongHovered, setSixbongHovered] = React.useState(false);
-  const [sevenbongHovered, setSevenbongHovered] = React.useState(false);
-  const [eightbongHovered, setEightbongHovered] = React.useState(false);
+  const [onebongHovered, setOnebongHovered] = React.useState(false);
 
   const handleMouseOver = () => {
-    setOnebongHovered(true);
-  };
-  const handleMouseOut = () => {
-    setOnebongHovered(false);
-  };
-  const handleMouseOver2 = () => {
     setTwobongHovered(true);
   };
-  const handleMouseOut2 = () => {
+  const handleMouseOut = () => {
     setTwobongHovered(false);
   };
-  const handleMouseOver3 = () => {
-    setThreebongHovered(true);
+  const handleMouseOver2 = () => {
+    setOnebongHovered(true);
   };
-  const handleMouseOut3 = () => {
-    setThreebongHovered(false);
-  };
-  const handleMouseOver5 = () => {
-    setFivebongHovered(true);
-  };
-  const handleMouseOut5 = () => {
-    setFivebongHovered(false);
-  };
-  const handleMouseOver6 = () => {
-    setSixbongHovered(true);
-  };
-  const handleMouseOut6 = () => {
-    setSixbongHovered(false);
-  };
-  const handleMouseOver7 = () => {
-    setSevenbongHovered(true);
-  };
-  const handleMouseOut7 = () => {
-    setSevenbongHovered(false);
-  };
-  const handleMouseOver8 = () => {
-    setEightbongHovered(true);
-  };
-  const handleMouseOut8 = () => {
-    setEightbongHovered(false);
+  const handleMouseOut2 = () => {
+    setOnebongHovered(false);
   };
 
   const buttonStyles = {
@@ -121,7 +74,7 @@ function Profile() {
               },
             }}
             onClick={() => {
-              navigate("/Ranking");
+              navigate("/Rangking");
             }}
             style={buttonStyles}
           >
@@ -142,73 +95,20 @@ function Profile() {
               },
             }}
             onClick={() => {
-              navigate("/choice");
+              navigate("/Vote");
             }}
             style={buttonStyles}
           >
             투표하러GO
           </Stack>
         </Stack>
-        <Stack height="70%" width="85%">
-          <Stack height="100%" direction="row" justifyContent="space-around">
-            {onebongHovered ? (
-              <Stack
-                alignItems="center"
-                justifyContent="flex-end"
-                height="100%"
-                width="14%"
-              >
-                <Stack
-                  bgcolor="#FFF8D4"
-                  height="7%"
-                  style={{
-                    padding: "0px 3%",
-                    fontSize: "150%",
-                  }}
-                  marginBottom="10%"
-                >
-                  일봉🌱
-                </Stack>
-                <img
-                  src={onebongHover}
-                  alt="ebongbodyhover"
-                  width="300px"
-                  height="350px"
-                  onMouseOut={handleMouseOut}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/onebong");
-                  }}
-                />
-              </Stack>
-            ) : (
-              <Stack
-                height="100%"
-                width="14%"
-                alignItems="center"
-                justifyContent="flex-end"
-              >
-                <Stack
-                  height="7%"
-                  style={{ padding: "0px 3%", fontSize: "150%" }}
-                  marginBottom="10%"
-                >
-                  일봉🌱
-                </Stack>
-                <img
-                  src={onebong}
-                  alt="ebongbody"
-                  width="300px"
-                  height="350px"
-                  onMouseOver={handleMouseOver}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/onebong");
-                  }}
-                />
-              </Stack>
-            )}
-
+        <Stack
+          direction="row"
+          height="70%"
+          width="85%"
+          justifyContent="space-around"
+        >
+          <Stack height="100%" width="100%">
             {twobongHovered ? (
               <Stack
                 alignItems="center"
@@ -228,15 +128,12 @@ function Profile() {
                   이봉🌱
                 </Stack>
                 <img
-                  src={twobongHover}
+                  src={ebongbodyhover}
                   alt="ebongbodyhover"
-                  width="300px"
-                  height="350px"
-                  onMouseOut={handleMouseOut2}
+                  width="100%"
+                  height="70%"
+                  onMouseOut={handleMouseOut}
                   style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/twobong");
-                  }}
                 />
               </Stack>
             ) : (
@@ -254,305 +151,67 @@ function Profile() {
                   이봉🌱
                 </Stack>
                 <img
-                  src={twobong}
-                  alt="ebongbodyhover"
-                  width="300px"
-                  height="350px"
-                  onMouseOver={handleMouseOver2}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/twobong");
-                  }}
-                />
-              </Stack>
-            )}
-
-            {threebongHovered ? (
-              <Stack
-                alignItems="center"
-                justifyContent="flex-end"
-                height="100%"
-                width="14%"
-              >
-                <Stack
-                  bgcolor="#FFF8D4"
-                  height="7%"
-                  style={{
-                    padding: "0px 3%",
-                    fontSize: "150%",
-                  }}
-                  marginBottom="10%"
-                >
-                  삼봉🌱
-                </Stack>
-                <img
-                  src={threebongHover}
-                  alt="ebongbodyhover"
-                  width="300px"
-                  height="350px"
-                  onMouseOut={handleMouseOut3}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/threebong");
-                  }}
-                />
-              </Stack>
-            ) : (
-              <Stack
-                height="100%"
-                width="14%"
-                alignItems="center"
-                justifyContent="flex-end"
-              >
-                <Stack
-                  height="7%"
-                  style={{ padding: "0px 3%", fontSize: "150%" }}
-                  marginBottom="10%"
-                >
-                  삼봉🌱
-                </Stack>
-                <img
-                  src={threebong}
+                  src={ebongbody}
                   alt="ebongbody"
-                  width="300px"
-                  height="350px"
-                  onMouseOver={handleMouseOver3}
+                  width="100%"
+                  height="70%"
+                  onMouseOver={handleMouseOver}
                   style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/threebong");
-                  }}
-                />
-              </Stack>
-            )}
-            {fivebongHovered ? (
-              <Stack
-                alignItems="center"
-                justifyContent="flex-end"
-                height="100%"
-                width="14%"
-              >
-                <Stack
-                  bgcolor="#FFF8D4"
-                  height="7%"
-                  style={{
-                    padding: "0px 3%",
-                    fontSize: "150%",
-                  }}
-                  marginBottom="10%"
-                >
-                  오봉🌱
-                </Stack>
-                <img
-                  src={fivebongHover}
-                  alt="ebongbodyhover"
-                  width="300px"
-                  height="350px"
-                  onMouseOut={handleMouseOut5}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/fivebong");
-                  }}
-                />
-              </Stack>
-            ) : (
-              <Stack
-                height="100%"
-                width="14%"
-                alignItems="center"
-                justifyContent="flex-end"
-              >
-                <Stack
-                  height="7%"
-                  style={{ padding: "0px 3%", fontSize: "150%" }}
-                  marginBottom="10%"
-                >
-                  오봉🌱
-                </Stack>
-                <img
-                  src={fivebong}
-                  alt="ebongbody"
-                  width="300px"
-                  height="350px"
-                  onMouseOver={handleMouseOver5}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/fivebong");
-                  }}
-                />
-              </Stack>
-            )}
-            {sixbongHovered ? (
-              <Stack
-                alignItems="center"
-                justifyContent="flex-end"
-                height="100%"
-                width="14%"
-              >
-                <Stack
-                  bgcolor="#FFF8D4"
-                  height="7%"
-                  style={{
-                    padding: "0px 3%",
-                    fontSize: "150%",
-                  }}
-                  marginBottom="10%"
-                >
-                  육봉🌱
-                </Stack>
-                <img
-                  src={sixbongHover}
-                  alt="ebongbodyhover"
-                  width="300px"
-                  height="350px"
-                  onMouseOut={handleMouseOut6}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/sixbong");
-                  }}
-                />
-              </Stack>
-            ) : (
-              <Stack
-                height="100%"
-                width="14%"
-                alignItems="center"
-                justifyContent="flex-end"
-              >
-                <Stack
-                  height="7%"
-                  style={{ padding: "0px 3%", fontSize: "150%" }}
-                  marginBottom="10%"
-                >
-                  육봉🌱
-                </Stack>
-                <img
-                  src={sixbong}
-                  alt="ebongbody"
-                  width="300px"
-                  height="350px"
-                  onMouseOver={handleMouseOver6}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/sixbong");
-                  }}
-                />
-              </Stack>
-            )}
-            {sevenbongHovered ? (
-              <Stack
-                alignItems="center"
-                justifyContent="flex-end"
-                height="100%"
-                width="14%"
-              >
-                <Stack
-                  bgcolor="#FFF8D4"
-                  height="7%"
-                  style={{
-                    padding: "0px 3%",
-                    fontSize: "150%",
-                  }}
-                  marginBottom="10%"
-                >
-                  칠봉🌱
-                </Stack>
-                <img
-                  src={sevenbongHover}
-                  alt="ebongbodyhover"
-                  width="300px"
-                  height="350px"
-                  onMouseOut={handleMouseOut7}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/sevenbong");
-                  }}
-                />
-              </Stack>
-            ) : (
-              <Stack
-                height="100%"
-                width="14%"
-                alignItems="center"
-                justifyContent="flex-end"
-              >
-                <Stack
-                  height="7%"
-                  style={{ padding: "0px 3%", fontSize: "150%" }}
-                  marginBottom="10%"
-                >
-                  칠봉🌱
-                </Stack>
-                <img
-                  src={sevenbong}
-                  alt="ebongbody"
-                  width="300px"
-                  height="350px"
-                  onMouseOver={handleMouseOver7}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/sevenbong");
-                  }}
-                />
-              </Stack>
-            )}
-            {eightbongHovered ? (
-              <Stack
-                alignItems="center"
-                justifyContent="flex-end"
-                height="100%"
-                width="14%"
-              >
-                <Stack
-                  bgcolor="#FFF8D4"
-                  height="7%"
-                  style={{
-                    padding: "0px 3%",
-                    fontSize: "150%",
-                  }}
-                  marginBottom="10%"
-                >
-                  팔봉🌱
-                </Stack>
-                <img
-                  src={eightbongHover}
-                  alt="ebongbodyhover"
-                  width="300px"
-                  height="350px"
-                  onMouseOut={handleMouseOut8}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/eightbong");
-                  }}
-                />
-              </Stack>
-            ) : (
-              <Stack
-                height="100%"
-                width="14%"
-                alignItems="center"
-                justifyContent="flex-end"
-              >
-                <Stack
-                  height="7%"
-                  style={{ padding: "0px 3%", fontSize: "150%" }}
-                  marginBottom="10%"
-                >
-                  팔봉🌱
-                </Stack>
-                <img
-                  src={eightbong}
-                  alt="ebongbody"
-                  width="300px"
-                  height="350px"
-                  onMouseOver={handleMouseOver8}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigate("/eightbong");
-                  }}
                 />
               </Stack>
             )}
           </Stack>
+          {onebongHovered ? (
+            <Stack
+              alignItems="center"
+              justifyContent="flex-end"
+              height="100%"
+              width="14%"
+            >
+              <Stack
+                bgcolor="#FFF8D4"
+                height="7%"
+                style={{
+                  padding: "0px 3%",
+                  fontSize: "150%",
+                }}
+                marginBottom="10%"
+              >
+                이봉🌱
+              </Stack>
+              <img
+                src={ebongbodyhover}
+                alt="ebongbodyhover"
+                width="100%"
+                height="70%"
+                onMouseOut={handleMouseOut2}
+                style={{ cursor: "pointer" }}
+              />
+            </Stack>
+          ) : (
+            <Stack
+              height="100%"
+              width="14%"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Stack
+                height="7%"
+                style={{ padding: "0px 3%", fontSize: "150%" }}
+                marginBottom="10%"
+              >
+                이봉🌱
+              </Stack>
+              <img
+                src={ebongbody}
+                alt="ebongbody"
+                width="100%"
+                height="70%"
+                onMouseOver={handleMouseOver2}
+                style={{ cursor: "pointer" }}
+              />
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </>

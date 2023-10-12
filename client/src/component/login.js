@@ -39,7 +39,6 @@ function Login({ setOpen }) {
           "refreshDoraTokenDora",
           response.data.refreshToken
         );
-        console.log("login 아이디:",userId);
       })
       .catch((error) => {
         setFailModalOpen(true);
@@ -86,7 +85,7 @@ function Login({ setOpen }) {
             placeholder={"id를 입력하세요"}
             value={userId}
             onChange={(e) => {
-              setUserId(e.target.value); 
+              setUserId(e.target.value);
             }}
             multiline
             maxRows={4}
@@ -154,6 +153,7 @@ function Login({ setOpen }) {
             // 카카오톡 나중에 백엔드와 같이 작업
           }}
         >
+          {/* {" "} */}
           <img src={kakaologo} alt="kakaologo icon" />
         </Stack>
       </Stack>

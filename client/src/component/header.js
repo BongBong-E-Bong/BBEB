@@ -117,7 +117,7 @@ function Header() {
           justifyContent="center"
           alignItems="flex-end"
         >
-          {isLogin ? ( 
+          {isLogin ? (
             <Stack width="12%" height="70%" justifyContent="center">
               <img
                 alt="profileImage"
