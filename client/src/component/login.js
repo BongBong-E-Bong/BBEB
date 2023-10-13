@@ -46,14 +46,6 @@ function Login({ setOpen }) {
         setErrorMessage("아이디/비밀번호가 틀렸어요!!");
       });
   };
-
-  const REST_API_KEY='REST API KEY';
-  const REDIRECT_URI='http://localhost:3000/oauth2/redirect';
-  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
-  const loginHandler = () => {
-    window.location.href = link;
-  };
   
   return (
     <Stack
@@ -158,7 +150,9 @@ function Login({ setOpen }) {
             justifyContent: "center",
             marginTop: "10%",
           }}
-          onClick={loginHandler}
+          onClick={{
+            // 이후 백엔드와 함께 작업
+          }}
         >
           <img src={kakaologo} alt="kakaologo icon" />
         </Stack>
