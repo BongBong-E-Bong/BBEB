@@ -46,7 +46,7 @@ function Login({ setOpen }) {
         setErrorMessage("아이디/비밀번호가 틀렸어요!!");
       });
   };
-
+  
   return (
     <Stack
       position="fixed"
@@ -150,8 +150,8 @@ function Login({ setOpen }) {
             justifyContent: "center",
             marginTop: "10%",
           }}
-          onClick={() => {
-            // 카카오톡 나중에 백엔드와 같이 작업
+          onClick={{
+            // 이후 백엔드와 함께 작업
           }}
         >
           <img src={kakaologo} alt="kakaologo icon" />

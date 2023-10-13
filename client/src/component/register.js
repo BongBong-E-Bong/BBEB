@@ -33,9 +33,24 @@ function Register({ setOpen }) {
   };
 
   const getRequest = () => {
+
+    const emojiRegex = /[\uD800-\uDFFF]./g;
+
     if (userPassword !== confirmPassword) {
       setFailModalOpen(true);
       setErrorMessage("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    if (emojiRegex.test(userId)) {
+      setFailModalOpen(true);
+      setErrorMessage("이모티콘을 포함한 아이디는 사용할 수 없습니다.");
+      return;
+    }
+
+    if (emojiRegex.test(userNickname)) {
+      setFailModalOpen(true);
+      setErrorMessage("이모티콘을 포함한 닉네임은 사용할 수 없습니다.");
       return;
     }
 
