@@ -6,7 +6,7 @@ import axios from "axios";
 import AuthModalFail from "./authModal_fail";
 import AuthModalSuccess from "./authModal_success";
 import Modal from "./Modal";
-
+//g
 function Login({ setOpen }) {
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [failModalOpen, setFailModalOpen] = useState(false);
