@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 function Post() {
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem("accessDoraTokenDora");
 
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ function Post() {
     axios
       .get(`http://13.125.105.202:8080/api/posts/likes/${postId}`, {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
@@ -40,7 +40,7 @@ function Post() {
     axios
       .get(`http://13.125.105.202:8080/api/posts/${postId}`, {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
@@ -55,7 +55,7 @@ function Post() {
     axios
       .delete(`http://13.125.105.202:8080/api/posts/${postId}`, {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
