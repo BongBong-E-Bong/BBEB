@@ -32,14 +32,17 @@ function Login({ setOpen }) {
         password: userPassword,
       })
       .then((response) => {
-        setSuccessMessage("어서오세용!!");
+        setSuccessMessage("어서오세용!! 3초 뒤에 자동으로 닫혀요");
         setSuccessModalOpen(true);
         localStorage.setItem("accessDoraTokenDora", response.data.accessToken);
         localStorage.setItem(
           "refreshDoraTokenDora",
           response.data.refreshToken
         );
-        console.log("login 아이디:",userId);
+        console.log("login 아이디:", userId);
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       })
       .catch((error) => {
         setFailModalOpen(true);
@@ -86,7 +89,7 @@ function Login({ setOpen }) {
             placeholder={"id를 입력하세요"}
             value={userId}
             onChange={(e) => {
-              setUserId(e.target.value); 
+              setUserId(e.target.value);
             }}
             multiline
             maxRows={4}
