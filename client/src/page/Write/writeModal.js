@@ -3,6 +3,7 @@ import { Stack, Checkbox } from "@mui/material";
 import Modal from "../../component/Modal";
 import obong from "../../image/obong.png";
 import writepoto from "../../image/write_poto.png";
+import { useNavigate } from "react-router-dom";
 
 function WriteModal({
   setOpen,
@@ -26,7 +27,7 @@ function WriteModal({
       setThumbnail(file);
     }
   };
-
+  const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = (event) => {
@@ -38,6 +39,7 @@ function WriteModal({
       if (isChecked) {
         onCreatePost(editorContent);
         setOpen(false);
+        navigate("/writeList");
       } else {
         setAuthModalFailOpen(true);
       }
