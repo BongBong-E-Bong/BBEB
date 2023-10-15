@@ -18,9 +18,7 @@ function Onebong() {
   const profileClick = () => {
     profileRef.current.scrollIntoView({ behavior: "smooth" });
   };
-  const storyClick = () => {
-    storyRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+
   const tmiClick = () => {
     tmiRef.current.scrollIntoView({ behavior: "smooth" });
   };
@@ -62,12 +60,10 @@ function Onebong() {
               <Stack style={{ fontSize: "25px" }}>(21)</Stack>
             </Stack>
 
-            <Stack style={{ fontSize: "21px" }}>과학 천재</Stack>
+            <Stack style={{ fontSize: "21px" }}>한심한 대학생</Stack>
             <Stack>
               <Stack fontFamily="blackboard" style={{ fontSize: "23px" }}>
-                "일봉이 형의 엉덩이는 연구 가치가 있어
-                <br />
-                정말 흥미로워!"
+                "술ㄱㄱ?"
               </Stack>
             </Stack>
             <Button
@@ -83,29 +79,21 @@ function Onebong() {
         </Stack>
 
         <Stack width="80%" height="fit-content" margin="20vh 10% 0 10%">
-          <Stack ref={storyRef} />
-          <Stack style={{ fontSize: "27px" }} marginBottom="10vh">
-            🔎일봉이가 이상한 말투를 쓰는 이유
-          </Stack>
-
           <Stack ref={tmiRef} />
           <Stack style={{ fontSize: "27px" }} margin="20vh 0 3vh 0">
             ✨일봉이 tmi
           </Stack>
           <Stack style={{ fontSize: "20px" }} margin="0 5% 20vh 5%">
-            꿈 : 개발자
+            자주 출몰하는 장소 : 피시방, 과실, 술집
             <br />
-            싫어하는 것 : 알파벳 B, 숫자 3 (눕히면 엉덩이 모양이라서)
+            좋아하는 것 : 걸그룹, 술, 게임
             <br />
-            좋아하는 것 : 식물
+            싫어하는 것 : 공부, 일, 잔소리
             <br />
-            교우관계 : 원만(중학교~)
+            취미 : 여자 동기들 sns에서 껄떡대다가 무시 당하기, 걸그룹 직캠 보기
             <br />
-            성격 : 예의바르고 배려심이 깊으며 소심하지만 할 말은 하는 똑부러진
-            성격이다. (다만 말한 뒤 눈치를 보는 편)
-            <br />
-            종교 : 무교 (어릴 적 엉덩이가 작아지게 해달라고 간절히 빌었지만
-            이루어지지 않아 신을 매우 불신한다.)
+            특징 : 한 달 간 아르바이트하여 모은 돈으로 산 명품 티셔츠를 자주
+            입고 다닌다.
           </Stack>
         </Stack>
         <Stack ref={commentRef}></Stack>
@@ -124,11 +112,6 @@ function Onebong() {
         gap="10px"
       >
         <Stack onClick={profileClick}>소개</Stack>
-
-        <Stack onClick={storyClick}>
-          🔎일봉이가 이상한 말투를 <br />
-          쓰는 이유
-        </Stack>
 
         <Stack onClick={tmiClick}>✨일봉이 tmi</Stack>
         <Stack onClick={commentClick}>댓글</Stack>
