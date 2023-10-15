@@ -10,7 +10,6 @@ function Eightbong() {
   const commentRef = React.useRef(null);
   const profileRef = React.useRef(null);
   const tmiRef = React.useRef(null);
-  const storyRef = React.useRef(null);
 
   const commentClick = () => {
     commentRef.current.scrollIntoView({ behavior: "smooth" });
@@ -18,9 +17,7 @@ function Eightbong() {
   const profileClick = () => {
     profileRef.current.scrollIntoView({ behavior: "smooth" });
   };
-  const storyClick = () => {
-    storyRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+
   const tmiClick = () => {
     tmiRef.current.scrollIntoView({ behavior: "smooth" });
   };
@@ -81,19 +78,19 @@ function Eightbong() {
         </Stack>
 
         <Stack width="80%" height="fit-content" margin="20vh 10% 0 10%">
-          <Stack ref={storyRef} />
-          <Stack style={{ fontSize: "27px" }} marginBottom="10vh">
-            🍼팔봉이의 의사 표현 방법
-          </Stack>
-
           <Stack ref={tmiRef} />
           <Stack style={{ fontSize: "27px" }} margin="20vh 0 3vh 0">
             ✨팔봉이tmi
           </Stack>
           <Stack style={{ fontSize: "20px" }} margin="0 5% 20vh 5%">
+            좋아하는 것: 고급스러운 유아 용품, 클래식 음악
+            <br />
             싫어하는 것 : 일봉이, 이봉이, 삼봉이, 한심한 것
             <br />
-            *자기가 잘생겼다는 사실을 매우 잘 알고 있다.
+            특징 : 자기가 잘생겼다는 사실을 매우 잘 알고 있다.
+            <br />
+            성격 : 굉장히 까탈스러운 편이며 기분이 나쁘면 인공 젖꼭지를 침 뱉듯
+            뱉는다.
           </Stack>
         </Stack>
         <Stack ref={commentRef}></Stack>
@@ -112,11 +109,6 @@ function Eightbong() {
         gap="10px"
       >
         <Stack onClick={profileClick}>소개</Stack>
-
-        <Stack onClick={storyClick}>
-          🔎팔봉이가 이상한 말투를 <br />
-          쓰는 이유
-        </Stack>
 
         <Stack onClick={tmiClick}>✨팔봉이 tmi</Stack>
         <Stack onClick={commentClick}>댓글</Stack>
