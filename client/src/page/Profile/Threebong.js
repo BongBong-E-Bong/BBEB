@@ -119,7 +119,9 @@ function Threebong() {
           <Stack style={{ fontSize: "27px" }} marginBottom="10vh">
             💍삼봉이 자신감의 근원
           </Stack>
+
           <Stack alignItems="center" gap="25vh">
+            <Stack>*그림이 움직여요 스크롤을 천천히 내려주세요!*</Stack>
             <img src={story1} alt="story" width="370px" height="270px" />
             <img src={story2} alt="story" width="320px" height="270px" />
             <img src={story3} alt="story" width="250px" height="330px" />
@@ -151,6 +153,16 @@ function Threebong() {
             <img src={story29} alt="story" width="350px" height="310px" />
             <img src={story30} alt="story" width="250px" height="400px" />
             <img src={story31} alt="story" width="350px" height="250px" />
+            <Stack>
+              <Stack>*귀여운 고양이 옹냐의 정체가 궁금하다면*</Stack>
+              <Button
+                onClick={() => {
+                  navigate("/sixbong");
+                }}
+              >
+                click!
+              </Button>
+            </Stack>
             <img src={story32} alt="story" width="270px" height="250px" />
             <img src={story33} alt="story" width="350px" height="300px" />
           </Stack>

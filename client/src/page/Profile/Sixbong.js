@@ -5,6 +5,9 @@ import ProfileForm from "../../component/ProfileForm";
 import Comment from "../../component/comment";
 import sixbong from "../../image/body/sixbong.png";
 import { useNavigate } from "react-router-dom";
+import ongnya from "../../image/story6/ongnya.png";
+import gogle from "../../image/story6/gogle.png";
+import ring from "../../image/story6/ring.png";
 
 function Sixbong() {
   const commentRef = React.useRef(null);
@@ -87,24 +90,100 @@ function Sixbong() {
           <Stack style={{ fontSize: "27px" }} marginBottom="10vh">
             🧪과학 천재 육봉이의 발명품
           </Stack>
+          <Stack alignItems="center" gap="25vh">
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              gap="30px"
+            >
+              <img src={ongnya} alt="story" width="150px" height="200px" />
+              <Stack>
+                <Stack fontSize="25px">옹냐</Stack>
+                <Stack fontSize="18px">
+                  옹냐는 이봉이 가족이 어렸을 때 키우던 고양이에요
+                  <br />
+                  옹냐가 무지개 다리를 건너자 온 가족이 슬픔에 빠졌고
+                  <br />
+                  육봉이는 옹냐를 개조해 로봇으로 만들었어요
+                  <br />
+                  옹냐의 눈에는 녹화 기능이 있는 카메라가 들어있고
+                  <br />
+                  목걸이에는 위치 추적 장치가 달려있어요
+                  <br />
+                  스윗한 육봉이는 옹냐의 발에 비밀 장치를 달아줬고
+                  <br />
+                  덕분에 옹냐는 위험으로부터 자신을 지킬 수 있어요
+                </Stack>
+              </Stack>
+            </Stack>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              gap="30px"
+            >
+              <Stack>
+                <Stack fontSize="25px">멋진 고글</Stack>
+                <Stack fontSize="18px">
+                  육봉이가 늘 쓰고다니는 고글에는
+                  <br />
+                  Ai가 탑재되어 여러 기능을 제공해요
+                  <br />
+                  어느 날 호기심에 고글을 써본 오봉이는
+                  <br />
+                  이번 달 펭귄즈의 승부 예측 기능을 사용했어요
+                  <br />
+                  정확도는 100%였지만
+                  <br />
+                  야구 경기를 보며 느껴지는 쫄깃함을 잃은 오봉이는
+                  <br />
+                  그 달 내내 극도의 무기력함과 우울함을 느꼈고
+                  <br />더 이상 승부 예측 기능을 사용하지 않았어요
+                </Stack>
+              </Stack>
+              <img src={gogle} alt="story" width="150px" height="200px" />
+            </Stack>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              gap="30px"
+            >
+              <img src={ring} alt="story" width="150px" height="200px" />
+              <Stack>
+                <Stack fontSize="25px">삼봉이의 반지</Stack>
+                <Stack fontSize="18px">
+                  옹냐의 발에 탑재된 것과 같은 물질로 이루어진 반지에요
+                  <br />
+                  현재는 성능 테스트를 위해 삼봉이의 손가락에 끼워져있어요
+                  <br />
+                  자세한 스토리가 궁금하다면
+                  <Button
+                    onClick={() => {
+                      navigate("/threebong");
+                    }}
+                  >
+                    click!
+                  </Button>
+                </Stack>
+              </Stack>
+            </Stack>
+          </Stack>
           <Stack ref={tmiRef} />
           <Stack style={{ fontSize: "27px" }} margin="20vh 0 3vh 0">
             ✨육봉이 tmi
           </Stack>
           <Stack style={{ fontSize: "20px" }} margin="0 5% 20vh 5%">
-            꿈 : 개발자
+            꿈 : 과학자
             <br />
-            싫어하는 것 : 알파벳 B, 숫자 3 (눕히면 엉덩이 모양이라서)
+            좋아하는 것 : 흥미로운 실험체, 옹냐, 발명품들
             <br />
-            좋아하는 것 : 식물
+            싫어하는 것 : 너무나 단순한 것
             <br />
-            교우관계 : 원만(중학교~)
+            특징 : 외모를 특별히 가꾸지 않아 머리카락을 자른지 오래 되었으며
             <br />
-            성격 : 예의바르고 배려심이 깊으며 소심하지만 할 말은 하는 똑부러진
-            성격이다. (다만 말한 뒤 눈치를 보는 편)
-            <br />
-            종교 : 무교 (어릴 적 엉덩이가 작아지게 해달라고 간절히 빌었지만
-            이루어지지 않아 신을 매우 불신한다.)
+            앞머리는 실험에 방해가 되어 대충 잘라 쥐가 파먹은 모양이다
           </Stack>
         </Stack>
         <Stack ref={commentRef}></Stack>

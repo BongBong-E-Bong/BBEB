@@ -103,6 +103,7 @@ function Twobong() {
             🔎이봉이가 이상한 말투를 쓰는 이유
           </Stack>
           <Stack alignItems="center" gap="25vh">
+            <Stack>*그림이 움직여요 스크롤을 천천히 내려주세요!*</Stack>
             <Zoom>
               <img src={story1} alt="story" width="270px" height="250px" />
             </Zoom>
