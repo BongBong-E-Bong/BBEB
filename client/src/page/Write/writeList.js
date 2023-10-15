@@ -148,10 +148,18 @@ function WriteList() {
               style={{ fontSize: "40px" }}
               alignItems="center"
               justifyContent="center"
+              onClick={() => {
+                navigate("/writeList");
+              }}
             >
               오봉이의 게시판
             </Stack>
-            <img src={obong} alt="obong" width="25%" height="600%" />
+            <img
+              src={obong}
+              alt="obong"
+              width="25%"
+              height="600%"
+            />
           </Stack>
         </Stack>
         <Stack width="70%" marginTop="2%">
@@ -236,7 +244,7 @@ function WriteList() {
                   width: "35%",
                 }}
                 onClick={() => {
-                  // navigate("/Write");
+                  navigate("/Write");
                 }}
               >
                 <Stack fontSize="20px">글쓰기</Stack>
