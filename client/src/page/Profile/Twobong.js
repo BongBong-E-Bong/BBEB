@@ -76,13 +76,7 @@ function Twobong() {
               <Stack style={{ fontSize: "25px" }}>(고3)</Stack>
             </Stack>
 
-            <Stack style={{ fontSize: "21px" }}>
-              어릴 적 부터 너무나도
-              <br />
-              큰 엉덩이가 컴플렉스인 이봉이는
-              <br />
-              과연 엉덩이가 작아질 수 있을까?
-            </Stack>
+            <Stack style={{ fontSize: "21px" }}>엉덩이가 커서 슬픈 아이</Stack>
             <Stack fontFamily="blackboard" style={{ fontSize: "25px" }}>
               "내 이름은 이이봉인데!"
             </Stack>

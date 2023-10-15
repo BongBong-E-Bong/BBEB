@@ -10,7 +10,6 @@ function Fivebong() {
   const commentRef = React.useRef(null);
   const profileRef = React.useRef(null);
   const tmiRef = React.useRef(null);
-  const storyRef = React.useRef(null);
 
   const commentClick = () => {
     commentRef.current.scrollIntoView({ behavior: "smooth" });
@@ -18,9 +17,7 @@ function Fivebong() {
   const profileClick = () => {
     profileRef.current.scrollIntoView({ behavior: "smooth" });
   };
-  const storyClick = () => {
-    storyRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+
   const tmiClick = () => {
     tmiRef.current.scrollIntoView({ behavior: "smooth" });
   };
@@ -81,10 +78,6 @@ function Fivebong() {
         </Stack>
 
         <Stack width="80%" height="fit-content" margin="20vh 10% 0 10%">
-          <Stack ref={storyRef} />
-          <Stack style={{ fontSize: "27px" }} marginBottom="10vh">
-            ⚾오봉이의 야구 응원 댄스
-          </Stack>
           <Stack ref={tmiRef} />
           <Stack style={{ fontSize: "27px" }} margin="20vh 0 3vh 0">
             ✨오봉이 tmi
@@ -118,7 +111,7 @@ function Fivebong() {
         gap="10px"
       >
         <Stack onClick={profileClick}>소개</Stack>
-        <Stack onClick={storyClick}>⚾오봉이 표정 모음집</Stack>
+
         <Stack onClick={tmiClick}>✨오봉이 tmi</Stack>
         <Stack onClick={commentClick}>댓글</Stack>
       </Stack>
