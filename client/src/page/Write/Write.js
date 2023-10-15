@@ -138,10 +138,18 @@ function Write() {
               style={{ fontSize: "40px" }}
               alignItems="center"
               justifyContent="center"
+              onClick={() => {
+                navigate("/writeList");
+              }}
             >
               오봉이의 게시판
             </Stack>
-            <img src={obong} alt="obong" width="20%" height="400%"></img>
+            <img
+              src={obong}
+              alt="obong"
+              width="20%"
+              height="400%"
+            ></img>
           </Stack>
         </Stack>
         <Stack
