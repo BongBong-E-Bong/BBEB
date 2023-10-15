@@ -21,7 +21,7 @@ import eightbongCry from "../../image/body/eightbongCry.png";
 import axios from "axios";
 
 function Ranking() {
-  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem("accessDoraTokenDora");
 
   const [voteTotal, setVoteTotal] = React.useState([]);
 
@@ -29,7 +29,7 @@ function Ranking() {
     axios
       .get("http://13.125.105.202:8080/api/vote", {
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
