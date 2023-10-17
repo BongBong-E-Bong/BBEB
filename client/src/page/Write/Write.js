@@ -89,6 +89,7 @@ function Write() {
             },
           })
           .then((response) => {
+            navigate("/post/");
             console.log(postDataToSend);
           })
           .catch((error) => {
