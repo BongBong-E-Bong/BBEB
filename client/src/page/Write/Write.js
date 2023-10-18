@@ -89,7 +89,8 @@ function Write() {
             },
           })
           .then((response) => {
-            navigate("/post/");
+            const postId = response.data.postId; // 게시물 생성 후의 postId
+            navigate(`/post/${postId}`);
             console.log(postDataToSend);
           })
           .catch((error) => {

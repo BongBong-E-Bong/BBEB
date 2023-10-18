@@ -60,7 +60,7 @@ function Post() {
         },
       })
       .then((response) => {
-        navigate("/");
+        setPostData(response.data);
       })
       .catch((error) => {
         console.error("delete error", error);
@@ -151,12 +151,13 @@ function Post() {
             <Stack direction="row" gap="15px" minWidth="fit-content">
               {postData?.isUpdate ? (
                 <>
-                  <Stack
-                    style={{ fontSize: "17px", cursor: "pointer" }}
-                    onClick={navigate(`/write/${postId}`)}
-                  >
-                    수정
-                  </Stack>
+<Stack
+  style={{ fontSize: "17px", cursor: "pointer" }}
+  onClick={() => navigate(`/write/${postId}`)} // 화살표 함수로 래핑
+>
+  수정
+</Stack>
+
                   <Stack style={{ fontSize: "17px" }}>|</Stack>
                   <Stack
                     style={{ fontSize: "17px", cursor: "pointer" }}
