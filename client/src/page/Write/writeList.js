@@ -124,7 +124,7 @@ function WriteList() {
     selectedEndDate,
     sortByDate,
     selectedTitle,
-    searchContent, // Include searchContent in the dependencies array
+    searchContent,
   ]);
   return (
     <>

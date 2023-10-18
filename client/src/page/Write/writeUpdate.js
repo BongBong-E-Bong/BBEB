@@ -48,7 +48,7 @@ const handleTagInputKeyPress = (event) => {
   if (event.key === "Enter" && tagInput.trim() !== "") {
     const newTag = tagInput.trim();
     if (!tags.includes(newTag)) {
-      const newTags = [...tags, newTag];
+      const newTags = [...tags, newTag]; 
       setTags(newTags);
 
       setTagInput("");
