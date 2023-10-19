@@ -222,4 +222,25 @@ public class PostController {
 
         return HttpStatus.CREATED;
     }
+
+    @Operation(
+            summary = "내가 작성한 게시글 조회 API",
+            description = "내가 작성한 게시글들을 조회 할 때 사용하는 API 입니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "조회 성공!",
+                    content = @Content(schema = @Schema(implementation = PostDTO.PostResponseDTO.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "일치하는 유저 정보 없음, 일치하는 글 정보 없음",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping(value = "/api/posts/my")
+    public Page<PostDTO.PostAllResponseDTO> findMyPost(
+            Pageable pageable,
+            Authentication authentication
+    ){
+        return postService.findMyPost(pageable, authentication.getName());
+    }
 }
