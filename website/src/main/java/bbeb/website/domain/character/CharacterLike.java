@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class CharacterLike {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "character_like_id")
     private Long id;
 

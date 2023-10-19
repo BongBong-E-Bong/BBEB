@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class MainCharacter {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "main_character_id")
     private Long id;
     private Long brotherOrder;
