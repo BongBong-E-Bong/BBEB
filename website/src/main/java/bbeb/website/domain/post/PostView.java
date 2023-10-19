@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class PostView {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "post_view_id")
     private Long id;
 

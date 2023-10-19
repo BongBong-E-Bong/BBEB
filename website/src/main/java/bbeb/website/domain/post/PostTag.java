@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class PostTag {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "post_tag_id")
     private Long id;
 

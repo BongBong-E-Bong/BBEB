@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Tag {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "tag_id")
     private Long id;
 

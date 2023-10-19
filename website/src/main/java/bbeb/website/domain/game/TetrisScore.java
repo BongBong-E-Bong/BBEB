@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class TetrisScore {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "tetris_id")
     private Long id;
 
