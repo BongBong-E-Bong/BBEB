@@ -114,9 +114,10 @@ public class PostDTO {
         private List<PostTag> tags;
         @Schema(description = "수정/삭제 여부", example = "true, false")
         private Boolean isUpdate;
+        private Long postLike;
 
         @QueryProjection
-        public PostResponseDTO(String title, LocalDateTime date, String writer, Long view, Long isPinned, List<Content> contents, List<PostTag> tags, Boolean isUpdate, String sortType) {
+        public PostResponseDTO(String title, LocalDateTime date, String writer, Long view, Long isPinned, List<Content> contents, List<PostTag> tags, Boolean isUpdate, String sortType, Long postLike) {
             this.title = title;
             this.date = date;
             this.writer = writer;
@@ -126,6 +127,7 @@ public class PostDTO {
             this.tags = tags;
             this.isUpdate = isUpdate;
             this.sortType = sortType;
+            this.postLike = postLike;
         }
     }
 
