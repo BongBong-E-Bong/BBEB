@@ -31,12 +31,11 @@ public class Member implements UserDetails {
 
     private String loginId;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String password;
-
     private String nickname;
-
     private String email;
-
+    @Column(columnDefinition = "LONGTEXT")
     private String refreshToken;
 
     @Enumerated(EnumType.STRING)

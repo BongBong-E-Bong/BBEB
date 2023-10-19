@@ -20,8 +20,10 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String title;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String thumbnail;
 
     private Long isPinned;

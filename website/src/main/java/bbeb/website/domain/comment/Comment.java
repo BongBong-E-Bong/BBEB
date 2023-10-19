@@ -24,6 +24,7 @@ public class Comment {
     @Enumerated(EnumType.STRING)
     private CommentType commentType;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String value;
     private String emoticonNumber;
 
