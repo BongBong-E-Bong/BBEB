@@ -48,9 +48,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         member.nickname,
                         post.view,
                         post.isPinned,
-                        post.sortType)
+                        post.sortType,
+                        profile.url)
                 .from(post)
                 .leftJoin(post.member, member)
+                .leftJoin(member.profile, profile)
                 .leftJoin(post.contents, content)
                 .where(post.id.eq(postId))
                 .fetchFirst();
@@ -80,10 +82,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                     }
                 });
 
+
+
         return new PostDTO.PostResponseDTO(
                 tuple.get(post.title),
                 tuple.get(post.createdDate),
                 tuple.get(member.nickname),
+                s3Client.getUrl(profileBucketName, tuple.get(profile.url) == null ? "default.jpg" : tuple.get(profile.url)).toString(),
                 tuple.get(post.view),
                 tuple.get(post.isPinned),
                 contentDto,
