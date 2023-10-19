@@ -104,6 +104,8 @@ public class PostDTO {
         private LocalDateTime date;
         @Schema(description = "글 작성자", example = "hg_yellow")
         private String writer;
+        @Schema(description = "작성자 프로필", example = "호두.jpg")
+        private String writerProfile;
         @Schema(description = "글 조회수", example = "100")
         private Long view;
         @Schema(description = "고정 여부(고정O: 1, 고정X: 0)", example = "1")
@@ -117,10 +119,11 @@ public class PostDTO {
         private Long postLike;
 
         @QueryProjection
-        public PostResponseDTO(String title, LocalDateTime date, String writer, Long view, Long isPinned, List<Content> contents, List<PostTag> tags, Boolean isUpdate, String sortType, Long postLike) {
+        public PostResponseDTO(String title, LocalDateTime date, String writer, String writerProfile, Long view, Long isPinned, List<Content> contents, List<PostTag> tags, Boolean isUpdate, String sortType, Long postLike) {
             this.title = title;
             this.date = date;
             this.writer = writer;
+            this.writerProfile = writerProfile;
             this.view = view;
             this.isPinned = isPinned;
             this.contents = contents;

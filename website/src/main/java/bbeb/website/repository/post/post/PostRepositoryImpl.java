@@ -49,9 +49,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.view,
                         post.isPinned,
                         post.sortType,
+                        profile.url,
                         postLike.count())
                 .from(post)
                 .leftJoin(post.member, member)
+                .leftJoin(member.profile, profile)
                 .leftJoin(post.contents, content)
                 .leftJoin(post.postLikes, postLike)
                 .groupBy(post.id)
@@ -87,6 +89,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 tuple.get(post.title),
                 tuple.get(post.createdDate),
                 tuple.get(member.nickname),
+                s3Client.getUrl(profileBucketName, tuple.get(profile.url) == null ? "default.jpg" : tuple.get(profile.url)).toString(),
                 tuple.get(post.view),
                 tuple.get(post.isPinned),
                 contentDto,
