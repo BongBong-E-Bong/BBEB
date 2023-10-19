@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -251,6 +252,64 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetchResults();
 
         return getPostAllResponseDTOS(dto, results);
+    }
+
+    @Override
+    public Page<PostDTO.PostAllResponseDTO> searchMyPost(Pageable pageable, String loginId) {
+        QueryResults<Tuple> results = queryFactory
+                .select(post.id,
+                        post.thumbnail,
+                        post.title,
+                        member.nickname,
+                        profile.url,
+                        post.createdDate,
+                        post.view,
+                        post.isPinned,
+                        postLike.count(),
+                        comment.count())
+                .from(tag)
+                .where(member.loginId.eq(loginId))
+                .leftJoin(tag.postTagList, postTag)
+                .leftJoin(postTag.post, post)
+                .leftJoin(post.member, member)
+                .leftJoin(member.profile, profile)
+                .leftJoin(post.postLikes, postLike)
+                .leftJoin(post.comments, comment)
+                .groupBy(post.id)
+                .distinct()
+                .orderBy(post.isPinned.desc(), post.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<PostDTO.PostAllResponseDTO> content = new ArrayList<>();
+
+        for (Tuple tuple : results.getResults()) {
+            List<PostDTO.PostTag> tags = queryFactory
+                    .select(new QPostDTO_PostTag(
+                            tag.value
+                    ))
+                    .from(postTag)
+                    .leftJoin(postTag.tag, tag)
+                    .where(postTag.post.id.eq(tuple.get(post.id)))
+                    .fetch();
+
+            content.add(new PostDTO.PostAllResponseDTO(
+                    tuple.get(post.id),
+                    s3Client.getUrl(postBucketName, tuple.get(post.thumbnail)).toString(),
+                    tuple.get(post.title),
+                    tuple.get(member.nickname),
+                    s3Client.getUrl(profileBucketName, tuple.get(profile.url) == null ? "default.jpg" : tuple.get(profile.url)).toString(),
+                    tuple.get(post.createdDate),
+                    tuple.get(post.view),
+                    tuple.get(postLike.count()),
+                    tags,
+                    tuple.get(post.isPinned),
+                    tuple.get(comment.count())
+            ));
+        }
+
+        return new PageImpl<>(content, pageable, results.getTotal());
     }
 
 

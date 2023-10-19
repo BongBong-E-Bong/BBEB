@@ -2,6 +2,7 @@ package bbeb.website.repository.post.post;
 
 import bbeb.website.dto.PostDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface PostRepositoryCustom {
     PostDTO.PostResponseDTO findOneRequestDTOByMemberAndPost(Long postId);
@@ -14,4 +15,6 @@ public interface PostRepositoryCustom {
     Page<PostDTO.PostAllResponseDTO> searchAllByContent(PostDTO.PostAllRequestDTO dto);
 
     Page<PostDTO.PostAllResponseDTO> searchAllByTag(PostDTO.PostAllRequestDTO dto);
+
+    Page<PostDTO.PostAllResponseDTO> searchMyPost(Pageable pageable, String loginId);
 }
