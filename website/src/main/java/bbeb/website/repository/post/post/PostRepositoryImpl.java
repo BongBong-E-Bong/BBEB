@@ -48,10 +48,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         member.nickname,
                         post.view,
                         post.isPinned,
-                        post.sortType)
+                        post.sortType,
+                        postLike.count())
                 .from(post)
                 .leftJoin(post.member, member)
                 .leftJoin(post.contents, content)
+                .leftJoin(post.postLikes, postLike)
+                .groupBy(post.id)
                 .where(post.id.eq(postId))
                 .fetchFirst();
 
@@ -89,7 +92,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 contentDto,
                 tagsDto,
                 null,
-                tuple.get(post.sortType).toString()
+                tuple.get(post.sortType).toString(),
+                tuple.get(postLike.count())
         );
     }
 
