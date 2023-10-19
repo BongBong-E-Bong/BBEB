@@ -18,6 +18,7 @@ public class Content {
 
     @Enumerated(EnumType.STRING)
     private ContentType contentType;
+    @Column(columnDefinition = "LONGTEXT")
     private String value;
     private Long contentOrder;
 

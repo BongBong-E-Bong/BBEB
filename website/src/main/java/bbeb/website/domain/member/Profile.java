@@ -19,6 +19,7 @@ public class Profile {
     @Column(name = "profile_id")
     private Long id;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String url;
 
     @OneToOne(mappedBy = "profile")

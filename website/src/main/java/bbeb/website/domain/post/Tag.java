@@ -21,5 +21,6 @@ public class Tag {
     @OneToMany(mappedBy = "tag")
     private List<PostTag> postTagList;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String value;
 }
