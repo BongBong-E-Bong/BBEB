@@ -1,38 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "../../component/header";
-import {
-  Stack,
-  Switch,
-  Autocomplete,
-  TextField,
-  Paper,
-  Pagination,
-  InputAdornment,
-} from "@mui/material";
+import { Stack, Pagination } from "@mui/material";
 import obong from "../../image/obong.png";
 import hit from "../../image/hit.png";
 import like from "../../image/like.png";
 import comment from "../../image/comment.png";
 import PushPin from "../../image/PushPin.png";
-import SearchIcon from "../../image/Search.png";
 import { useNavigate } from "react-router-dom";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
-import dayjs from "dayjs";
 
-function WriteList() {
+function MyWriteList() {
   const itemsPerRow = 4;
   const itemsPerPage = 8;
 
-  const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
-  const [sortByDate, setSortByDate] = useState(false);
-  const [selectedTitle, setSelectedTitle] = useState("글 제목");
-  const [searchQuery, setSearchQuery] = useState("");
   const [groupedPosts, setGroupedPosts] = useState([]);
-  const [value, setValue] = useState([]);
-  const [type, setType] = useState("");
-  const [searchContent, setSearchContent] = useState("");
 
   const navigate = useNavigate();
 
@@ -40,21 +21,8 @@ function WriteList() {
     setCurrentPage(newPage);
   };
 
-  const titleOptions = ["글 제목", "태그", "작성자", "글 내용"];
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-    setSearchContent(event.target.value); // Update the searchContent state
-  };
-
-  const handleSwitchChange = () => {
-    setSortByDate((prevSortByDate) => !prevSortByDate);
-  };
-
   const [totalItems, setTotalItems] = useState(groupedPosts.length);
-
   const [currentPage, setCurrentPage] = useState(1);
-  const today = dayjs(); // 현재 날짜와 시간을 얻습니다.
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
   const currentItems = groupedPosts.slice(startIndex, endIndex);
@@ -70,37 +38,11 @@ function WriteList() {
   const accessToken = localStorage.getItem("accessDoraTokenDora");
 
   const [post, setPost] = React.useState([]);
-  const [page, setPage] = useState(0);
-  const [selectedStartDate, setSelectedStartDate] = useState(
-    dayjs("2001-03-02")
-  ); // 시작 날짜를 "2001-03-02"로 설정
-  const [selectedEndDate, setSelectedEndDate] = useState(dayjs());
-
-  const [order, setOrder] = useState(0);
 
   React.useEffect(() => {
-    const startDateString = selectedStartDate
-      ? selectedStartDate.format("YYYY-MM-DD")
-      : "";
-    const endDateString = selectedEndDate
-      ? selectedEndDate.format("YYYY-MM-DD")
-      : "";
-
-    const orderParam = sortByDate ? 1 : 0;
-
-    if (selectedTitle === "글 제목") {
-      setType("title");
-    } else if (selectedTitle === "글 내용") {
-      setType("content");
-    } else if (selectedTitle === "작성자") {
-      setType("writer");
-    } else if (selectedTitle === "태그") {
-      setType("tag");
-    }
-
-    const apiUrl = `http://13.125.105.202:8080/api/posts?page=${
+    const apiUrl = `http://13.125.105.202:8080/api/posts/my?page=${
       currentPage - 1
-    }&size=${itemsPerPage}&sort=string&startDate=${startDateString}&endDate=${endDateString}&order=${orderParam}&${type}=${searchContent}`;
+    }&size=${itemsPerPage}&sort=string`;
 
     axios
       .get(apiUrl, {
@@ -116,14 +58,8 @@ function WriteList() {
       .catch((error) => {
         console.log("error 내용", error);
       });
-  }, [
-    currentPage,
-    selectedStartDate,
-    selectedEndDate,
-    sortByDate,
-    selectedTitle,
-    searchContent,
-  ]);
+  }, [currentPage]);
+
   return (
     <>
       <Header />
@@ -152,106 +88,10 @@ function WriteList() {
             >
               오봉이의 게시판
             </Stack>
-            <img
-              src={obong}
-              alt="obong"
-              width="25%"
-              height="600%"
-            />
+            <img src={obong} alt="obong" width="25%" height="600%" />
           </Stack>
         </Stack>
         <Stack width="70%" marginTop="2%">
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            width="100%"
-            height="100%"
-          >
-            <Stack direction="row" spacing={2} justifyContent="">
-              <Stack
-                direction="row"
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-              >
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    format="YYYY/MM/DD"
-                    label="시작 날짜"
-                    value={selectedStartDate}
-                    onChange={(newValue) => setSelectedStartDate(newValue)}
-                  />
-                  <Stack>~</Stack>
-                  <DatePicker
-                    format="YYYY/MM/DD"
-                    label="종료 날짜"
-                    value={selectedEndDate}
-                    onChange={(newValue) => setSelectedEndDate(newValue)}
-                  />
-                </LocalizationProvider>
-              </Stack>
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Stack fontSize="12px">최신순</Stack>
-                <Switch
-                  checked={sortByDate}
-                  onChange={handleSwitchChange}
-                ></Switch>
-                <Stack fontSize="12px">좋아요 순</Stack>
-              </Stack>
-            </Stack>
-            <Stack direction="row" spacing={1}>
-              <Stack>
-                <Autocomplete
-                  id="title-autocomplete"
-                  options={titleOptions}
-                  value={selectedTitle}
-                  onChange={(event, newValue) => setSelectedTitle(newValue)}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Stack>
-              <Stack>
-                <TextField
-                  label="검색"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <img
-                          src={SearchIcon}
-                          alt="search"
-                          style={{ cursor: "pointer" }}
-                        />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Stack>
-              <Stack
-                bgcolor="#FF8181"
-                sx={{
-                  cursor: "pointer",
-                  color: "white",
-                  borderRadius: "10px",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "35%",
-                }}
-                onClick={() => {
-                  navigate("/Write");
-                }}
-              >
-                <Stack fontSize="20px">글쓰기</Stack>
-              </Stack>
-            </Stack>
-          </Stack>
-          <Stack>
-            {searchQuery && `'${searchQuery}' 검색 결과 (${totalItems})`}
-          </Stack>
           <Stack marginBottom="-11%">
             <Stack spacing={2} width="100%" direction="row" marginTop="2%">
               {post.content?.slice(0, 4).map((content, i) => {
@@ -262,7 +102,7 @@ function WriteList() {
                       style={{
                         borderTopLeftRadius: "20px",
                         borderTopRightRadius: "20px",
-                        position: "relative", // 자식 요소에 대해 상대적인 위치 설정
+                        position: "relative",
                       }}
                     >
                       {content.isPinned === 1 && (
@@ -271,9 +111,9 @@ function WriteList() {
                           alt="PushPin"
                           style={{
                             position: "absolute",
-                            top: "-10%", // 원하는 위치로 조정
-                            left: "10px", // 원하는 위치로 조정
-                            zIndex: 2, // 다른 요소 위에 표시
+                            top: "-10%",
+                            left: "10px",
+                            zIndex: 2,
                           }}
                         />
                       )}
@@ -310,11 +150,9 @@ function WriteList() {
                         <Stack
                           style={{
                             width: "100%",
-                            whiteSpace:
-                              "nowrap" /* 글 내용이 한 줄로 표시되도록 설정 */,
+                            whiteSpace: "nowrap",
                             overflow: "hidden",
-                            textOverflow:
-                              "ellipsis" /* 일정 길이 이상의 텍스트일 때 "..." 표시 */,
+                            textOverflow: "ellipsis",
                           }}
                         >
                           {content.title.length > 7
@@ -394,7 +232,7 @@ function WriteList() {
                       style={{
                         borderTopLeftRadius: "20px",
                         borderTopRightRadius: "20px",
-                        position: "relative", // 자식 요소에 대해 상대적인 위치 설정
+                        position: "relative",
                       }}
                     >
                       {content.isPinned === 1 && (
@@ -403,9 +241,9 @@ function WriteList() {
                           alt="PushPin"
                           style={{
                             position: "absolute",
-                            top: "-10%", // 원하는 위치로 조정
-                            left: "10px", // 원하는 위치로 조정
-                            zIndex: 2, // 다른 요소 위에 표시
+                            top: "-10%",
+                            left: "10px",
+                            zIndex: 2,
                           }}
                         />
                       )}
@@ -443,11 +281,9 @@ function WriteList() {
                         <Stack
                           style={{
                             width: "100%",
-                            whiteSpace:
-                              "nowrap" /* 글 내용이 한 줄로 표시되도록 설정 */,
+                            whiteSpace: "nowrap",
                             overflow: "hidden",
-                            textOverflow:
-                              "ellipsis" /* 일정 길이 이상의 텍스트일 때 "..." 표시 */,
+                            textOverflow: "ellipsis",
                           }}
                         >
                           {content.title.length > 7
@@ -519,7 +355,7 @@ function WriteList() {
               })}
             </Stack>
           </Stack>
-          <Stack alignItems="center" marginTop="7%">
+          <Stack alignItems="center" marginTop="10%">
             <Pagination
               count={pageCount}
               page={currentPage}
@@ -532,4 +368,4 @@ function WriteList() {
   );
 }
 
-export default WriteList;
+export default MyWriteList;

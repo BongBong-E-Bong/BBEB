@@ -118,7 +118,7 @@ function Header() {
           justifyContent="center"
           alignItems="flex-end"
         >
-          {isLogin ? ( 
+          {isLogin ? (
             <Stack width="12%" height="70%" justifyContent="center">
               <img
                 alt="profileImage"
@@ -201,7 +201,13 @@ function Header() {
           onChange={onChange}
           ref={fileInput}
         />
-        <MenuItem>내가 작성한 글</MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate("/myWriteList");
+          }}
+        >
+          내가 작성한 글
+        </MenuItem>
         <MenuItem
           onClick={() => {
             localStorage.clear();
