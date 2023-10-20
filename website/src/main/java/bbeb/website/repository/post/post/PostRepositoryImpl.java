@@ -267,15 +267,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.isPinned,
                         postLike.count(),
                         comment.count())
-                .from(tag)
+                .from(member)
                 .where(member.loginId.eq(loginId))
-                .leftJoin(tag.postTagList, postTag)
-                .leftJoin(postTag.post, post)
-                .leftJoin(post.member, member)
+                .leftJoin(member.posts, post)
                 .leftJoin(member.profile, profile)
                 .leftJoin(post.postLikes, postLike)
                 .leftJoin(post.comments, comment)
                 .groupBy(post.id)
+                .distinct()
                 .distinct()
                 .orderBy(post.isPinned.desc(), post.createdDate.desc())
                 .offset(pageable.getOffset())
